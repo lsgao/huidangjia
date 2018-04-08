@@ -1,0 +1,61 @@
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="tab-div">
+<form name="admin_back" action="order.php" method="post">
+  <table width="100%" align="center" cellpadding="3" cellspacing="5">
+    <tr>
+      <th colspan="2" align="center" height="24" style="background:url(images/th_bg.gif) repeat-x">退货信息详情</th>
+    </tr>
+    <tr>
+      <td> 商品信息</td>
+      <td> {$back.goods} </td>
+    </tr>
+    <tr>
+      <td> 退货原因 </td>
+      <td> {$back.liyou} </td>
+    </tr>
+    <tr>
+      <td> 退货备注 </td>
+      <td> {$back.beizhu} </td>
+    </tr>
+    <tr>
+      <td> 退货金额 </td>
+      <td> ￥{$back.subtotal} </td>
+    </tr>
+    <tr>
+      <td> 返还金额 </td>
+      <td>
+        <!--{if $back.status == 4 || $back.status == 5}-->
+        <input type="text" name="back_money" value="{$back.subtotal}" readonly="readonly"/>
+        <!--{else}-->
+        <input type="text" name="back_money" value="{$back.subtotal}" /> <font color="#FF0000">（此处退款金额为退款商品总金额，不含邮费，可以自行调整退款的金额）</font>
+        <!--{/if}-->
+      </td>
+    </tr>
+    <tr>
+      <td> 回复 </td>
+      <td>
+        <!--{if $back.status == 4 || $back.status == 5}-->
+        <textarea name="receve" rows="5" cols="50" readonly="readonly">{$back.receve}</textarea>
+        <!--{else}-->
+        <textarea name="receve" rows="5" cols="50">{$back.receve}</textarea>
+        <!--{/if}-->
+      </td>
+    </tr>
+    <tr>
+    	<td colspan="2" style="padding-left:200px">
+    	  <!--{if $back.status == 2 || $back.status ==3}-->
+    	  <input type="submit" name="sub" value="确定" />
+    	  <input type="reset" name="res" value="重置" />
+    	  <!--{/if}-->
+    	</td>
+    </tr>
+  </table>
+  <input type="hidden" name="act" value="back_money" />
+  <input type="hidden" name="user_id" value="{$back.user_id}" />
+  <input type="hidden" name="back_sn" value="{$back.back_sn}" />
+  <input type="hidden" name="order_sn" value="{$back.order_sn}" />
+  <input type="hidden" name="goods" value="{$back.goods}" />
+  </form>
+</div>
+{include file="pagefooter.htm"}

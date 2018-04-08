@@ -1,0 +1,8 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<ul class="active-list">
+	<!--{foreach from=$articles item=article_item}-->
+	<li><a target="_blank" title="{$article_item.title|escape:html}" href="{$article_item.url}"> {$article_item.short_title} </a></li>
+    <!--{/foreach}-->
+</ul>
+

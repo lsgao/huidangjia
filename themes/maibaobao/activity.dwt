@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="blank"></div>
+<div class="block">
+<div class="common_box" style="width: 960px;margin: 0 auto;margin-bottom: 10px;">
+  <div class="title" style="background-color: #f5f5f5;border-top: 1px solid #dbdbdb;border-right: 1px solid #dbdbdb;border-left: 1px solid #dbdbdb;line-height: 24px;margin-top: 10px;padding-left: 17px;">{$lang.activity_list}</div>
+  <div class="blank"></div>
+   <!-- {foreach from=$list item=val} -->
+  <table width="100%" border="1" cellpadding="5" cellspacing="1" bgcolor="#dddddd" >
+    <tr>
+      <td bgcolor="#ffffff">{$lang.label_act_name}</td>
+      <td colspan="3" bgcolor="#ffffff">{$val.act_name}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff">{$lang.label_start_time}</td>
+      <td width="200" bgcolor="#ffffff">{$val.start_time}</td>
+      <td bgcolor="#ffffff">{$lang.label_max_amount}</td>
+      <td bgcolor="#ffffff">
+        <!-- {if $val.max_amount > 0} -->
+        {$val.max_amount}
+        <!-- {else} -->
+        {$lang.nolimit}
+        <!-- {/if} -->
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff">{$lang.label_end_time}</td>
+      <td bgcolor="#ffffff">{$val.end_time}</td>
+      <td bgcolor="#ffffff">{$lang.label_min_amount}</td>
+      <td width="200" bgcolor="#ffffff">{$val.min_amount}</td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff">{$lang.label_act_range}</td>
+      <td bgcolor="#ffffff">
+        {$val.act_range}
+        <!-- {if $val.act_range ne $lang.far_all} -->
+        :<br />
+        <!-- {foreach from=$val.act_range_ext item=ext} -->
+        <a href="{$val.program}{$ext.id}" taget="_blank" class="f6"><span class="f_user_info"><u>{$ext.name}</u></span></a><br />
+        <!-- {/foreach} -->
+        <!-- {/if} -->
+      </td>
+      <td bgcolor="#ffffff">{$lang.label_user_rank}</td>
+      <td bgcolor="#ffffff">
+        <!-- {foreach from=$val.user_rank item=user} -->
+        {$user}
+        <!-- {/foreach} -->
+      </td>
+    </tr>
+    <tr>
+      <td bgcolor="#ffffff">{$lang.label_act_type}</td>
+      <td colspan="3" bgcolor="#ffffff">
+        {$val.act_type}<!-- {if $val.act_type ne $lang.fat_goods} -->{$val.act_type_ext}<!-- {/if} -->
+      </td>
+    </tr>
+  </table>
+  <div class="blank5"></div>
+  <!-- {/foreach} -->
+</div>
+</div>
+<div class="blank5"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

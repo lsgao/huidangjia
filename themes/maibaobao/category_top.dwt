@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+<style>
+	.you-like {
+	display:none
+}
+</style>
+</head>
+<body class="is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->{insert_scripts files='yhd_category.js'}
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="woman-content">
+	<div class="wm-header">
+        	<div class="woman-banner-wrap mbb-slider">
+            	<div class="bx-wrapper" style="width:1200px; position:relative;">
+                	<div class="bx-window cd" style="position:relative; overflow:hidden; width:1200px;">
+                    	<ul id="headSlider" class="banner-slider">
+                        	<li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                            	{insert name='get_ad' cat_name='顶级分类' type='头部幻灯片1'}
+                            </li>
+                            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                            	{insert name='get_ad' cat_name='顶级分类' type='头部幻灯片2'}
+                            </li>
+                            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                            	{insert name='get_ad' cat_name='顶级分类' type='头部幻灯片3'}
+                            </li>
+                            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                            	{insert name='get_ad' cat_name='顶级分类' type='头部幻灯片4'}
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="bx-prev prev" href="javascript:void(0)"><</a>
+					<a class="bx-next next" href="javascript:void(0)">></a>
+                    <div id="headPage" class="slider-page hd">
+                    	<ul>
+							<li class="pager-link pager-1" href="">1</li>
+							<li class="pager-link pager-2" href="">2</li>
+							<li class="pager-link pager-3" href="">3</li>
+							<li class="pager-link pager-4" href="">4</li>
+                        </ul>
+					</div>
+                </div>
+            </div>
+            <script type="text/javascript">
+		jQuery(".bx-wrapper").slide({mainCell:".cd ul",autoPlay:true,effect:"left"});
+		</script>
+    </div>
+    
+    <div class="wm-part part-{$smarty.foreach.foo.iteration}" style="margin-top:10px;">
+        <div class="wm-page-goods">
+        	<div class="bx-wrapper bd" style="width:1200px; position:relative;">
+            	<div class="bx-window" style="position:relative; overflow:hidden; width:1200px;">
+                	<ul id="goodsSlider" class="goods-slider">
+                    
+    <!--{foreach from=$categories_child_goods item=cat name=foo}-->
+                    	<!--{foreach from=$cat.cat_id item=child name=child_no}-->
+                        <!-- {if $smarty.foreach.child_no.iteration<4 && $child.goods}--> 
+                    	<li class="one-page pager">
+                        	<div class="goods-list">
+                            	<ul>
+                                	<!--{foreach from=$child.goods item=goods name=goods_no}-->
+                                	<li>
+                                    	<div class="item-pic">
+											<a title="" target="_blank" href="{$goods.url}">
+												<img width="210" height="210" src="{$goods.thumb}">
+											</a>
+										</div>
+                                        <div class="item-inf">
+                                        	<p class="name">
+												<a title="{$goods.name}" target="_blank" href="{$goods.url}">
+													<strong>{$goods.name}</strong>
+												</a>
+											</p>
+                                            <p class="price">
+												<span>价格</span>
+												<strong>
+                                                	<!-- {if $goods.promote_price neq ""} -->
+          											{$goods.promote_price}
+          											<!-- {else}-->
+          											{$goods.shop_price}
+          											<!--{/if}-->
+          										</strong>
+												<del>{$goods.market_price}</del>
+											</p>
+                                        </div>
+                                    </li>
+                                    <!--{/foreach}-->
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- {/if} -->
+                        <!--{/foreach}-->	
+    <!--{/foreach}-->
+                    </ul>
+                </div>
+            </div>
+            <a class="bx-prev prev" href="javascript:void(0)"><</a>
+			<a class="bx-next next" href="javascript:void(0)">></a>
+        </div>
+        <script type="text/javascript">jQuery(".wm-page-goods").slide({mainCell:".bd .goods-slider",autoPage:true,effect:"left",autoPlay:true});</script>
+    </div>
+    
+    <div class="wm-new">
+    	<div class="wm-top-name">
+        </div>
+        <div class="wm-new-main">
+        	<div class="new-main-l">
+            	<div class="main-top">
+                	<div class="main-top-l">
+                    	<div class="main-new-slider mbb-slider">
+                        	<div class="bx-wrapper" style="width:606px; position:relative;">
+                            	<div class="bx-window bd" style="position:relative; overflow:hidden; width:606px;">
+                                	<ul id="newslider" class="new-slider">
+                                    	<li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                                        	{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片1'}
+                                        </li>
+                                        
+                                        <li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                                        	{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片2'}
+                                        </li>
+                                        
+                                        <li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                                        	{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片3'}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class="bx-prev prev" href="javascript:void(0)"><</a>
+								<a class="bx-next next" href="javascript:void(0)">></a>
+                            </div>
+                            <div id="newPage" class="slider-page hd">
+                    				<ul>
+										<li class="pager-link pager-1" href="">1</li>
+										<li class="pager-link pager-2" href="">2</li>
+										<li class="pager-link pager-3" href="">3</li>
+                        			</ul>
+								</div>
+                        </div>
+                        <script type="text/javascript">
+		jQuery(".main-new-slider").slide({mainCell:".bd ul",autoPlay:true,effect:"left"});
+		</script>
+                    </div>
+                    
+                    
+                    <div class="main-top-r">
+                    	{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片右广告'}
+                    </div>
+                </div>
+                <div class="main-bottom">
+                	<ul class="new-go-to">
+                    	<li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告1'}</li>
+                        <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告2'}</li>
+                        <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告3'}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="new-main-r">
+            	<div class="new-first-publish">
+                	<ul>
+                    	<li>{insert name='get_ad' cat_name='顶级分类' type='新品上架右边广告1'}</li>
+                        <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架右边广告2'}</li>
+                        <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架右边广告3'}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+
+<script type="Text/Javascript" language="JavaScript">
+<!--
+{literal}
+function selectPage(sel)
+{
+  sel.form.submit();
+}
+{/literal}
+//-->
+</script>
+<script type="text/javascript">
+window.onload = function()
+{
+  Compare.init();
+  fixpng();
+}
+{foreach from=$lang.compare_js item=item key=key}
+{if $key neq 'button_compare'}
+var {$key} = "{$item}";
+{else}
+var button_compare = '';
+{/if}
+{/foreach}
+var compare_no_goods = "{$lang.compare_no_goods}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+</body>
+</html>

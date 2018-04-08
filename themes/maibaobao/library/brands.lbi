@@ -1,0 +1,16 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<!-- {if $brand_list} -->
+<ul>
+	<!-- {foreach from=$brand_list item=brand name="brand_foreach"} -->
+	<li>
+    	<a class="logo-item" target="_blank" href="{$brand.url}">
+        	<p class="logo-img">
+				<img width="97" height="55" alt="{$brand.brand_name|escape:html}" src="{if strstr($brand.brand_logo,"/")}mobile/{$brand.brand_logo}{else}data/brandlogo/{$brand.brand_logo}{/if}">
+			</p>
+            <p class="logo-name">{$brand.brand_name|escape:html}</p>
+        </a>
+    </li>
+	<!-- {/foreach} -->
+</ul>
+<!-- {/if} -->

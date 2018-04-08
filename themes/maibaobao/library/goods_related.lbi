@@ -1,0 +1,39 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $related_goods} -->
+<div id="goods-like" class="you-like">
+	<h4 class="you-like-title">你可能会喜欢</h4>
+    <div class="you-like-body">
+    	<div class="y-l-list">
+        	<div class="bx-wrapper" style="width:1200px; position:relative;">
+            	<div class="bx-window bd" style="position:relative; overflow:hidden; width:1200px;">
+                	<ul class="you-lik-list">
+                    	<!--{foreach from=$related_goods item=releated_goods_data}-->
+                    	<li class="pager" style="width: 190px; float: left; list-style: none outside none;">
+                        	<div class="pic">
+                            	<a href="{$releated_goods_data.url}" target="_blank" title="{$releated_goods_data.goods_name}"><img src="{$releated_goods_data.goods_thumb}" width="174" height="174"></a>
+                            </div>
+                            <h3 class="bb-info">
+                            	<a class="bb-info-a" href="{$releated_goods_data.url}" target="_blank" title="{$releated_goods_data.goods_name}">{$releated_goods_data.short_name}</a>
+                                <strong class="mbb-price"><!-- {if $releated_goods_data.promote_price neq 0} -->
+        {$releated_goods_data.formated_promote_price}
+        <!-- {else} -->
+        {$releated_goods_data.shop_price}
+        <!-- {/if} --></strong>
+								<s>{$releated_goods_data.market_price}</s>
+                            </h3>
+                        </li>
+                        <!--{/foreach}-->
+                    </ul>
+                </div>
+                <a class="bx-prev prev" href="Javascript: void(0)">prev</a>
+				<a class="bx-next next" href="Javascript: void(0)">next</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- {/if} -->
+<script type="text/javascript">
+		jQuery(".bx-wrapper").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:true,vis:6,scroll:6});
+		</script>
+
+

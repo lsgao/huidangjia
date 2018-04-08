@@ -1,0 +1,21 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+{if $user_info}
+<a class="top-logout" href="user.php?act=logout">[{$lang.user_logout}]</a>
+<a class="msg" href="user.php">
+	个人中心
+</a>
+<p>
+	您好,
+	<a href="javascript:void(0)">{$user_info.username}</a>
+</p>
+
+{else}
+您好，欢迎来到好舒服！
+
+【
+<a class="top-login" href="user.php">登录</a>
+|
+<a class="top-regiter" href="user.php?act=register">注册</a>
+】
+{/if}

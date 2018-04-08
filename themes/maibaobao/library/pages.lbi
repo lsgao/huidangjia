@@ -1,0 +1,29 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<form name="selectPageForm" action="{$smarty.server.PHP_SELF}" method="get">
+	<div id="js-pager" class="m-pages">
+    	<div class="pagination">
+        	<!-- {if $pager.page_prev} --><a class="page_prev prev" href="{$pager.page_prev}"><i></i>{$lang.page_prev}</a><!-- {/if} -->
+      <!-- {if $pager.page_count neq 1} -->
+      <!--{foreach from=$pager.page_number key=key item=item}-->
+      <!-- {if $pager.page eq $key} -->
+      <span class="page_cur">{$key}</span>
+      <!-- {else} -->
+      <a href="{$item}">{$key}</a>
+      <!-- {/if} -->
+      <!--{/foreach}-->
+      <!-- {/if} -->
+	    <!-- {if $pager.page_next} --><a class="page_next next" href="{$pager.page_next}">{$lang.page_next}<i></i></a><!-- {/if} -->
+        </div>
+    </div>
+
+</form>
+<script type="Text/Javascript" language="JavaScript">
+<!--
+{literal}
+function selectPage(sel)
+{
+  sel.form.submit();
+}
+{/literal}
+//-->
+</script>

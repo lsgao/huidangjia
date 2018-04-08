@@ -1,0 +1,15 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {foreach from=$history_goods item=goods name=foo} -->
+<!-- {if ($smarty.foreach.foo.iteration mod 4) eq 1} -->
+<li style="float: left; width: 204px;">
+<!-- {/if} -->
+  <div class="browse_history_list"> <a href="{$goods.url}" target="_blank" class="pro_img"><img src="{$goods.goods_thumb}"></a>
+    <div><a title="{$goods.goods_name}" href="{$goods.url}" target="_blank">{$goods.short_name}</a>
+      <p>{$goods.shop_price}</p>
+    </div>
+  </div>
+<!-- {if ($smarty.foreach.foo.iteration mod 4) eq 0} -->
+</li>
+<!-- {/if} -->
+
+<!-- {/foreach} -->

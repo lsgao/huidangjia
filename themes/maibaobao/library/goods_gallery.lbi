@@ -1,0 +1,38 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>.MagicZoomBigImageCont{ border:1px solid #ccc}</style>
+<div class="picture-show">
+	<div title="{$goods.goods_name|escape:html}" style="top: 0px; z-index: 56; position: relative;">
+    	<a href="{$pictures.0.img_url}" title="{$goods.goods_style_name}" class="MagicZoomPlus" id="Zoomer" rel="buttons-position: top right; zoom-width: 458; zoom-height: 458;expand-size: width=800px,height:800px;show-title: false;hint: false;">
+        	<img id="J_prodImg" src="{$pictures.0.img_url}" alt="{$goods.goods_name|escape:html}" class="js_goods_spic_url" width="480" height="480" />
+        </a>
+    </div>
+</div>
+
+<div class="picture-active">
+	<span class="picture-zoom">鼠标移至图片上可看放大图片</span>
+</div>
+
+<div class="picture-smallpic" id="detail_img_slider">
+	<div class="list-smallpic" id="J_tabSlider">
+    	<ul>
+        	<!-- {if $pictures}--> 
+            <!-- {foreach from=$pictures item=picture name=foo}-->
+            <li {if $smarty.foreach.foo.first}class="cur"{/if}> <a class="cloud-zoom-gallery" href="{if $picture.img_url}{$picture.img_url}{else}{$picture.thumb_url}{/if}" rel="zoom-id: Zoomer" rev="{if $picture.img_url}{$picture.img_url}{else}{$picture.thumb_url}{/if}"><img src="{if $picture.thumb_url}{$picture.thumb_url}{else}{$picture.img_url}{/if}" alt="{$goods.goods_name}" width="60" height="60"></a> </li>
+            <!--{/foreach}--> 
+            <!-- {/if}-->
+        </ul>
+    </div>
+</div>
+
+
+
+<script>
+$(function(){
+	$(".goods-picture,.MagicZoomPup").mouseenter(function(){
+		$(".picture-zoom").text("点击查看大图")
+	});
+	$(".goods-picture,.MagicZoomPup").mouseleave(function(){
+		$(".picture-zoom").text("鼠标移至图片上可看放大图片")
+	});
+})
+</script>

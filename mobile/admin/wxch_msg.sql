@@ -1,0 +1,12 @@
+INSERT INTO `wxch_msg` VALUES (1, '新品', 'news', 'xk 新款 News');
+INSERT INTO `wxch_msg` VALUES (2, '精品', 'best', 'Best 精品');
+INSERT INTO `wxch_msg` VALUES (3, '热销', 'hot', 'Hot 热销');
+INSERT INTO `wxch_msg` VALUES (4, '绑定会员', 'bd', 'BD Bd 绑定会员');
+INSERT INTO `wxch_msg` VALUES (5, '重新绑定', 'cxbd', '重新绑定 Cxbd');
+INSERT INTO `wxch_msg` VALUES (6, '订单列表', 'ddlb', '订单列表 Ddlb');
+INSERT INTO `wxch_msg` VALUES (7, '订单查询', 'ddcx', '订单查询 Ddcx');
+INSERT INTO `wxch_msg` VALUES (8, '订单快递', 'kdcx', '订单快递 Kdcx');
+INSERT INTO `wxch_msg` VALUES (9, '帮助说明', 'help', '帮助说明 Help 帮助');
+INSERT INTO `wxch_msg` VALUES (10, '砸金蛋', 'zjd', '砸金蛋 Zjd');
+INSERT INTO `wxch_msg` VALUES (11, '签到', 'qiandao', 'qiandao 签到');
+INSERT INTO `wxch_msg` VALUES (12, '大转盘', 'dzp', '大转盘 Dzp');

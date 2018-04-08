@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="height:100%;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<title>马上报名</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function sign_up() {
+  var frm = document.forms['formUser'];
+  var username = Utils.trim(frm.elements['username'].value);
+  var tel = frm.elements['tel'].value;
+  var msg = "";
+  // 检查输入
+  var msg = '';
+  if (username.length == 0) {
+    msg += "用户名不能为空" + '\n';
+  }
+  if (tel.length > 0) {
+    var reg = /^[\d|\-|\s]+$/;
+    if (!reg.test(tel)) {
+      msg += "电话号码错误" + '\n';
+    }
+  } else {
+    msg += "电话号码不能为空" + '\n';
+  }
+
+  if (msg.length > 0) {
+    alert(msg);
+    return false;
+  } else {
+    return true;
+  }
+}
+</script>
+<body style="height:100%;">
+<!--*马上报名界面 start--> 
+{insert_scripts files='utils.js'}
+<div class="container" style="height: 100%;display:block;margin:0px">
+	 <div class="container_wrap">
+    	<div class="l_t clearfix">
+      	<h3 class="t_txt">马上报名</h3>
+      </div>
+      <div class="l_c clearfix">
+         <div id="reg_email" class="panel">
+        	  <form action="sign_up_now.php" method="post" name="formUser" onsubmit="return sign_up();" class="base_form">
+            	 <table class="register_form" cellspacing="" cellpadding="" border="0">
+                	<tr>
+                  	<td class="r_l">姓名：</td>
+                    <td class="r_r">
+                    	<input name="username" type="text" class="r_input" id="username" maxlength="100">
+                    </td>
+                  </tr>
+                  <tr>
+                  	<td class="r_l">电话：</td>
+                    <td class="r_r">
+                    	<input name="tel" type="text" class="r_input" id="tel">
+                    </td>
+                  </tr>
+                  <tr>
+                  	<td class="r_l"></td>
+                    <td class="r_r">
+                      <input name="act" type="hidden" value="act_register" >
+                    	<input name="Submit" type="submit" value="提交" class="red-btn">
+                    </td>
+                  </tr>
+               </table>
+            </form>
+        </div>
+      </div>
+   </div>
+</div>
+<!--#马上报名界面 end--> 
+</html>
+
+

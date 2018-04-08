@@ -1,0 +1,22 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="module-column">
+	<h4 class="module-hd m-top">
+		<span class="span-mt">购物保障</span>
+	</h4>
+    <div class="module-bd">
+        	<ul class="module-serve">
+				<li>
+					<img width="200" height="52" alt="" src="images/serve_01.png" style="">
+				</li>
+				<li>
+					<img width="200" height="52" alt="" src="images/serve_02.png" style="">
+				</li>
+				<li>
+					<img width="200" height="52" alt="" src="images/serve_03.png" style="">
+				</li>
+			</ul>
+            <div class="goods-pics" style="display: block;">
+            	<img usemap="#map_afterbuy" alt="" src="images/afterbuy.jpg" style="">
+            </div>
+    </div>
+</div>

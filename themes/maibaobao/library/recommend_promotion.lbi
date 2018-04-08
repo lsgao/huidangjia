@@ -1,0 +1,51 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $promotion_goods} -->
+<div class="panic-buying-mod p-current-box" id="limitBuy">
+	<div class="p-top clearfix">
+    	<span class="title">限时抢购</span>
+    </div>
+ 
+    <div class="p-body">
+    	<div class="bx-wrapper" style="width:238px; position:relative;">
+        	<div class="bx-window bd" style="height:275px; width:238px; position:relative; overflow:hidden;">
+            	<ul id="js-currentpanic-slider" class="panic-slider">
+                 <!--{foreach from=$promotion_goods item=goods name=no}-->
+                 	<!-- {if $smarty.foreach.no.iteration<3}--> 
+                	<li style="list-style: none outside none; position: absolute; top: 0px; left: 0px; z-index: 98;">
+                    	<div class="p-head">
+    	<div class="hint endtime last_time" value="{$goods.end_date}">
+        	
+        </div>
+    </div>
+                    	<div class="pan-item ">
+                        	<div class="item-img">
+                            	<a target="_blank" title="{$goods.name|escape:html}" class="pic" href="{$goods.url}"> <img src="{$goods.thumb}" width="150" height="150"></a>
+                            </div>
+                            <div class="item-info">
+                            	<p class="price">
+									<strong>{$goods.promote_price}</strong>
+                                </p>
+                                <p class="price-s">
+									<s>{$goods.shop_price}</s>
+								</p>
+                                <a class="buy-btn" target="_blank" href="{$goods.url}">
+									抢
+									<i></i>
+								</a>
+                            </div>
+                        </div>
+                    </li>
+                    	<!-- {/if} -->
+                 <!--{/foreach}-->
+                </ul>
+            </div>
+            <a class="bx-prev prev" href="javascript:void(0)">prev</a>
+			<a class="bx-next next" href="javascript:void(0)">next</a>
+        </div>
+    </div>
+   
+</div>
+<!-- {/if} -->
+<script type="text/javascript">
+		jQuery(".p-body").slide({mainCell:".bd ul",autoPlay:true});
+		</script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+<body class="brands-page is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->{insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="bg-container">
+	<div class="bg-header">
+    	<div class="header-wrap">
+        	<div class="bg-logo">
+				<img src="images/8.jpg">
+			</div>
+            <div class="bg-news clearfix" style="background:url(images/dudu_jdt.jpg) no-repeat top right;">
+            	<a class="bg-left" style="background: url(images/aj_01.jpg) no-repeat left top transparent; width: 599px; overflow: hidden;" href="#" target="_blank"></a>
+                <a class="bg-right" style="background: url(images/bgmain.gif) repeat 0% 0% transparent; width: 599px; overflow: hidden;" href="#" target="_blank"></a>
+            </div> 
+            <script>
+            	$(function(){
+						$('.bg-left').mouseenter(function(){
+								$(this).stop(true.false).animate({width:"890px"});
+								$('.bg-right').stop(true.false).animate({width:"308px"})
+							});
+						$('.bg-left').mouseout(function(){
+								$(this).stop(true.false).animate({width:"599px"});
+								$('.bg-right').stop(true.false).animate({width:"599px"})
+							});
+						
+						$('.bg-right').mouseenter(function(){
+								$(this).stop(true.false).animate({width:"890px"});
+								$('.bg-left').stop(true.false).animate({width:"308px"})
+							});
+						$('.bg-right').mouseout(function(){
+								$(this).stop(true.false).animate({width:"599px"});
+								$('.bg-left').stop(true.false).animate({width:"599px"})
+							});
+					})
+            </script>
+            <div class="bg-footer"> </div>
+        </div>
+    </div>
+    <div class="bg-brands">
+    	<ul class="brands-list clearfix">
+        	<!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} -->
+            <li>
+            	<div class="b-logo">
+                	<a href="{$brand_data.url}"><img width="97" height="55" src="{if strstr($brand_data.brand_logo,"/")}mobile/{$brand_data.brand_logo}{else}data/brandlogo/{$brand_data.brand_logo}{/if}" alt="{$brand_data.brand_name|escape:html} ({$brand_data.goods_num})"></a>
+                </div>
+                <div class="b-info">
+                	<h3>{$brand_data.brand_name} ({$brand_data.goods_num})</h3>
+                    <a href="javascript:void(0);" title="{$brand_data.brand_desc}">{$brand_data.brand_desc}</a>
+                </div>
+            </li>
+            <!-- {/foreach} --> 
+        </ul>
+    </div>
+</div>
+
+<div class="footer-wrapper">
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body>
+</html>

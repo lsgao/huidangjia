@@ -1,0 +1,88 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="g-menu">
+	<div class="g-menu-wrap">
+  	<div class="all-catalog">
+      <a class="all-btn" href="#">
+  			全部商品分类
+  			<i class="arrow"></i>
+		  </a>
+      <div class="catalog-list">
+      	<div class="catalog-shadow-hack"></div>
+          <!--{foreach from=$categories item=cat name=no1}-->
+          <div class="cata-group">
+          	<dl class="cata-group-btn">
+              	<dt class="cata-group-head">
+                	<h3 class="group-title">
+                  	<a title="{$cat.name|escape:html}" target="_blank" href="{$cat.url}">
+    									{$cat.name|escape:html}
+    								</a>
+                  </h3>
+                </dt>
+                <dd class="cata-hot-link">
+                	<div class="cata-hot-item">
+                  	<div class="cata-hot-words" style="width:100%;padding:0px;">
+                    	<!--{foreach from=$cat.cat_id item=child name=foo}-->
+                        <a target="_blank" href="{$child.url}">{$child.name|escape:html} |</a>
+                      <!--{/foreach}-->
+                      </div>
+                  </div>
+                </dd>
+              </dl>
+            </div>
+          <!-- {/foreach} -->
+          <a class="cata-all-link" target="_blank" href="search.php"><i></i>查看所有 </a>
+        </div>
+    </div>
+    <div class="channel">
+    	<ul>
+      	<li class="m-home"><a href="index.php" >{$lang.home}</a></li>
+        <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+      	<li {if $nav.active eq 1} class="cur"{/if}><a href="{$nav.url}" {if $nav.opennew eq 1}target="_blank" {/if}>{$nav.name}</a></li>
+        <!-- {/foreach} -->
+      </ul>
+    </div>
+    <div class="header-search">
+      <form name="searchForm" method="get" action="search.php" onSubmit="return checkSearchForm()" class="search-form">
+        <div class="search-input-wrap">
+          <input type="text" maxlength="100" name="keywords" id="keyword" class="search-input"  value="{$search_keywords|escape}" >
+        </div>
+        <input class="search-btn" type="submit" value="搜 索" >
+      </form>
+      <div class="hot-keys">{if $searchkeywords}<span>热门搜索词 ：</span> {foreach from=$searchkeywords item=val} <span class="s-item"><a href="search.php?keywords={$val|escape:url}" class="hot">{$val}</a></span>{/foreach}{/if}</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+function checkSearchForm()
+{
+    if(document.getElementById('keyword').value)
+    {
+        return true;
+    }
+    else
+    {
+        alert("{$lang.no_keywords}");
+        return false;
+    }
+}
+function deleteCartGoods(rec_id)
+{
+	Ajax.call('delete_cart_goods.php', 'id='+rec_id, deleteCartGoodsResponse, 'POST', 'JSON');
+}
+
+/**
+ * 接收返回的信息
+ */
+function deleteCartGoodsResponse(res)
+{
+  if (res.error)
+  {
+    alert(res.err_msg);
+  }
+  else
+  {
+      document.getElementById('ECS_CARTINFO').innerHTML = res.content;
+  }
+}
+</script>

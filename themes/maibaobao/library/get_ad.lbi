@@ -1,0 +1,8 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{if $title neq "show"}
+<a href="affiche.php?ad_id={$ad.ad_id}&amp;uri={$ad.ad_link}">
+<img src="{$src}" width="{$ad.ad_width}" height="{$ad.ad_height}" target="_blank" />{if $ad.class}<div class="{$ad.class}"></div>{/if}</a>
+{else}
+ <i></i>
+ <a href="affiche.php?ad_id={$ad.ad_id}&amp;uri={$ad.ad_link}" target="_blank">{$ad.link_man}</a>
+{/if}

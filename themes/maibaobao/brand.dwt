@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+<body class="list-women is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> {insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div id="Main" class="bg-color">
+	<div class="J_Mbox brand-slider-wrap">
+  	<div class="brand-slider">
+    	<div class="bx-wrapper" style="width:1000px; position:relative;">
+      	<div class="bx-window bd" style="position: relative; overflow: visible; width: 1000px;">
+        	<ul class="clearfix">
+          	<li class="pager" style="width: 1000px; float: left; list-style: none outside none;">
+							{insert name='ads' id=217 num=1}
+						</li>
+                        <li class="pager" style="width: 1000px; float: left; list-style: none outside none;">
+							{insert name='ads' id=218 num=1}
+						</li>
+                        <li class="pager" style="width: 1000px; float: left; list-style: none outside none;">
+							{insert name='ads' id=219 num=1}
+						</li>
+                        <li class="pager" style="width: 1000px; float: left; list-style: none outside none;">
+							{insert name='ads' id=220 num=1}
+						</li>
+          </ul>
+        </div>
+        <a class="bx-prev prev" href="javascript:void(0)">prev</a>
+		    <a class="bx-next next" href="javascript:void(0)">next</a>
+      </div>
+      <script type="text/javascript">
+  			jQuery(".bx-wrapper").slide({mainCell:".bd ul",autoPlay:true,effect:"leftLoop"});
+			</script>
+    </div>
+  </div>
+</div>
+
+<div id="js-list-container" class="container clearfix" style="width:1000px;display: block; text-align:left; background:#ffffff; margin:auto; padding:0px">
+  <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+  <div class="l-wrap clearfix">
+    <div class="l-list">
+      <div class="l-list-wrap">
+         <!-- #BeginLibraryItem "/library/goods_list.lbi" --><!-- #EndLibraryItem -->
+         <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

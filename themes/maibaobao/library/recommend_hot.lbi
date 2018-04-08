@@ -1,0 +1,114 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $hot_goods} -->
+<!-- {if $script_name eq "category_top"} -->
+<div id="hotRecommend" lazyimg="y" class="hot_recommend">
+  <h3>爆款推荐</h3>
+  <div class="box">
+    <ul class="clearfix">
+      <!--{foreach from=$hot_goods item=goods name=foo}-->
+      <li {if $smarty.foreach.foo.first}style="width: 195px;"{/if}>
+        <dl class="product_item"  {if $smarty.foreach.foo.first}style="width: 187px;"{/if}>
+          <dd class="pic"><a target="_blank" href="{$goods.url}"><img width="160" height="160" src="{$goods.thumb}" alt="{$goods.name|escape:html}"></a></dd>
+          <dt><a target="_blank" href="{$goods.url}">{$goods.short_style_name}</a></dt>
+          <dd class="price"> <strong> <!-- {if $goods.promote_price neq ""} --> 
+            {$goods.promote_price} 
+            <!-- {else}--> 
+            {$goods.shop_price} 
+            <!--{/if}--></strong> <del highprice="y"> {$goods.market_price}</del> </dd>
+        </dl>
+      </li>
+      <!--{/foreach}-->
+      
+    </ul>
+  </div>
+</div>
+<!-- {elseif $script_name eq "category"}-->
+<div class="buy-rec-title">热销推荐</div>
+<div class="buy-rec-list">
+	<ul>
+    	<!--{foreach from=$hot_goods item=goods}-->
+        <li>
+        	<div class="pic">
+				<a target="_blank" href="{$goods.url}">
+					<img width="174" height="174" src="{$goods.thumb}">
+				</a>
+			</div>
+            <div class="pro_info">
+            	<a class="name" target="_blank" href="{$goods.url}">
+					{$goods.short_style_name}
+				</a>
+                <div class="price">
+                	<strong class="red">
+                    	<!-- {if $goods.promote_price neq ""} --> 
+            			{$goods.promote_price} 
+            			<!-- {else}--> 
+            			{$goods.shop_price} 
+            			<!--{/if}-->
+            		</strong>
+                </div>
+            </div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+</div>
+<!-- {elseif $script_name eq "group"}-->
+<Div class="grouSideMod grouSideLove mb">
+  <h4>热卖商品</h4>
+  <ul id="detail_ad_ul">
+    <!-- {foreach from=$hot_goods item=goods} -->
+    <li> 
+    <a class="thumb" target="_blank" href="{$goods.url}"> <img width="180" height="180" src="{$goods.thumb}"> </a> <a class="title" title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}">{$goods.short_name|escape:html}</a>
+      <p class="price clearfix"> <span class="num fr"><em>{$goods.sales_volume}</em>人已购买</span> <strong>{$goods.shop_price}</strong> </p>
+    </li>
+    <!-- {/foreach} -->
+  </ul>
+</Div>
+<!-- {else}-->
+
+<span class="refresh-batch change_one">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div id="n_index_a4_1" class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;padding-left: 1px;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$hot_goods item=goods name=goods}-->
+            	<li class="item-mod" style="width: 239px; height:227px; border-right: 1px solid #e5e5e5; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+						      <img width="200" height="200" src="{$goods.thumb}">
+					        </a>
+                  <div class="item-mod-info">
+                  	<p class="info-category">{$goods.name}</p>
+                    <p class="info-price">
+                    	<!-- {if $goods.promote_price neq ""} --> 
+            					{$goods.promote_price} 
+            					<!-- {else}--> 
+            					{$goods.shop_price} 
+            					<!--{/if}--> 
+                      <s>{$goods.market_price}</s>
+                    </p>
+					          </a>
+                  </div>
+              </li>
+              <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- {/if} --> 
+<!-- {/if} --> 
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		
+		$("span.change_one").click(function(){
+			clearInterval(this.timer);
+			$("#hot-sale").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#hot-sale").removeClass("loading");
+			},500);
+		});
+		
+		
+		
+</script>

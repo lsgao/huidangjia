@@ -1,0 +1,37 @@
+{if $full_page}
+{include file="pageheader.htm"} 
+{insert_scripts files="../js/utils.js,listtable.js"}
+<!-- start list -->
+<div class="list-div" id="listDiv">
+{/if}
+ <!--列表部分-->
+ <table cellpadding="3" cellspacing="1">
+  <tr>
+   <th>姓名</th>
+   <th>电话</th>
+  <tr>{foreach from=$sign_up_now_list item=sign_up_now}
+  <tr>
+   <td class="first-cell">{$sign_up_now.user_name|escape}</td>
+   <td>{$sign_up_now.tel}</td>
+  </tr>
+  {/foreach}
+  <tr>
+   <td align="right" nowrap="true" colspan="2">{include file="page.htm"}</td>
+  </tr>
+ </table>
+{if $full_page}
+</div>
+<!-- end list -->
+
+<script type="text/javascript" language="JavaScript">
+<!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

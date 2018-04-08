@@ -1,0 +1,72 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $best_goods} -->
+<!-- {if $script_name eq "category" || $script_name eq 'search' || $script_name eq 'brand'}-->
+<div class="buy-rec-title">精品推荐</div>
+<div class="buy-rec-list">
+	<ul>
+    	<!--{foreach from=$best_goods item=goods}-->
+        <li>
+        	<div class="pic">
+            	<a target="_blank" title="{$goods.name|escape:html}" href="{$goods.url}"> <img src="{$goods.thumb}" class="pic-174" width="174" height="174" /></a>
+            </div>
+            <div class="pro_info">
+            	<a class="name" target="_blank" href="{$goods.url}">
+					<span class="name-t">{$goods.short_style_name}</span>
+				</a>
+                <div class="price">
+					<strong class="red"><!-- {if $goods.promote_price neq ""} -->
+          {$goods.promote_price}
+          <!-- {else}-->
+          {$goods.shop_price}
+          <!--{/if}--></strong>
+				</div>
+            </div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+</div>
+<!-- {else}-->
+<span class="refresh-batch change_three">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div id="n_index_a4_1" class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;padding-left: 1px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$best_goods item=goods name=goods}-->
+            	<li class="item-mod" style="width: 239px; height:227px; border-right: 1px solid #e5e5e5; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+        						<img width="200" height="200" src="{$goods.thumb}">
+        					</a>
+                  <div class="item-mod-info">
+                  	<p class="info-category">{$goods.name}</p>
+                    <p class="info-price">
+        							<!-- {if $goods.promote_price neq ""} -->
+              						{$goods.promote_price}
+              						<!-- {else}-->
+              						{$goods.shop_price}
+              						<!--{/if}-->
+        						  <s>{$goods.market_price}</s>
+          					</p>
+                  </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- {/if} -->
+<!-- {/if} -->
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		$("span.change_three").click(function(){
+			clearInterval(this.timer);
+			$("#hot-buying").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#hot-buying").removeClass("loading");
+			},500);
+		});
+		
+		</script>

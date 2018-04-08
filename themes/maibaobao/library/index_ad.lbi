@@ -1,0 +1,50 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+  .ads_wrap{ background:black;}
+</style>
+<div class="top-banner">
+  <div class="banner-wrap woman-banner-wrap mbb-slider">
+      <a class="bx-prev prev" href="javascript:void(0)" style="top:330px;"><</a>
+      <a class="bx-next next" href="javascript:void(0)" style="top:330px;">></a>
+      <div class="top-slider-pager-wrap slider-pager hd">
+          <div id="js-top-slider-pager" class="top-slider-pager ">
+              <ul>
+                  <!--{foreach from=$index_ad_w item=index_ad name=no}-->
+                    <li class="pager-link pager-{$smarty.foreach.no.index}" style=" height:14px; width:14px; line-height:15px">{$smarty.foreach.no.index}</li>
+                  <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+      <div class="bx-wrapper" style="width: 100%; position: relative; min-width: 960px;">
+          <div class="bx-window bd" style="height: 750px; width: 100%; position: relative; overflow: hidden; min-width: 960px;">
+              <ul>
+                  <!--{foreach from=$index_ad_w item=index_ad name=no}-->
+                    <li style="background: url({$index_ad.src}) no-repeat scroll center top transparent; left:0; top:0; list-style:none; z-index:98; position:absolute">
+                        <a class="slider-link" href="{$index_ad.url}"></a>
+                    </li>
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(".top-banner").slide({mainCell:".bd ul",autoPlay:true});
+    
+    $(".banner-float-wrap").each(function(){
+      var wrap=$(this).find(".ads_wrap");
+      wrap.hover(function(){
+        
+        $(this).siblings(".ads_wrap").find("img").stop().animate({opacity:0.8});
+        $(this).find("img").css({opacity:1});
+        
+      },function(){
+        $(this).siblings(".ads_wrap").find("img").stop().animate({opacity:1});
+        $(this).find("img").stop().animate({opacity:1});
+      });
+    });
+    
+    
+    
+</script>
+

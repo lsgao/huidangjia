@@ -1,0 +1,69 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<div class="wm-top-name">
+    	<div class="name">
+			<img width="250" height="40" src="images/5.jpg">
+		</div>
+        <div class="to-link">
+			<a class="to-more" target="_blank" href="brand.php">查看更多内容 ></a>
+		</div>
+    </div>
+    <div class="wm-page-main">
+    	<div class="wm-bag-main mbb-slider">
+        	<div class="bx-wrapper" style="width:1200px; position:relative;">
+            	<div class="bx-window bd" style="position:relative; overflow:hidden; width:1200px;">
+                	<ul class="bag-slider">
+                    	<li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片1'}
+                        </li>
+                        <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片2'}
+                        </li>
+                        <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片3'}
+                        </li>
+                        <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片4'}
+                        </li>
+                        <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片5'}
+                        </li>
+                        <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+                        	{insert name='get_ad' cat_name=$cat_name type='品牌幻灯片6'}
+                        </li>
+                    </ul>
+                </div>
+                	<a class="bx-prev prev" href="javascript:void(0)"><</a>
+					<a class="bx-next next" href="javascript:void(0)">></a>
+                    <div id="headPage" class="slider-page hd">
+                    	<ul>
+							<li class="pager-link pager-1" href="">1</li>
+							<li class="pager-link pager-2" href="">2</li>
+							<li class="pager-link pager-3" href="">3</li>
+							<li class="pager-link pager-4" href="">4</li>
+                            <li class="pager-link pager-5" href="">5</li>
+							<li class="pager-link pager-6" href="">6</li>
+                        </ul>
+					</div>
+            </div>
+            <script type="text/javascript">
+		jQuery(".bx-wrapper").slide({mainCell:".bd ul",autoPlay:true,effect:"left"});
+		</script>
+        </div>
+        <!-- {if $brand_list} -->
+        <div class="wm-bag-brands">
+        	<ul class="pageBrands">
+            	<!-- {foreach from=$brand_list item=brand name=brand_foreach} -->
+            	<li>
+                	<a target="_blank" href="{$brand.url}">
+                    	<img width="97" height="55" alt="{$brand.brand_name|escape:html}" src="{if strstr($brand.brand_logo,"/")}mobile/{$brand.brand_logo}{else}data/brandlogo/{$brand.brand_logo}{/if}">
+                    </a>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+        <!-- {/if} -->
+    </div>
+
+
+

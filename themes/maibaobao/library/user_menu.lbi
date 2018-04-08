@@ -1,0 +1,91 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="u_menu u_m_bottom">
+	<ul>
+    	<li>
+        	<a href="user.php">
+				<strong>首页</strong>
+			</a>
+        </li>
+        <li {if $action eq 'order_list'|| $action eq 'order_detail'}class="selected"{/if}>
+        	<a href="user.php?act=order_list">
+				<strong>{$lang.label_order}</strong>
+			</a>
+        </li>
+        <li {if $action eq 'address_list'}class="selected"{/if}>
+        	<a href="user.php?act=address_list">
+            	<strong>{$lang.label_address}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'booking_list'}class="selected"{/if}>
+        	<a href="user.php?act=booking_list">
+            	<strong>{$lang.label_booking}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'profile'}class="selected"{/if}>
+        	<a href="user.php?act=profile"> 
+            	<strong>{$lang.label_profile}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'collection_list'}class="selected"{/if}>
+        	<a href="user.php?act=collection_list"> 
+            	<strong>{$lang.label_collection}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'message_list'}class="selected"{/if}>
+        	<a href="user.php?act=message_list"> 
+            	<strong>{$lang.label_message}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'tag_list'}class="selected"{/if}>
+        	<a href="user.php?act=tag_list"> 
+            	<strong>{$lang.label_tag}</strong>
+            </a>
+        </li>
+        <!-- {if $affiliate.on eq 1} -->
+        <li {if $action eq 'affiliate'}class="selected"{/if}>
+        	<a href="user.php?act=affiliate">
+            	<strong>{$lang.label_affiliate}</strong>
+            </a>
+        </li>
+        <!-- {/if} -->
+        <li {if $action eq 'comment_list'}class="selected"{/if}>
+        	<a href="user.php?act=comment_list">
+            	<strong>{$lang.label_comment}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'bonus'}class="selected"{/if}>
+        	<a href="user.php?act=bonus">
+            	<strong>{$lang.label_bonus}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'track_packages'}class="selected"{/if}>
+        	<a href="user.php?act=track_packages">
+            	<strong>{$lang.label_track_packages}</strong>
+            </a>
+        </li>
+        <li {if $action eq 'account_log'}class="selected"{/if}>
+        	<a href="user.php?act=account_log">
+            	<strong>{$lang.label_user_surplus}</strong>
+            </a>
+        </li>
+
+	 <li {if $action eq 'single_list'}class="selected"{/if}>
+        	<a href="user.php?act=single_list">
+            	<strong>{$lang.label_single_sun}</strong>
+            </a>
+        </li>
+        <!--{if $show_transform_points}-->
+        <li {if $action eq 'transform_points'}class="selected"{/if}>
+        	<a href="user.php?act=transform_points">
+            	<strong>{$lang.label_transform_points}</strong>
+            </a> 
+        </li>
+        <!--{/if}-->
+
+        <li {if $action eq 'user_shop'}class="selected"{/if}>
+          <a href="user.php?act=user_shop">
+              <strong>商家注册</strong>
+            </a>
+        </li>
+    </ul>
+</div>

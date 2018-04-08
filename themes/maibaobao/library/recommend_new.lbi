@@ -1,0 +1,47 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $new_goods} -->
+<span class="refresh-batch change_two">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;padding-left: 1px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$new_goods item=goods name=goods}-->
+            	<li class="item-mod" style="width: 239px; height:227px; border-right: 1px solid #e5e5e5; float: left; list-style: none outside none;">
+              	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+      						<img width="200" height="200" src="{$goods.thumb}">
+      					</a>
+                <div class="item-mod-info">
+                	<p class="info-category">{$goods.short_style_name}</p>
+                  <p class="info-price">
+          				<!-- {if $goods.promote_price neq ""} -->
+        					{$goods.promote_price}
+        					<!-- {else}-->
+        					{$goods.shop_price}
+        					<!--{/if}-->
+          				<s>{$goods.market_price}</s>
+          				</p>
+                </div>
+              </li>
+              <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		$("span.change_two").click(function(){
+			clearInterval(this.timer);
+			$("#your-like").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#your-like").removeClass("loading");
+			},500);
+		});
+		
+		
+		
+</script>
+<!-- {/if} -->
+

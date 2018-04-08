@@ -1,0 +1,37 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="wm-page-goods">
+	<div class="bx-wrapper" style="width:1200px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:1200px;">
+        	<div class="goods-list">
+            	<ul>
+                	<!--{foreach from=$brand_goods item=goods}-->
+                	<li>
+                    	<div class="item-pic">
+                        	<a href="{$goods.url}"><img src="{$goods.thumb}" alt="{$goods.name|escape:html}"  width="210" height="210"/></a>
+                        </div>
+                        <div class="item-inf">
+                        	<p class="name">
+								<a href="{$goods.url}" title="{$goods.name|escape:html}">
+									<strong>[{$goods.short_name|escape:html}]</strong>
+								</a>
+							</p>
+                            <p class="price">
+								<span>促销价</span>
+								<strong>
+                                	<!-- {if $goods.promote_price neq ""} -->
+            						<font class="shop_s">{$goods.promote_price}</font>
+            						<!-- {else}-->
+            						<font class="shop_s">{$goods.shop_price}</font>
+            						<!--{/if}-->
+            					</strong>
+								<del>{$goods.market_price}</del>
+							</p>
+                        </div>
+                    </li>
+                    <!--{/foreach}-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

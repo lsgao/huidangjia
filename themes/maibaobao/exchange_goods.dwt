@@ -1,0 +1,744 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+<script type="text/javascript">
+function $id(element)
+{
+  return document.getElementById(element);
+}
+//切屏--是按钮，_v是内容平台，_h是内容库
+function reg(str)
+{
+  var bt=$id(str+"_b").getElementsByTagName("h2");
+
+  for(var i=0;i<bt.length;i++)
+  {
+    bt[i].subj=str;
+    bt[i].pai=i;
+    bt[i].style.cursor="pointer";
+
+    bt[i].onclick=function()
+    {
+      $id(this.subj+"_v").innerHTML=$id(this.subj+"_h").getElementsByTagName("blockquote")[this.pai].innerHTML;
+
+      for(var j=0;j<$id(this.subj+"_b").getElementsByTagName("h2").length;j++)
+      {
+        var _bt=$id(this.subj+"_b").getElementsByTagName("h2")[j];
+        var ison=j==this.pai;
+        _bt.className=(ison?"":"h2bg");
+      }
+    }
+  }
+
+  $id(str+"_h").className="none";
+  $id(str+"_v").innerHTML=$id(str+"_h").getElementsByTagName("blockquote")[0].innerHTML;
+}
+
+</script>
+
+<style>
+.mod_picfold, .imgbox, .mod_picfold .imgbox .img_item {
+    width: 100%;
+}
+.layout_wrap {
+    margin: 0 auto;
+    width: 1200px;
+}
+.mod_sku .cartbox input {
+	margin-left:8px;
+	display:block;
+	height:44px;
+	line-height:44px;
+	background:url(images/btn_sprit.png) no-repeat;
+}
+.mod_sku .cartbox .add_cart,.mod_sku .cartbox .buy_btn1,.mod_sku .cartbox .buy_btn2 {
+	box-shadow:0 1px 2px rgba(0,0,0,0.3);
+}
+.mod_sku .cartbox .add_cart {
+	width:140px;
+	background-position:0 -304px;
+	font-size:18px;
+	text-indent:4px;
+	cursor:pointer;
+	font-weight:bold;
+	color:#FFF;
+	border:none;
+}
+
+.w980 .mod_sku .cartbox .add_cart {
+		width:140px;
+	background-position:0 -304px;
+	font-size:18px;
+	text-indent:4px;
+	cursor:pointer;
+	font-weight:bold;
+	color:#FFF;
+	border:none;
+}
+.mod_picfold .imgbox {
+    background: url(images/mainbg.png) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #ece9de;
+    padding-bottom: 20px;
+    padding-top: 40px;
+}
+.layout_wrap .picture-active{ width:480px}
+.layout_wrap .picture-smallpic{ width:480px}
+.mod_sku .sku_box {
+    background-clip: content-box;
+    background-color: #fff;
+    float: right;
+    margin-top: -568px;
+    min-height: 540px;
+    width: 725px;
+    z-index: 70;
+}
+.mod_sku .sku_main {
+    border-right: 1px solid #efeff4;
+    float: left;
+    margin: 2px -1px 5px 5px;
+    padding-right: 15px;
+    width: 725px;
+}
+.mod_sku .sku_main h1 {
+    color: #333;
+    font-size: 21px;
+    line-height: 27px;
+    margin: 12px 0 4px;
+    max-height: 54px;
+    overflow: hidden;
+    padding: 0 12px;
+    text-overflow: ellipsis;
+}
+.mod_sku .sku_main h2 {
+    color: #ff7333;
+    font-size: 14px;
+    height: 18px;
+    line-height: 16px;
+    overflow: hidden;
+    padding: 0 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 460px;
+}
+.mod_sku .price_array {
+    margin-top: 12px;
+    padding-top: 12px;
+    position: relative;
+    z-index: 2;
+}
+.mod_sku .sku_main .sku_unit {
+    padding: 12px 0 12px 5px;
+}
+.mod_sku .sku_unit.nbor {
+    border-top: none;
+}
+.mod_sku .sku_unit dt, .mod_sku .sku_unit dd {
+    float: left;
+}
+.mod_sku .sku_unit dt {
+    color: #666;
+    font-family: "microsoft yahei";
+    font-size: 14px;
+    margin-right: 10px;
+    text-align: right;
+    width: 66px;
+}
+.mod_sku .sku_unit dd {
+    float: left;
+}
+.mod_sku .sku_unit {
+    border-top: 1px solid #e5e5e5;
+}
+.mod_sku .choicebox dl {
+    background-color: #fff;
+    padding-top: 12px;
+}.mod_sku .sku_unit .sizelist, .mod_sku .sku_unit .colorlist, .mod_sku .sku_unit .kitlist, .mod_sku .sku_unit .tastelist {
+    padding-bottom: 12px;
+}
+.mod_sku .sku_unit .sizelist, .mod_sku .sku_unit .colorlist, .mod_sku .sku_unit .kitlist, .mod_sku .sku_unit .tastelist {
+    border-top: 1px dotted #ebebeb;
+    margin-top: -1px;
+}
+.mod_sku .sku_unit .tastelist2 li {
+    cursor: pointer;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin: 0 12px 10px 0;
+    padding: 0 11px;
+    position: relative;
+    white-space: nowrap;
+}
+.mod_sku .sku_unit .tastelist li {
+    border: 1px solid #c8c7cc;
+    cursor: pointer;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin: 0 12px 10px 0;
+    padding: 0 11px;
+    position: relative;
+    white-space: nowrap;
+}.mod_sku .sku_unit .tastelist li.selected, .mod_sku .sku_unit .tastelist li:hover, .mod_sku .sku_unit .tastelist li.hover {
+    border-color: #e60012;
+    color: #e60012;
+}
+.layout_w1200_g22 {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: 1210px;
+}
+.layout_w1200_g22.laymt {
+    margin-top: 25px;
+}
+.layout_w1200_g22 .grid_4 {
+    float: left;
+    margin: 0 5px 10px;
+    width: 210px;
+}
+.mod_box {
+    margin-bottom: 12px;
+}
+.mod_box {
+    border: 1px solid #eee;
+    padding: 0 9px;
+}
+.mod_banner, .mod_search_sidlist {
+    padding: 0;
+}
+.mod_box .box_hd {
+    border-bottom: 1px solid #e5e5e5;
+    height: 35px;
+    line-height: 35px;
+}
+.mod_search_sidlist .box_hd {
+    font-family: "microsoft yahei";
+    font-size: 14px;
+    margin: 0 10px 10px;
+}
+.mod_search_sidlist .sidlist_box {
+    border:1px solid #eaeaea
+    padding: 10px 20px;
+}
+.mod_search_sidlist .sidlist_slide {
+    border: none;
+    overflow: hidden;
+    padding: 5px 20px;
+    position: relative;
+    width: 163px;
+}
+.mod_search_sidlist .sidlist_slide {
+    overflow: hidden;
+    padding: 5px 20px;
+    position: relative;
+    width: 163px;
+}
+.mod_search_sidlist .sidlist_slide li {
+    margin-left: 37px;
+    padding: 15px 0;
+    position: relative;
+    width: 205px;
+    z-index: 10;
+}.mod_search_sidlist .pro_img, .mod_search_sidlist .pro_img_big, .mod_search_sidlist .pro_img_small, .mod_hot_offers .pro_img_big {
+    display: block;
+    height: 115px;
+    margin: 0 auto;
+    position: relative;
+    width: 115px;
+    z-index: 10;
+}
+.mod_search_sidlist .pro_img_small {
+    height: 90px;
+    width: 90px;
+}
+.mod_search_sidlist .sidlist_slide .pro_img_small {
+    float: left;
+    margin-right: 10px;
+}
+.mod_search_sidlist .sidlist_slide .pro_img_small {
+    float: left;
+    margin-right: 13px;
+}
+.mod_search_sidlist .sidlist_slide sup {
+    background-position: right 0;
+    height: 60px;
+    left: -45px;
+    top: 0;
+    width: 60px;
+}
+.mod_search_sidlist .sidlist_slide sup {
+    background-position: right 0;
+    height: 60px;
+    left: -45px;
+    top: 0;
+    width: 60px;
+}
+.mod_search_sidlist .sidlist_slide a sup {
+    background: url(images/bg_sprite_png24.png) no-repeat;
+    display: block;
+    position: absolute;
+    z-index: 11;
+}
+
+.mod_search_sidlist .sidlist_slide .nub1 {
+    background-position: right 0;
+}
+.mod_search_sidlist .sidlist_slide .nub1 {
+    background-position: right 0;
+}
+.price {
+    font-family: "Century Gothic";
+    font-size: 14px;
+    font-weight: bold;
+}
+.mod_search_sidlist .price {
+    font-family: "Century Gothic";
+    font-size: 14px;
+    padding: 7px 0 5px;
+}
+.mod_search_sidlist .price {
+    font-family: "Century Gothic";
+    font-size: 14px;
+    font-weight: bold;
+}
+.mod_search_sidlist .price {
+    font-family: "Century Gothic";
+    font-size: 14px;
+    padding: 7px 0 5px;
+}
+.mod_search_sidlist .sidlist_slide .price, .mod_search_sidlist .sidlist_slide .name {
+    float: right;
+    width: 100px;
+}
+.mod_search_sidlist .sidlist_slide .price, .mod_search_sidlist .sidlist_slide .name {
+    float: right;
+    width: 100px;
+}
+.mod_search_sidlist .name {
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    word-break: break-all;
+}
+.mod_search_sidlist .name {
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    word-break: break-all;
+}
+.mod_search_sidlist .sidlist_slide .price, .mod_search_sidlist .sidlist_slide .name {
+    float: right;
+    width: 100px;
+}
+.mod_search_sidlist .sidlist_slide .name {
+    height: 52px;
+    overflow: hidden;
+}
+.mod_search_sidlist .sidlist_slide .price, .mod_search_sidlist .sidlist_slide .name {
+    float: right;
+    width: 100px;
+}
+.mod_search_sidlist .sidlist_slide .name {
+    height: 52px;
+    overflow: hidden;
+}
+.mod_search_sidlist .sidlist_slide u {
+    background: none repeat scroll 0 0 #fff;
+    clear: both;
+    display: block;
+    height: 90px;
+    position: absolute;
+    right: 52px;
+    top: 10px;
+    width: 50px;
+    z-index: 12;
+}
+.layout_w1200_g22 .grid_18 {
+    float: left;
+    margin: 0 5px 10px;
+    width: 980px;
+}
+.des_fixed {
+    background-color: #fafafa;
+    border-bottom: 1px solid #efefef;
+    box-shadow: 0 0 4px 1px #eee;
+    display: none;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+.des {
+    margin-bottom: 12px;
+    overflow: hidden;
+    padding: 0 0 10px;
+}
+.des_fixed .des {
+    margin: 0 auto;
+    padding: 0;
+    width: 1200px;
+    z-index: 999;
+}
+.des_search {
+    height: 40px;
+    margin-right: 12px;
+    padding-left: 10px;
+    width: 198px;
+}
+.des div {
+    outline: 0 none;
+}
+.des_fixed .shopdsr .shopdsr_name {
+    float: left;
+    font-family: 'Microsoft Yahei';
+    font-size: 14px;
+    line-height: 40px;
+}
+.des_fixed .shopdsr_online {
+    float: left;
+    height: 18px;
+    margin-left: 5px;
+    margin-top: 12px;
+    width: 30px;
+}
+.des_tab {
+    background-color: #fafafa;
+    border: 1px solid #e5e5e5;
+    box-shadow: 1px 1px 2px rgba(221, 221, 221, 0.6);
+    height: 40px;
+}
+.des_fixed .des_tab {
+    box-shadow: none;
+}
+.des_fixed .des_tab {
+    border: medium none;
+    float: left;
+    width: 980px;
+}
+.des_tab li {
+    color: #333;
+    font: 14px/50px '微软雅黑';
+    height: 100%;
+}
+.des_tab .des_tabbox {
+    background-color: #fafafa;
+    float: left;
+}
+.des_fixed .des_tabbox {
+    border-left: 1px solid #e1e1e1;
+}
+.des_tab .tab {
+    border-right: 1px solid #e1e1e1;
+    color: #333;
+    float: left;
+    font-family: 'microsoft yahei';
+    font-size: 14px;
+    height: 42px;
+    left: -1px;
+    line-height: 40px;
+    outline: 0 none;
+    position: relative;
+    text-align: center;
+    top: -1px;
+    width: 120px;
+    z-index: 30;
+}
+.des_tab .cur {
+    background-color: #e60012;
+    color: white;
+}
+.des_tab .des_tabbox .tab {
+    width: 110px;
+}
+.des_info {
+    background-color: #f7f7f7;
+    border: 1px solid #eaeaea;
+    font-family: simsun;
+    font-size: 12px;
+    margin: 12px 0;
+    overflow: hidden;
+    padding: 10px;
+}
+.des_info dt {
+    display: block;
+    font-family: '微软雅黑';
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    width: 100%;
+}
+.des_info dd {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 33.3%;
+}
+.des .desbox {
+    font-family: "microsoft yahei";
+    font-size: 14px;
+    margin: 10px auto;
+    overflow: hidden;
+    width: 760px;
+}
+.now-tick, .popover-close, 
+.pop-arrows-left, 
+.pop-arrows-right, 
+.page-prev, 
+.page-next, 
+.bx-prev, 
+.bx-next, 
+.serve-layer-arrow i, 
+.status-layer-arrow i, 
+.go-comm-btn, 
+.now_arrows, 
+.user-vip-grade, 
+.g-c-start, 
+.ul-g-c-r .r-g-t i, 
+.goods-supply-btn, 
+.goods-cancel-btn, 
+.goods-btn-buy, 
+.goods-btn-collect, 
+.pulldown-button, 
+.list-vip-price .ico-arrow, 
+.item-recommend .rec-g-box input,
+ .rec-goods-choice .bx-prev, 
+ .rec-goods-choice .bx-next {
+    background: url(images/item.png) no-repeat;}
+</style>
+</head>
+<body class="is-wide w1200">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> <script>if(screen.width > 1210 && $(window).width() > 1210)
+{
+	$("body").addClass("w1200");
+}
+else
+{
+	$("body").addClass("w980");
+}</script>{insert_scripts files='easydialog.min.js,magiczoomplus.js,jquery.mousewheel.js,hScrollPane.js,yhd_goods.js'} {insert_scripts files='yhd_category.js'} <!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="layout_wrap" style=" text-align:left">
+<!-- #BeginLibraryItem "/library/goods_gallery.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="layout_wrap">
+  <div class="mod_sku" style=" text-align:left">
+    <div class="sku_box clearfix" id="J_skuBox">
+      <form action="exchange.php?act=buy" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+        <div class="sku_main" id="detail_sku_main">
+          <h1 class="prod_title" id="productMainName" title="{$goods.goods_style_name}">{$goods.goods_style_name}</h1>
+          <h2 class="sub_title">{$goods.goods_brief}</h2>
+          <div class="sku_unit price_array nbor">
+            <dl class="clearfix">
+              <dt style="width:86px;">{$lang.exchange_integral}</dt>
+              <dd><span class="oldprice">{$goods.exchange_integral}</span></dd>
+            </dl>
+          </div>
+          <div style="" id="sku_unit" class="sku_unit choicebox clearfix"> 
+            <!-- {* 开始循环所有可选属性 *} --> 
+            <!-- {foreach from=$specification item=spec key=spec_key} --> 
+            <!-- {if $spec.attr_type eq 1} -->
+            
+            <dl id="tasteList" class="tastelist clearfix">
+              <dt id="tasteAttrName">{$spec.name}</dt>
+              <dd>
+                <div class="tastebox">
+                  <ul class="clearfix">
+                    <!-- {foreach from=$spec.values item=value key=key} -->
+                    <li {if $key eq 0}class="selected"{/if}>{$value.label}
+                      <input id="spec_value_{$value.id}" style="display:none;" type="radio" name="spec_{$spec_key}" value="{$value.id}" {if $key eq 0}checked{/if} />
+                      <div class="lion" style=" font-size:0">已选中</div>
+                    </li>
+                    <!-- {/foreach} -->
+                    <input type="hidden" name="spec_list" value="{$key}" />
+                  </ul>
+                </div>
+              </dd>
+            </dl>
+            <!-- {else} -->
+            
+            <dl id="tasteList" class="tastelist2 clearfix">
+              <dt id="tasteAttrName">{$spec.name}</dt>
+              <dd>
+                <div class="tastebox">
+                  <ul class="clearfix">
+                    <!-- {foreach from=$spec.values item=value key=key} -->
+                    <li>
+                      <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+                      {$value.label} </li>
+                    <!-- {/foreach} -->
+                    <input type="hidden" name="spec_list" value="{$key}" />
+                  </ul>
+                </div>
+              </dd>
+            </dl>
+            
+            <!-- {/if} --> 
+            
+            <!-- {/foreach} --> 
+            <!-- {* 结束循环可选属性 *} --> 
+          </div>
+          <div class="sku_unit buy_act">
+            <div class="computing" id="computingArea">
+              <div class="computerbox clearfix">
+                <div class="cartbox" id="BtnArea">
+                  <input type="hidden" name="goods_id" value="{$goods.goods_id}" />
+                  <input type="submit" class="add_cart" value="立即兑换"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+        </div>
+        
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="layout_w1200_g22 laymt"><div class="grid_4"> 
+    <!--1号店左侧-->
+    <div id="detail_buyTogether" style="display:none;" class="mod_box"> </div>
+    
+    <!-- TemplateBeginEditable name="购买过此商品的人还买过的商品" --> <!-- #BeginLibraryItem "/library/bought_goods.lbi" --> 
+    
+    <!-- {if $bought_goods} -->
+    <div id="detail_viewAndBuyRecomm" style="" class="mod_box mod_product_box">
+      <div class="box_hd"><strong>{$lang.shopping_and_other}</strong></div>
+      <div class="box_list">
+        <ul>
+          <!--{foreach from=$bought_goods item=bought_goods_data}-->
+          <li><a class="pro_img" href="{$bought_goods_data.url}" target="_blank"><img width="80" height="80" alt="{$bought_goods_data.goods_name}" src="{$bought_goods_data.goods_thumb}"></a>
+            <p class="pro_tit"><a href="{$bought_goods_data.url}" title="{$bought_goods_data.goods_name}" target="_blank">{$bought_goods_data.short_name}</a></p>
+            <p class="pro_price"><span class="color_red"> <!-- {if $bought_goods_data.promote_price neq 0} --> 
+              {$bought_goods_data.formated_promote_price} 
+              <!-- {else} --> 
+              {$bought_goods_data.shop_price} 
+              <!-- {/if} --></span><del>{$bought_goods_data.market_price}</del><a class="commandbtn" href="addToCart({$bought_goods_data.goods_id});">加入购物车</a></p>
+          </li>
+          <!-- {/foreach} -->
+          
+        </ul>
+      </div>
+    </div>
+    <!-- {/if} --> <!-- #EndLibraryItem --> <!-- TemplateEndEditable -->
+    <div id="detail_buyAndBuyRecomm" style="display:none;" class="mod_box mod_product_box"> </div>
+    <div id="detail_hotSaleList" style="" class="mod_box mod_search_sidlist clearfix">
+      <div class="box_hd">销量排行榜</div>
+      <div class="sidlist_box sidlist_slide">
+        <ul>
+          <li><a onclick="addTrackPositionToCookie('1','pms_dpSameBrand_0')" href="http://item.yhd.com/item/8573683_1?ref=pms_15_45_188" target="_blank" class="pro_img_small"><img src="http://d6.yihaodianimg.com/N03/M09/43/E9/CgQCtVFrzB2AJML0AADrPHnrwiw20501_90x90.jpg" width="90" height="90"><sup class="nub1"></sup></a>
+            <p class="price"><span class="color_red">¥1649</span><del>¥2499</del></p>
+            <p class="name"><a onclick="addTrackPositionToCookie('1','pms_dpSameBrand_0')" href="http://item.yhd.com/item/8573683_1?ref=pms_15_45_188" target="_blank">Samsung 三星 i879 智能双模双待手机（GSM/CDMA2000）白色 电信定制机</a></p>
+            <u></u></li>
+        </ul>
+      </div>
+    </div>
+  </div><div class="grid_18">
+    
+    
+    <div style="" id="J_des" class="des">
+      <ul class="des_tab">
+        <li id="detail_desc_tab" class="des_tabbox"> <a class="tab cur" tabindex="0" href="javascript:void(0)">商品介绍</a>  <a class="tab" href="javascript:void(0)" tabindex="3">售后服务</a> <a tabindex="-100" id="desc_sppj" class="tab" href="javascript:void(0)">评价</a> </li>
+        <li class="des_act">
+          <div class="btnbox"> <a href="javascript:void(0);" id="detail_desc_addCartBtn" style="display:none;" class="add_cart"><span>加入购物车</span></a> </div>
+          <div class="onlinebox" id="detail_desc_FaqBtn" style="display:none;"><a href="javascript:void(0);">商家客服</a></div>
+        </li>
+      </ul>
+      <div id="detail_desc_content" class="descon">
+        <div id="prodDetailCotentDiv" style="display: block;" class="desitem" tabindex="0"> 
+          <!--商品规格-->
+          <dl class="des_info clearfix">
+            <dt>规格参数 </dt>
+            <dd title="产地：其它国家">产地：其它国家</dd>
+            <dd title="可可脂含量：22%以下">可可脂含量：22%以下</dd>
+            <dd title="包装：盒装">包装：盒装</dd>
+            <dd title="制作工艺：非手工巧克力">制作工艺：非手工巧克力</dd>
+            <dd title="形状：其它形状">形状：其它形状</dd>
+          </dl>
+          <!--商品规格-->
+          <div class="desbox"> {$goods.goods_desc} </div>
+        </div>
+        
+        <div style="display: none;" class="desitem desqoute" tabindex="3"> {$goods.goods_shfw} </div>
+        <div id="buyer_experience" class="feature-item" style="display:none">
+          <div class="module-column comment_mod" id="productExperience" name="productExperience">
+                            	<h4 class="module-hd m-top">
+									<span class="span-mt">购买评论</span>
+								</h4>
+                                <div class="module-bd">
+                                	<div class="compare-view-box">
+                                    	<ul class="compare-view">
+                                        	<li class="centage-praise">
+                                            	<span class="s-praise">好评率</span>
+                                                <span class="s-centage">{$comment_percent.haoping_percent}%</span>
+                                            </li>
+                                            <li class="centage-all">
+                                            	<div class="centage-b">
+                                                	好评：
+                                                    <span class="centage-enough">
+														<span class="centage-show" style="width:{$comment_percent.haoping_percent}%;"></span>
+													</span> 
+                                                    <span class="centage-num">{$comment_percent.haoping_percent}%</span>			                                
+                                                </div>
+                                                <div class="centage-b">
+                                                	中评：
+													<span class="centage-enough">
+														<span class="centage-show" style="width:{$comment_percent.zhongping_percent}%;"></span>
+													</span>
+													<span class="centage-num">{$comment_percent.zhongping_percent}%</span>
+                                                </div>
+                                                <div class="centage-b">
+                                                	差评：
+													<span class="centage-enough">
+														<span class="centage-show" style="width:{$comment_percent.chaping_percent}%;"></span>
+													</span>
+													<span class="centage-num">{$comment_percent.chaping_percent}%</span>
+                                                </div>
+                                            </li>
+                                            <li class="centage-compare"></li>
+                                            <li class="comment-go">
+                                            	<div class="go-comm-txt">我购买过这个商品</div>
+												<a class="go-comm-btn open_comment" href="javascript:void(0);" style=" background-position:0 -17px">我要评价</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- #BeginLibraryItem "/library/comments.lbi" --> {insert_scripts files='transport.js,utils.js'}
+          <div id="ECS_COMMENT"> {* ECSHOP 提醒您：动态载入comments_list.lbi，显示评论列表和评论表单 *}{insert name='comments' type=$type id=$id}</div>
+          <!-- #EndLibraryItem -->
+                                </div>
+                            </div>
+    </div>
+      </div>
+    </div>
+    
+  </div></div>
+        <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+<!-- {literal} -->
+onload = function()
+{
+  fixpng();
+}
+<!-- {/literal} -->
+</script>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="height:100%;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,user.js,transport.js,region.js'}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js,jquery.SuperSlide.js,yhd_user.js,yhd_common.js'}
+<style>
+.container input[type=text]:focus, input[type=password]:focus {
+  outline:0;
+  border-color:rgba(255, 97, 97, .8);
+  -webkit-box-shadow:inset 0 1px 2px rgba(0, 0, 0, .1), 0 0 8px rgba(255, 97, 97, .6);
+  -moz-box-shadow:inset 0 1px 2px rgba(0, 0, 0, .1), 0 0 8px rgba(255, 97, 97, .6);
+  -ms-box-shadow:inset 0 1px 2px rgba(0, 0, 0, .1), 0 0 8px rgba(255, 97, 97, .6);
+  -o-box-shadow:inset 0 1px 2px rgba(0, 0, 0, .1), 0 0 8px rgba(255, 97, 97, .6);
+  box-shadow:inset 0 1px 2px rgba(0, 0, 0, .1), 0 0 8px rgba(255, 97, 97, .6);
+-webkit-transition:all .4s ease 0s;
+transition:all .4s ease 0s
+}
+.container input[type=submit]:focus, input[type=submit]:hover {
+  background-position:80px center;
+-webkit-transition:all .3s ease 0s;
+transition:all .3s ease 0s
+}
+</style>
+<body style="height:100%;">
+<!--登录注册头部 start-->
+<div id="g-top-banner">
+  <a class="g-min-w" href="index.php" target="_blank" style="background: url(images/1600-70-zhu.jpg) top center no-repeat;display: block;height: 90px;width: 100%;"></a>
+</div>
+<!--*会员商家注册界面 start--> 
+{insert_scripts files='utils.js'}
+<div class="container" style="height: 100%;display:block;background: url(themes/maibaobao/images/register_bg.jpg) top center no-repeat;margin:0px">
+  <div class="container_wrap">
+    <div class="l_t clearfix">
+      <h3 class="t_txt">欢迎注册好舒服家纺网站</h3>
+    </div>
+    <div class="l_c clearfix">
+      <div class="cont_left" style="border-right: 0px;">
+        <div class="tabs" style="width:880px">
+          <a class="tab selected" href="#reg_email">商家注册</a>
+        </div>
+        <div class="panels">
+          <div id="reg_email" class="panel">
+            <form action="user.php" method="post" name="formUser" onsubmit="return register();" class="base_form" style="width:800px;">
+              <table class="register_form" cellspacing="" cellpadding="" border="0">
+                <tr>
+                  <td class="r_l">用户名：</td>
+                  <td class="r_r">
+                    <input name="username" type="text" class="r_input" id="username" onblur="is_registered(this.value);" maxlength="100">
+                    <span id="username_notice" class="errorinfo post_error"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">邮箱：</td>
+                  <td class="r_r">
+                    <input name="email" type="text" class="r_input" id="email" onblur="checkEmail(this.value);">
+                    <span id="email_notice" class="errorinfo post_error"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">设置密码：</td>
+                  <td class="r_r">
+                    <input class="r_input" name="password" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" maxlength="50">
+                    <span id="password_notice" class="post_error"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">确认密码：</td>
+                  <td class="r_r">
+                    <input class="r_input" name="confirm_password" type="password" id="conform_password" onblur="check_conform_password(this.value);" maxlength="50">
+                    <span id="conform_password_notice" class="post_error"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">店铺名称：</td>
+                  <td class="r_r">
+                    <input name="shop_name" type="text" class="r_input" id="shop_name">
+                    <span style="color:#FF0000"> *</span> </td>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">店铺联系人：</td>
+                  <td class="r_r">
+                    <input name="shop_contacts" type="text" class="r_input" id="shop_contacts">
+                    <span style="color:#FF0000"> *</span> </td>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">手机号码：</td>
+                  <td class="r_r">
+                    <input name="shop_mobile" type="text" class="r_input" id="shop_mobile">
+                    <span style="color:#FF0000"> *</span> </td>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">邀请码：</td>
+                  <td class="r_r">
+                    <input name="shop_invite_code" type="text" class="r_input" id="shop_invite_code">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">店铺区域：</td>
+                  <td class="r_r">
+                    <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')">
+                      <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
+                      <!-- {foreach from=$country_list item=country} -->
+                      <option value="{$country.region_id}" {if $consignee.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')">
+                      <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+                      <!-- {foreach from=$province_list item=province} -->
+                      <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')">
+                      <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+                      <!-- {foreach from=$city_list item=city} -->
+                      <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <select name="district" id="selDistricts_{$sn}" {if !$district_list}style="display:none"{/if}>
+                      <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+                      <!-- {foreach from=$district_list item=district} -->
+                      <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                      <!-- {/foreach} -->
+                    </select>
+                    <span style="color:#FF0000"> *</span> </td>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l">店铺详细地址：</td>
+                  <td class="r_r">
+                    <input name="address" type="text" class="r_input" id="address">
+                    <span style="color:#FF0000"> *</span> </td>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="r_l"></td>
+                  <td class="r_r">
+                    <input name="act" type="hidden" value="act_user_shop_register" >
+                    <input type="hidden" name="back_act" value="{$back_act}" />
+                    <input name="Submit" type="submit" value="提交注册" class="red-btn">
+                  </td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--#会员商家注册界面 end-->
+<div class="footer-wrapper" style="margin-top:0">
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem -->
+</div>
+</body
+</html>

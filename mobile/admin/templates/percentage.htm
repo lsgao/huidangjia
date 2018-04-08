@@ -1,0 +1,70 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../data/static/js/utils.js,./js/listtable.js"}
+{insert_scripts files="./js/validator.js"}
+<div id="separate">
+    <div class="list-div" id="listDiv">
+{/if}
+        <form method="post" action="percentage.php?act=update">
+        <table cellspacing='1' cellpadding='3'>
+            <tr>
+                <th name="levels" ReadOnly="true" width="10%">{$lang.levels}</th>
+                <th name="level_point" Type="TextBox">{$lang.descriptions}</th>
+                <th name="level_money" Type="TextBox">{$lang.level_money}</th>
+            </tr>
+            <tr>
+                <td align="center">{$lang.level_1}</td>
+                <td>{$lang.description_1}</td>
+                <td><input type="text" name="percentage_shopkeeper" maxlength="6" size="6" value="{$percentage_shopkeeper}" />%</td>
+            </tr>
+            <tr>
+                <td align="center">{$lang.level_2}</td>
+                <td>{$lang.description_2}</td>
+                <td><input type="text" name="percentage_supershopkeeper_1" maxlength="6" size="6" value="{$percentage_supershopkeeper_1}" />%</td>
+            </tr>
+            <tr>
+                <td align="center">{$lang.level_3}</td>
+                <td>{$lang.description_3}</td>
+                <td><input type="text" name="percentage_supershopkeeper_2" maxlength="6" size="6" value="{$percentage_supershopkeeper_2}" />%</td>
+             </tr>
+             <tr align="center">
+                 <td colspan="3">
+                     <input type="submit" value="{$lang.button_submit}" class="button" id="btnon"/>
+                     <input type="hidden" name="act" value="update" />
+                 </td>
+             </tr>
+        </table>
+        </form>
+{if $full_page}
+    </div>
+</div>
+<script type="Text/Javascript" language="JavaScript">
+<!--
+var all_null = '{$lang.all_null}';
+{literal}
+onload = function()
+{
+  // 开始检查订单
+  //startCheckOrder();
+  cleanWhitespace(document.getElementById("listDiv"));
+}
+function check(frm)
+{
+  if (frm['level_point'].value == "" && frm['level_money'].value == "")
+  {
+     frm['level_point'].focus();
+     alert(all_null);
+     return false;  
+  }
+  
+  return true;
+}
+function actDiv(divname, flag)
+{
+    document.getElementById(divname).style.display = flag;
+}
+{/literal}
+//-->
+</script>
+{include file="pagefooter.htm"}
+{/if}

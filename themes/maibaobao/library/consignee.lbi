@@ -1,0 +1,88 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="container-wrap">
+	<div class="cart-wrapper clearfix">
+    	<div class="checkout_sub">
+        	<div id="js-consignee">
+            	<div class="title-bar">
+					<h2>填写收货地址</h2>
+				</div>
+                <div class="checkout-box">
+                	<div class="consignee-edit">
+                    	{insert_scripts files='utils.js,transport.js'}
+                    	<table class="edit-form">
+                        	<tbody>
+                            	<tr>
+                                	<th><span class="red">*</span>{$lang.consignee_name}</th>
+                                    <td><input name="consignee" type="text" class="f_inputTxt" id="consignee_{$sn}" value="{$consignee.consignee|escape}" maxlength="20" size="40" /></td>
+                                </tr>
+                                <tr>
+                                	<th><span class="red">*</span>{$lang.country_province}</th>
+                                    <td>
+                                    	<select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border: 1px solid #191919;height: 24px;margin-left: 5px;">
+        <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
+        <!-- {foreach from=$country_list item=country} -->
+        <option value="{$country.region_id}" {if $consignee.country eq $country.region_id}selected{/if}>{$country.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+      									<select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" style="border: 1px solid #191919;height: 24px;">
+        <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+        <!-- {foreach from=$province_list.$sn item=province} -->
+        <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+      									<select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" style="border: 1px solid #191919;height: 24px;">
+        <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+        <!-- {foreach from=$city_list.$sn item=city} -->
+        <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+      									<select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}style="display:none"{/if} style="border: 1px solid #191919;height: 24px;">
+        <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+        <!-- {foreach from=$district_list.$sn item=district} -->
+        <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+        <!-- {/foreach} -->
+      </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th><span class="red">*</span>{$lang.detailed_address}</th>
+                                    <td><input name="address" type="text" class="inputBg f_inputTxt"  id="address_{$sn}" value="{$consignee.address|escape}" size="40" maxlength="20" /></td>
+                                </tr>
+                                <tr>
+                                	<th><span class="red">*</span>{$lang.postalcode}</th>
+                                    <td><input name="zipcode" type="text" class="inputBg f_inputTxt"  id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" maxlength="6" size="12" /></td>
+                                </tr>
+                                <tr>
+                                	<th><span class="red">*</span>{$lang.phone}</th>
+                                    <td><input name="tel" type="text" class="inputBg f_inputTxt"  id="tel_{$sn}" value="{$consignee.tel|escape}" maxlength="20" size="30" />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$lang.backup_phone}<input name="mobile" type="text" class="inputBg f_inputTxt"  id="mobile_{$sn}" value="{$consignee.mobile|escape}"  maxlength="20" size="30"/></td>
+                                </tr>
+                                <tr>
+                                	<th><span class="red">*</span>{$lang.email_address}</th>
+                                    <td><input name="email" type="text" class="inputBg f_inputTxt"  id="email_{$sn}" value="{$consignee.email|escape}" maxlength="80" size="40" /></td>
+                                </tr>
+                                <tr>
+                                	<th></th>
+                                    <td>
+                                    	<div class="btns clearfix">
+                                    	<input type="submit" name="Submit" class="btn2 btn-ok" value="{$lang.shipping_address}" style=" border:none; cursor:pointer" />
+      									<!-- {if $smarty.session.user_id gt 0 and $consignee.address_id gt 0} -->
+      									<!-- 如果登录了，显示删除按钮 -->
+      									<input name="button" type="button" class="btn2 btn-ok" style="background-color: #F72200;border:none; cursor:pointer" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'" value="{$lang.drop}" />
+     									<!-- {/if} -->
+      									<input type="hidden" name="step" value="consignee" />
+      									<input type="hidden" name="act" value="checkout" />
+      									<input name="address_id" type="hidden" value="{$consignee.address_id}" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

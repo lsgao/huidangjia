@@ -1,0 +1,13 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{foreach from=$ad_child item=child}
+<a href="{$child.ad_link}" target="_blank"><img src="data/afficheimg/{$child.ad_code}" alt="" class="goodsimg" />
+{if $ad_title eq 1}
+<div class="hover_show" style="display: none;">
+<div class="hover_show_box">
+<span>{$child.title}</span><s>&nbsp;</s>
+</div>
+</div>
+{/if}
+</a>
+
+{/foreach}

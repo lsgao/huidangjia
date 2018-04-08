@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='utils.js,common.js,global.js,compare.js'}
+<style>
+	.l-sider .l-f-open .arrow {
+    border-color: #666 #f5f5f5 whiteSmoke;
+    border-style: solid;
+    border-width: 4px;
+    bottom: 4px;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    position: absolute;
+    right: 6px;
+    transition: transform 0.2s ease-in 0s;
+    width: 0; left:auto; top:auto
+}
+.list-search .buy-rec-list li .pro_info{ text-align:center}
+</style>
+</head>
+<body class="list-search is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> 
+{insert_scripts files='yhd_search.js,yhd_category.js'}
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div id="js-list-container" class="container clearfix" style="display: block;">
+	<div class="l-header clearfix">
+    	<div id="js-total" class="l-h-total">
+        	<span>
+            	共发现<strong class="red"> {$pager.record_count}</strong>件
+            </span>
+        </div>
+    </div>
+    <div class="l-wrap clearfix" style="border-top: 3px solid #666;">
+    	<div class="l-sider">
+        	<!-- #BeginLibraryItem "/library/category_tree_search.lbi" --><!-- #EndLibraryItem -->
+            <div id="hot-rec" class="buy-rec">
+                <!-- TemplateBeginEditable name="左侧区域" -->
+<!-- #BeginLibraryItem "/library/recommend_best.lbi" -->
+
+<!-- {if $best_goods} -->
+<!-- {if $script_name eq "category" || $script_name eq 'search' || $script_name eq 'brand'}-->
+<div id="pms_searchlook" class="mod_search_sidlist mt clearfix">
+  <h2 class="search_title">精品推荐</h2>
+  <div class="sidlist_box">
+    <ul>
+      <!--{foreach from=$best_goods item=goods}-->
+      <li> <a target="_blank" class="pro_img" title="{$goods.name|escape:html}" href="{$goods.url}"> <img src="{$goods.thumb}" width="115" height="115"><sup class="ico_search_list">精品</sup></a>
+        <p class="pirce"> <span class="color_red">
+          <!-- {if $goods.promote_price neq ""} -->
+          {$goods.promote_price}
+          <!-- {else}-->
+          {$goods.shop_price}
+          <!--{/if}-->
+          </span> </p>
+        <p class="name"> <a target="_blank" href="{$goods.url}" class="name">{$goods.short_style_name}</a> </p>
+      </li>
+      <!--{/foreach}-->
+    </ul>
+  </div>
+</div>
+<!-- {else}-->
+<span class="refresh-batch change_three">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div id="n_index_a4_1" class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$best_goods item=goods}-->
+            	<li class="item-mod" style="width: 240px; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+						<img width="140" height="140" src="{$goods.thumb}">
+					</a>
+                    <div class="item-mod-info">
+                    	<p class="info-category">{$goods.short_style_name}</p>
+                        <p class="info-price">
+								<!-- {if $goods.promote_price neq ""} -->
+        						{$goods.promote_price}
+        						<!-- {else}-->
+        						{$goods.shop_price}
+        						<!--{/if}-->
+							<s>{$goods.market_price}</s>
+						</p>
+                        <a class="go" target="_blank" href="{$goods.url}">
+							<span>GO</span>
+							<i></i>
+						</a>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- {/if} -->
+<!-- {/if} -->
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:4,vis:4});
+		
+		$("span.change_three").click(function(){
+			clearInterval(this.timer);
+			$("#hot-buying").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#hot-buying").removeClass("loading");
+			},500);
+		});
+		
+		</script>
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+            </div>
+        </div>
+        <div class="l-list">
+        	<div class="l-list-wrap">
+            	<div id="search-suggest" class="search-suggest" style=""></div>
+				<div id="js-all-selected" class="l-filter clearfix"></div>
+        		<div class="l-list-top clearfix">
+            		<div id="js-order-view" class="order-list" style=" text-align:left">
+                		<!-- {if $intromode eq 'best'} --> 
+           				<span>{$lang.best_goods}</span> 
+            			<!-- {elseif $intromode eq 'new'} --> 
+            			<span>{$lang.new_goods}</span> 
+            			<!-- {elseif $intromode eq 'hot'} --> 
+            			<span>{$lang.hot_goods}</span> 
+            			<!-- {elseif $intromode eq 'promotion'} --> 
+            			<span>{$lang.promotion_goods}</span> 
+            			<!-- {else} --> 
+            			<span>{$lang.search_result}</span> 
+            			<!-- {/if} --> 
+                	</div>
+                	<div id="js-min-pager" class="min-pager">
+                    	<!--{if $goods_list}-->
+            			<form action="search.php" method="post" class="sort" name="listform" id="form">
+              <select name="sort">
+                
+              {html_options options=$lang.sort selected=$pager.search.sort}
+              
+              </select>
+              <select name="order">
+                
+              {html_options options=$lang.order selected=$pager.search.order}
+              
+              </select>
+              <input type="submit" name="imageField"  class="btn_small" style="border:none; top:0;background: url(images/bgAddressNew.png) no-repeat 0 -23px;" value="提交"/>
+              <input type="hidden" name="page" value="{$pager.page}" />
+              <input type="hidden" name="display" value="{$pager.display}" id="display" />
+              <!--{foreach from=$pager.search key=key item=item}--> 
+              {if $key neq "sort" and $key neq "order"}
+              {if $key eq 'keywords'}
+              <input type="hidden" name="{$key}" value="{$item|escape:decode_url}" />
+              {else}
+              <input type="hidden" name="{$key}" value="{$item}" />
+              {/if}
+              {/if} 
+              <!--{/foreach}-->
+            </form>
+            			<!--{/if}-->
+                    </div>
+            	</div>
+                <!--{if $goods_list}-->
+                <form action="compare.php" method="post" name="compareForm" id="compareForm" onsubmit="return compareGoods(this);">
+                <div class="l-list-body">
+                	<div id="js-goods-list" class="pro_list">
+                    	<ul class="clearfix ">
+                        	<!--{foreach from=$goods_list item=goods}--> 
+                            <!–-{if $goods.url}-–>
+                        	<li>
+                            	<a class="pic" target="_blank" href="{$goods.url}">
+                                	<img class="pic-174 i-pop" width="174" height="174" src="{$goods.goods_thumb}" alt="{$goods.goods_name}">
+                                </a>
+                                <div class="pro_info">
+                                	<a class="name" title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}">
+										{$goods.goods_name}
+									</a>
+                                    <div class="price">
+										<strong class="red"><!--{if $goods.promote_price neq "" } --> 
+                        {$goods.promote_price} 
+                        <!--{else}--> 
+                        {$goods.shop_price} 
+                        <!--{/if}--> </strong>
+                        				
+										<s>{$goods.market_price}</s>
+                                    </div>
+                                </div>
+                            </li>
+                            <!--{/if}-->
+                            <!--{/foreach}-->
+                        </ul>
+                    </div>
+                </div>
+                </form>
+                <script type="text/javascript">
+        {foreach from=$lang.compare_js item=item key=key}
+        var {$key} = "{$item}";
+        {/foreach}
+
+                                {foreach from=$lang.compare_js item=item key=key}
+        {if $key neq 'button_compare'}
+        var {$key} = "{$item}";
+        {else}
+        var button_compare = '';
+        {/if}
+        {/foreach}
+
+
+        var compare_no_goods = "{$lang.compare_no_goods}";
+        window.onload = function()
+        {
+          Compare.init();
+          fixpng();
+        }
+        var btn_buy = "{$lang.btn_buy}";
+        var is_cancel = "{$lang.is_cancel}";
+        var select_spe = "{$lang.select_spe}";
+        </script>
+                <!--{else}-->
+        		<div style="padding:20px 0px; text-align:center" class="f5" >{$lang.no_search_result}</div>
+        		<!--{/if}-->
+                <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-wrapper">
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+
+</body>
+</html>

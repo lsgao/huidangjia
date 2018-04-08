@@ -1,0 +1,24 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $hot_goods}-->
+
+<div id="pms_searchlook" class="mod_search_sidlist mt clearfix">
+  <h2 class="search_title">精品推荐</h2>
+  <div class="sidlist_box">
+    <ul>
+      <!--{foreach from=$hot_goods item=goods}-->
+      <li> <a target="_blank" class="pro_img" title="{$goods.name|escape:html}" href="{$goods.url}"> <img src="{$goods.thumb}" width="115" height="115"></a>
+        <p class="pirce"> <span class="color_red">
+          <!-- {if $goods.promote_price neq ""} -->
+          {$goods.promote_price}
+          <!-- {else}-->
+          {$goods.shop_price}
+          <!--{/if}-->
+          </span> </p>
+        <p class="name"> <a target="_blank" href="{$goods.url}" class="name">{$goods.short_style_name}</a> </p>
+      </li>
+      <!--{/foreach}-->
+    </ul>
+  </div>
+</div>
+
+<!-- {/if} -->

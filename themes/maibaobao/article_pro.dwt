@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+<style>
+.red, a.red {
+	color: #cc0000;
+}
+.blue, a.blue {
+	color: #0066cc;
+}
+.clearfix {
+	zoom: 1;
+}
+.clearfix:after {
+	content: "";
+	display: block;
+	height: 0;
+	line-height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.left_menu {
+	width: 205px;
+	float: left;
+	margin-top: 10px;
+}
+.l24 {
+	line-height: 24px;
+}
+.left_menu .column, .left_menu .column2 {
+	border: 1px solid #d4d4d4;
+}
+.left_menu h2 {
+	background: url(images/menu_tit.png) repeat-x;
+	height: 30px;
+	line-height: 31px;
+	font-size: 14px;
+	padding-left: 18px;
+	color: #333;
+	cursor: pointer;
+}
+.left_menu h3 {
+	background: url(images/menu_sub_tit.jpg) no-repeat;
+	height: 29px;
+	line-height: 29px;
+	font-size: 12px;
+	padding-left: 19px;
+	color: #333;
+	font-weight: normal;
+	border-top: 1px solid #d4d4d4;
+	cursor: pointer;
+	text-align: left;
+}
+.left_menu h3.on {
+	background: url(images/menu_sub_tit_on.jpg) no-repeat;
+	color: #cc0000;
+	font-weight: bold;
+}
+#container .left_menu h3 a {
+	background: none;
+	padding: 0;
+	margin: 0;
+	color: #333;
+	height: 30px;
+	line-height: 30px;
+}
+#container a {
+	text-decoration: none;
+	color: #333;
+}
+#container a:hover {
+	text-decoration: none;
+	color: #C00;
+}
+.column a {
+	background: url(images/listimg.png) no-repeat 0px 7px;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 10px;
+	margin-left: 10px;
+}
+.right_content {
+	width: 750px;
+	float: right;
+}
+.left_menu .column2 dl {
+	background: #FFF url(images/sub_listbg.png) repeat-x;
+	line-height: 24px;
+	padding-right: 12px;
+	padding-bottom: 10px;
+}
+.left_menu .column2 dt {
+	font-weight: bold;
+	color: #333;
+	padding-left: 17px;
+}
+.left_menu .column2 dd {
+	padding-left: 70px;
+}
+.left_menu .column2 .tit {
+	width: 70px;
+	text-align: right;
+	margin-left: -70px;
+	float: left;
+}
+/*面包屑*/
+.crumb {
+	background: url(images/homeico.gif) no-repeat 0px 5px;
+	height: 21px;
+	line-height: 21px;
+	padding-left: 15px;
+}
+.crumb a {
+	background: url(images/crumb_arrow.gif) no-repeat 5px 0px;
+	padding-left: 23px;
+	height: 21px;
+	display: inline-block;
+}
+.crumb a.home {
+	background: none;
+}
+/*帮助中心首页*/
+.help_list dt {
+	height: 24px;
+	line-height: 24px;
+	border-bottom: 1px dashed #666666;
+	color: #333;
+	margin-top: 5px;
+}
+.help_list dd {
+	line-height: 24px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.help_list ul li {
+	float: left;
+	color: #cccccc;
+	padding-right: 10px;
+	white-space: nowrap;
+}
+.help_list li a {
+	margin-right: 10px;
+	color: #0066cc;
+}
+.help_list li a.red {
+	color: #C00;
+}
+/*2012-10-30 by zx*/
+.help_icon {
+	display: inline-block;
+	margin-top: 10px;
+}
+.help_icon a {
+	display: block;
+	float: left;
+	margin-right: 50px;
+}
+.help_icon span {
+	background: url(images/helpCenterIcon.png) no-repeat;
+	display: inline-block;
+	height: 61px;
+	width: 61px;
+	vertical-align: middle;
+}
+.help_icon span.help_icon01 {
+	background-position: 0 0;
+}
+.help_icon span.help_icon02 {
+	background-position: -117px 0;
+}
+.help_icon span.help_icon03 {
+	background-position: -231px 0;
+}
+.help_icon span.help_icon04 {
+	background-position: -351px 0;
+}
+.help_icon span.help_icon05 {
+	background-position: -472px 0;
+}
+/*联系客服*/
+.help_box {
+	border: 1px solid #dbdbdb;
+	margin-top: 10px;
+}
+.help_box h3 {
+	background: url(images/headline_bg.png) repeat-x;
+	height: 35px;
+	padding-left: 17px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	line-height: 35px;
+	text-align: left;
+}
+.help_detail {
+	padding: 6px 22px;
+}
+.help_detail dl {
+	line-height: 20px;
+}
+.help_detail dt {
+	font-weight: bold;
+	margin-top: 10px;
+}
+.help_detail dd {
+	margin-bottom: 10px;
+}
+.ml220 {
+	margin-left: 220px;
+}
+.txt_indent {
+	text-indent: 2em;
+}
+.mt10 {
+	margin-top: 10px;
+  width: 960px;
+  margin: 0 auto;
+}
+a.btn {
+	height: 18px;
+	line-height: 18px;
+	background: #EAEAEA;
+	border: 1px solid #B3B3B3;
+	padding: 1px 5px;
+	font-weight: normal;
+	margin-right: 18px;
+}
+a.btn:hover {
+	text-decoration: none;
+}
+/*网上支付*/
+.blue_tab {
+	border-collapse: collapse;
+	border: 1px solid #D0EBF9;
+}
+.blue_tab th, .blue_tab td {
+	padding: 10px 0px;
+	text-align: center;
+	border: 1px solid #D0EBF9;
+}
+.blue_tab th {
+	background: #EBF9FC;
+}
+.complain {
+	background: url(images/complain.png) no-repeat;
+	width: 18px;
+	height: 18px;
+	vertical-align: middle;
+	display: inline-block;
+}
+/*帮助中心搜索框*/
+.help_search {
+	padding: 10px 20px;
+	border: 1px solid #DBDBDB;
+	background: #F5F5F5;
+	color: #333;
+	margin-top: 10px;
+	line-height: 20px;
+}
+.search_ipt {
+	width: 315px;
+	height: 18px;
+	padding-left: 3px;
+	line-height: 18px;
+	border: 1px solid #DBDBDB;
+	color: #CCCCCC;
+	vertical-align: middle;
+}
+.help_sbtn {
+	background: url(images/search_btn.png ) no-repeat;
+	width: 60px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	color: #FFF;
+	border: 0px;
+	margin-left: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+	vertical-align: middle;
+	margin-right: 22px;
+}
+.help_search a {
+	margin-right: 8px;
+}
+.help_sresult {
+	background: url(images/result_titbg.png) repeat-x;
+	font-size: 14px;
+	color: #333333;
+	font-weight: bold;
+	height: 34px;
+	line-height: 34px;
+	padding: 0px 18px;
+	border-top: 1px solid #DBDBDB;
+	border-left: 1px solid #DBDBDB;
+	border-right: 1px solid #DBDBDB;
+	border-bottom: 1px solid #CC0000;
+}
+.result_detail {
+	border-left: 1px solid #DBDBDB;
+	border-right: 1px solid #DBDBDB;
+	border-bottom: 1px solid #DBDBDB;
+	padding: 10px;
+}
+.result_detail dl {
+	border-bottom: 1px solid #F3F3F3;
+	line-height: 22px;
+	padding-bottom: 15px;
+}
+.result_detail dt {
+	font-weight: bold;
+	padding-left: 10px;
+	padding-top: 10px;
+}
+.result_detail dd {
+	padding-left: 10px;
+}
+.result_detail dt span, .result_detail dd span {
+	color: #C00;
+}
+/*帮助中心退换货流程*/
+.goods_apply {
+	width: 712px;
+height:283px position:relative;
+}
+.hide {
+	display: none;
+}
+.tips_box {
+	position: absolute;
+	background: #fffde6;
+	border: 1px solid #ffd8a3;
+	padding: 6px;
+	width: 270px;
+	font-size: 12px;
+	color: #333;
+	line-height: 20px;
+	top: 45px;
+}
+.tips_box s {
+	width: 13px;
+	height: 8px;
+	display: block;
+	position: absolute;
+	top: -8px;
+	left: 14px;
+}
+.goods_apply a {
+	display: block;
+	position: absolute;
+	cursor: pointer;
+	color: #333;
+	text-decoration: none;
+}
+.thhsq {
+	width: 80px;
+	height: 33px;
+	top: 170px;
+	left: 23px;
+}
+.shcg {
+	width: 80px;
+	height: 33px;
+	top: 81px;
+	left: 186px;
+}
+.smhh {
+	width: 80px;
+	height: 33px;
+	top: 28px;
+	left: 297px;
+}
+.smqj {
+	width: 80px;
+	height: 33px;
+	top: 81px;
+	left: 297px;
+}
+.gkjh {
+	width: 80px;
+	height: 33px;
+	top: 134px;
+	left: 297px;
+}
+.dj {
+	width: 60px;
+	height: 33px;
+	top: 108px;
+	left: 400px;
+}
+.fhsb {
+	width: 100px;
+	height: 44px;
+	top: 54px;
+	left: 503px;
+}
+.fx {
+	width: 60px;
+	height: 33px;
+	top: -3px;
+	left: 636px;
+}
+.hh {
+	width: 60px;
+	height: 33px;
+	top: 50px;
+	left: 636px;
+}
+.th {
+	width: 60px;
+	height: 33px;
+	top: 103px;
+	left: 636px;
+}
+.bfhsb {
+	width: 100px;
+	height: 44px;
+	top: 168px;
+	left: 503px;
+}
+.ywfh {
+	width: 80px;
+	height: 33px;
+	top: 168px;
+	left: 636px;
+}
+.shsb {
+	width: 80px;
+	height: 33px;
+	top: 247px;
+	left: 186px;
+}
+/* -S-liuwentao */
+/*选项卡*/
+.Viola_tab {
+	margin-top: 10px;
+}
+.Viola_tab ul.tab_Data {
+	padding: 0 10px;
+	margin: 0 10px;
+	height: 28px;
+	background: url(images/CgQDr1IxLzyAawSAAAAEL1tloN070700.png) 0 -28px repeat-x;
+}
+.Viola_tab ul.tab_Data li {
+	float: left;
+	height: 26px;
+	width: 80px;
+	margin-right: 10px;
+	background: url(images/CgQDr1IxLzyAawSAAAAEL1tloN070700.png) 0 0 repeat-x;
+	border: 1px solid #CFDEE8;
+	color: #0066CC;
+	line-height: 26px;
+	text-align: center;
+	cursor: pointer;
+}
+.Viola_tab ul.tab_Data li.cur {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	color: #666666;
+	font-weight: bold;
+}
+.good_medal {
+	display: inline-block;
+	height: 15px;
+	width: 22px;
+	background: url(images/CgMBmVJ6_hSAL5rbAAADVTUW5Ho03600.jpg) 0 0 no-repeat;
+}
+.margin_center {
+	margin: 0 auto;
+}
+.blue_tab td.text_left {
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: left;
+}
+.bg_blue {
+	background: #DEEDF9;
+	line-height: 28px;
+}
+.big_title {
+	text-align: center;
+	font-size: 14px;
+	padding: 10px 0;
+}
+.small_title {
+	background: #DEEDF9;
+	line-height: 26px;
+}
+/*抵用券支付的表格样式*/
+.tab_coupon {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	font-family: 'Microsoft YaHei';
+}
+.tab_coupon th {
+	text-align: left;
+}
+.tab_coupon th, .tab_coupon td {
+	height: 22px;
+	padding-left: 10px;
+	border: 1px solid #000;
+}
+</style>
+</head><body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> <!-- #BeginLibraryItem "/library/category.lbi" --><!-- #EndLibraryItem -->
+<div id="container">
+  <div class="clearfix mt10">
+    <div class="left_menu">
+      <ul class="column" id="help_list">
+        <li>
+          <h2>{$lang.article_cat}</h2>
+          <ul>
+            <!--{foreach from=$article_categories item=cat}-->
+            <li>
+              <h3><a href="{$cat.url}">{$cat.name|escape:html}</a></h3>
+               <ul {if $cat.status eq 1}style="display: block; "{else}style="display: none; "{/if}>
+                <!--{foreach from=$cat.children item=child}-->
+                <li><a href="{$child.url}">{$child.name|escape:html}</a></li>
+                <!--{/foreach}-->
+              </ul>
+            </li>
+            <!--{/foreach}-->
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="right_content">
+      <div class="help_box">
+        <h3>{$article.title|escape:html}</h3>
+        <div class="help_detail"> 
+          <!-- {if $article.content } --> 
+          {$article.content} 
+          <!-- {/if} --> 
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--帮助--> 
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

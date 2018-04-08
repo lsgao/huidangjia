@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="group.css" rel="stylesheet" type="text/css" /><link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,lefttime.js'}
+<script type="text/javascript">
+  {foreach from=$lang.js_languages item=item key=key}
+    var {$key} = "{$item}";
+  {/foreach}
+</script>
+<style>
+	
+	
+	.comment_mod .chart .top_con .evaluate_con li{ width:250px}
+	.now-tick, .popover-close, .pop-arrows-left, .pop-arrows-right, .page-prev, .page-next, .bx-prev, .bx-next, .serve-layer-arrow i, .status-layer-arrow i, .go-comm-btn, .now_arrows, .user-vip-grade, .g-c-start, .ul-g-c-r .r-g-t i, .goods-supply-btn, .goods-cancel-btn, .goods-btn-buy, .goods-btn-collect, .pulldown-button, .list-vip-price .ico-arrow, .item-recommend .rec-g-box input, .rec-goods-choice .bx-prev, .rec-goods-choice .bx-next {
+    background: url(images/item.png) no-repeat;
+}
+</style>
+</head>
+<body style=" text-align:center">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->{insert_scripts files='easydialog.min.js'}{insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<script>
+$(function(){
+	//弹出评论层
+	$(".open_comment").click(function(){
+		easyDialog.open({
+			container : 'comment_show',
+			fixed : true,
+			drag : true
+		});
+	})
+	
+	$(".popwinClose").click(function(){
+		easyDialog.close();
+	})
+	
+	/******商品详情页单选属性点击效果********/
+	$(".tastelist ul li").click(function(){
+		var a = $(this).find(":radio");
+		a.prop("checked",true);
+		$(this).parents(".tastelist").find(".selected").removeClass("selected");
+		$(this).addClass("selected");
+	})	
+})
+
+</script>
+<div class="grouDetail" style="margin-top:10px; background:#ffffff">
+  <Div class="wrap clearfix" style=" width:960px">
+    <div class="grouDetailR">
+        <!-- #BeginLibraryItem "/library/recommend_hot.lbi" --><!-- #EndLibraryItem -->
+    </div>
+    <div class="grouDetailL" style=" width:745px">
+      <div class="grouDetailHead">
+        <div id="detailDiv" class="in clearfix">
+        <form action="group_buy.php?act=buy" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY">
+          <!-- added by zengjiangfeng 2013-11-26 --> 
+          <!--非VIP团购E-->
+          <h2>{$gb_goods.goods_name|escape:html}</h2>
+          <h3> <i class="post_ico post_free_100"></i> <span></span> {$gb_goods.goods_brief} <span></span> </h3>
+          <!--团购主图开始--> 
+          <!--团购主图结束-->
+          <div class="bigThumb" style="width:430px; height:300px;">
+            <center>
+              <img width="300" height="300" src="{$gb_goods.goods_img}" alt="{$gb_goods.goods_name|escape:html}" id="grouponMainPic">
+            </center>
+          </div>
+          <!--id="tuan_detail_buy" 用于滚动悬浮窗的关联显示，勿漏掉-->
+          <div id="tuan_detail_buy" class="buySec">
+            <div style="visibility: visible;" class="price" id="priceDiv">
+              <p class="clearfix">
+               
+                <input type="hidden" name="group_buy_id" value="{$group_buy.group_buy_id}" />
+                
+                
+                
+                <input type="submit" <!-- {if $group_buy.status eq 0} 未开始 -->class="buyBtn buyBtn1"<!-- {elseif $group_buy.status eq 1} 进行中 -->class="buyBtn"<!-- {elseif $group_buy.status eq 2} 已结束 -->class="buyBtn buyBtn3"<!-- {elseif $group_buy.status eq 3} 团购成功 -->class="buyBtn buyBtn4"<!-- {elseif $group_buy.status eq 4} 团购失败 -->class="buyBtn buyBtn5"<!-- {/if} -->  style="vertical-align:middle; border:none;"/>
+        
+                <i class="moneyIco"></i> <span id="pricenow">{$group_buy.formated_cur_price}</span> </p>
+            </div>
+            
+            <!-- added by zengjiangfeng 2013-11-26 --> 
+            
+            <!--(vip团购)立即抢购按钮下面没有提示信息时加上类discount_limited-->
+            <ul class="discount clearfix">
+              <li>
+                <p>参考价</p>
+                <del id="marketPrice">{$gb_goods.market_price}</del> </li>
+              <li>
+                <p>折扣</p>
+                <span id="rebate">{$group_buy.zhekou}折</span> </li>
+              <li class="last">
+                <p>节省</p>
+                <span id="economize">{$group_buy.jiesheng}</span> </li>
+            </ul>
+            
+            
+            <div class="totalBuy" id="totalBuyDiv">
+            <div class="computing">
+            <div id="computing_item" data-sel="num" class="computing_item">
+   
+            		<div style="float:left; line-height:36px; font-size:14px; font-weight:normal; color:#666;">购买数量：</div>
+                  <div class="computing_num">
+                   <input type="text" id="product_amount" name="number" class="num" value="1">
+                  </div>
+                  
+                  <div class="computing_act">
+                    <input type="button" class="add">
+                    <input type="button" class="no_reduce" id="reduce_btn">
+                  </div>
+                </div>
+            
+               </div>   
+             <div style=" clear:both"></div>     
+            <div class="mod_sku">
+            <div id="sku_unit" class="sku_unit choicebox clearfix"> 
+            <!-- {* 开始循环所有可选属性 *} --> 
+            <!-- {foreach from=$specification item=spec key=spec_key} --> 
+            <!-- {if $spec.attr_type eq 1} -->
+            
+            <dl id="tasteList" class="tastelist clearfix">
+              <dt id="tasteAttrName">{$spec.name}</dt>
+              <dd>
+                <div class="tastebox">
+                  <ul class="clearfix">
+                    <!-- {foreach from=$spec.values item=value key=key} -->
+                    <li {if $key eq 0}class="selected"{/if}>{$value.label}
+                      <input id="spec_value_{$value.id}" style="display:none;" type="radio" name="spec_{$spec_key}" value="{$value.id}" {if $key eq 0}checked{/if} />
+                      <div class="lion">已选中</div>
+                    </li>
+                    <!-- {/foreach} -->
+                  
+                  </ul>
+                </div>
+              </dd>
+            </dl>
+            <!-- {else} -->
+            
+            <dl id="tasteList" class="tastelist2 clearfix">
+              <dt id="tasteAttrName">{$spec.name}</dt>
+              <dd>
+                <div class="tastebox">
+                  <ul class="clearfix">
+                    <!-- {foreach from=$spec.values item=value key=key} -->
+                    <li>
+                      <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+                      {$value.label} </li>
+                    <!-- {/foreach} -->
+
+                  </ul>
+                </div>
+              </dd>
+            </dl>
+            
+            <!-- {/if} --> 
+        
+            <!-- {/foreach} --> 
+            <!-- {* 结束循环可选属性 *} --> 
+          </div>
+          
+          </div>
+           
+            
+            <div style="width:268px; padding:0 10px; line-height:23px;">
+            <div style="display:none;">
+      {$lang.gb_price_ladder}<br />
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+       <tr>
+          <th width="29%" bgcolor="#FFFFFF">{$lang.gb_ladder_amount}</th>
+         <th width="71%" bgcolor="#FFFFFF">{$lang.gb_ladder_price}</th>
+        </tr>
+        <!-- {foreach from=$group_buy.price_ladder item=item} -->
+        <tr>
+          <td width="29%" bgcolor="#FFFFFF">{$item.amount}</td>
+         <td width="71%" bgcolor="#FFFFFF">{$item.formated_price}</td>
+        </tr>
+        <!-- {/foreach} -->
+      </table>
+     </div>
+
+      <!-- {if $group_buy.status eq 0} 未开始 -->
+      {$lang.gbs_pre_start}
+      <!-- {elseif $group_buy.status eq 1} 进行中 -->
+      <font class="f4" style="font-size:20px;">
+      <span id="leftTime"  >{$lang.please_waiting}</span></font><br />
+      <!-- {elseif $group_buy.status eq 2} 已结束 -->
+      {$lang.gbs_finished} {$lang.gb_cur_price} {$group_buy.formated_cur_price} {$lang.gb_valid_goods} {$group_buy.valid_goods}
+      <!-- {elseif $group_buy.status eq 3} 团购成功 -->
+      {$lang.gbs_succeed}
+      {$lang.gb_final_price} {$group_buy.formated_trans_price}<br />
+      {$lang.gb_final_amount} {$group_buy.trans_amount}
+      <!-- {elseif $group_buy.status eq 4} 团购失败 -->
+      {$lang.gbs_fail}
+      <!-- {/if} -->
+      </div><strong><span id="buyCount">{$group_buy.valid_goods}</span></strong>人已<span id="goumai">购买</span>
+          
+            </div>
+       
+          </div>
+        </form>
+      </div>
+      
+      
+      <div class="grouDetailCon mt" style=" text-align:left">
+        <ul id="grouDetailTab" class="grouDetailTab clearfix">
+          <li class="cur">商品详情</li>
+          <li><span>商品评价</span></li>
+        </ul>
+        <div class="grouDetailConMod grouDetailConFullinfo" style="display:block;"> {$gb_goods.goods_desc} </div>
+        <div class="goods_club_comment_id" style="display:none; margin-top:15px"> 
+        <div class="comment_mod">
+          <div class="chart">
+            <div class="top_con clearfix">
+              <div class="score_num">
+                <p class="progress"> <strong>{$comment_percent.haoping_percent}<span>%</span></strong> 好评 </p>
+                <p class="num">共有<span>{$comment_percent.comment_count}</span>人参与评分</p>
+              </div>
+              <div class="evaluate_con clearfix">
+                <ul>
+                  <li> <span class="icon face1"></span> <span class="per"> <i class="p1" style="width:{$comment_percent.haoping_percent}%;"></i> </span> <span class="text">{$comment_percent.haoping_percent}%好评</span> </li>
+                  <li> <span class="icon face2"></span> <span class="per"> <i class="p2" style="width:{$comment_percent.zhongping_percent}%;"></i> </span> <span class="text">{$comment_percent.zhongping_percent}%中评</span> </li>
+                  <li> <span class="icon face3"></span> <span class="per"> <i class="p3" style="width:{$comment_percent.chaping_percent}%;"></i> </span> <span class="text">{$comment_percent.chaping_percent}%差评</span> </li>
+                </ul>
+              </div>
+              <div class="text_con"> <span class="tc">
+                <p>{if $factor eq 0}所有用户都可以对该商品<br /><a href="javascript:void(0);" class="open_comment">【发表评论】</a>{elseif $factor eq 1}只有登陆的用户才可以对该商品<br /><a href="javascript:void(0);" class="open_comment">【发表评论】</a>{elseif $factor eq 2}在本站购买过一次其他商品的用户才可以对该商品<br /><a href="javascript:void(0);" class="open_comment">【发表评论】</a>{elseif $factor eq 3}购买过此{$goods_name}的顾客，在收到商品才可以对该商品<br /><a href="javascript:void(0);" class="open_comment">【发表评论】</a>{/if}</p>
+                </span> </div>
+            </div>
+          </div>
+          <!-- #BeginLibraryItem "/library/comments.lbi" --> {insert_scripts files='transport.js,utils.js'}
+          <div id="ECS_COMMENT"> {* ECSHOP 提醒您：动态载入comments_list.lbi，显示评论列表和评论表单 *}{insert name='comments' type=$type id=$id}</div>
+          <!-- #EndLibraryItem --> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Div>
+</div>
+<div style=" clear:both; margin-top:20px"></div>
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+$(function(){
+	$("#grouDetailTab li").click(function(){
+		var a = $("#grouDetailTab li")
+		var b = a.index($(this));
+		a.removeClass("cur");
+		$(this).addClass("cur");
+		
+		if(b == 0)
+		{
+			$(".goods_club_comment_id").hide();
+			$(".grouDetailConFullinfo").show();
+		}
+		else
+		{
+			$(".grouDetailConFullinfo").hide();
+			$(".goods_club_comment_id").show();
+		}		
+	})
+	
+	
+	//商品详情页数量
+	$("#product_amount").keyup(function(){
+		var a = $("#product_amount").val();
+		if(a < 1)
+		{
+			alert("最小购买数量为1件")	
+		}
+		else if(a == 1)
+		{
+			if($(".no_reduce").length < 1)
+			{
+				$(".reduce").removeClass("reduce").addClass("no_reduce");
+			}
+		}
+		else
+		{
+			$(".no_reduce").removeClass("no_reduce").addClass("reduce");
+		}
+		
+	})
+	
+	if($("#product_amount").val() > 1)
+	{
+		$(".no_reduce").removeClass("no_reduce").addClass("reduce");
+		
+	}
+	
+	$(".add").click(function(){
+		var a = $("#product_amount").val();
+		a++;
+		$("#product_amount").val(a);
+		if(a > 1)
+		{
+			$(".no_reduce").removeClass("no_reduce").addClass("reduce");
+		}
+		
+	})
+	
+	$("#reduce_btn").click(function(){
+		var a = $("#product_amount").val();
+		a--;
+		if(a < 2)
+		{
+			$("#product_amount").val(1);
+			$(this).removeClass("reduce").addClass("no_reduce");
+		}
+		else
+		{
+			$("#product_amount").val(a);	
+		}
+	
+	})
+})
+var gmt_end_time = "{$group_buy.gmt_end_date|default:0}";
+{foreach from=$lang.goods_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var now_time = {$now_time};
+<!-- {literal} -->
+
+onload = function()
+{
+  try
+  {
+    onload_leftTime();
+  }
+  catch (e)
+  {}
+}
+<!-- {/literal} -->
+</script>
+</html>

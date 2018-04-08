@@ -1,0 +1,35 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $promotion_goods} -->
+<div class="f-side">
+	<ul class="sale-activity-list">
+    	<li>{insert name='ads' id=134 num=1}</li>
+        <li>{insert name='ads' id=135 num=1}</li>
+        <li>{insert name='ads' id=136 num=1}</li>
+        <li>{insert name='ads' id=137 num=1}</li>
+    </ul>
+</div>
+<div class="f-show-wrap clearfix">
+	<div class="show-body">
+    	<div class="show-item on-sale-box">
+        	<ul class="mod-goods-list">
+            	<!--{foreach from=$promotion_goods item=goods }-->
+            	<li class="mod-item">
+                	<a class="pic"  target="_blank" href="{$goods.url}">
+        						<img width="174" height="174" src="{$goods.thumb}">
+        					</a>
+                  <div class="info">
+                  	<p class="brand-name" style=" width:215px; overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">
+                      	{$goods.goods_style_name}
+                      </p>
+                      <div class="price">
+          							<strong class="redness">限时特惠：{$goods.promote_price}</strong>
+          							<s>{$goods.market_price}</s>
+          						</div>
+                  </div>
+              </li>
+              <!--{/foreach}-->
+           </ul>
+        </div>
+    </div>
+</div>
+<!-- {/if} -->

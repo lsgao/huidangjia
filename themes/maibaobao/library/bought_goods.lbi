@@ -1,0 +1,27 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<!-- {if $bought_goods} -->
+<h4 class="side-mod-hd">买过本商品的用户还买过</h4>
+<div class="side-mod-bd">
+	<ul class="side-mod-list">
+    	<!--{foreach from=$bought_goods item=bought_goods_data}-->
+        <li>
+        	<a href="{$bought_goods_data.url}" target="_blank"><img width="174" height="174" alt="{$bought_goods_data.goods_name}" src="{$bought_goods_data.goods_thumb}"></a>
+            <div style="padding:5px 10px;text-align:left;">
+            	<a href="{$bought_goods_data.url}" title="{$bought_goods_data.goods_name}" target="_blank">{$bought_goods_data.goods_name}</a>
+            </div>
+            <div class="price">
+                <strong class="red">
+            		<!-- {if $bought_goods_data.promote_price neq 0} --> 
+          			{$bought_goods_data.formated_promote_price} 
+          			<!-- {else} --> 
+          			{$bought_goods_data.shop_price} 
+          			<!-- {/if} -->
+                    <s style="padding-left:10px;color:#898989">{$bought_goods_data.market_price}</s>
+                </strong>
+            </div>
+        </li>
+        <!-- {/foreach} -->
+    </ul>
+</div>
+<!-- {/if} -->

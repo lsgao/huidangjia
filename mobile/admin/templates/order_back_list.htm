@@ -1,0 +1,82 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<!-- 订单搜索 -->
+<div class="form-div">
+  <form action="order.php" name="searchForm" method="get">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    退换货号<input name="back_sn" type="text" id="back_sn" size="15">
+    订单号<input name="order_sn" type="text" id="order_sn" size="15">
+    快递单号<input name="invoice_no" type="text" id="invoice_no" size="15">
+    状态<select name="status"><option value="0">--选择状态--</option><option value="2">待审核</option><option value="3">已收货</option><option value="4">已退款</option><option value="5">未通过审核</option></select>
+    	<input type="hidden" name="act" value="list_back" />
+    <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+
+<!-- 订单列表 -->
+  <div class="list-div" id="listDiv">
+{/if}
+
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      退换货单号    
+    </th>
+    <th>订单号</th>
+    <th>快递公司</th>
+    <th>快递单号</th>
+    <th>类别</th>
+    <th>申请时间</th>
+    <th>审核状态</th>
+  <tr>
+  {foreach from=$order_back_list item=back key=dkey}
+  <tr>
+    <td align="center" valign="top" nowrap="nowrap">{$back.back_sn}</td>
+    <td align="center" valign="top">{$back.order_sn}<br /></td>
+    <td align="center" valign="top" nowrap="nowrap">{$back.shipping_name}</td>
+    <td align="center" valign="top" nowrap="nowrap">{$back.invoice_no}</td>
+    <td align="center" valign="top"><a href="mailto:{$back.email}"> {$back.case}</a></td>
+    <td align="center" valign="top" nowrap="nowrap">{$back.add_time}</td>
+    <td align="center" valign="top"  nowrap="nowrap">
+    <!--{if $back.status == 1 || $back.status == 2}-->	
+        待审核 <a href="order.php?act=order_back_detail&back_sn={$back.back_sn}">查看详情</a> <a href="javascript:if(confirm('真的确定已经收到寄回的商品吗？')){window.location.href='order.php?act=pase_back&back_sn={$back.back_sn}'}">确认收货</a> <a href="javascript:if(confirm('真的确定取消本次申请吗？')){window.location.href='order.php?act=stop_back&back_sn={$back.back_sn}'}">拒绝申请</a>
+    <!--{elseif $back.status == 3}-->
+        <font color="#FF0000">已收货</font> <a href="order.php?act=order_back_detail&back_sn={$back.back_sn}">去退款</a>
+    <!--{elseif $back.status == 4}-->
+        <font color="#FF0000">已退款</font> <a href="order.php?act=order_back_detail&back_sn={$back.back_sn}">查看详情</a>
+    <!--{else}-->
+        <font color="#FF0000">审核未通过</font> <a href="order.php?act=order_back_detail&back_sn={$back.back_sn}">查看详情</a>
+    <!--{/if}-->     
+    </td>
+  </tr>
+  {/foreach}
+</table>
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true" style="padding:8px 10px">
+     
+      {insert_scripts files="../js/utils.js"}
+      <div id="turn-page">
+        {$lang.total_records} <span id="totalRecords">{$record_count}</span>
+        {$lang.total_pages} <span id="totalPages">{$page_count}</span>
+        {$lang.page_current} <span id="pageCurrent">{$filter.page}</span> 页 
+        <span id="page-link">
+          <a href="order.php?act=list_back&back_sn={$back_sn}&order_sn={$order_sn}&invoice_no={$invoice_no}&status={$status}&page=1">{$lang.page_first}</a>
+          <a href="order.php?act=list_back&back_sn={$back_sn}&order_sn={$order_sn}&invoice_no={$invoice_no}&status={$status}&page={$prev_page}">{$lang.page_prev}</a>
+          <a href="order.php?act=list_back&back_sn={$back_sn}&order_sn={$order_sn}&invoice_no={$invoice_no}&status={$status}&page={$next_page}">{$lang.page_next}</a>
+          <a href="order.php?act=list_back&back_sn={$back_sn}&order_sn={$order_sn}&invoice_no={$invoice_no}&status={$status}&page={$page_count}">{$lang.page_last}</a>
+        </span>
+      </div>
+
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+  </div>
+  <div>
+{include file="pagefooter.htm"}
+{/if}

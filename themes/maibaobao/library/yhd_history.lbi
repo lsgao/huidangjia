@@ -1,0 +1,10 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div id="browseHistory" class="browse_related_left">
+  <h4>浏览记录</h4>
+  <div class="paging"><a href="javascript:void(0);" class="prev prev_clickable"></a><em class="pageState"></em><a href="javascript:void(0);" class="next next_clickable"></a></div>
+  <div class="paging_wrap browse_history_wrap">
+    <ul style="margin-left: 0px;" class="browse_history_con clearfix">
+      {insert name='yhd_history'}
+    </ul>
+  </div>
+</div>

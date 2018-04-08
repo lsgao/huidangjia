@@ -1,0 +1,49 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{insert_scripts files='public.js'}
+{if $index_user_info}
+<div class="index-login-head">
+	<div class="user-head">
+		<img width="50" height="50" alt="" src="images/maiduo.png">
+	</div>
+    <div class="user-info">
+    	<div class="welcome-remark">您好，{$index_user_info.username}！欢迎来到好舒服sofusofo</div>
+        <div class="btn-user-box clearfix">
+            <a class="btn-collect" onclick="AddFavorite('我的网站',location.href)" href="javascript:void(0);">收藏</a>
+		</div>
+    </div>
+    <div class="user-operate">
+    	<ul class="operate-links">
+        	<li>
+				<a class="operate-receiving" target="_blank" href="user.php?act=bonus">我的红包</a>
+			</li>
+			<li>
+				<a class="operate-pay" target="_blank" href="user.php?act=order_list">我的订单</a>
+			</li>
+			<li class="last">
+				<a class="operate-comment" target="_blank" href="user.php?act=comment_list">我的评论</a>
+			</li>
+        </ul>
+    </div>
+</div>
+
+{else}
+<div class="index-nologin-head">
+	<div class="user-head">
+		<img width="50" height="50" alt="" src="images/maiduo.png">
+	</div>
+    <div class="user-info">
+	<div class="welcome-remark">hi，您好！欢迎来到好舒服sofusofo</div>
+		<a class="go-userwelfare" target="_blank" href="user.php">请您登录</a>
+	</div>
+    <div class="user-operate">
+    	<ul class="operate-links">
+			<li style="width:110px;">
+				<a class="operate-register" target="_blank" href="user.php?act=register">新用户注册</a>
+			</li>
+			<li class="last">
+				<a class="operate-userhelp" target="_blank" href="http://114.55.72.193/article.php?id=54">新手帮助</a>
+			</li>
+		</ul>
+    </div>
+</div>
+{/if}

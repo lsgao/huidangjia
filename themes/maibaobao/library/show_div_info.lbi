@@ -1,0 +1,11 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="alt_succ_box">
+<div class="sum">
+<span class="conticon"></span>
+<span class="succ_close"></span>
+<h6>该商品已成功放入购物车</h6>
+<p>购物车共<span id="alt_num">{$goods_number}</span>件商品</p>
+<p><a style="color:#fff;" class="contpay" href="flow.php">去购物车结算</a><a style="color:#ca1728;" class="contgo" href="javascript:void(0);">&lt;&lt; 继续购物</a></p><div class="clear"></div><p></p>
+</div>
+</div>
+</div>

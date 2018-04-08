@@ -1,0 +1,184 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="guide-links clearfix">
+  <div class="links-wrap"> 
+    <!--{foreach from=$categories item=cat name=no}--> 
+    <div class="links-b " <!--{if $smarty.foreach.no.last}-->style="margin-right:0px"<!--{/if}-->>
+    <h4 class="l-title">{$cat.name|escape:html}</h4>
+    <div class="l-list">
+      <p> 
+        <!--{foreach from=$cat.cat_id item=child name=no1}--> 
+        <a href="{$child.url}">{$child.name|escape:html}</a> | 
+        <!--{/foreach}--> 
+      </p>
+    </div>
+    <div class="l-btn"> <a target="_blank" href="{$cat.url}"> 查看所有{$cat.name|escape:html} <i></i> </a> </div>
+  </div>
+  <!--{/foreach}--> 
+</div>
+</div>
+<div class="subscribe clearfix">
+  <div class="sub-wrap clearfix" style="display:none;">
+    <div class="email-sub"> <span class="sub-name">邮箱订阅</span>
+      <form id="edm-form" class="sub-form" method="post">
+        <input type="text" id="user_email" class="subtext" />
+        <input type="button" class="subbtn" value="{$lang.email_list_ok}" onclick="add_email_list();" />
+      </form>
+    </div>
+    <div class="code-sub"></div>
+    <div class="follow-us follow-link">
+      <h3></h3>
+      <a class="f-weixin" href="javascript:void(0);"> <span class="mbb-weixin"> <img src="images/weixin.png"> </span> </a> <a class="f-weibo-t" target="_blank" href="#"></a> <a class="f-weibo" target="_blank" href="#"></a> </div>
+  </div>
+  <div class="bottom-ico"> {insert name='ads_no_href' id=147 num=1} </div>
+  <script type="text/javascript">
+var email = document.getElementById('user_email');
+function add_email_list()
+{
+  if (check_email())
+  {
+    Ajax.call('user.php?act=email_list&job=add&email=' + email.value, '', rep_add_email_list, 'GET', 'TEXT');
+  }
+}
+function rep_add_email_list(text)
+{
+  alert(text);
+}
+function cancel_email_list()
+{
+  if (check_email())
+  {
+    Ajax.call('user.php?act=email_list&job=del&email=' + email.value, '', rep_cancel_email_list, 'GET', 'TEXT');
+  }
+}
+function rep_cancel_email_list(text)
+{
+  alert(text);
+}
+function check_email()
+{
+  if (Utils.isEmail(email.value))
+  {
+    return true;
+  }
+  else
+  {
+    alert('{$lang.email_invalid}');
+    return false;
+  }
+}
+</script> 
+</div>
+<div class="footer" style=" margin-top:30px"> 
+  <!--{if $helps}-->
+  <div class="footer-menu clearfix"> 
+    <!-- {foreach from=$helps item=help_cat name=foo} -->
+    <dl>
+      <dt><a href='{$help_cat.cat_id}' title="{$help_cat.cat_name}">{$help_cat.cat_name}</a></dt>
+      <!-- {foreach from=$help_cat.article item=item name=no} --> 
+      <!-- {if $smarty.foreach.no.iteration<4}-->
+      <dd><a href="{$item.url}" target="_blank" title="{$item.title|escape:html}">{$item.short_title}</a></dd>
+      <!--{/if}--> 
+      <!-- {/foreach} -->
+    </dl>
+    <!-- {/foreach} -->
+    <div class="tel-us"> 
+    <!-- QQ 号码 {foreach from=$qq item=im} --><!-- {if $im} --><a class="online-link" href="http://crm2.qq.com/page/portalpage/wpa.php?uin={$im}&aty=0&a=0&curl=&ty=1" target="_blank"> <i></i> <span>在线客服</span> </a><!--{/if}--><!-- {/foreach} -->
+    </div>
+  </div>
+  <!--{/if}-->
+  <div class="copyright" style="padding-top:20px;padding-bottom:50px">
+     <span style="font-size: larger;color: #333333">上海好舒服股份电子商务有限公司 版权所有</span>
+     <div style="height: 40px;display: block;">
+       <a href="http://218.242.124.22:8081/businessCheck/verifKey.do?showType=extShow&serial=9031000020160416164751000000599093-SAIC_SHOW_310000-20160908180257210998&signData=MEYCIQDrFtHnSaJDFSL0dxorBZIX+fUBt3L4Hem2d20AV+PFsAIhAO8N5e0qye8DLBwfkt4mg57VyvNErayXGfcMxAVqCWwh" target="_blank" ><img src="images/footer_icon1.png" border="0" style="width:36px;height:33px;position: absolute;"/></a>
+       <span style="font-size: larger;padding-left: 36px;height: 40px;color: #333333;height:66px;line-height:40px;">沪公网安备  沪ICP备16014019号-1</span>
+     </div>
+  </div>
+</div>
+<div class="fb-side" style="top:20%;right:100px;">
+  <img src="images/kefu_right.png">
+  <!-- {if $smarty.session.user_id gt 0}-->
+  <a href="user.php?act=user_shop" target="_blank" ><img src="images/shangjia_right.png"></a>
+  <!-- {else}-->
+  <a href="user.php?act=user_shop_register" target="_blank" ><img src="images/shangjia_right.png"></a>
+  <!-- {/if}-->
+  <a href="http://crm2.qq.com/page/portalpage/wpa.php?uin={$im}&aty=0&a=0&curl=&ty=1" target="_blank" ><img src="images/qq_right.png"></a>
+  <img src="images/weixin_right.png">
+</div>
+<div class="fb-side" style="top:20%;left: 20px;">
+  <img src="images/kefu_left.png">
+  <!-- {if $smarty.session.user_id gt 0}-->
+  <a href="user.php?act=user_shop" target="_blank" ><img src="images/shangjia_left.png"></a>
+  <!-- {else}-->
+  <a href="user.php?act=user_shop_register" target="_blank" ><img src="images/shangjia_left.png"></a>
+  <!-- {/if}-->
+  <a href="http://crm2.qq.com/page/portalpage/wpa.php?uin={$im}&aty=0&a=0&curl=&ty=1" target="_blank" ><img src="images/qq_left.png"></a>
+  <img src="images/weixin_left.png">
+</div>
+<script>
+$(function(){
+  isIe6 = false;
+  
+  if ('undefined' == typeof(document.body.style.maxHeight)) {
+    isIe6 = true;
+  }
+
+  var offset = $(".gotop").offset();    
+  var bottom = $(".gotop").css("bottom");   
+  $(window).scroll(function(){
+    if ($(window).scrollTop() > 0){
+      $(".gotop").fadeIn(800);
+      
+      if(isIe6)
+      {     
+        $(".gotop").css("position","absolute")  
+        $(".gotop").css("bottom",bottom)
+      }
+    }
+    else
+    {
+      $(".gotop").fadeOut(500);
+    }
+    
+  });
+  
+  $(".gotop").click(function(){
+    $('body,html').animate({scrollTop:0},0);
+    return false;
+  });
+  
+  $(".fb-side li a").mouseover(function(){
+    $(this).addClass("hover") 
+  });
+  $(".fb-side li a").mouseout(function(){
+    $(this).removeClass("hover")  
+  });
+
+})
+</script>
+<style>
+.fb-side{width:65px;z-index:10002;position:fixed;_position:absolute}
+.fb-side li{position:relative;height:65px;margin-top:2px;text-align:right;cursor:pointer}
+/*.fb-side a{position:absolute;width:64px;height:64px;overflow:hidden;display:block;right:0;border:1px solid #000000;background-color:#626464;zoom:1}*/
+.fb-side .hover{background-color:#fff;border-color:#ddd}
+.fb-side .hover span{color:#000000}
+.fb-side span{display:block;position:absolute;color:#000;bottom:3px;height:20px;width:64px;text-align:center;line-height:20px;cursor:pointer;left:0}
+.fb-side i{display:block;width:35px;height:35px;position:absolute;right:14px;top:7px;font-size:0;line-height:0;zoom:1;cursor:pointer;}
+.fb-side .gotop i{background-position:-104px 0}
+.fb-side .gotop .hover i{background-position:-104px -35px}
+.fb-side .cart i{background-position:3px 0}
+.fb-side .cart .hover i{background-position:3px -35px}
+.fb-side .chat i{background-position:-34px 0}
+.fb-side .chat .hover i{background-position:-34px -35px}
+.fb-side .qrcode i{background-position:-69px 0}
+.fb-side .qrcode .hover i{background-position:-69px -35px}
+.fb-side .qrcode .js-hover-show{position:absolute;right:65px;/**+right:300px;*/ bottom:0px;display:none}
+.fb-side .qrcode .hover .js-hover-show{display:block}
+.fb-side .qrcode a{right:1px}
+.fb-side-min{width:42px;right:6px;bottom:6px}
+.fb-side-min li{width:42px;height:42px}
+.fb-side-min a{width:40px;height:40px;border-radius:3px}
+.fb-side-min i{top:2px;left:2px}
+.fb-side-min span{display:none}
+.fb-side-min .qrcode .js-hover-show{top:-212px;left:-236px}
+</style>
+

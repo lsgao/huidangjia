@@ -1,0 +1,46 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="min-cart-btn">
+  <i></i>
+    <a class="mini_cart_btn" href="./flow.php">购物车</a>
+    <div class="cart-count bounce">
+		<span class="cart-count-wrap">
+			<em id="in_cart_num">{$number}</em>
+		</span>
+	</div>
+</div>
+<span class="outline"></span>
+<div class="cart-list" id="showMiniCart">
+	{if $number > 0}
+    <dl>
+    	{foreach from=$goods item=goods}
+    	<dd onMouseOver="$(this).addClass('over');" onMouseOut="$(this).removeClass('over');">
+        	<div class="goods-item">
+            	<div class="g-pic">
+                	<a href="{$goods.url}" traget="_blank"><img src="{$goods.goods_thumb}" alt="{$goods.goods_name}" width="50" height="50"></a>
+                </div>
+                <div class="g-info">
+                	<p class="name">
+                    	<a href="{$goods.url}" traget="_blank" style="color:#000000">{$goods.short_name}</a>
+                    </p>
+                    <p class="num-pos">{$goods.goods_number}</p>
+                    <p class="price-pos">{$goods.goods_price}</p>
+                    <p class="del-pos">
+                    	<a href="javascript:void(0)" onClick="deleteCartGoods({$goods.rec_id})" class="del">删除</a>
+                    </p>
+                </div>
+            </div>
+        </dd>
+        {/foreach}
+    </dl>
+    <div class="cart-total">
+        <a class="go-checkout" href="./flow.php">去购物车结算</a>
+    </div>
+    {else}
+	<p class="min-cart-empty">您的购物车中没有商品，先去选购吧！</p>
+    {/if}
+</div>
+
+
+
+<div class="ap_shopping_warning"></div>
+

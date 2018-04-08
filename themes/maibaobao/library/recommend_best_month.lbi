@@ -1,0 +1,25 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- {if $best_goods} -->
+<div class="mod-goods-wrap">
+	<ul class="mod-goods-list currstage-list">
+    	<!--{foreach from=$best_goods item=goods}-->
+    	<li class="mod-item">
+        	<a class="pic" target="_blank" href="{$goods.url}">
+    				<img width="174" height="174" title="{$goods.goods_style_name}" alt="" src="{$goods.thumb}">
+    			</a>
+          <div class="info">
+            <p class="name">{$goods.goods_style_name}</p>
+    				<span class="price">
+    					<!-- {if $goods.promote_price neq ""} -->
+            			{$goods.promote_price}
+            			<!-- {else}-->
+            			{$goods.shop_price}
+            			<!--{/if}-->
+    					<s>{$goods.market_price}</s>
+    				</span>
+    			</div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+</div>
+<!-- {/if} -->

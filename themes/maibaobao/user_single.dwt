@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable --><!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,user.js'}
+
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<!-- 表单 start -->
+<div class="container" style=" display:block; margin:0; text-align:left">
+
+       <form action="" method="post" name="single_form" enctype="multipart/form-data" onSubmit="return checkSingle();">
+       
+	          <div class="edit_area">
+                   <table>
+                            
+                           <tr>
+                           
+                                <td class="r">订单列表：</td>
+                                
+                                <td>
+                                
+                	                 <select name="order_id" id="order_id" class="s_title">
+                                     
+                	                          <!-- {foreach from=$orders item=order} -->
+                                              
+                		                       <option {if $order.order_id eq $oid}selected{/if} value="{$order.order_id}|{$order.goods_id}">{$order.goods_name}</option>
+                                               
+                	                           <!-- {/foreach} -->
+                                               
+                	                 </select>
+                    
+                                </td>
+                
+                           </tr>
+            
+                           <tr>
+                           
+                                <td class="r">标题：</td>
+                                
+                                <td>
+                                
+                                      <input type="text" name="title_sn" value="请输入标题，最长30字" id="title_sn" class="s_title" onclick="javascript:if(this.value == '请输入标题，最长30字') this.value=''" style=" color:#bababa">
+                                
+                                </td>
+                                
+                           </tr>
+            
+                           <tr>
+                           
+                                <td class="r">描述：</td>
+                                
+                                <td>
+                                
+                                      <textarea name="desc_sn" rows="5" id="desc_sn" class="s_desc" onclick="javascript:if(this.value == '请输入描述，最长500字') this.value=''" style=" color:#bababa">请输入描述，最长500字</textarea>
+                                
+                                </td>
+                                
+                           </tr>
+            
+                           <tr>
+                           
+                                <td class="r">图片列表：</td>
+                                    
+		                        <td><table id="gallery-table" style="display:block; width:250px" align="left">
+		          <!-- 上传图片 -->
+		          <tr>
+		            <td>
+		              <a href="javascript:;" onclick="addImg(this)">[+]</a>
+              			<input type="hidden" name="img_desc[]" size="20" />
+              			<input type="file" name="img_url[]" />
+		              <input type="hidden" size="40" value="http://" style="color:#aaa;" name="img_file[]"/>
+		            </td>
+		          </tr>
+		        </table></td>
+               
+                           </tr>
+           
+                   </table>
+                   
+                   <div style=" width:580px; margin:0 auto; padding-left:170px; padding-bottom:28px">
+                               
+		        	            
+                                             
+			                           <input type="submit" value="立即发布" class="button" style=" background:url(images/show_fabu.gif) no-repeat; width:80px; height:27px; border:none; cursor:pointer; float:left" />
+                                                   
+			                           <input type="reset" value="重新填写" class="button" style=" background:url(images/show_delete.gif) no-repeat; width:80px; height:27px; border:none; cursor:pointer; float:left; margin-left:25px; display:inline" />
+                                                   
+				                       <input type="hidden" name="act" value="single_sun_insert" />
+                                                   
+			                  
+              
+                  </div>
+        
+            </div>
+	
+       </form>
+
+</div>
+<!-- 表单 end -->
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+{foreach from=$lang.clips_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+</html>
+<script type="text/javascript">
+	  /**
+   * 新增一个图片
+   */
+  function addImg(obj)
+  {
+      var src  = obj.parentNode.parentNode;
+      var idx  = rowindex(src);
+      var tbl  = document.getElementById('gallery-table');
+      var row  = tbl.insertRow(idx + 1);
+      var cell = row.insertCell(-1);
+      cell.innerHTML = src.cells[0].innerHTML.replace(/(.*)(addImg)(.*)(\[)(\+)/i, "$1removeImg$3$4-");
+  }
+
+  /**
+   * 删除图片上传
+   */
+  function removeImg(obj)
+  {
+      var row = rowindex(obj.parentNode.parentNode);
+      var tbl = document.getElementById('gallery-table');
+
+      tbl.deleteRow(row);
+  }
+
+  /**
+   * 删除图片
+   */
+  function dropImg(imgId)
+  {
+    Ajax.call('goods.php?is_ajax=1&act=drop_image', "img_id="+imgId, dropImgResponse, "GET", "JSON");
+  }
+
+  function dropImgResponse(result)
+  {
+      if (result.error == 0)
+      {
+          document.getElementById('gallery_' + result.content).style.display = 'none';
+      }
+  }
+
+
+  function checkSingle()
+	{
+		if(document.getElementById('order_id').value == "")
+		{
+			alert('请选择订单');
+			return false;
+		}
+		
+		if(document.getElementById('title_sn').value == "" || document.getElementById('title_sn').value == "请输入标题，最长30字")
+		{
+			alert('请填写晒单标题');
+			return false;
+		}
+
+		if(document.getElementById('desc_sn').value == "" || document.getElementById('title_sn').value == "请输入描述，最长500字")
+		{
+			alert('请填写晒单描述');
+			return false;
+		}
+
+	}
+  
+</script>

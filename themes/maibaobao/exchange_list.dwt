@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+<style>
+	.layout_search_sidebar {
+    color: #333;
+    float: left;
+    font-family: Arial;
+    width: 205px;
+}
+.w1200 .layout_search_main {
+    width: 985px;
+}
+.mt {
+    margin-top: 10px;
+}
+.layout_search_main {
+    color: #333;
+    float: right;
+    font-family: Arial;
+}
+.w1200 .wrap {
+    width: 1200px;
+}
+.wrap {
+    margin: 0 auto;
+}
+.search_title {
+    background: #fafafa;
+    border: 1px solid #e9e9e9;
+    font-family: "microsoft yahei";
+    font-size: 14px;
+    font-weight: normal;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 10px 0 25px;
+}
+.mod_search_sidlist .sidlist_box{
+	border:1px solid #eaeaea;
+	padding:10px; 20px
+	}
+	.mod_search_crumb {
+    background: #fff;
+    border-bottom: 1px solid #eaeaea;
+    border-top: 3px solid #ff4646;
+    font-family: "Microsoft Yahei";
+    height: 40px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 31;
+}
+.search_page h3 {
+    background: none repeat scroll 0 0 #fff;
+    font-weight: normal;
+    height: 40px;
+    line-height: 40px;
+}
+.mod_search_list {
+    margin-top: 10px;
+    position: relative;
+    z-index: 20;
+}
+.mod_search_list .search_item {
+    border-bottom: 1px solid #eaeaea;
+    border-right: 1px solid #eaeaea;
+    float: left;
+    height: 410px;
+    overflow: hidden;
+    position: relative;
+    width: 245px;
+    z-index: 20;
+}
+.mod_search_list .search_item .search_item_box {
+    background-color: #fff;
+    border: 1px solid #f5f5f5;
+    height: 380px;
+    left: -10px;
+    padding: 30px 33px 0;
+    position: absolute;
+    top: -1px;
+    width: 200px;
+}
+.mod_search_list .search_item .search_item_box {
+    transition: box-shadow 0.5s ease 0s;
+}
+.w1200 .mod_search_list .search_item .search_item_box {
+    padding: 30px 29px 0;
+}
+.mod_search_list .search_prod_img {
+    display: block;
+    padding-bottom: 14px;
+    position: relative;
+    z-index: 30;
+}
+.mod_search_list .pricebox, .mod_book_list .book_buy .pricebox {
+    line-height: 16px;
+    padding-bottom: 7px;
+}
+.mod_search_list .title {
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+    word-break: break-all;
+}
+.comment {
+    line-height: 12px;
+    padding: 9px 0 14px;
+}.mod_search_list .item_promotion_text {
+    box-shadow: 0 1px 1px rgba(100, 100, 100, 0.1) inset;
+    height: 35px;
+    left: 50%;
+    margin-left: -100px;
+    overflow: hidden;
+    padding: 2px 10px 0;
+    position: absolute;
+    top: 200px;
+    width: 180px;
+    z-index: 31;
+}
+:root .mod_search_list .item_promotion_text {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.btn_small {
+	background: url(images/bgAddressNew.png) no-repeat 0 -23px rgba(0, 0, 0, 0);
+	border: medium none;
+	color: #fff;
+	cursor: pointer;
+	display: inline;
+	height: 26px;
+	width: 100px;
+}
+</style>
+</head>
+<body  class="is-wide w1200">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> {insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div id="searchwrap" class="searchwrap wrap">
+  <div class="clearfix">
+    <div class="layout_search_sidebar" id="searchColSub"> 
+      <!--left start-->
+      <div class="searchLeftBanner"> <!-- TemplateBeginEditable name="左边区域" -->
+<!-- #BeginLibraryItem "/library/exchange_hot.lbi" -->
+
+<!-- {if $hot_goods}-->
+
+<div id="pms_searchlook" class="mod_search_sidlist mt clearfix">
+  <h2 class="search_title">精品推荐</h2>
+  <div class="sidlist_box">
+    <ul>
+      <!--{foreach from=$hot_goods item=goods}-->
+      <li> <a target="_blank" class="pro_img" title="{$goods.name|escape:html}" href="{$goods.url}"> <img src="{$goods.thumb}" width="115" height="115"><sup class="ico_search_list">精品</sup></a>
+        <p class="pirce"> <span class="color_red">
+          <!-- {if $goods.promote_price neq ""} -->
+          {$goods.promote_price}
+          <!-- {else}-->
+          {$goods.shop_price}
+          <!--{/if}-->
+          </span> </p>
+        <p class="name"> <a target="_blank" href="{$goods.url}" class="name">{$goods.short_style_name}</a> </p>
+      </li>
+      <!--{/foreach}-->
+    </ul>
+  </div>
+</div>
+
+<!-- {/if} -->
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --> </div>
+      <!--left end--> 
+    </div>
+    <!--right start-->
+    
+    <div class="layout_search_main mt" id="bodyRight" style=" text-align:left"> <!-- #BeginLibraryItem "/library/exchange_list.lbi" --><!-- #EndLibraryItem --> 
+      <div id="plist"> <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> </div>
+    </div>
+    
+    <!--right end--> 
+    
+  </div>
+</div>
+
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

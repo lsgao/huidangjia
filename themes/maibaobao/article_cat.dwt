@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+
+</head><body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> {insert_scripts files='yhd_category.js'} <!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="container_bg">
+	<div class="helpctrcontainer">
+    	<div class="helpsearchtool">
+        	<div class="searchboximg">
+				<a class="img" target="_blank" href="article_cat.php?id=5">
+					<img alt="" src="images/helptip.png">
+				</a>
+			</div>
+            <div class="searchbox">
+            	<div>
+                	<form action="{$search_url}" name="search_form" method="post" class="article_search">
+                    	<span class="searchtitle">问题搜索：</span>
+        				<input name="keywords" type="text" id="requirement" value="{$search_value}" class="searchinput" />
+        				<input name="id" type="hidden" value="{$cat_id}" />
+        				<input name="cur_url" id="cur_url" type="hidden" value="" />
+        				<input type="submit" value="{$lang.button_search}" class="searchbtn" />
+      				</form>
+                </div>
+            </div>
+        </div>
+        <div class="help_pageside">
+        	<!--{foreach from=$article_categories item=cat}-->
+             <h3 class="mt open_tip" style="cursor: pointer; border-bottom: 1px solid rgb(232, 233, 235); background-position: 170px -1735px;"><a href="{$cat.url}">{$cat.name|escape:html}</a></h3>
+            <!--{/foreach}-->
+        </div>
+        <div class="postmthd_main">
+        	<h3>{$cat_name}</h3>
+            <ul class="faqstick" style=" width:736px; padding:0 10px">
+            	<!-- {foreach from=$artciles_list item=article} -->
+                <li style=" width:736px; line-height:20px">
+                	 <div class="fl" style=" width:500px"><a href="{$article.url}" target="_blank">{$article.short_title}</a></div><div class="fr" style=" width:100px">{$article.add_time}</div>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+    </div>
+</div>
+<div style="clear:both"></div>
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+document.getElementById('cur_url').value = window.location.href;
+</script>
+</html>

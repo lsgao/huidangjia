@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+<style>
+
+</style>
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div id="tuangouBody">
+  <div class="tuan" id="sidebarleftv3">
+    <div class="tuan_in">
+      <div class="list_rank clearfix">
+        <ul class="rank_op clearfix">
+          <li class="cur"><a href="javascript:void(0);" >默认排序</a></li>
+        </ul>
+      </div>
+      <ul class="tuan_list mt clearfix" style=" margin-top:10px; margin-right:-17px">
+        
+        <!-- {if $gb_list} 如果有团购活动 --> 
+        <!-- {foreach from=$gb_list item=group_buy} 循环团购活动开始 -->
+        <li isshow="1" bid="" gid="411921" id="li_411921" sitetype="1" class="">
+          <div id="buyDiv" class=""> <a target="_blank" href="{$group_buy.url}">
+            <center>
+              <img src="{$group_buy.goods_thumb}" alt="{$group_buy.goods_name|escape:html}" width="200" height="200">
+            </center>
+            </a>
+            <h3 class="title"><a target="_blank" href="{$group_buy.url}"> {$group_buy.goods_name|escape:html} </a></h3>
+            <p class="grou_pro_buy clearfix">
+             	<span class="price"><i class="moneyIco"></i><strong><span id="currentPrice">{$group_buy.price_ladder.0.formated_price}</span></strong></span>
+              	
+               	<del><span id="marketPrice">{$group_buy.market_price}</span></del>
+                
+            </p>
+            <p class="status" style=" text-align:left"> <span id="buyCount"><strong>{$group_buy.cur_amount}</strong>人已购买</span> <span class="timeLeft endtime" value="{$group_buy.end_date}" showday="show"></span> </p>
+            <span class="freshIcoImg"> </span> </div>
+        </li>
+        <!--{/foreach}--> 
+        <!-- {else} --> 
+        <span style="margin:2px 10px; font-size:14px; line-height:36px;">{$lang.group_goods_empty}</span> 
+        <!-- {/if} -->
+        
+      </ul>
+    </div>
+  </div>
+</div>
+<div style=" clear:both; height:20px"></div>
+<!-- #BeginLibraryItem "/library/page_footer_flow.lbi" --><!-- #EndLibraryItem --> 
+<script>
+$(function(){
+	$(".tuan_list li").mouseenter(function(){
+		$(this).addClass("cur");
+	})	
+	$(".tuan_list li").mouseleave(function(){
+		$(this).removeClass("cur");
+	})	
+	
+
+  setInterval(function(){
+      $(".endtime").each(function(){
+        var obj = $(this);
+        var endTime = new Date(parseInt(obj.attr('value')) * 1000);
+		var show_day =  obj.attr('showday');
+        var nowTime = new Date();
+        var nMS=endTime.getTime() - nowTime.getTime() + 28800000;
+        var myD=Math.floor(nMS/(1000 * 60 * 60 * 24));
+		var myH_show=Math.floor(nMS/(1000*60*60) % 24);
+        var myH=Math.floor(nMS/(1000*60*60));
+        var myM=Math.floor(nMS/(1000*60)) % 60;
+        var myS=Math.floor(nMS/1000) % 60;
+        var myMS=Math.floor(nMS/100) % 10;
+        if(myS>0){
+			if(show_day == 'show')
+			{
+				var str = '剩余：'+myD+'天'+myH_show+'时'+myM+'分'+myS+'秒'
+				//var str = '还剩<strong class="tcd-d">'+myD+'</strong>天<strong class="tcd-h">'+myH_show+'</strong>小时<strong class="tcd-m">'+myM+'</strong>分<strong class="tcd-s">'+myS+'</strong>秒';
+			}
+			else
+			{
+				var str = '还剩<strong class="tcd-h">'+myH+'</strong>小时<strong class="tcd-m">'+myM+'</strong>分<strong class="tcd-s">'+myS+'</strong>秒';
+			}
+        }else{
+			var str = "已结束！";	
+		}
+		obj.html(str);
+      });
+    }, 100);	
+
+})
+
+</script>
+</body>
+</html>

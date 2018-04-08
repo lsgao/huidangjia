@@ -1,0 +1,99 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="page-chang-r hd">
+                    	<!--{if $smarty.foreach.foo.iteration==1}-->
+                    	<ul id="pages">
+							<li class="on">
+								<i></i>
+								<a href="#" target="_blank">夏日小包 2.6折起</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">高端牛皮 摩登鳄鱼纹</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">简单与精妙精美的对撞</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">实用+时尚心机包</a>
+							</li>
+                            <li class="">
+								<i></i>
+								<a href="#" target="_blank">时尚+新品心机包</a>
+							</li>
+						</ul>
+                        <!-- {/if} -->
+                        <!--{if $smarty.foreach.foo.iteration==2}-->
+                    	<ul id="pages">
+							<li class="on">
+								<i></i>
+								<a href="#" target="_blank">夏季新品首发 全场2.3折起</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">大牌时尚度 最高性价比</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">韩国当红人气女神代言包款</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">明媚绽放 当季潮人必备款</a>
+							</li>
+                            <li class="">
+								<i></i>
+								<a href="#" target="_blank">时尚+新品心机包</a>
+							</li>
+						</ul>
+                        <!-- {/if} -->
+                        <!--{if $smarty.foreach.foo.iteration==3}-->
+                    	<ul id="pages">
+							<li class="on">
+								<i></i>
+								<a href="#" target="_blank">时尚托特包 色彩新势力</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">掩不住的淑女气质</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">芭比女孩的粉甜气质</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">经典时尚邂逅波浪花边</a>
+							</li>
+                            <li class="">
+								<i></i>
+								<a href="#" target="_blank">时尚新品心机包</a>
+							</li>
+						</ul>
+                        <!-- {/if} -->
+                        <!--{if $smarty.foreach.foo.iteration==4}-->
+                    	<ul id="pages">
+							<li class="on">
+								<i></i>
+								<a href="#" target="_blank">轻盈防水 触感清爽</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">巨星限量 Pink Piggy系列</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">创意设计 法国街头风</a>
+							</li>
+							<li class="">
+								<i></i>
+								<a href="#" target="_blank">棉麻包袋 独家首发 立省50</a>
+							</li>
+                            <li class="">
+								<i></i>
+								<a href="#" target="_blank">时尚新品心机包</a>
+							</li>
+						</ul>
+                        <!-- {/if} -->
+                    </div>

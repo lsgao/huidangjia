@@ -1,0 +1,44 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="new-slider-wrap">
+	<div class="bx-wrapper" style="width:810px; position:relative;">
+    	<div class="bx-window" style="height:440px; width:810px; position:relative; overflow:hidden;">
+        	<ul id="js-new-slider" class="new-slider">
+                <li style="background: url(images/810-440-lm2.jpg) no-repeat scroll center center transparent;">
+					<a target="_blank" href="http://114.55.72.193/goods.php?id=382"></a>
+				</li>
+                <li style="background: url(images/810-440-du.jpg) no-repeat scroll center center transparent;">
+					<a target="_blank" href="http://114.55.72.193/goods.php?id=398"></a>
+				</li>
+                <li style="background: url(images/810-440-mplus.jpg) no-repeat scroll center center transparent;">
+					<a target="_blank" href="http://114.55.72.193/goods.php?id=384"></a>
+				</li>
+                <li style="background: url(images/810-440-bro.jpg) no-repeat scroll center center transparent;">
+					<a target="_blank" href="http://114.55.72.193/goods.php?id=383
+"></a>
+				</li>
+                <li style="background: url(images/960-400-envi.jpg) no-repeat scroll center center transparent;">
+					<a target="_blank" href="http://114.55.72.193/goods.php?id=400"></a>
+				</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="js-new-pager" class="new-pager">
+	<a class="s-pager" target="_blank" href="http://114.55.72.193/goods.php?id=382">
+		<img width="80" height="80" src="images/1505028002-.jpg">
+	</a>
+    <a class="s-pager" target="_blank" href="http://114.55.72.193/goods.php?id=398">
+		<img width="80" height="80" src="images/1504012802.jpg">
+	</a>
+    <a class="s-pager" target="_blank" href="http://114.55.72.193/goods.php?id=384">
+		<img width="80" height="80" src="images/1504012301.jpg">
+	</a>
+    <a class="s-pager" target="_blank" href="http://114.55.72.193/goods.php?id=383">
+		<img width="80" height="80" src="images/1506014401.jpg">
+	</a>
+    <a class="s-pager last" target="_blank" href="http://114.55.72.193/goods.php?id=400">
+    	<img width="80" height="80" src="images/80-80-envi.jpg">
+  	</a>
+	<i class="arrow" style="top:40px;"></i>
+</div>

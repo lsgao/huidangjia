@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<!-- {if $cat_style} -->
+<link href="{$cat_style}" rel="stylesheet" type="text/css" />
+<!-- {/if} -->
+{* 包含脚本文件 *}
+{insert_scripts files='jquery-1.9.1.min.js,jquery.json.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+<style>
+.red, a.red, a.red:visited, a.red:hover {
+    color: #B38B4D;
+}
+</style>
+</head>
+<body class="list-women is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+{insert_scripts files='yhd_category.js'} 
+<!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<div class="woman-content">
+  <div class="wm-header">
+    <div class="woman-banner-wrap mbb-slider">
+      <div class="bx-wrapper" style="width:1200px; position:relative;">
+        <div class="bx-window cd" style="position:relative; overflow:hidden; width:1200px;">
+          <ul id="headSlider" class="banner-slider">
+            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+              {insert name='get_ad' cat_name='顶级分类' type=$top_ad_type1}
+            </li>
+            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+              {insert name='get_ad' cat_name='顶级分类' type=$top_ad_type2}
+            </li>
+            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+              {insert name='get_ad' cat_name='顶级分类' type=$top_ad_type3}
+            </li>
+            <li class="pager" style="width: 1200px; float: left; list-style: none outside none;">
+              {insert name='get_ad' cat_name='顶级分类' type=$top_ad_type4}
+            </li>
+          </ul>
+        </div>
+        <a class="bx-prev prev" href="javascript:void(0)"><</a>
+        <a class="bx-next next" href="javascript:void(0)">></a>
+        <div id="headPage" class="slider-page hd">
+          <ul>
+            <li class="pager-link pager-1" href="">1</li>
+            <li class="pager-link pager-2" href="">2</li>
+            <li class="pager-link pager-3" href="">3</li>
+            <li class="pager-link pager-4" href="">4</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQuery(".bx-wrapper").slide({mainCell:".cd ul",autoPlay:true,effect:"left"});
+    </script>
+  </div>
+  <div id="js-list-container" class="container clearfix" style="display: block; text-align:left; background:#ffffff; margin:0px; padding:0px">
+  	<!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+    <div class="l-wrap clearfix">
+    	<div class="l-sider">
+    		<!--分类筛选 start-->
+    		<!-- #BeginLibraryItem "/library/zuhesousuo.lbi" --><!-- #EndLibraryItem -->
+      	<!--分类筛选 end-->
+      </div>
+      <div class="l-list">
+    	  <div class="l-list-wrap">
+           <!-- #BeginLibraryItem "/library/goods_list.lbi" --><!-- #EndLibraryItem -->
+           <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+  <div class="wm-new">
+    <div class="wm-top-name">
+    </div>
+    <div class="wm-new-main">
+      <div class="new-main-l">
+        <div class="main-top">
+          <div class="main-top-l">
+            <div class="main-new-slider mbb-slider">
+              <div class="bx-wrapper" style="width:606px; position:relative;">
+                <div class="bx-window bd" style="position:relative; overflow:hidden; width:606px;">
+                  <ul id="newslider" class="new-slider">
+                    <li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                      {insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片1'}
+                    </li>
+                    <li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                      {insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片2'}
+                    </li>
+                    <li class="pager" style="width: 606px; float: left; list-style: none outside none;">
+                      {insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片3'}
+                    </li>
+                  </ul>
+                </div>
+                <a class="bx-prev prev" href="javascript:void(0)"><</a>
+                <a class="bx-next next" href="javascript:void(0)">></a>
+              </div>
+              <div id="newPage" class="slider-page hd">
+                <ul>
+                  <li class="pager-link pager-1" href="">1</li>
+                  <li class="pager-link pager-2" href="">2</li>
+                  <li class="pager-link pager-3" href="">3</li>
+                </ul>
+              </div>
+            </div>
+            <script type="text/javascript">
+              jQuery(".main-new-slider").slide({mainCell:".bd ul",autoPlay:true,effect:"left"});
+            </script>
+          </div>
+          <div class="main-top-r">
+            {insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片右广告'}
+          </div>
+        </div>
+        <div class="main-bottom">
+          <ul class="new-go-to">
+            <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告1'}</li>
+            <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告2'}</li>
+            <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架幻灯片底部广告3'}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="new-main-r">
+        <div class="new-first-publish">
+          <ul>
+            <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架右边广告1'}</li>
+            <li>{insert name='get_ad' cat_name='顶级分类' type='新品上架右边广告2'}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

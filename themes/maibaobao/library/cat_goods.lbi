@@ -1,0 +1,46 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 样式2 开始-->
+<div class="f-title">
+	<h3 class="name">
+		<span>风格搭配</span>
+	</h3>
+</div>
+<div class="f-main floor-tab clearfix">
+	<div class="f-show-wrap clearfix">
+    	<div class="show-tabs hd">
+        	<ul>
+        	  <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+        	{if $smarty.foreach.foo.iteration < 6}
+            	 <li <!--{if $smarty.foreach.foo.iteration eq 1}-->class="on"<!--{/if}-->>{$goods_level2.cat_name}</li>   
+            {/if}
+        	<!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="show-body bd">
+        	<!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+        	<div class="show-item show-item-{$smarty.foreach.foo.iteration}">
+            	<ul class="mod-goods-list">
+                  <!-- {foreach from=$goods_level2.goods item=goods} -->
+                	<li class="mod-item">
+                    	<a class="pic" target="_blank" title="{$goods.goods_name}" href="{$goods.url}">
+                        	<p class="brand-name">{$goods.goods_name}</p>
+                            <p class="goods-info">
+								<strong>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</strong>
+								<s>{$goods.market_price}</s>
+							</p>
+                            <img src="{$goods.goods_thumb}" width="230" height="206">
+                        </a>
+                    </li>
+                    <!-- {/foreach} -->
+                </ul>
+            </div>
+            <!-- {/foreach} -->
+        </div>
+    </div>
+</div>
+<!-- 样式2 结束-->
+
+<script type="text/javascript">
+			jQuery(".f-show-wrap").slide();
+            </script>
+<input type="hidden" name="cat_id_ad" value="{$goods_cat.id}">

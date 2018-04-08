@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>{$page_title} 触屏版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
+  <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+  <link href="{$ectouch_themes}/ectouch.css?id=1212" rel="stylesheet" type="text/css" />
+  {* 包含脚本文件 *}
+  {insert_scripts files='transport.js,common.js,user.js'}
+  <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
+</head>
+<body>
+<!-- *用户分销中心默认显示页面 start-->
+  <!-- {if $action eq 'default'} -->
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+    <h1> 分销中心 </h1>
+  </header>
+  <dl class="user_top">
+    <dt> {if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if} </dt>
+    <dd>
+      <p>{$info.username}</p>
+      <!--<p><span>{$tianxin}</span></p>-->
+      <p><span>{$userrank}</span></p>
+    </dd>
+    <div class="user_distri_list">
+      <ul>
+        <li> 累计销售：￥{$total_commission.order_amount}</li>
+        <li> 累计佣金：￥{$total_commission.commission}</li>
+      </ul>
+    </div>
+    <div class="quan1"></div>
+    <div class="quan2"></div>
+    <div class="quan3"></div>
+  </dl>
+  <div class="blank3"></div>
+  <section class="wrap">
+    <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
+      <ul>
+        <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的盟友</span> <span class="person">{$all_count}人</span>
+          <div class="son_list">
+            <ul>
+              {foreach from=$menuarr item=menu}
+              {if $menu == 1}<li onclick="location.href='user_commission.php?act=fenxiao1'"><span class="icon">&nbsp; &nbsp; </span><span>一级会员</span> <i></i><span class="sp">{$count1}人</span></li> {/if}
+              {if $menu == 2} <li onclick="location.href='user_commission.php?act=fenxiao2'"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
+              {if $menu == 3} <li onclick="location.href='user_commission.php?act=fenxiao3'"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
+              {if $menu == 4} <li onclick="location.href='user_commission.php?act=fenxiao4'"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
+              {if $menu == 5} <li onclick="location.href='user_commission.php?act=fenxiao5'"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
+              {/foreach} 
+            </ul>
+          </div>
+        </li>
+        <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的佣金</span> <span class="person">{$total_commission.commission}</span></li>
+          <div class="son_list">
+            <ul>
+              <li><span class="icon2">&nbsp; &nbsp; </span><span>未付款订单佣金</span> <span class="sp">￥{$status_commission.weifukuan.commission}</span></li>
+              <li><span class="icon2">&nbsp; &nbsp; </span><span>已付款订单佣金</span> <span class="sp">￥{$status_commission.yifukuan.commission}</span></li>
+              <li><span class="icon2">&nbsp; &nbsp; </span><span>已收货订单佣金</span> <span class="sp">￥{$status_commission.yishouhuo.commission}</span></li>
+              <!--
+              <li><span class="icon2">&nbsp; &nbsp; </span><span>已审核订单佣金</span> <span class="sp">￥177.6</span></li>
+              -->
+            </ul>
+          </div>
+        <li onclick="location.href='user_commission.php?act=account_apply';"><span class="uninclude">&nbsp; &nbsp; </span><span>申请提现</span></li>
+      </ul>
+    </div>
+    <div class="blank3"></div>
+    <div class="blank3"></div>
+    <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
+      <!-- <a href="user.php?act=track_packages" class="clearfix"><span></span><i></i></a>  --> 
+   </div>
+  </section>
+  <!-- {/if} --> 
+<!-- *用户分销中心默认显示页面 end-->
+
+<!-- /一级分销 start-->
+  <!-- {if $action eq 'fenxiao1'} -->
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+    <h1> 我的分销一级会员{$count}人</h1>
+  </header>
+  <!--详细下线记录-->
+  <section class="class="wrap"">
+    <div class="content">
+      {foreach from=$user_list item=user}
+      <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num=0">
+        <dl>
+          <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
+          <div>
+            <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
+            <h3>订单数量：{$user.order_num}</h3>
+            <h3>提成金额：{$user.commission}</h3>
+            <p></p>
+          </div>
+        </dl>
+      </a>
+      {foreachelse}
+      <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
+      {/foreach}
+    </div>
+  </section>
+  <!-- {/if} --> 
+<!-- /一级分销 end--> 
+
+<!-- /二级及以上分销 start--> 
+  <!-- {if $action eq 'fenxiao2' || $action eq 'fenxiao3' || $action eq 'fenxiao4' || $action eq 'fenxiao5'} --> 
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+    <h1> 我的分销{if $action eq 'fenxiao2'}二{elseif $action eq 'fenxiao3'}三{elseif $action eq 'fenxiao4'}四{elseif $action eq 'fenxiao5'}五{/if}级会员{$count}人</h1>
+  </header>
+  <!--详细下线记录-->
+  <section class="class="wrap"">
+    <div class="content">
+      {foreach from=$user_list item=user}
+      <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num={$user.has_supershopkeeper}">
+        <dl>
+          <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
+          <div>
+            <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
+            <h3>订单数量：{$user.order_num}</h3>
+            <h3>提成金额：{$user.commission}</h3>
+            <p></p>
+        </div>
+        </dl>
+      </a>
+      {foreachelse}
+      <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
+      {/foreach}
+    </div>
+  </section>
+  <!-- {/if} --> 
+<!-- /二级及以上分销 end-->
+
+<!-- /提成记录  start--> 
+  <!-- {if $action eq 'percentage_history'} --> 
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php?act=fenxiao{$level}"> 返回 </a> </div>
+    <h1> 提成记录</h1>
+  </header>
+  <!--详细下线记录-->
+  <section class="order_box padd1 radius10 single_item">
+    <table border="0" cellspacing="1" style=" width:100%;">
+      <tr>
+        <th width="20%">订单号</th>
+        <th width="20%">总金额</th>
+        <th width="20%">比列</th>
+        <th width="20%">分成金额</th>
+        <th width="20%">状态</th>
+      </tr>
+      <!-- {foreach from=$logdb item=val} -->
+      <tr>
+        <td align="center"><a href="user.php?act=myorder_detail&order_id={$val.order_id}&level={$level}">{$val.order_sn}</a></td>
+        <td align="center">{$val.order_amount}</td>
+        <td align="center">{$val.level_money}</td>
+        <td align="center">{$val.set_money}</td>
+        <td align="center">{if $val.is_separate eq 0}未分成{else}已分成{/if}</td>
+      </tr>
+      <tr>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+        <td align="center">-</td>
+      </tr>
+      <!-- {foreachelse} -->
+      <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+      <!-- {/foreach} -->
+    </table>
+  </section> 
+  <!-- {/if} --> 
+<!-- /提成记录 end -->
+
+<!--#账户明细（会员余额）start--> 
+  <!--{if $action eq "account_detail"} -->
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+    <h1> {$lang.user_balance} </h1>
+  </header>
+  <script type="text/javascript">
+    {foreach from=$lang.account_js item=item key=key}
+    var {$key} = "{$item}";
+    {/foreach}
+  </script>
+  <section class="order_box padd1 radius10 single_item">
+    <div class="blank"></div>
+    <table width="100%" border="0" cellpadding="5" cellspacing="1">
+      <tr>
+        <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
+      </tr>
+    </table>
+    <table border="0" cellspacing="1" style=" width:100%;">
+      <tr align="center">
+        <th width="25%">{$lang.process_time}</th>
+        <th width="25%">{$lang.surplus_pro_type}</th>
+        <th width="25%">{$lang.money}</th>
+        <th width="25%">{$lang.change_desc}</th>
+      </tr>
+      <!--{foreach from=$account_log item=item}-->
+      <tr>
+        <td align="center">{$item.change_time}</td>
+        <td align="center">{$item.type}</td>
+        <td align="right">{$item.amount}</td>
+        <td title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
+      </tr>
+      <!--{/foreach}-->
+      <tr>
+        <td colspan="4" align="center"><div align="right">{$lang.current_surplus}{$surplus_amount}</div></td>
+      </tr>
+    </table>
+  </section>
+  <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+  <!-- {/if} -->
+<!--#账户明细（会员余额）end-->
+
+<!--#提现记录（会员余额）start--> 
+  <!--{if $action eq "account_log"} -->
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+    <h1> {$lang.user_balance} </h1>
+  </header>
+  <script type="text/javascript">
+    {foreach from=$lang.account_js item=item key=key}
+    var {$key} = "{$item}";
+    {/foreach}
+  </script>
+  <section class="order_box padd1 radius10 single_item">
+    <div class="blank"></div>
+    <table width="100%" border="0" cellpadding="5" cellspacing="1">
+      <tr>
+        <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
+      </tr>
+    </table>
+    <table border="0" cellspacing="1" style=" width:100%;">
+      <tr align="center">
+        <th>{$lang.process_time}</th>
+        <th>{$lang.surplus_pro_type}</th>
+        <th>{$lang.money}</td>
+        <th>{$lang.process_notic}</th>
+        <th>{$lang.admin_notic}</th>
+        <th>{$lang.is_paid}</th>
+        <th>{$lang.handle}</th>
+      </tr>
+      <!--{foreach from=$account_log item=item}-->
+      <tr>
+        <td align="center">{$item.add_time}</td>
+        <td align="left">{$item.type}</td>
+        <td align="right">{$item.amount}</td>
+        <td align="left">{$item.short_user_note}</td>
+        <td align="left">{$item.short_admin_note}</td>
+        <td align="center">{$item.pay_status}</td>
+        <td align="right">{$item.handle} 
+          <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+          <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
+          <!-- {/if} --></td>
+      </tr>
+      <!--{/foreach}-->
+      <tr>
+        <td colspan="7" align="right">{$lang.current_surplus}{$surplus_amount}</td>
+      </tr>
+    </table>
+    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> </div>
+  </section>
+  <!-- {/if} --> 
+<!--#提现记录（会员余额）end-->
+
+<!--#提现申请 start-->
+  <!-- {if $action eq "account_apply"} -->
+  <header id="header">
+    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+    <h1> 提现申请 </h1>
+  </header>
+  <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+    <form name="formSurplus" method="post" action="distribute.php" onSubmit="return submitSurplus()">
+      <div class="table_box table_box2">
+        <dl>
+          <dd class="dd1">提现金额</dd>
+          <dd>
+            <input name="amount" type="text" placeholder="提现金额" class="dd2">
+          </dd>
+        </dl>
+        <dl>
+          <dd class="dd1">真实姓名 
+            <input name="real_name" type="text" placeholder="输入真实姓名" value="如：惠当家" class="dd2">
+          </dd>
+        </dl>
+        <dl>
+          <dd class="dd1">开户行
+            <input name="bank_name" type="text" placeholder="输入提现的银行名称" value="" class="dd2">
+          </dd>
+        </dl>
+        <dl>
+          <dd class="dd1">银行账号
+            <input name="bank_account" type="text" placeholder="输入提现的银行账号" value="" class="dd2">
+          </dd>
+        </dl>
+        <dl>
+          <dd class="dd1">手机号
+            <input name="mobile_phone" type="text" placeholder="输入手机号码" value="" class="dd2">
+          </dd>
+        </dl>
+        <dl>
+          <dd class="dd1">备注
+            <textarea placeholder="会员备注" name="user_note" class="B_blue" style="width:100%; height:70px; border:0px; font-size:1em;"></textarea>
+          </dd>
+        </dl>
+      </div>
+      <div class="blank3"></div>
+      <div class="dd_btn">
+        <input type="hidden" name="act" value="act_account">
+        <input type="hidden" name="surplus_type" value="1">
+        <input type="submit" name="submit" class="btn1" style="margin-right:5px;" value="提交申请">
+        <input type="reset" name="reset" class="btn2" value="重置表单">
+      </div>
+    </form> 
+ </section>
+  <!-- {/if} --> 
+<!--#提现申请 end-->
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+<div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
+</body>
+<script type="text/javascript">
+  {foreach from=$lang.clips_js item=item key=key}
+    var {$key} = "{$item}";
+  {/foreach}
+</script>
+</html>

@@ -1,0 +1,969 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="RSS|{$page_title}" href="{$feed_url}" />
+{* 包含脚本文件 *}
+<script type="text/javascript">
+var cur_date = new Date();
+var serverTime = cur_date.getTime();
+</script>
+{insert_scripts files='common.js,index.js'}
+
+<!-- by guan hot comment start -->
+<style>
+.wm-comment-list ul {
+	font-size:0;
+	overflow:hidden;
+	padding-bottom:20px
+}
+.wm-comment-list ul li.one-comment {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	float:left;
+	width:554px;
+	height:348px;
+	margin-top:50px;
+	margin-left:30px;
+	border:1px solid #ebebeb
+}
+</style>
+
+<!-- by guan hot comment end -->
+</head>
+<body class="is-home is-wide">
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->{insert_scripts files='yhd_category.js'} <!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/index_ad.lbi" --><!-- #EndLibraryItem -->
+<div class="floor-buying wrapper clearfix">
+    <div class="hot-link clearfix">
+    	<ul>
+        	<li><!-- TemplateBeginEditable name="首页限时抢购右边广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="首页限时抢购右边广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="首页限时抢购右边广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="首页限时抢购右边广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+        </ul>
+    </div>
+</div>
+
+<div class="floor-0 wrapper clearfix">
+	<div class="f-title clearfix">
+		<h3 class="name">专属于您的家居供应链</h3>
+	</div>
+    <div class="f-main clearfix">
+    	<div class="index-login-box index-login-first">
+        	<div id="ECS_CARTINFO" class="index-login-top">
+            	<!-- #BeginLibraryItem "/library/member_info_left.lbi" --><!-- #EndLibraryItem --> 
+            </div>
+            <div class="index-login-body">
+            	<h4 class="active-title">行业资讯／交易动态／生意经</h4>
+                <!-- TemplateBeginEditable name="感兴趣的文章" -->
+<!-- #BeginLibraryItem "/library/cat_articles.lbi" -->
+
+
+<ul class="active-list">
+	<!--{foreach from=$articles item=article_item}-->
+	<li><a target="_blank" title="{$article_item.title|escape:html}" href="{$article_item.url}"> {$article_item.short_title} </a></li>
+    <!--{/foreach}-->
+</ul>
+
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+            </div>
+        </div>
+        <div class="hot-buy" id="hot-buy">
+        	<div class="tabs">
+				<div class="tab-current" style="left: 0px;">
+					<b></b>
+				</div>
+				<a class="tabs-a" href="#hot-sale">正在热销</a>
+				<a class="tabs-b" href="#hot-buying">精品推荐</a>
+				<a class="tabs-c" style="" href="#your-like">新品抢购</a>
+			</div>
+            <div class="tabs-con">
+            	<!--正在促销（调用热卖） start-->
+            	<div id="hot-sale" class="tabs-con-item" style="display: block;">
+                	<!-- TemplateBeginEditable name="正在促销" -->
+<!-- #BeginLibraryItem "/library/recommend_hot.lbi" -->
+
+<!-- {if $hot_goods} -->
+<!-- {if $script_name eq "category_top"} -->
+<div id="hotRecommend" lazyimg="y" class="hot_recommend">
+  <h3>爆款推荐</h3>
+  <div class="box">
+    <ul class="clearfix">
+      <!--{foreach from=$hot_goods item=goods name=foo}-->
+      <li {if $smarty.foreach.foo.first}style="width: 195px;"{/if}>
+        <dl class="product_item"  {if $smarty.foreach.foo.first}style="width: 187px;"{/if}>
+          <dd class="pic"><a target="_blank" href="{$goods.url}"><img width="160" height="160" src="{$goods.thumb}" alt="{$goods.name|escape:html}"></a></dd>
+          <dt><a target="_blank" href="{$goods.url}">{$goods.short_style_name}</a></dt>
+          <dd class="price"> <strong> <!-- {if $goods.promote_price neq ""} --> 
+            {$goods.promote_price} 
+            <!-- {else}--> 
+            {$goods.shop_price} 
+            <!--{/if}--></strong> <del highprice="y"> {$goods.market_price}</del> </dd>
+        </dl>
+      </li>
+      <!--{/foreach}-->
+      
+    </ul>
+  </div>
+</div>
+<!-- {elseif $script_name eq "category"}-->
+<div class="buy-rec-title">热销推荐</div>
+<div class="buy-rec-list">
+	<ul>
+    	<!--{foreach from=$hot_goods item=goods}-->
+        <li>
+        	<div class="pic">
+				<a target="_blank" href="{$goods.url}">
+					<img width="174" height="174" src="{$goods.thumb}">
+				</a>
+			</div>
+            <div class="pro_info">
+            	<a class="name" target="_blank" href="{$goods.url}">
+					{$goods.short_style_name}
+				</a>
+                <div class="price">
+                	<strong class="red">
+                    	<!-- {if $goods.promote_price neq ""} --> 
+            			{$goods.promote_price} 
+            			<!-- {else}--> 
+            			{$goods.shop_price} 
+            			<!--{/if}-->
+            		</strong>
+                </div>
+            </div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+</div>
+<!-- {elseif $script_name eq "group"}-->
+<Div class="grouSideMod grouSideLove mb">
+  <h4>热卖商品</h4>
+  <ul id="detail_ad_ul">
+    <!-- {foreach from=$hot_goods item=goods} -->
+    <li> 
+    <a class="thumb" target="_blank" href="{$goods.url}"> <img width="180" height="180" src="{$goods.thumb}"> </a> <a class="title" title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}">{$goods.short_name|escape:html}</a>
+      <p class="price clearfix"> <span class="num fr"><em>{$goods.sales_volume}</em>人已购买</span> <strong>{$goods.shop_price}</strong> </p>
+    </li>
+    <!-- {/foreach} -->
+  </ul>
+</Div>
+<!-- {else}-->
+
+<span class="refresh-batch change_one">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div id="n_index_a4_1" class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;padding-left: 1px;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$hot_goods item=goods}-->
+            	<li class="item-mod" style="width: 159px; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+						      <img width="150" height="150" src="{$goods.thumb}">
+					        </a>
+                  <div class="item-mod-info">
+                  	<p class="info-category">{$goods.name}</p>
+                    <p class="info-price">
+                    	<!-- {if $goods.promote_price neq ""} --> 
+            					{$goods.promote_price} 
+            					<!-- {else}--> 
+            					{$goods.shop_price} 
+            					<!--{/if}--> 
+                      <s>{$goods.market_price}</s>
+                    </p>
+					          </a>
+                  </div>
+              </li>
+              <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- {/if} --> 
+<!-- {/if} --> 
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		
+		$("span.change_one").click(function(){
+			clearInterval(this.timer);
+			$("#hot-sale").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#hot-sale").removeClass("loading");
+			},500);
+		});
+		
+		
+		
+</script>
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                </div>
+                <!--正在促销（调用热卖） end-->
+                
+                <!--大家正在抢（调用精品） start-->
+                <div id="hot-buying" class="tabs-con-item" style="display: none;">
+                	<!-- TemplateBeginEditable name="大家正在抢" -->
+<!-- #BeginLibraryItem "/library/recommend_best.lbi" -->
+
+<!-- {if $best_goods} -->
+<!-- {if $script_name eq "category" || $script_name eq 'search' || $script_name eq 'brand'}-->
+<div class="buy-rec-title">精品推荐</div>
+<div class="buy-rec-list">
+	<ul>
+    	<!--{foreach from=$best_goods item=goods}-->
+        <li>
+        	<div class="pic">
+            	<a target="_blank" title="{$goods.name|escape:html}" href="{$goods.url}"> <img src="{$goods.thumb}" class="pic-174" width="174" height="174" /></a>
+            </div>
+            <div class="pro_info">
+            	<a class="name" target="_blank" href="{$goods.url}">
+					<span class="name-t">{$goods.short_style_name}</span>
+				</a>
+                <div class="price">
+					<strong class="red"><!-- {if $goods.promote_price neq ""} -->
+          {$goods.promote_price}
+          <!-- {else}-->
+          {$goods.shop_price}
+          <!--{/if}--></strong>
+				</div>
+            </div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+</div>
+<!-- {else}-->
+<span class="refresh-batch change_three">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div id="n_index_a4_1" class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;padding-left: 1px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$best_goods item=goods}-->
+            	<li class="item-mod" style="width: 159px; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+						<img width="150" height="150" src="{$goods.thumb}">
+					</a>
+                    <div class="item-mod-info">
+                    	<p class="info-category">{$goods.name}</p>
+                        <p class="info-price">
+								<!-- {if $goods.promote_price neq ""} -->
+        						{$goods.promote_price}
+        						<!-- {else}-->
+        						{$goods.shop_price}
+        						<!--{/if}-->
+							<s>{$goods.market_price}</s>
+						</p>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- {/if} -->
+<!-- {/if} -->
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		$("span.change_three").click(function(){
+			clearInterval(this.timer);
+			$("#hot-buying").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#hot-buying").removeClass("loading");
+			},500);
+		});
+		
+		</script>
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                </div>
+                <!--大家正在抢（调用精品） end-->
+                
+                <!--猜你喜欢（调用新品） start-->
+                <div id="your-like" class="tabs-con-item" style="display: none;">
+                	<!-- TemplateBeginEditable name="猜你喜欢" -->
+<!-- #BeginLibraryItem "/library/recommend_new.lbi" -->
+
+<!-- {if $new_goods} -->
+<span class="refresh-batch change_two">
+	<a class="bx-next next" href="javascript:void(0)">换一批</a>
+</span>
+<div class="tabs_pro_wrap bd">
+	<div class="bx-wrapper" style="width:960px; position:relative;">
+    	<div class="bx-window" style="position:relative; overflow:hidden; width:960px;padding-left: 1px;">
+        	<ul class="tabs_pro_list clearfix">
+            	<!--{foreach from=$new_goods item=goods}-->
+            	<li class="item-mod" style="width: 159px; float: left; list-style: none outside none;">
+                	<a class="item-mod-img" target="_blank" href="{$goods.url}">
+						<img width="150" height="150" src="{$goods.thumb}">
+					</a>
+                    <div class="item-mod-info">
+                    	<p class="info-category">{$goods.short_style_name}</p>
+                        <p class="info-price">
+							<!-- {if $goods.promote_price neq ""} -->
+        					{$goods.promote_price}
+        					<!-- {else}-->
+        					{$goods.shop_price}
+        					<!--{/if}-->
+							<s>{$goods.market_price}</s>
+						</p>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+		jQuery(".tabs-con-item").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:6,vis:6});
+		
+		$("span.change_two").click(function(){
+			clearInterval(this.timer);
+			$("#your-like").addClass("loading");
+			this.timer=setTimeout(function(){
+				$("#your-like").removeClass("loading");
+			},500);
+		});
+		
+		
+		
+</script>
+<!-- {/if} -->
+
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                </div>
+                <!--猜你喜欢（调用新品） end-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+	function Options(id,cName,model){
+			this.id=$("#"+id);
+			this.li=this.id.find("."+cName).find("a");
+			this.model=this.id.find("."+model);
+			this.init();
+		}
+		Options.prototype.init=function(){
+			var that=this;
+			this.doMove();
+			this.model.eq(0).css("display","block");
+			this.li.eq(0).addClass("active");
+			this.li.mouseover(function(){
+				var index=that.li.index(this);
+				that.li.removeClass("active");
+				that.li.eq(index).addClass("active");
+				that.model.css("display","none");
+				that.model.eq(index).css("display","block");
+			});
+		}
+
+		Options.prototype.doMove=function(){
+			var tab=this.id.find(".tab-current");
+			var li=this.li;
+			li.mouseover(function(){
+				$(".option_model").find("li>div").hide();
+				var l=$(this).position().left;
+				tab.stop().animate({left:l});
+
+			});
+		}
+
+		new Options("hot-buy","tabs","tabs-con-item");
+
+</script>
+
+<!--楼层一 start-->
+<div class="floor-1 wrapper clearfix">
+	<div class="floor-1 wrapper clearfix">
+    	<div class="f-title">
+			<h3 class="name">
+				<span>新品上架</span>
+			</h3>
+		</div>
+        <div class="f-main floor-tab clearfix">
+        	<div class="f-side">
+            	<div class="checkin-brand">
+                    <div id="n_index_a5" class="brand-img" style="height:310px">
+                    	<!-- TemplateBeginEditable name="本周最新产品" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                       <a href="{$new_goods_link}" style="position: absolute;bottom: 130px;width: 239px;background-color: #2b2c30;opacity: .9;color: #fff;line-height: 35px;text-align: center;">进入新品</a>
+                    </div>
+                </div>
+                <div class="fashion">
+                	<!-- #BeginLibraryItem "/library/fashion.lbi" --><!-- #EndLibraryItem -->
+                </div>
+            </div>
+            <div class="f-show-wrap clearfix">
+            	<!-- #BeginLibraryItem "/library/flow_1_tit.lbi" --><!-- #EndLibraryItem -->
+                <div class="show-body bd">
+                	<!--一楼切换区1 start-->
+                	<div class="show-item" style="display: block;">
+                    	<!-- #BeginLibraryItem "/library/change_1.lbi" --><!-- #EndLibraryItem -->
+                    </div>
+                    <!--一楼切换区1 end-->
+                    
+                    <!--一楼切换区2 start-->
+                	<div class="show-item" style="display: none;">
+                    	<!-- #BeginLibraryItem "/library/recommend_best_month.lbi" --><!-- #EndLibraryItem -->
+                    </div>
+                    <!--一楼切换区2 end-->
+                    
+                    <!--一楼切换区3 start-->
+                	<div class="show-item" style="display: none;">
+                    	<div class="mod-goods-wrap">
+                        	<ul class="mod-goods-list nextstage-list">
+                            	<li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告5" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告6" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告7" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li class="mod-item r-1505032401">
+                                	<!-- TemplateBeginEditable name="新品预告广告8" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--一楼切换区3 end-->
+                </div>
+            </div>
+            <script type="text/javascript">
+			jQuery(".f-show-wrap").slide();
+			jQuery(".show-item").slide({ titCell:".new-pager a",mainCell:".new-slider-wrap ul",autoPlay:false});
+			
+			(function(){
+				var a=$("#js-new-pager").find("a");
+				var arrows=$("#js-new-pager").find("i");
+				a.mouseover(function(){
+					var index=a.index(this);
+					var h=(a.outerHeight()/2);
+					var h2=Math.floor(arrows.height()/2);
+					arrows.css({top:(index*a.outerHeight())+(h-h2)});
+				});
+			})();
+			
+			
+            </script>
+        </div>
+    </div>
+</div>
+<!--楼层一 end-->
+
+<!--楼层二 start-->
+<div class="floor-2 wrapper clearfix">
+	<div class="f-title">
+		<h3 class="name">
+			<span>热门精选</span>
+		</h3>
+	</div>
+    <div class="f-main floor-tab clearfix">
+    	<div class="f-side">
+        	<!-- #BeginLibraryItem "/library/flow_2_category.lbi" --><!-- #EndLibraryItem -->
+        </div>
+        <div class="f-show-wrap clearfix">
+        	<!-- #BeginLibraryItem "/library/flow_2_tit.lbi" --><!-- #EndLibraryItem -->
+            <div class="show-body bd">
+                	<!--二楼切换区1 start-->
+                	<div class="show-item" style="display: block;">
+                    	<div class="hot-show-b">
+                        	<ul class="js-status-hover">
+                            	<li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中上部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中上部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中上部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中上部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hot-show-s">
+                        	<ul>
+                            	<li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中底部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中底部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中底部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="疯狂热销中底部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--二楼切换区1 end-->
+                    
+                    <!--二楼切换区2 start-->
+                	<div class="show-item" style="display: none;">
+                    	<div class="hot-show-b">
+                        	<ul class="js-status-hover">
+                            	<li>
+                                	<!-- TemplateBeginEditable name="潮流女人街上部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街上部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街上部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街上部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hot-show-s">
+                        	<ul>
+                            	<li>
+                                	<!-- TemplateBeginEditable name="潮流女人街底部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街底部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街底部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="潮流女人街底部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--二楼切换区2 end-->
+                    
+                    <!--二楼切换区3 start-->
+                	<div class="show-item" style="display: none;">
+                    	<div class="hot-show-b">
+                        	<ul class="js-status-hover">
+                            	<li>
+                                	<!-- TemplateBeginEditable name="真皮世界上部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界上部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界上部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界上部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hot-show-s">
+                        	<ul>
+                            	<li>
+                                	<!-- TemplateBeginEditable name="真皮世界底部广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界底部广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界底部广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                                <li>
+                                	<!-- TemplateBeginEditable name="真皮世界底部广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--二楼切换区3 end-->
+            </div>
+            <script type="text/javascript">
+			jQuery(".f-show-wrap").slide();
+            </script>
+        </div>
+    </div>
+</div>
+<!--楼层二 end-->
+
+<!--楼层三 start-->
+<div class="floor-3 wrapper clearfix">
+	<!-- TemplateBeginEditable name="楼层3" -->
+<!-- #BeginLibraryItem "/library/cat_goods.lbi" -->
+
+<!-- 样式2 开始-->
+<div class="f-title">
+	<h3 class="name">
+		<span>风格搭配</span>
+	</h3>
+</div>
+<div class="f-main floor-tab clearfix">
+	<div class="f-show-wrap clearfix">
+    	<div class="show-tabs hd">
+        	<ul>
+        	  <!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+        	{if $smarty.foreach.foo.iteration < 6}
+            	 <li <!--{if $smarty.foreach.foo.iteration eq 1}-->class="on"<!--{/if}-->>{$goods_level2.cat_name}</li>   
+            {/if}
+        	<!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="show-body bd">
+        	<!--{foreach from=$goods_cat.goods_level2 item=goods_level2 name=foo}-->
+        	<div class="show-item show-item-{$smarty.foreach.foo.iteration}">
+            	<ul class="mod-goods-list">
+                  <!-- {foreach from=$goods_level2.goods item=goods} -->
+                	<li class="mod-item">
+                    	<a class="pic" target="_blank" title="{$goods.goods_name}" href="{$goods.url}">
+                        	<p class="brand-name">{$goods.short_name}</p>
+                            <p class="goods-info">
+								<strong>{if $goods.promote_price > 0}{$goods.promote_price}{else}{$goods.shop_price}{/if}</strong>
+								<s>{$goods.market_price}</s>
+							</p>
+                            <img src="{$goods.goods_thumb}" width="230" height="206">
+                        </a>
+                    </li>
+                    <!-- {/foreach} -->
+                </ul>
+            </div>
+            <!-- {/foreach} -->
+        </div>
+    </div>
+</div>
+<!-- 样式2 结束-->
+
+<script type="text/javascript">
+			jQuery(".f-show-wrap").slide();
+            </script>
+<input type="hidden" name="cat_id_ad" value="{$goods_cat.id}">
+
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+</div>
+<!--楼层三 end-->
+
+<!--楼层四 start-->
+<div class="floor-4 wrapper clearfix">
+	<div class="f-title">
+		<h3 class="name">
+			<span>本周特惠</span>
+		</h3>
+	</div>
+    <div class="f-main clearfix"><!--调用的是促销商品-->
+    	<!-- #BeginLibraryItem "/library/recommend_promotion_flow4.lbi" --><!-- #EndLibraryItem -->
+    </div>
+</div>
+<!--楼层四 end-->
+
+<!--品牌 start-->
+<div class="floor-brand wrapper clearfix">
+	<div class="f-title">
+		<h3 class="name">
+			<span>精选品牌</span>
+		</h3>
+	</div>
+    <div class="f-main clearfix">
+    	<div class="brand-activity">
+        	<ul>
+            	<li><!-- TemplateBeginEditable name="品牌列表上广告1" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="品牌列表上广告2" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="品牌列表上广告3" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="品牌列表上广告4" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+<li><!-- TemplateBeginEditable name="品牌列表上广告5" -->
+<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+
+{insert name='ads' id=$ads_id num=$ads_num}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable --></li>
+            </ul>
+        </div>
+        <div class="brand-logo-list js-brand-list">
+        	<!-- TemplateBeginEditable name="品牌" -->
+<!-- #BeginLibraryItem "/library/brands.lbi" -->
+
+
+<!-- {if $brand_list} -->
+<ul>
+	<!-- {foreach from=$brand_list item=brand name="brand_foreach"} -->
+	<li>
+    	<a class="logo-item" target="_blank" href="{$brand.url}">
+        	<p class="logo-img">
+				<img width="97" height="55" alt="{$brand.brand_name|escape:html}" src="{if strstr($brand.brand_logo,"/")}mobile/{$brand.brand_logo}{else}data/brandlogo/{$brand.brand_logo}{/if}">
+			</p>
+            <p class="logo-name">{$brand.brand_name|escape:html}</p>
+        </a>
+    </li>
+	<!-- {/foreach} -->
+</ul>
+<!-- {/if} -->
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+        </div>
+    </div>
+</div>
+<!--品牌 end-->
+
+<!--品牌底下广告 start-->
+<div class="activity-links wrapper clearfix">
+	<div class="links-b" style="padding:0px">
+    	<ul>
+        	<li class="link-b-1">
+            {insert name='ads_no_href' id=143 num=$ads_num}
+          </li>
+          <li class="link-b-2">
+            {insert name='ads_no_href' id=144 num=$ads_num}
+          </li>
+          <li class="link-b-3" style="padding:0px">
+            {insert name='ads_no_href' id=145 num=$ads_num}
+          </li>
+        </ul>
+    </div>
+</div>
+<!--品牌底下广告 end-->
+
+<!--底部 start-->
+<div class="footer-wrapper">
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</div>
+<!--底部 end-->
+</body>
+</html>
+

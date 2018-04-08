@@ -1,0 +1,48 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div id="js-category" class="l-s-filter">
+<!--{foreach from=$categories item=cat name=no1}-->
+	<dl class="l-filter-box need-coll l-f-open" style="height:auto;">
+    	<dt>
+        	<a class="f-t" href="javascript:void(0);">{$cat.name|escape:html}<i class="arrow"></i></a>
+        </dt>
+        <dd class="multi">
+        	<ul class="clearfix">
+            	<!--{foreach from=$cat.cat_id item=child name=foo}--><!--{foreach from=$child.cat_id item=childer}--><li><a target="_blank" href="{$childer.url}">{$childer.name|escape:html}</a></li><!--{/foreach}--><!--{/foreach}-->
+            </ul>
+        </dd>
+    </dl>
+<!--{/foreach}-->	
+</div>
+
+<script>
+	$(function(){
+		$("#js-category").find("dt").click(function(){
+			var dd=$(this).siblings("dd");
+			var status=dd.css("display");
+			status=status=="block" ? "none" : "block";
+			dd.css("display",status);
+		});
+	});
+</script>
+
+<script type="text/javascript">
+function deleteCartGoods(rec_id)
+{
+	Ajax.call('delete_cart_goods.php', 'id='+rec_id, deleteCartGoodsResponse, 'POST', 'JSON');
+}
+
+/**
+ * 接收返回的信息
+ */
+function deleteCartGoodsResponse(res)
+{
+  if (res.error)
+  {
+    alert(res.err_msg);
+  }
+  else
+  {
+      document.getElementById('ECS_CARTINFO').innerHTML = res.content;
+  }
+}
+</script>

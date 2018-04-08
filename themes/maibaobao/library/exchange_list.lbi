@@ -1,0 +1,157 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<div id="plist">
+  <div class="mod_search_crumb search_page" id="rankOpDiv">
+    <h3>
+      <form method="GET" class="sort" name="listform">
+        <select name="sort" style="border:1px solid #ccc;">
+          
+          
+        {html_options options=$lang.exchange_sort selected=$pager.sort}
+        
+        
+        </select>
+        <select name="order" style="border:1px solid #ccc;">
+          
+          
+        {html_options options=$lang.order selected=$pager.order}
+        
+        
+        </select>
+        <input type="submit" name="imageField"  class="btn_small" style="border:none; top:0;background: url(images/bgAddressNew.png) no-repeat 0 -23px;border: none;color: #fff;cursor: pointer;display: inline;height: 26px;width: 100px;" value="提交"/>
+        <input type="hidden" name="category" value="{$category}" />
+        <input type="hidden" name="display" value="{$pager.display}" id="display" />
+        <input type="hidden" name="integral_min" value="{$integral_min}" />
+        <input type="hidden" name="integral_max" value="{$integral_max}" />
+        <input type="hidden" name="page" value="{$pager.page}" />
+      </form>
+    </h3>
+      </div>
+    <form name="compareForm" method="post">
+      <!-- {if $pager.display == 'list'} -->
+      <div class="search_table" id="search_table">
+    <div class="mod_search_list">
+      <ul id="itemSearchList" class="clearfix">
+        <!--{foreach from=$goods_list item=goods}-->
+        <!-- {if $goods.goods_id} -->
+        <li class="search_item">
+          <div class="search_item_box">
+          	 <a target="_blank" href="{$goods.url}" class="search_prod_img"> <img width="200" height="200" src="{$goods.goods_thumb}" alt="{$goods.goods_name}">{if $goods.is_hot eq 1 || $goods.is_new eq 1 || $goods.is_best eq 1} <sup class="ico_search_list">{if $goods.is_hot eq 1}新品{elseif $goods.is_new eq 1}热卖{elseif $goods.is_best eq 1}精品{/if}</sup>{/if}<span class="tag_video "></span> </a>
+            <div class="pricebox clearfix">
+              <p class="price"> <span class="color_red">
+                <!--{if $goods.promote_price neq "" } -->
+                {$goods.promote_price}
+                <!--{else}-->
+                {$goods.shop_price}
+                <!--{/if}-->
+                </span>
+                <!-- {if $show_marketprice} -->
+                <del>{$goods.market_price}</del>
+                <!-- {/if} -->
+              </p>
+              <p class="unit_price"></p>
+            </div>
+            <p class="title"> <a title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}" class="title" style=" overflow:hidden; width:180px"> {$goods.goods_name}</a> </p>
+            <p class="comment"> 评论 <a target="_blank" href="{$goods.url}">{$goods.comments_number}条</a> </p>
+            <div style="display:block;" title="" class="item_promotion_text"> <a target="_blank" title="{$goods.name|escape:html}">{$goods.goods_name}</a> </div>
+            <div class="item_act clearfix">
+              
+              <div class="shopping_act fl"> <a href="{$goods.url}" class="buy_btn">积分：{$goods.exchange_integral}</a> </div>
+            </div>
+            <div class="item_status clearfix"> </div>
+          </div>
+        </li>
+        <!--{/if}-->
+        <!--{/foreach}-->
+      </ul>
+    </div>
+  </div>
+      
+      <!-- {elseif $pager.display == 'grid'} -->
+      <div class="search_table" id="search_table">
+    <div class="mod_search_list">
+      <ul id="itemSearchList" class="clearfix">
+        <!--{foreach from=$goods_list item=goods}-->
+        <!-- {if $goods.goods_id} -->
+        <li class="search_item">
+          <div class="search_item_box"> <a target="_blank" href="{$goods.url}" class="search_prod_img"> <img width="200" height="200" src="{$goods.goods_thumb}" alt="{$goods.goods_name}">{if $goods.is_hot eq 1 || $goods.is_new eq 1 || $goods.is_best eq 1} <sup class="ico_search_list">{if $goods.is_hot eq 1}新品{elseif $goods.is_new eq 1}热卖{elseif $goods.is_best eq 1}精品{/if}</sup>{/if}<span class="tag_video "></span> </a>
+            <div class="pricebox clearfix">
+              <p class="price"> <span class="color_red">
+                <!--{if $goods.promote_price neq "" } -->
+                {$goods.promote_price}
+                <!--{else}-->
+                {$goods.shop_price}
+                <!--{/if}-->
+                </span>
+                <!-- {if $show_marketprice} -->
+                <del>{$goods.market_price}</del>
+                <!-- {/if} -->
+              </p>
+              <p class="unit_price"></p>
+            </div>
+            <p class="title"> <a title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}" class="title"> {$goods.goods_name}</a> </p>
+            <p class="comment"> 评论 <a target="_blank" href="{$goods.url}">{$goods.comments_number}条</a> </p>
+            
+            <div class="item_act clearfix">
+              
+               <div class="shopping_act fl"> <a href="{$goods.url}" class="buy_btn">积分：{$goods.exchange_integral}</a> </div>
+            </div>
+            <div class="item_status clearfix"> </div>
+          </div>
+        </li>
+        <!--{/if}-->
+        <!--{/foreach}-->
+      </ul>
+    </div>
+  </div>
+      
+      <!-- {elseif $pager.display == 'text'} -->
+      <div class="search_table" id="search_table">
+    <div class="mod_search_list">
+      <ul id="itemSearchList" class="clearfix">
+        <!--{foreach from=$goods_list item=goods}-->
+        <!-- {if $goods.goods_id} -->
+        <li class="search_item">
+          <div class="search_item_box"> <a target="_blank" href="{$goods.url}" class="search_prod_img"> <img width="200" height="200" src="{$goods.goods_thumb}" alt="{$goods.goods_name}">{if $goods.is_hot eq 1 || $goods.is_new eq 1 || $goods.is_best eq 1} <sup class="ico_search_list">{if $goods.is_hot eq 1}新品{elseif $goods.is_new eq 1}热卖{elseif $goods.is_best eq 1}精品{/if}</sup>{/if}<span class="tag_video "></span> </a>
+            <div class="pricebox clearfix">
+              <p class="price"> <span class="color_red">
+                <!--{if $goods.promote_price neq "" } -->
+                {$goods.promote_price}
+                <!--{else}-->
+                {$goods.shop_price}
+                <!--{/if}-->
+                </span>
+                <!-- {if $show_marketprice} -->
+                <del>{$goods.market_price}</del>
+                <!-- {/if} -->
+              </p>
+              <p class="unit_price"></p>
+            </div>
+            <p class="title"> <a title="{$goods.name|escape:html}" target="_blank" href="{$goods.url}" class="title"> {$goods.goods_name}</a> </p>
+            <p class="comment"> 评论 <a target="_blank" href="{$goods.url}">{$goods.comments_number}条</a> </p>
+           
+            <div class="item_act clearfix">
+              
+              <div class="shopping_act fl"> <a href="{$goods.url}" class="buy_btn">积分：{$goods.exchange_integral}</a> </div>
+            </div>
+            <div class="item_status clearfix"> </div>
+          </div>
+        </li>
+        <!--{/if}-->
+        <!--{/foreach}-->
+      </ul>
+    </div>
+  </div>
+      <!-- {/if} -->
+    </form>
+
+</div>
+<div class="blank5"></div>
+<script type="text/javascript">
+  window.onload = function()
+  {
+    Compare.init();
+    fixpng();
+  }
+  var button_compare = '';
+</script>

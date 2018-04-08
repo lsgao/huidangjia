@@ -1,0 +1,115 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="l-s-title">
+	请设置筛选条件：
+  <div id="js-fold-btn" class="fold-btn" title="点击展开或收起">
+	  <i class="fold-icon"></i>
+  </div>
+</div>
+<div id="js-category" class="l-s-filter">
+  <div id="js-category" class="l-s-filter">
+    <!--{foreach from=$categories item=cat name=no1}-->
+    <!--{if $top_category_id eq $cat.id }-->
+    <dl id="js-category-category-{$cat.id}" class="l-filter-box need-coll l-f-open l-f-close">
+        <dt>
+          <a class="f-t" href="javascript:void(0);" onClick="category_click({$cat.id})">{$cat.name|escape:html}<i class="arrow"></i></a>
+        </dt>
+        <dd>
+          <ul class="clearfix">
+            <!--{foreach from=$cat.cat_id item=child name=foo}--><!--{foreach from=$child.cat_id item=childer}--><li><a href="{$childer.url}">{$childer.name|escape:html}</a></li><!--{/foreach}--><!--{/foreach}-->
+          </ul>
+        </dd>
+    </dl>
+    <!--{/if}-->
+    <!--{/foreach}--> 
+    <!--{foreach from=$categories item=cat name=no1}-->
+    <!--{if $top_category_id neq $cat.id }-->
+    <dl id="js-category-category-{$cat.id}" class="l-filter-box need-coll l-f-open l-f-close">
+        <dt>
+          <a class="f-t" href="javascript:void(0);" onClick="category_click({$cat.id})">{$cat.name|escape:html}<i class="arrow"></i></a>
+        </dt>
+        <dd>
+          <ul class="clearfix">
+            <!--{foreach from=$cat.cat_id item=child name=foo}--><!--{foreach from=$child.cat_id item=childer}--><li><a href="{$childer.url}">{$childer.name|escape:html}</a></li><!--{/foreach}--><!--{/foreach}-->
+          </ul>
+        </dd>
+    </dl>
+    <!--{/if}-->
+    <!--{/foreach}--> 
+  </div>
+	<!--{if $brands.1}-->
+	<dl id="js-category-category-brands" class="l-filter-box need-coll l-f-open l-f-close">
+  	<dt>
+			<a class="f-t" href="javascript:void(0);" onClick="category_click('brands')">
+				{$lang.brand}
+				<i class="arrow"></i>
+			</a>
+		</dt>
+    <dd>
+    	<ul class="clearfix">
+      	<!--{foreach from=$brands item=brand}--> 
+        <!-- {if $brand.selected} -->
+        <li><span>{$brand.brand_name}</span></li>
+        <!-- {else} -->
+        <li>
+        	<a href="{$brand.url}" class="js-click-event">{$brand.brand_name}</a>
+        </li>
+        <!--{/if}--> 
+        <!--{/foreach}-->
+      </ul>
+    </dd>
+  </dl>
+  <!--{/if}-->
+  <!--{foreach from=$filter_attr_list item=filter_attr}-->
+  <dl class="l-filter-box need-coll l-f-open l-f-close">
+  	<dt>
+    	<a class="f-t" href="javascript:void(0);">
+  			{$filter_attr.filter_attr_name|escape:html}
+  			<i class="arrow"></i>
+      </a>
+    </dt>
+    <dd>
+    	<ul class="clearfix">
+      	<!--{foreach from=$filter_attr.attr_list item=attr}-->
+        <!-- {if $attr.selected} -->
+  			<li><span>{$attr.attr_value}</span></li>
+  			<!-- {else} -->
+  			<li><a href="{$attr.url}" class="js-click-event">{$attr.attr_value}</a> </li>
+  			<!-- {/if} -->  
+        <!--{/foreach}-->
+      </ul>
+    </dd>
+  </dl>
+  <!--{/foreach}--> 
+  <!--{if $price_grade.1}-->
+  <dl id="js-category-category-price" class="l-filter-box need-coll l-f-open l-f-close">
+  	<dt>
+    	<a class="f-t" href="javascript:void(0);" onClick="category_click('price')">
+  			{$lang.price}
+  			<i class="arrow"></i>
+  		</a>
+    </dt>
+    <dd>
+    	<ul class="clearfix">
+      	<!--{foreach from=$price_grade item=grade}--> 
+        <!-- {if $grade.selected} -->
+  	    <li><span>{$grade.price_range}</span></li>
+  		  <!-- {else} -->
+  		  <li><a href="{$grade.url}">{$grade.price_range}</a></li>
+  		  <!-- {/if} --> 
+        <!--{/foreach}-->
+      </ul>
+    </dd>
+  </dl>
+  <!-- {/if} -->
+</div>
+<script>
+	$(function(){
+		$('#js-fold-btn').click(function(){
+			$('.l-f-open').toggleClass("l-f-close");
+			$(this).toggleClass("fold-on")
+		});
+	});
+	function category_click(cat_id){
+    $('#js-category-category-' + cat_id).toggleClass("l-f-close");
+	}
+</script>

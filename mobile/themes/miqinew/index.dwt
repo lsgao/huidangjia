@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{if $name}{$name}的{/if}{$shop_name} 触屏版</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css"/>
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css"/>
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css"/>
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css"/>
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css"/>
+		<script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js" ></script>
+	</head>
+	<body>
+		<div class="m_wrap">
+			<div class="m_header tran1s">
+				<div class="m_header_content">
+					<a href="cat_all.php"  class="ico-menu header_menu"></a>
+					<div class="search">
+						    <form action="search.php" method="post" id="searchForm" name="searchForm">
+						    
+						        <input class="text" type="search" name="keywords" id="keywordBox" placeholder="请输入您喜欢的商品名称" autofocus/>
+						        <button class="ico_07" type="submit" value="搜 索" onclick="return check('keywordBox')"></button>
+						      
+						    </form>
+					</div>
+					{if $smarty.session.user_id gt 0}
+					<a href="user.php" id="m_login_text">{$username}</a>
+					{else}
+					 <a href="user.php" id="m_login_text">登录</a>
+					{/if}
+					
+				</div>
+			</div>
+			<div class="banner">
+				<div class="swiper-container">
+				  <div class="swiper-wrapper">
+				    {insert name='ads' id=3 num=9}
+				   </div>
+				</div>
+				<script> 
+				var mySwiper = new Swiper('.swiper-container', {
+					autoplay: 6000,//可选选项，自动滑动
+					loop:true,
+					autoplayDisableOnInteraction : false,
+					pagination : '.swiper-pagination',
+				})
+				</script>
+			</div>
+			  
+			<div class="m_nav">
+				<ul>
+					<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+      <li> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
+        <span> {$nav.name} </span>
+      </li>
+      <!-- {if $smarty.foreach.nav_middle_list.iteration % 10 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
+      </ul>
+      <!-- {/if} -->
+      <!-- {/foreach} -->
+					
+					<div class="clear"></div>
+				</ul>
+			</div>
+			<div class="m_flash_sale m_content">
+				<div class="m_flash_tit m_index_tit">
+					<a href="search.php?intro=hot">
+						<p>限时抢购</p>
+					</a>
+				</div>
+				<div class="swiper-container  swiper-container-horizontal" id="m_flash">
+					<div class="swiper-wrapper">
+						 <!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
+						<div class="swiper-slide">
+							<a href="{$goods.url}">
+								<div class="m_flash_sale_pic">
+									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+								</div>
+								<div class="m_flash_sale_tit">
+									{$goods.goods_style_name|escape:html|truncate:15}
+								</div>
+								
+								<div class="m_flash_sale_price">
+									<span>{$goods.promote_price}</span><s>{$goods.market_price}</s>
+								</div>
+							</a>
+							</div>
+							 <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><!--{/if}-->
+                <!--{/foreach}-->
+						
+						
+					</div>
+				</div>
+				<script>
+						var mySwiper2 = new Swiper('#m_flash',{
+						slidesPerView : 'auto',
+						spaceBetween : 20,
+						loop:true,
+						})
+				</script>
+			</div>
+			<div class="m_hot_recom m_content">
+				<div class="m_index_tit">
+					<a href="search.php?intro=hot">
+						<p>热卖推荐</p>
+					</a>
+				</div>
+				
+				<div class="hot">
+					 {insert name='ads' id=5 num=1}
+					 {insert name='ads' id=6 num=1}
+					 {insert name='ads' id=7 num=1}
+					 {insert name='ads' id=8 num=1}
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="content hot_bott_banner">
+				<div class="swiper-container" id="ad_banner">
+					<div class="swiper-wrapper">
+						{insert name='ads' id=9 num=99}
+					</div>
+				</div>
+				<script>
+					var mySwiper = new Swiper('#ad_banner',{
+					pagination : '.swiper-pagination',
+					observer:true,
+					loop:true,
+					autoplay:6000,
+					autoplayDisableOnInteraction : false,
+					})
+				</script>
+			</div>
+			<div class="m_new_recom m_content">
+				<div class="m_new_tit">
+					<a href="search.php?intro=new"></a>
+				</div>
+                 <!--{foreach from=$new_goods item=goods name=new_goods}-->
+				<div class="m_new_item">
+					<a href="{$goods.url}">
+						<div class="m_new_item_pic">
+							<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+						</div>
+						<div class="m_new_info">
+							<div class="m_new_name">
+								<p>{$goods.name|escape:html|truncate:50}</p>
+							</div>
+							<!-- {if $goods.promote_price neq ""} --> 
+							<div class="m_new_pri">
+								<p>
+									{$goods.promote_price}
+									<s>{$goods.market_price}</s>
+									<span>立即抢</span>
+									<div class="clear"></div>
+								</p>
+							</div>
+							<!-- {else}--> 
+							<div class="m_new_pri">
+								<p>
+									{$goods.shop_price}
+									<s>{$goods.market_price}</s>
+									<span>立即抢</span>
+									<div class="clear"></div>
+								</p>
+							</div>
+							<!--{/if}-->
+						</div>
+						<div class="clear"></div>
+						
+					</a>
+				</div>
+				 <!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}--></ul><ul><!--{/if}-->
+                <!--{/foreach}-->
+                
+			</div>
+			<div class="clear"></div>
+			<div class="content">
+					<div class="brand_special">
+						<ul>
+							{insert name='ads' id=4 num=99}
+						</ul>
+					</div>
+			</div>
+			
+			
+			
+			<div class="m_you_like">
+				<div class="m_you_like_tit">
+					<span>猜你喜欢</span>
+					<i></i>
+					<p>这里总有您所喜爱的商品</p>
+				</div>
+				
+				 
+				<div class="m_you_like_con m_content">
+					 <!--{foreach from=$best_goods item=goods name=best_goods}-->
+					<div class="m_you_like_item">
+						<a href="{$goods.url}">
+							<div class="content">
+									<div class="m_you_like_pic">
+										<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+									</div>
+									<div class="m_you_like_name">
+										<p>{$goods.name|escape:html|truncate:30}</p>
+									</div>
+									 <!-- {if $goods.promote_price neq ""} --> 
+									<div class="m_you_like_price">
+										<p>
+											{$goods.shop_price}
+											<s>{$goods.market_price}</s>
+											<span>立即抢</span>
+											<div class="clear"></div>
+										</p>
+									</div>
+									<!-- {else}-->
+									<div class="m_you_like_price">
+										<p>
+											{$goods.shop_price}
+											<s>{$goods.market_price}</s>
+											<span>立即抢</span>
+											<div class="clear"></div>
+										</p>
+									</div>
+									<!--{/if}-->
+								</div>
+						</a>
+					</div>
+					<!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}--></ul><ul><!--{/if}-->
+                <!--{/foreach}-->
+					
+					<div class="clear"></div>
+					<div class="m_you_like_more">
+						<a href="search.php?intro=best">点击查看更多</a>
+					</div>
+				</div>
+			</div>
+			<div class="m_index_footer">
+				<div class="m_index_footer_fun">
+					<a href="user.php">登录</a>
+					<a href="user.php">注册</a>
+					<a href="#">反馈</a>
+					<a href="#" class="m_return_top">返回顶部</a>
+					<div class="clear"></div>
+				</div>
+				<div class="m_index_footer_ico">
+					<div class="m_index_footer_ico_item">
+						<a href="http://www.yuehuitao.net/?computer=1">
+							<img src="{$ectouch_themes}/img/footer_computer_ico.png" class="img_res"/>
+							<p>电脑版</p>
+						</a>
+					</div>
+					<div class="m_index_footer_ico_item">
+						<a href="#">
+							<img src="{$ectouch_themes}/img/footer_phone_ico.png" class="img_res"/>
+							<p>触屏版</p>
+						</a>
+					</div>
+					<div class="m_index_footer_ico_item">
+						<a href="#">
+							<img src="{$ectouch_themes}/img/footer_app_ico.png" class="img_res"/>
+							<p>APP</p>
+						</a>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+
+			<div class="bottom_nav">
+				<ul>
+			        <li ><a href="./"><img src="{$ectouch_themes}/img/wb_a.png"alt=""/>首页</a></li>
+			        <li ><a href="javascript:get_search_box();"><img src="{$ectouch_themes}/img/wb_b.png" alt=""/>搜索</a></li>
+			        <li ><a href="cat_all.php" ><img src="{$ectouch_themes}/img/wb_c.png"  alt=""/>分类</a></li>
+			        <li >{if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php" >{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');">{/if}<img src="{$ectouch_themes}/img/wb_d.png"  alt=""/>购物车</a></li>
+			        <li ><a href="user.php"><img src="{$ectouch_themes}/img/wb_e.png" alt=""/>个人中心</a></li>
+			        <div class="clear"></div>
+			    </ul>
+			</div>
+		</div>
+	</body>
+</html>

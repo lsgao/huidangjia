@@ -1,0 +1,18 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="l-header clearfix">
+	<div class="g-nav">
+		您所在的位置：{$ur_here}
+    </div>
+    <div id="js-total" class="l-min-total">
+    	 共有
+			<strong class="ch-color">
+            	
+      			{$pager.record_count}
+      		
+      		</strong>
+		款商品 
+    </div>
+</div>
+
+
+
