@@ -167,7 +167,7 @@ class wx_new_qrcode
         }
         else
         {
-            $this->log(ROOT_PATH.'/data/wx_new_log.txt',"签名失败\r\n");
+            $this->log(ROOT_PATH.'/data/wx_new_log.txt',"签名失败 http://域名/includes/modules/payment/wx_new_qrcode.php\r\n");
         }
         return false;
     }
