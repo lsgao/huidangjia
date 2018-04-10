@@ -2,5 +2,5 @@
 /data
 /temp/*
 **/*.log
-
+/mobile/data
 

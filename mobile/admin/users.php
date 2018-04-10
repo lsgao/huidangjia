@@ -834,8 +834,7 @@ elseif ($_REQUEST['act'] == 'myorder')
  *
  * @return void
  */
-function user_list()
-{
+function user_list() {
     $result = get_filter();
     if ($result === false)
     {
@@ -853,30 +852,23 @@ function user_list()
         $filter['sort_order'] = empty($_REQUEST['sort_order']) ? 'DESC'     : trim($_REQUEST['sort_order']);
 
         $ex_where = ' WHERE 1 ';
-        if ($filter['keywords'])
-        {
+        if ($filter['keywords']) {
             $ex_where .= " AND ( user.user_name LIKE '%" . mysql_like_quote($filter['keywords']) ."%'" . " OR wxuser.nickname LIKE '%" . mysql_like_quote($filter['keywords']) ."%' )";
         }
-        if ($filter['rank'])
-        {
+        if ($filter['rank']) {
             $sql = "SELECT min_points, max_points, special_rank FROM ".$GLOBALS['ecs']->table('user_rank')." WHERE rank_id = '$filter[rank]'";
             $row = $GLOBALS['db']->getRow($sql);
-            if ($row['special_rank'] > 0)
-            {
+            if ($row['special_rank'] > 0) {
                 /* 特殊等级 */
                 $ex_where .= " AND user.user_rank = '$filter[rank]' ";
-            }
-            else
-            {
+            } else {
                 $ex_where .= " AND user.rank_points >= " . intval($row['min_points']) . " AND user.rank_points < " . intval($row['max_points']);
             }
         }
-        if ($filter['pay_points_gt'])
-        {
+        if ($filter['pay_points_gt']) {
              $ex_where .=" AND user.pay_points >= '$filter[pay_points_gt]' ";
         }
-        if ($filter['pay_points_lt'])
-        {
+        if ($filter['pay_points_lt']) {
             $ex_where .=" AND user.pay_points < '$filter[pay_points_lt]' ";
         }
 
