@@ -26,7 +26,7 @@ if ($_REQUEST['act'] == 'list')
 	foreach($ret as $k=>$v)
 	{
 		$v['subscribe_time'] = date("Y-m-d",$v['subscribe_time']);
-		$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
+		//$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
 		if($v['setp'] == 3) 
 		{
 			$v['user_name'] = $v['uname'];
@@ -247,7 +247,7 @@ elseif($_REQUEST['act'] == 'query')
 		foreach($ret as $k=>$v)
 		{
 			$v['subscribe_time'] = date("Y-m-d",$v['subscribe_time']);
-			$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
+			//$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
 			if($v['setp'] == 3) 
 			{
 				$v['user_name'] = $v['uname'];
@@ -312,7 +312,7 @@ elseif($_REQUEST['act'] == 'query')
 		foreach($ret as $k=>$v)
 		{
 			$v['subscribe_time'] = date("Y-m-d",$v['subscribe_time']);
-			$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
+			//$v['headimgurl'] = Getheadimgurl($v['headimgurl']);
 			if($v['setp'] == 3) 
 			{
 				$v['user_name'] = $v['uname'];

@@ -1,16 +1,9 @@
 <?php
 
 /**
- * ECTouch Open Source Project
- * ============================================================================
- * Copyright (c) 2012-2014 http://ectouch.cn All rights reserved.
+ * 文件名称：wxpay.php
  * ----------------------------------------------------------------------------
- * 文件名称：alipay_wap.php
- * ----------------------------------------------------------------------------
- * 功能描述：手机支付宝支付插件
- * ----------------------------------------------------------------------------
- * Licensed ( http://www.ectouch.cn/docs/license.txt )
- * ----------------------------------------------------------------------------
+ * 功能描述：手机微信支付插件
  */
 
 /* 访问控制 */
@@ -35,9 +28,9 @@ if (isset ( $set_modules ) && $set_modules == TRUE) {
  /* 是否支持在线支付 */
  $modules [$i] ['is_online'] = '1';
  /* 作者 */
- $modules [$i] ['author'] = 'ECTOUCH TEAM';
+ $modules [$i] ['author'] = 'Ruptech';
  /* 网址 */
- $modules [$i] ['website'] = 'http://www.ectouch.cn';
+ $modules [$i] ['website'] = 'http://www.ruptech.cn';
  /* 版本号 */
  $modules [$i] ['version'] = '1.0.0';
  /* 配置信息 */
@@ -106,7 +99,7 @@ class wxpay {
   // $out_trade_no = WxPayConf_pub::APPID."$timeStamp";
   $unifiedOrder->setParameter ( "out_trade_no", "$out_trade_no" ); // 商户订单号
   $unifiedOrder->setParameter ( "total_fee", "$ordermount" ); // 总金额
-  $unifiedOrder->setParameter ( "notify_url", "http://www.sofusofo.com/mobile/notify_wap_wxpay.php"); // 通知地址
+  $unifiedOrder->setParameter ( "notify_url", "http://www.yuehuitao.net/wechat/notify_url.php"); // 通知地址
   $unifiedOrder->setParameter ( "trade_type", "JSAPI" ); // 交易类型
   
   $prepay_id = $unifiedOrder->getPrepayId ();

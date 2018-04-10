@@ -14,11 +14,11 @@ class WxPayConf_pub {
  // =======【证书路径设置】=====================================
  // 证书路径,注意应该填写绝对路径
  const SSLCERT_PATH = '/work/proiect/huidangjia/wechat/WxPayPubHelper/cacert/apiclient_cert.pem';
- const SSLKEY_PATH = '/work/proiect/huidangjia/www/wechat/WxPayPubHelper/cacert/apiclient_key.pem';
+ const SSLKEY_PATH = '/work/proiect/huidangjia/wechat/WxPayPubHelper/cacert/apiclient_key.pem';
  
  // =======【异步通知url设置】===================================
  // 异步通知url，商户根据实际开发过程设定
- const NOTIFY_URL = 'http://www.51huidangjia.com/wechat/notify_url.php';
+ const NOTIFY_URL = 'http://www.yuehuitao.net/wechat/notify_url.php';
  
  // =======【curl超时设置】===================================
  // 本例程通过curl使用HTTP POST方法，此处可修改其超时时间，默认为30秒

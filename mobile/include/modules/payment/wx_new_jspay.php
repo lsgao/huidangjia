@@ -57,7 +57,7 @@ class wx_new_jspay
     function __construct()
     {
         $payment = get_payment('wx_new_jspay');
-    
+
         if(!defined('WXAPPID'))
         {
             $root_url = str_replace('mobile/', '', $GLOBALS['ecs']->url());
@@ -71,41 +71,35 @@ class wx_new_jspay
             define('WXSSLKEY_PATH',dirname(__FILE__).'/WxPayPubHelper/cacert/apiclient_key.pem');
         }
         require_once(dirname(__FILE__)."/WxPayPubHelper/WxPayPubHelper.php");
-
     }
 
 
-    function get_code($order, $payment)
-    {
-        
+    function get_code($order, $payment) {
         $jsApi = new JsApi_pub();
-
-       
-        if (!isset($_GET['code']))
-        {
+        if (!isset($_GET['code'])) {
             $redirect = urlencode($GLOBALS['ecs']->url().'flow.php?step=ok&order_id='.$order['order_sn']);
             $url = $jsApi->createOauthUrlForCode($redirect);
             Header("Location: $url"); 
-        }else
-        {
+        } else {
             $code = $_GET['code'];
+            //echo ("code=".$code."<br>");
             $jsApi->setCode($code);
-            $openid = $jsApi->getOpenId();
+            $openid = $jsApi->getOpenid();
+            //$openid = 'oTSYI0lF567RWWoQ6wbrzw1KGrpc';
         }
-        
-        if($openid)
-        {
+
+        if($openid) {
             $unifiedOrder = new UnifiedOrder_pub();
 
-            $unifiedOrder->setParameter("openid","$openid");//商品描述
-            $unifiedOrder->setParameter("body",$order['order_sn']);//商品描述
+            $unifiedOrder->setParameter("openid","$openid");
+            //$unifiedOrder->setParameter("body",$order['order_sn']);//商品描述
+            $unifiedOrder->setParameter("body","惠当家-订单");//商品描述
             $out_trade_no = $order['order_sn'];
             $unifiedOrder->setParameter("out_trade_no","$out_trade_no");//商户订单号 
             $unifiedOrder->setParameter("attach",strval($order['log_id']));//商户支付日志
             $unifiedOrder->setParameter("total_fee",strval(intval($order['order_amount']*100)));//总金额
-            $unifiedOrder->setParameter("notify_url",WXNOTIFY_URL);//通知地址 
+            $unifiedOrder->setParameter("notify_url",WXNOTIFY_URL);//通知地址
             $unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
-
 
             $prepay_id = $unifiedOrder->getPrepayId();
 
@@ -113,75 +107,61 @@ class wx_new_jspay
 
             $jsApiParameters = $jsApi->getParameters();
 
-
             $user_agent = $_SERVER['HTTP_USER_AGENT'];
             $allow_use_wxPay = true;
 
-            if(strpos($user_agent, 'MicroMessenger') === false)
-            {
+            if(strpos($user_agent, 'MicroMessenger') === false) {
                 $allow_use_wxPay = false;
-            }
-            else
-            {
+            } else {
                 preg_match('/.*?(MicroMessenger\/([0-9.]+))\s*/', $user_agent, $matches);
-                if($matches[2] < 5.0)
-                {
+                if($matches[2] < 5.0) {
                     $allow_use_wxPay = false;
                 }
             }
             $html .= '<script language="javascript">';
-            if($allow_use_wxPay)
-            {
-                $html .= "function jsApiCall(){";
-                $html .= "WeixinJSBridge.invoke(";
-                $html .= "'getBrandWCPayRequest',";
-                $html .= $jsApiParameters.",";
-                $html .= "function(res){";
-                $html .= "if(res.err_msg == 'get_brand_wcpay_request:ok'){window.location.href='".$GLOBALS['ecs']->url()."respond.php'}";
+            if($allow_use_wxPay) {
+                $html .= "function jsApiCall() {";
+                $html .= "    WeixinJSBridge.invoke(";
+                $html .= "        'getBrandWCPayRequest',";
+                $html .= "        " . $jsApiParameters.",";
+                $html .= "        function(res) {";
+                $html .= "            if(res.err_msg == 'get_brand_wcpay_request:ok') {window.location.href='".$GLOBALS['ecs']->url()."respond.php'}";
                 //$html .= "WeixinJSBridge.log(res.err_msg);";
-                $html .= "}";
-                $html .= ");";
+                $html .= "        }";
+                $html .= "    );";
                 $html .= "}";
                 $html .= "function callpay(){";
-                $html .= 'if (typeof WeixinJSBridge == "undefined"){';
-                $html .= "if( document.addEventListener ){";
-                $html .= "document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);";
-                $html .= "}else if (document.attachEvent){";
-                $html .= "document.attachEvent('WeixinJSBridgeReady', jsApiCall); ";
-                $html .= "document.attachEvent('onWeixinJSBridgeReady', jsApiCall);";
+                $html .= "    if (typeof WeixinJSBridge =='undefined') {";
+                $html .= "        if( document.addEventListener ) {";
+                $html .= "            document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);";
+                $html .= "        } else if (document.attachEvent) {";
+                $html .= "            document.attachEvent('WeixinJSBridgeReady', jsApiCall); ";
+                $html .= "            document.attachEvent('onWeixinJSBridgeReady', jsApiCall);";
+                $html .= "        }";
+                $html .= "    } else {";
+                $html .= "        jsApiCall();";
+                $html .= "    }";
                 $html .= "}";
-                $html .= "}else{";
-                $html .= "jsApiCall();";
-                $html .= "}}";
-            }
-            else
-            {
+            } else {
                 $html .= 'function callpay(){';
                 $html .= 'alert("您的微信不支持支付功能,请更新您的微信版本")';
                 $html .= "}";
-
             }
-
             $html .= '</script>';
             $html .= '<button  class="c-btn4"  type="button" onclick="callpay()">微信支付</button>';
 
             return $html;
-
-        }
-        else
-        {
+        } else {
             $html .= '<script language="javascript">';
             $html .= 'function callpay(){';
             $html .= 'alert("请在微信中使用微信支付")';
             $html .= "}";
             $html .= '</script>';
-            $html .= '<button type="button" onclick="callpay()"       class="pay_bottom">微信支付</button>';
-
+            $html .= '<button type="button" onclick="callpay()" class="pay_bottom">微信支付</button>';
             return $html;
         }
-
-        
     }
+
     function respond()
     {
         $payment  = get_payment('wx_new_jspay');

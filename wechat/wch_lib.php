@@ -19,8 +19,8 @@ if (strpos($_SERVER["HTTP_USER_AGENT"], "MicroMessenger"))
         if (isset($_GET['referer']) && !empty($_GET['referer'])) {
          $wch_back = $_GET['referer'];
         }
-        //$go_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=http://yuehuitao.tttalk.org/wechat/wch_init.php&response_type=code&scope=snsapi_userinfo&state='.$wch_back.'#wechat_redirect';
-        $go_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=http://yuehuitao.tttalk.org/wechat/wch_init.php&response_type=code&scope=snsapi_userinfo&state='.$wch_back.'#wechat_redirect';
+        //$go_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=http://www.yuehuitao.net/wechat/wch_init.php&response_type=code&scope=snsapi_userinfo&state='.$wch_back.'#wechat_redirect';
+        $go_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=http://www.yuehuitao.net/wechat/wch_init.php&response_type=code&scope=snsapi_userinfo&state='.$wch_back.'#wechat_redirect';
         wch_header($go_url);
     }
 }
