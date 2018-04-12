@@ -680,7 +680,7 @@ elseif ($_REQUEST['act'] == 'delivery_info')
 //-- 发货单发货确认
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'delivery_ship') {
-    /* 检查权限 */
+    // 检查权限 */
     admin_priv('delivery_view');
 
     /* 定义当前时间 */
@@ -873,7 +873,7 @@ elseif ($_REQUEST['act'] == 'delivery_ship') {
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'delivery_cancel_ship')
 {
-    /* 检查权限 */
+    // 检查权限 */
     admin_priv('delivery_view');
 
     /* 取得参数 */
@@ -1004,7 +1004,7 @@ elseif ($_REQUEST['act'] == 'delivery_cancel_ship')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'back_list')
 {
-    /* 检查权限 */
+    // 检查权限 */
     admin_priv('back_view');
 
     /* 查询 */
@@ -3220,7 +3220,7 @@ elseif ($_REQUEST['act'] == 'operate') {
     }
     /* 指派 */
     elseif (isset($_POST['assign'])) {
-        /* 取得参数 */
+        // 取得参数 */
         $new_agency_id  = isset($_POST['agency_id']) ? intval($_POST['agency_id']) : 0;
         if ($new_agency_id == 0) {
             sys_msg($_LANG['js_languages']['pls_select_agency']);
@@ -3481,7 +3481,7 @@ elseif ($_REQUEST['act'] == 'operate') {
 
     /* 直接处理还是跳到详细页面 */
     if (($require_note && $action_note == '') || isset($show_invoice_no) || isset($show_refund)) {
-        /* 模板赋值 */
+        // 模板赋值 */
         $smarty->assign('require_note', $require_note); // 是否要求填写备注
         $smarty->assign('action_note', $action_note);   // 备注
         $smarty->assign('show_cancel_note', isset($show_cancel_note)); // 是否显示取消原因
@@ -3496,14 +3496,11 @@ elseif ($_REQUEST['act'] == 'operate') {
         $smarty->assign('ur_here', $_LANG['order_operate'] . $action);
         assign_query_info();
         $smarty->display('order_operate.htm');
-    } else {
-        /* 直接处理 */
-        if (!$batch) {
-            /* 一个订单 */
+    } else { /* 直接处理 */
+        if (!$batch) { /* 一个订单 */
             ecs_header("Location: order.php?act=operate_post&order_id=" . $order_id . "&operation=" . $operation . "&action_note=" . urlencode($action_note) . "\n");
             exit;
-        } else {
-            /* 多个订单 */
+        } else { /* 多个订单 */
             ecs_header("Location: order.php?act=batch_operate_post&order_id=" . $order_id . "&operation=" . $operation . "&action_note=" . urlencode($action_note) . "\n");
             exit;
         }
@@ -3803,7 +3800,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
 
     /* 确认 */
     if ('confirm' == $operation) {
-        /* 标记订单为已确认 */
+        // 标记订单为已确认 */
         update_order($order_id, array('order_status' => OS_CONFIRMED, 'confirm_time' => gmtime()));
         update_order_amount($order_id);
 
@@ -3834,12 +3831,11 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 付款 */
     elseif ('pay' == $operation) {
-        /* 检查权限 */
+        // 检查权限 */
         admin_priv('order_ps_edit');
 
         /* 标记订单为已确认、已付款，更新付款时间和已支付金额，如果是货到付款，同时修改订单为“收货确认” */
-        if ($order['order_status'] != OS_CONFIRMED)
-        {
+        if ($order['order_status'] != OS_CONFIRMED) {
             $arr['order_status']    = OS_CONFIRMED;
             $arr['confirm_time']    = gmtime();
         }
@@ -3848,8 +3844,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
         $arr['money_paid']  = $order['money_paid'] + $order['order_amount'];
         $arr['order_amount']= 0;
         $payment = payment_info($order['pay_id']);
-        if ($payment['is_cod'])
-        {
+        if ($payment['is_cod']) {
             $arr['shipping_status'] = SS_RECEIVED;
             $order['shipping_status'] = SS_RECEIVED;
         }
@@ -3857,10 +3852,13 @@ elseif ($_REQUEST['act'] == 'operate_post') {
 
         /* 记录log */
         order_action($order['order_sn'], OS_CONFIRMED, $order['shipping_status'], PS_PAYED, $action_note);
+        /* 微信发送 */
+        $wxch_order_name = 'pay';
+        include(ROOT_PATH . 'admin/wxch_order.php');
     }
     /* 设为未付款 */
     elseif ('unpay' == $operation) {
-        /* 检查权限 */
+        // 检查权限 */
         admin_priv('order_ps_edit');
 
         /* 标记订单为未付款，更新付款时间和已付款金额 */
@@ -3882,7 +3880,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 配货 */
     elseif ('prepare' == $operation) {
-        /* 标记订单为已确认，配货中 */
+        // 标记订单为已确认，配货中 */
         if ($order['order_status'] != OS_CONFIRMED)
         {
             $arr['order_status']    = OS_CONFIRMED;
@@ -3899,7 +3897,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 分单确认 */
     elseif ('split' == $operation) {
-        /* 检查权限 */
+        // 检查权限 */
         admin_priv('order_ss_edit');
 
         /* 定义当前时间 */
@@ -4260,7 +4258,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 设为未发货 */
     elseif ('unship' == $operation) {
-        /* 检查权限 */
+        // 检查权限 */
         admin_priv('order_ss_edit');
 
         /* 标记订单为“未发货”，更新发货时间, 订单状态为“确认” */
@@ -4303,7 +4301,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 收货确认 */
     elseif ('receive' == $operation) {
-        /* 标记订单为“收货确认”，如果是货到付款，同时修改订单为已付款 */
+        // 标记订单为“收货确认”，如果是货到付款，同时修改订单为已付款 */
         $arr = array('shipping_status' => SS_RECEIVED);
         $payment = payment_info($order['pay_id']);
         if ($payment['is_cod'])
@@ -4318,7 +4316,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 取消 */
     elseif ('cancel' == $operation) {
-        /* 标记订单为“取消”，记录取消原因 */
+        // 标记订单为“取消”，记录取消原因 */
         $cancel_note = isset($_REQUEST['cancel_note']) ? trim($_REQUEST['cancel_note']) : '';
         $arr = array(
             'order_status'  => OS_CANCELED,
@@ -4368,7 +4366,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 设为无效 */
     elseif ('invalid' == $operation) {
-        /* 标记订单为“无效”、“未付款” */
+        // 标记订单为“无效”、“未付款” */
         update_order($order_id, array('order_status' => OS_INVALID));
 
         /* 记录log */
@@ -4401,7 +4399,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
     }
     /* 退货 */
     elseif ('return' == $operation) {
-        /* 定义当前时间 */
+        // 定义当前时间 */
         define('GMTIME_UTC', gmtime()); // 获取 UTC 时间戳
 
         /* 过滤数据 */
@@ -4521,8 +4519,9 @@ elseif ($_REQUEST['act'] == 'operate_post') {
         /* 清除缓存 */
         clear_cache_files();
     }
+    /* 售后 */
     elseif ('after_service' == $operation) {
-        /* 记录log */
+        // 记录log */
         order_action($order['order_sn'], $order['order_status'], $order['shipping_status'], $order['pay_status'], '[' . $_LANG['op_after_service'] . '] ' . $action_note);
     }
     else {

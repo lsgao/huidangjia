@@ -134,7 +134,7 @@ Template Type: type_0
      首页模块
 ==================== */
 	/*头部*/
-	#header{z-index:999;background-color:#ec5151;position:relative;  height:3rem;display: block;}
+	#header{z-index:999;background-color:#ff9600;position:relative;  height:3rem;display: block;}
 	#header h1{color: #fff;font-size: 1.2rem;line-height: 3rem;text-align:center;  font-weight:normal;}
 	#header .header_r{position: absolute;top: 0;right: 0;}
 	#header .header_r a {width: 3rem;height:3rem;display: block;padding: 0 0.2rem;text-indent: -999em;overflow: hidden;}

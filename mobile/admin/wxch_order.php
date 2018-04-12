@@ -1,7 +1,7 @@
 <?php
 $time = time();
-if(empty($wxch_order_name)) {
-	$wxch_order_name = 'reorder';
+if (empty($wxch_order_name)) {
+    $wxch_order_name = 'reorder';
 }
 $wxch_user_id = $_SESSION['user_id'];
 if (empty($wxch_user_id)) {
@@ -61,7 +61,7 @@ if($wxch_user_id > 0) {
     $wxch_address = "\r\n收件地址：".$orders['address'];
     $wxch_consignee = "\r\n收件人：".$orders['consignee'];
     $w_title = $cfg_order['title'];
-    if($orders['order_amount'] == '0.00') {
+    if ($orders['order_amount'] == '0.00') {
         $orders['order_amount'] = $orders['money_paid'];
     }
     $w_description = '订单号：'.$orders['order_sn']."\r\n".'商品信息：'.$shopinfo."\r\n总金额：".$orders['order_amount']."\r\n".$pay_status.$wxch_consignee.$wxch_address;

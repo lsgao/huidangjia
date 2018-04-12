@@ -183,6 +183,21 @@ class wx_new_jspay
                     $this->log(ROOT_PATH.'/data/wx_new_log.txt',"result_code失败\r\n");
                 }
             } else {
+                // 查询$log_id = $notify->data["attach"];是否存在于wxch_response，如果不存在插入，如果存在直接return false;
+                $sql = "SELECT count(0) FROM wxch_response" . " WHERE out_trade_no = '". $notify->data["out_trade_no"] . "'";
+                $record_count = $GLOBALS['db']->getOne($sql);
+                if ($record_count > 0) {
+                    $this->log(ROOT_PATH.'/data/wx_new_log.txt',"订单[ " . $notify->data["out_trade_no"] . " ]已处理\r\n");
+                    return false;
+                } else {
+                    $sql = "INSERT INTO wxch_response " .
+                        "( attach, bank_type, cash_fee, fee_type, is_subscribe, nonce_str, openid, out_trade_no, result_code, return_code, time_end, total_fee, trade_type ) ".
+                        "VALUES " .
+                        "( '" . $notify->data["attach"] ."', '". $notify->data["bank_type"] ."', '". $notify->data["cash_fee"] ."', '". $notify->data["fee_type"] ."', '". $notify->data["is_subscribe"] ."', '". $notify->data["nonce_str"] ."', '". $notify->data["openid"] ."', '". $notify->data["out_trade_no"] ."', '". $notify->data["result_code"] ."', '". $notify->data["return_code"] ."', '". $notify->data["time_end"] ."', '". $notify->data["total_fee"] ."', '". $notify->data["trade_type"] ."' )"
+                     ;
+                    $this->log(ROOT_PATH.'/data/wx_new_log.txt',"" . $sql. "\r\n");
+                    $GLOBALS['db']->query($sql);
+                }
                 //此处应该更新一下订单状态，商户自行增删操作
                 if($payment['logs']) {
                     $this->log(ROOT_PATH.'/data/wx_new_log.txt',"支付成功\r\n");
@@ -221,6 +236,5 @@ class wx_new_jspay
         fwrite($fp,"\r\n\r\n\r\n");
         fclose($fp);
     }
-    
 }
 ?>

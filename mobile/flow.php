@@ -1913,15 +1913,14 @@ elseif ($_REQUEST['step'] == 'done')
     }
 
     /* 如果需要，发短信 */
-    if ($_CFG['sms_order_placed'] == '1' && $_CFG['sms_shop_mobile'] != '')
-    {
+    if ($_CFG['sms_order_placed'] == '1' && $_CFG['sms_shop_mobile'] != '') {
         include_once('include/cls_sms.php');
         $sms = new sms();
         $msg = $order['pay_status'] == PS_UNPAYED ? $_LANG['order_placed_sms'] : $_LANG['order_placed_sms'] . '[' . $_LANG['sms_paid'] . ']';
-		$sms_error = array();
-        if(!$sms->send($_CFG['sms_shop_mobile'], sprintf($msg, $order['consignee'], $order['mobile']), $sms_error)){
-			echo $sms_error;
-		}
+        $sms_error = array();
+        if(!$sms->send($_CFG['sms_shop_mobile'], sprintf($msg, $order['consignee'], $order['mobile']), $sms_error)) {
+            echo $sms_error;
+        }
     }
 
     /* 如果订单金额为0 处理虚拟卡 */
@@ -1988,11 +1987,8 @@ elseif ($_REQUEST['step'] == 'done')
 
     /* 插入支付日志 */
     $order['log_id'] = insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
-	if($payment['pay_code'] == 'wx_new_jspay')
-    {
-	
-		
-		include ('wxch_order.php');
+    if($payment['pay_code'] == 'wx_new_jspay') {
+        include ('wxch_order.php');
         user_uc_call('add_feed', array($order['order_id'], BUY_GOODS)); //推送feed到uc
 
         unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
@@ -2001,42 +1997,39 @@ elseif ($_REQUEST['step'] == 'done')
 
         unset($_SESSION['direct_shopping']);
         ecs_header("Location:flow.php?step=ok&order_id=".$order['order_sn']);
-        
     }
     else
     {
-    /* 取得支付信息，生成支付代码 */
-    if ($order['order_amount'] > 0)
-    {
-        $payment = payment_info($order['pay_id']);
+        /* 取得支付信息，生成支付代码 */
+        if ($order['order_amount'] > 0) {
+            $payment = payment_info($order['pay_id']);
 
-        include_once('include/modules/payment/' . $payment['pay_code'] . '.php');
+            include_once('include/modules/payment/' . $payment['pay_code'] . '.php');
 
-        $pay_obj    = new $payment['pay_code'];
+            $pay_obj    = new $payment['pay_code'];
+            $pay_online = $pay_obj->get_code($order, unserialize_config($payment['pay_config']));
 
-        $pay_online = $pay_obj->get_code($order, unserialize_config($payment['pay_config']));
+            $order['pay_desc'] = $payment['pay_desc'];
 
-        $order['pay_desc'] = $payment['pay_desc'];
+            $smarty->assign('pay_online', $pay_online);
+        }
+        if(!empty($order['shipping_name']))
+        {
+            $order['shipping_name']=trim(stripcslashes($order['shipping_name']));
+        }
+        /* 微信发送 */
+        include ('wxch_order.php');
+        /* 订单信息 */
+        $smarty->assign('order',      $order);
+        $smarty->assign('total',      $total);
+        $smarty->assign('goods_list', $cart_goods);
+        $smarty->assign('order_submit_back', sprintf($_LANG['order_submit_back'], $_LANG['back_home'], $_LANG['goto_user_center'])); // 返回提示
 
-        $smarty->assign('pay_online', $pay_online);
+        user_uc_call('add_feed', array($order['order_id'], BUY_GOODS)); //推送feed到uc
+        unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
+        unset($_SESSION['flow_order']);
+        unset($_SESSION['direct_shopping']);
     }
-    if(!empty($order['shipping_name']))
-    {
-        $order['shipping_name']=trim(stripcslashes($order['shipping_name']));
-    }
-    /* 微信发送 */
-    include ('wxch_order.php');
-    /* 订单信息 */
-    $smarty->assign('order',      $order);
-    $smarty->assign('total',      $total);
-    $smarty->assign('goods_list', $cart_goods);
-    $smarty->assign('order_submit_back', sprintf($_LANG['order_submit_back'], $_LANG['back_home'], $_LANG['goto_user_center'])); // 返回提示
-
-    user_uc_call('add_feed', array($order['order_id'], BUY_GOODS)); //推送feed到uc
-    unset($_SESSION['flow_consignee']); // 清除session中保存的收货人信息
-    unset($_SESSION['flow_order']);
-    unset($_SESSION['direct_shopping']);
- }
 }
 elseif($_REQUEST['step'] == 'ok')
 {
