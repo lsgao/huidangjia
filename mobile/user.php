@@ -1114,12 +1114,29 @@ elseif ($action == 'order_list') {
     include_once(ROOT_PATH . 'include/lib_transaction.php');
 
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
- 
+
     $where = " WHERE user_id = '$user_id' ";
      if (isset($_REQUEST['search_mobile'])) {
          $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
      }
-
+     if (isset($_REQUEST['search_consignee'])) {
+         $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
+     }
+     if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
+         $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
+     }
+     if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
+         $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
+     }
+     if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
+         $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
+     }
+     if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
+         $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
+     }
+     if (isset($_REQUEST['search_address'])) {
+         $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
+     }
     $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). $where);
     $pager  = get_pager('user.php', array('act' => $action), $record_count, $page);
 
@@ -1127,6 +1144,12 @@ elseif ($action == 'order_list') {
     //$merge  = get_user_merge($user_id);
 
     $smarty->assign('search_mobile',  $_REQUEST['search_mobile']);
+    $smarty->assign('search_consignee',  $_REQUEST['search_consignee']);
+    $smarty->assign('search_country',  $_REQUEST['search_country']);
+    $smarty->assign('search_province',  $_REQUEST['search_province']);
+    $smarty->assign('search_city',  $_REQUEST['search_city']);
+    $smarty->assign('search_district',  $_REQUEST['search_district']);
+    $smarty->assign('search_address',  $_REQUEST['search_address']);
     //$smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
     $smarty->assign('orders', $orders);
@@ -1146,6 +1169,24 @@ elseif ($action == 'async_order_list') {
      if (isset($_REQUEST['search_mobile'])) {
          $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
      }
+     if (isset($_REQUEST['search_consignee'])) {
+         $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
+     }
+     if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
+         $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
+     }
+     if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
+         $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
+     }
+     if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
+         $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
+     }
+     if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
+         $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
+     }
+     if (isset($_REQUEST['search_address'])) {
+         $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
+     }
     $orders = search_orders($limit, $start, $where);
     if(is_array($orders)){
         foreach($orders as $vo){
@@ -1153,7 +1194,7 @@ elseif ($action == 'async_order_list') {
             $img = $db->getOne("SELECT g.goods_thumb FROM " .$ecs->table('order_goods'). " as og left join " .$ecs->table('goods'). " g on og.goods_id = g.goods_id WHERE og.order_id = ".$vo['order_id']." limit 1");
             $tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
             $detail_content = '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">'
-                    .'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">'
+                .'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">'
                     .'<tr>'
                         .'<td><img src="'.$config['site_url'].$img.'" width="50" height="50" /></td>'
                         .'<td>'
@@ -4154,12 +4195,11 @@ function get_accountlist($user_id, $account_type = '')
  */
 function search_orders($num = 10, $start = 0, $where) {
     $arr    = array();
-
     $sql = "SELECT order_id, order_sn, order_status, shipping_id, shipping_status, pay_status, return_status, add_time, " .
-        "(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
+        " (goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
         " FROM " .$GLOBALS['ecs']->table('order_info') .
         $where .
-        "ORDER BY add_time DESC";
+        " ORDER BY add_time DESC";
     $res = $GLOBALS['db']->SelectLimit($sql, $num, $start);
 
     while ($row = $GLOBALS['db']->fetchRow($res)) {

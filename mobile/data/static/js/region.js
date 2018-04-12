@@ -68,7 +68,7 @@ region.response = function(result, text_result)
 
   sel.length = 1;
   sel.selectedIndex = 0;
-  sel.style.display = (result.regions.length == 0 && ! region.isAdmin && result.type + 0 == 3) ? "none" : '';
+  //sel.style.display = (result.regions.length == 0 && ! region.isAdmin && result.type + 0 == 3) ? "none" : '';
 
   if (document.all)
   {
@@ -88,7 +88,9 @@ region.response = function(result, text_result)
       var opt = document.createElement("OPTION");
       opt.value = result.regions[i].region_id;
       opt.text  = result.regions[i].region_name;
-
+      if (opt.value == result.value) {
+        opt.selected = "selected";
+      }
       sel.options.add(opt);
     }
   }

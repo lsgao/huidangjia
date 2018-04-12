@@ -226,9 +226,56 @@
         <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
         <h1> {$lang.label_order} </h1>
       </header>
+      {* 包含脚本文件 *}
+      {insert_scripts files='utils.js,region.js'} 
+      <script type="text/javascript">
+        region.isAdmin = false;
+        var load_cities = 0;
+        var load_districts = 0;
+        {literal}
+          onload = function() {
+            Ajax.call(region.getFileName(), 'type=1' + '&target=' + 'search_selProvinces' + '&parent=1' + '&value={$search_province}', region.response, "GET", "JSON");
+            Ajax.call(region.getFileName(), 'type=2' + '&target=' + 'search_selCities' + '&parent={$search_province}' + '&value={$search_city}', region.response, "GET", "JSON");
+            Ajax.call(region.getFileName(), 'type=3' + '&target=' + 'search_selDistricts' + '&parent={$search_city}' + '&value={$search_district}', region.response, "GET", "JSON");
+          }
+          function reload_cities(obj) {
+            {if $search_city > 0}
+              if ( load_cities > 0 ) {
+                  region.changed(obj, 2, 'search_selCities');
+              }
+            {else}
+              region.changed(obj, 2, 'search_selCities');
+            {/if}
+            load_cities = load_cities + 1;
+          }
+          function reload_districts(obj) {
+            {if $search_district > 0}
+              if ( load_districts > 0 ) {
+                  region.changed(obj, 3, 'search_selDistricts');
+              }
+            {else}
+              region.changed(obj, 3, 'search_selDistricts');
+            {/if}
+            load_districts = load_districts + 1;
+          }
+        {/literal}
+      </script>
       <section class="wrap">
         <form name="formSearchOrder" action="user.php?act=order_list" method="post">
-          手机 : <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
+          手机 : <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" /><br>
+          收货人 : <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" /><br>
+          所在区域 :
+          <input type="hidden" name="search_country" id="search_selCountries" value="1"/>
+          <select name="search_province" id="search_selProvinces" onchange="reload_cities(this);">
+            <option value="0">请选择...</option>
+          </select>
+          <select name="search_city" id="search_selCities" onchange="reload_districts(this);">
+            <option value="0">请选择...</option>
+          </select>
+          <select name="search_district" id="search_selDistricts">
+            <option value="0">请选择...</option>
+          </select><br>
+          详细地址 : <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" /><br>
           <input name="submit" type="submit" value="查询"/>
         </form>
       </section>
@@ -257,7 +304,7 @@
           var {$key} = "{$item}";
         {/foreach}
         jQuery(function($) {
-          $('.order_list').more({'address': 'user.php?act=async_order_list&search_mobile={$search_mobile}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
+          $('.order_list').more({'address': 'user.php?act=async_order_list&search_mobile={$search_mobile}&search_consignee={$search_consignee}&search_country={$search_country}&search_province={$search_province}&search_city={$search_city}&search_district={$search_district}&search_address={$search_address}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
             $(window).scroll(function () {
               if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 $('.get_more').click();
