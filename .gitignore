@@ -3,4 +3,5 @@
 /temp/*
 **/*.log
 /mobile/data
+wx_new_log.txt
 

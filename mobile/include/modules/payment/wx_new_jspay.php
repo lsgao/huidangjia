@@ -195,7 +195,6 @@ class wx_new_jspay
                         "VALUES " .
                         "( '" . $notify->data["attach"] ."', '". $notify->data["bank_type"] ."', '". $notify->data["cash_fee"] ."', '". $notify->data["fee_type"] ."', '". $notify->data["is_subscribe"] ."', '". $notify->data["nonce_str"] ."', '". $notify->data["openid"] ."', '". $notify->data["out_trade_no"] ."', '". $notify->data["result_code"] ."', '". $notify->data["return_code"] ."', '". $notify->data["time_end"] ."', '". $notify->data["total_fee"] ."', '". $notify->data["trade_type"] ."' )"
                      ;
-                    $this->log(ROOT_PATH.'/data/wx_new_log.txt',"" . $sql. "\r\n");
                     $GLOBALS['db']->query($sql);
                 }
                 //此处应该更新一下订单状态，商户自行增删操作

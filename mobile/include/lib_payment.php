@@ -129,7 +129,6 @@ function check_money($log_id, $money)
  * @return  void
  */
 function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
-write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"order_paid --- log_id=".$log_id."\r\n");
     // 取得支付编号 */
     $log_id = intval($log_id);
     if ($log_id > 0) {
@@ -138,16 +137,13 @@ write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"order_paid --- 
             " WHERE log_id = '$log_id'";
         $pay_log = $GLOBALS['db']->getRow($sql);
         if ($pay_log && $pay_log['is_paid'] == 0) {
-write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"修改此次支付操作的状态为已付款\r\n");
             // 修改此次支付操作的状态为已付款 */
             $sql = 'UPDATE ' . $GLOBALS['ecs']->table('pay_log') .
                 " SET is_paid = '1' WHERE log_id = '$log_id'";
             $GLOBALS['db']->query($sql);
 
             /* 根据记录类型做相应处理 */
-write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"支付类型".$pay_log['order_type']."\r\n");
             if ($pay_log['order_type'] == PAY_ORDER) {
-write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"订单支付\r\n");
                 /* 取得订单信息 */
                 $sql = 'SELECT order_id, user_id, order_sn, consignee, address, tel, mobile, shipping_id, extension_code, extension_id, goods_amount ' .
                     'FROM ' . $GLOBALS['ecs']->table('order_info') .
@@ -170,7 +166,6 @@ write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"订单支付\r\
 
                 /* 记录订单操作记录 */
                 order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
-write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',$GLOBALS['_LANG']['buyer']."order_action\r\n");
                 /* 如果需要，发短信 */
                 if ($GLOBALS['_CFG']['sms_order_payed'] == '1' && $GLOBALS['_CFG']['sms_shop_mobile'] != '') {
                     include_once(ROOT_PATH.'include/cls_sms.php');
@@ -182,7 +177,6 @@ write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',$GLOBALS['_LANG'
                 }
                 //发送微信
                 $wxch_order_name = 'pay';
-                write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',"开始发送微信 --- ROOT_PATH=".ROOT_PATH."\r\n");
                 include(ROOT_PATH.'wxch_order.php');
                 /* 对虚拟商品的支持 */
                 $virtual_goods = get_virtual_goods($order_id);
@@ -268,12 +262,4 @@ write_log('/work/project/huidangjia/mobile/data/wx_new_log.txt',$GLOBALS['_LANG'
     }
 }
 
-
-function write_log($file,$txt) {
-        $fp =  fopen($file,'ab+');
-        fwrite($fp,'测试消息-----------'.local_date('Y-m-d H:i:s').'-----------------');
-        fwrite($fp,$txt);
-        fwrite($fp,"\r\n");
-        fclose($fp);
-}
 ?>
