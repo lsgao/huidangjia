@@ -28,9 +28,7 @@
 
 					{if $smarty.session.user_id gt 0}
 					<a href="user.php" id="m_login_text">
-					
-					
-   						{if $info.avatar neq ''}<img src="{$info.avatar}" width="30" height="30" style="border-radius: 50%;border: none"/ >{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none"/ >{/if} 
+   						{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none"/ >{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none"/ >{/if} 
 					</a>
 					{else}
 					 <a href="user.php" id="m_login_text">登录</a>

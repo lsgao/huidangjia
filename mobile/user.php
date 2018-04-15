@@ -507,8 +507,7 @@ elseif ($action == 'login')
 }
 
 /* 处理会员的登录 */
-elseif ($action == 'act_login')
-{
+elseif ($action == 'act_login') {
     $username = isset($_POST['username']) ? trim($_POST['username']) : '';
     $password = isset($_POST['password']) ? trim($_POST['password']) : '';
     $back_act = isset($_POST['back_act']) ? trim($_POST['back_act']) : '';
@@ -533,93 +532,69 @@ elseif ($action == 'act_login')
         }
     }
     */
-	$login_type = intval($_POST['login_type']);
-  if($login_type==3)
-  {
-           $card_info = $db->getRow("select * from " . $ecs->table('user_card') ." where card_no='$username' and card_pass='$password' and is_show =1 " );
-		   //var_dump($card_info);exit;
-		  if($card_info)
-		  {
-			 $user_id = intval($card_info['user_id']);
-			 if($user_id)
-			  {
-				 $user_name = $db->getOne("select user_name from " . $ecs->table('users') ." where user_id='$user_id'" );
-				 
-					 if ($user_name)
-				   {
-					  $_SESSION['user_id'] = $user_id;
-					  $_SESSION['user_name']   = $username;
-					show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
-				   }
-				   else
-				   {
-					$_SESSION['login_fail'] ++ ;
-					show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
-				   }
-			  }
-			  else
-			  {
-				include_once(ROOT_PATH . 'include/lib_passport.php');
-			        $cu_user_name = 'cu_'.$card_info['card_no'];
-					$user_name = 'cu_'.$card_info['card_no'];
-					$email = $card_info['email']==''?$cu_user_name.'@temp.com':$card_info['email'];
-					$other = array();
-					include_once(ROOT_PATH . 'include/lib_passport.php');
-					if (register($cu_user_name, $password, $email, $other) !== false)
-					{
-						$db->autoExecute($ecs->table('user_card'), array('user_id'=>$_SESSION['user_id'],'bind_time'=>gmtime(),'card_status'=>1), 'UPDATE', " id='$card_info[id]' ");
-						$ucdata = empty($user->ucdata)? "" : $user->ucdata;
-						show_message(sprintf($_LANG['login_success'], $cu_user_name . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info');
-					}
-					else
-					{
-						$_SESSION['login_fail'] ++ ;
-					    show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
-					}
-			  
-			  }
-
-		  }
-		  else
-		  {
-			   $num = $db->getOne("select count(*) from " . $ecs->table('user_card') ." where card_no='$username' and card_pass ='$password'  and user_id=0 and is_show=1 " );
-			   if($num==1)
-			   {
-			  
-				  show_message('此卡号还未绑定，您可以用此新注册一个会员帐号并绑定此卡号，如果您已有本站会员帐号，请登录后在会员中心绑定此卡号后方可登录!', array('立即注册并绑定此卡号','重新登录'), array('user.php?act=register&card_no='.$username.'&card_pass='.$password,'user.php'), 'error'); 
-			   
-			   }
-			   
-			   show_message('会员卡卡号不存在', '请重新登录', 'user.php', 'error'); 
-		  }
-  
-  }
+    $login_type = intval($_POST['login_type']);
+    if($login_type == 3) {
+        $card_info = $db->getRow("select * from " . $ecs->table('user_card') ." where card_no='$username' and card_pass='$password' and is_show =1 " );
+        //var_dump($card_info);exit;
+        if($card_info) {
+            $user_id = intval($card_info['user_id']);
+            if($user_id) {
+                $user_info = $db->getRow("select * from " . $ecs->table('users') ." where user_id='$user_id'" );
+                $username = $user_info['user_name'];
+                $wxid = $user_info['wxid'];
+                if ($username) {
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['user_name']   = $username;
+                    show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
+                } else {
+                    $_SESSION['login_fail'] ++ ;
+                    show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
+                }
+            } else {
+                include_once(ROOT_PATH . 'include/lib_passport.php');
+                $cu_user_name = 'cu_'.$card_info['card_no'];
+                $user_name = 'cu_'.$card_info['card_no'];
+                $email = $card_info['email']==''?$cu_user_name.'@temp.com':$card_info['email'];
+                $other = array();
+                include_once(ROOT_PATH . 'include/lib_passport.php');
+                if (register($cu_user_name, $password, $email, $other) !== false) {
+                    $db->autoExecute($ecs->table('user_card'), array('user_id'=>$_SESSION['user_id'],'bind_time'=>gmtime(),'card_status'=>1), 'UPDATE', " id='$card_info[id]' ");
+                    $ucdata = empty($user->ucdata)? "" : $user->ucdata;
+                    show_message(sprintf($_LANG['login_success'], $cu_user_name . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info');
+                } else {
+                    $_SESSION['login_fail'] ++ ;
+                    show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
+                }
+            }
+        } else {
+            $num = $db->getOne("select count(*) from " . $ecs->table('user_card') ." where card_no='$username' and card_pass ='$password'  and user_id=0 and is_show=1 " );
+            if($num==1) {
+                show_message('此卡号还未绑定，您可以用此新注册一个会员帐号并绑定此卡号，如果您已有本站会员帐号，请登录后在会员中心绑定此卡号后方可登录!', array('立即注册并绑定此卡号','重新登录'), array('user.php?act=register&card_no='.$username.'&card_pass='.$password,'user.php'), 'error'); 
+            }
+            show_message('会员卡卡号不存在', '请重新登录', 'user.php', 'error'); 
+        }
+    }
     //用户名是邮箱格式 by wang
-    if(is_email($username))
-    {
+    if(is_email($username)) {
         $sql ="select user_name from ".$ecs->table('users')." where email='".$username."'";
         $username_try = $db->getOne($sql);
         $username = $username_try ? $username_try:$username;
     }
 
     //用户名是手机格式 by wang
-    if(is_mobile($username))
-    {
+    if(is_mobile($username)) {
         $sql ="select user_name from ".$ecs->table('users')." where mobile_phone='".$username."'";
         $username_try = $db->getOne($sql);
         $username = $username_try ? $username_try:$username;
     }
 
-    if ($user->login($username, $password,isset($_POST['remember'])))
-    {
+    if ($user->login($username, $password, isset($_POST['remember']))) {
         update_user_info();
         recalculate_price();
 
         $ucdata = isset($user->ucdata)? $user->ucdata : '';
         show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
-    }
-    else
-    {
+    } else {
         $_SESSION['login_fail'] ++ ;
         show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
     }
@@ -2916,7 +2891,7 @@ elseif ($action == 'fenxiao1')
 				$user_info[$key]['setmoney']=$setmoney;
 				
 			}
-            $user_list['user_list'] = array_merge($user_list['user_list'], $user_info);	
+            $user_list['user_list'] = array_merge($user_list['user_list'], $user_info);
         }
     }
 	$new_arr=array();
@@ -2925,8 +2900,9 @@ elseif ($action == 'fenxiao1')
 		if($value['level']==1){
 			
 			$wxid=$value['wxid'];
-			$value['head_url']=$GLOBALS['db']->getOne("SELECT  headimgurl FROM wxch_user WHERE wxid = '$wxid'");
-			$value['nickname']=$GLOBALS['db']->getOne("SELECT nickname FROM wxch_user WHERE wxid = '$wxid'");
+			$wx_info = $GLOBALS['db']->getRow("SELECT  * FROM wxch_user WHERE wxid = '$wxid'");
+			$value['head_url']=$wx_info['headimgurl'];
+			$value['nickname']=$wx_info['nickname'];
 			$new_arr[]=$value;
 		}
 	}

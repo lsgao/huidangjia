@@ -2,15 +2,6 @@
 
 /**
  * ECSHOP 整合插件类的基类
- * ============================================================================
- * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
- * 网站地址: http://www.ecshop.com
- * ----------------------------------------------------------------------------
- * 这是一个免费开源的软件；这意味着您可以在不用于商业目的的前提下对程序代码
- * 进行修改、使用和再发布。
- * ============================================================================
- * $Author: liubo $
- * $Id: integrate.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 class integrate
@@ -604,14 +595,22 @@ class integrate
         }
         else
         {
-            $sql = "SELECT user_id, password, email FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
+            $sql = "SELECT user_id, password, email, user_rank, wxid, headimgurl, nicheng FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_name='$username' LIMIT 1";
             $row = $GLOBALS['db']->getRow($sql);
+            $wxid = $row['wxid'];
+            $wx_info = $GLOBALS['db']->getRow("SELECT  * FROM wxch_user WHERE wxid = '$wxid'");
+            $headimgurl = empty($wx_info['headimgurl']) ? $row['headimgurl'] : $wx_info['headimgurl'];
+            $nickname = empty($wx_info['nickname']) ? $row['nicheng'] : $wx_info['nickname'];
 
             if ($row)
             {
-                $_SESSION['user_id']   = $row['user_id'];
+                $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['user_name'] = $username;
-                $_SESSION['email']     = $row['email'];
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['user_rank'] = $row['user_rank'];
+                $_SESSION['wxid'] = $row['wxid'];
+                $_SESSION['headimgurl'] = $headimgurl;
+                $_SESSION['nickname'] = $nickname;
             }
         }
     }
