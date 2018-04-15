@@ -27,8 +27,20 @@
 </div>
 <section class="wrap">
   <div id="leftTabBox" class="loginBox">
-    <div class="hd"> <span>欢迎光临，登录后体验更多服务</span>
-      <ul>
+  	<style>
+    		.login_pic {width: 30%;margin: 0 auto;padding: 50px 0;}
+    		.login_pic img {width: 100%;border: 1px solid #ccc; box-sizing: border-box;border-radius: 50%;overflow: hidden;}
+    		.loginBox .hd ul li {float: left;width: 50%;text-align: center;font: 16px/30px "微软雅黑";color: #333;padding-left: 0;}
+    		body {background: #F8F8F8;}
+    		.loginBox .hd ul li.on a {height: 30px;line-height: 30px;color: #FF9600;border-bottom-color: #ff9600;}
+    		.c-btn3 {background: #FF9600;}
+    	</style>
+    	<div class="login_pic">
+    		<img src="{$ectouch_themes}/img/logo.jpg"/>
+    	</div>
+    <div class="hd">
+    	
+      <ul style="float: none;">
         <li<!--{if $action eq 'login'}--> class="on"<!--{/if}-->><a href="javascript:void(0)">登录</a></li>
         <li<!--{if $action eq 'register'}--> class="on"<!--{/if}-->><a href="javascript:void(0)">注册</a></li>
       </ul>
@@ -37,7 +49,7 @@
       <ul>
         <div class="table_box">
           <form name="formLogin" action="user.php" method="post" onSubmit="return userLogin()">
-		  <dl>
+		  <dl style="display: none;">
               <dd>
                <label class="leftlabel"><select name="login_type"><option value="0">用户名</option><option value="3">会员卡</option></select></label>
               </dd>

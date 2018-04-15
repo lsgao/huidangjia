@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>{if $name}{$name}的{/if}{$shop_name} 触屏版</title>
+		<title>{if $name}{$name}的{/if}{$shop_name}正品联盟</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css"/>
@@ -25,12 +25,17 @@
 						      
 						    </form>
 					</div>
+
 					{if $smarty.session.user_id gt 0}
-					<a href="user.php" id="m_login_text">{$username}</a>
+					<a href="user.php" id="m_login_text">
+					
+					
+   						{if $info.avatar neq ''}<img src="{$info.avatar}" width="30" height="30" style="border-radius: 50%;border: none"/ >{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none"/ >{/if} 
+					</a>
 					{else}
 					 <a href="user.php" id="m_login_text">登录</a>
 					{/if}
-					
+
 				</div>
 			</div>
 			<div class="banner">

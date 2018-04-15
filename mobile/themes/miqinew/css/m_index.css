@@ -69,7 +69,7 @@ html {font-size: 16px;
 
 #m_flash {margin-bottom: 20px;}
 .m_hot_recom_pic {float: left;}
-.m_hot_recom_pic img,.hot_bott_banner img {max-width: 100%;height: auto;}
+.m_hot_recom_pic img,.hot_bott_banner img {width: 100%;height: auto;}
 
 
 .m_new_item {border-bottom: 1px solid #ccc;padding: 10px 0;position: relative;}
