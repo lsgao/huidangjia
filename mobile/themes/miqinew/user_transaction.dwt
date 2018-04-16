@@ -261,11 +261,30 @@
         {/literal}
       </script>
       <section class="wrap">
-        <form name="formSearchOrder" action="user.php?act=order_list" method="post">
-          手机 : <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" /><br>
-          收货人 : <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" /><br>
-          所在区域 :
-          <input type="hidden" name="search_country" id="search_selCountries" value="1"/>
+        <style type="text/css">
+          .user_inp_wrap {background: #fff;padding: 10px 2%}
+          .user_inp_wrap form {width: 100%;}
+          .user_inp_item input {width: 100%;border:none;background: none;font: 14px/30px "微软雅黑";color: #333}
+          .user_sel_item select {border:1px solid #ccc;color: #333;font: 14px/30px "微软雅黑";background:#fff;text-align: center;width: 30%;margin-right:3%;display: block;float: left;height: 30px}
+          .user_sel_item {position:relative;padding:10px 0 10px 80px;border-bottom: 1px solid #ccc}
+          .user_sel_box {width: 100%;}
+          .user_sel_item:before {content: "所在区域:";font:16px/30px "微软雅黑";color:#333;display: block;position: absolute;top: 10px;left: 0;}
+          .user_inp_item {padding: 10px 0;border-bottom:1px solid #ccc;}
+          .user_submit {padding: 20px}
+          .user_submit input {display: block;text-align: center;width: 35%;background:#ff9600;color: #fff;margin:0 auto;outline: none;border: none;font: 16px/36px "微软雅黑";border-radius: 4px}
+          .clear{ height:0; overflow:hidden; clear:both}
+        </style>
+        <div class="user_inp_wrap">
+        <form name="formSearchOrder" action="user.php?act=order_list" method="post" >
+          <div class="user_inp_item">
+               <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
+          </div>
+          <div class="user_inp_item">
+               <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" />
+          </div>
+          <div class="user_sel_item">
+              <div class="user_sel_box">
+                <input type="hidden" name="search_country" id="search_selCountries" value="1"/>
           <select name="search_province" id="search_selProvinces" onchange="reload_cities(this);">
             <option value="0">请选择...</option>
           </select>
@@ -274,10 +293,19 @@
           </select>
           <select name="search_district" id="search_selDistricts">
             <option value="0">请选择...</option>
-          </select><br>
-          详细地址 : <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" /><br>
-          <input name="submit" type="submit" value="查询"/>
+          </select>
+          <div class="clear"></div>
+              </div>
+          </div>
+           <div class="user_inp_item">
+              <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" />
+          </div>
+          <div class="user_submit">
+              <input name="submit" type="submit" value="查 询"/>
+          </div>
+          
         </form>
+        </div>
       </section>
       <section class="wrap order_list">
         <section class="order_box padd1 radius10 single_item">
