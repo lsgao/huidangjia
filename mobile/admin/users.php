@@ -15,7 +15,7 @@ require(ROOT_PATH . 'include/lib_weixintong.php');
 
 if ($_REQUEST['act'] == 'list')
 {
-    /* 检查权限 */
+    // 检查权限 */
     admin_priv('users_manage');
     $sql = "SELECT rank_id, rank_name, min_points FROM ".$ecs->table('user_rank')." ORDER BY min_points ASC ";
     $rs = $db->query($sql);
@@ -73,7 +73,7 @@ elseif ($_REQUEST['act'] == 'query')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'add')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('users_manage');
 
     $user = array(  'rank_points'   => $_CFG['register_points'],
@@ -101,7 +101,7 @@ elseif ($_REQUEST['act'] == 'add')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'insert')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('users_manage');
     $username = empty($_POST['username']) ? '' : trim($_POST['username']);
     $password = empty($_POST['password']) ? '' : trim($_POST['password']);
@@ -227,7 +227,7 @@ elseif ($_REQUEST['act'] == 'insert')
 
 elseif ($_REQUEST['act'] == 'edit')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('users_manage');
 
     $sql = "SELECT u.user_name, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn, u.office_phone, u.home_phone, u.mobile_phone, u.is_invite, u.wxid".
@@ -879,7 +879,7 @@ function user_list() {
         /* 分页大小 */
         $filter = page_and_size($filter);
         $sql = "SELECT "
-                ." user.user_id, user.user_name, user.user_rank,user.email, user.is_validated, user.user_money, user.frozen_money, user.rank_points, user.pay_points, user.reg_time, user.wxid, "
+                ." user.user_id, user.user_name, user.user_rank,user.email, user.is_validated, user.user_money, user.frozen_money, user.rank_points, user.pay_points, user.reg_time, user.wxid, LPAD(user.user_id, 4, 0) invite_code, user.is_invite, "
                 . " CASE WHEN wxuser.nickname='' OR wxuser.nickname IS NULL THEN '' ELSE wxuser.nickname END as nickname, "
                 . " CASE WHEN wxuser.headimgurl='' OR wxuser.headimgurl IS NULL THEN user.headimgurl ELSE wxuser.headimgurl END as avatar "
                 //." wxuser.nickname, wxuser.headimgurl AS wxheadimgurl"
