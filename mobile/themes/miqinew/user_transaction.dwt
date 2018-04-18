@@ -10,8 +10,9 @@
   <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
   <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <link href="{$ectouch_themes}/ectouch.css" rel="stylesheet" type="text/css" />
+  <link href="js/calendar/calendar.css" rel="stylesheet" type="text/css" />
   {* 包含脚本文件 *}
-  {insert_scripts files='transport.js,common.js,user.js'}
+  {insert_scripts files='transport.js,common.js,user.js,calendar.php'}
   <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
 </head>
 <body>
@@ -300,10 +301,16 @@
            <div class="user_inp_item">
               <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" />
           </div>
+          下单时间
+      <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" value="{$search_start_time}" />
+      <input name="search_start_time_btn" type="button" id="search_start_time_btn" onclick="return showCalendar('search_start_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_start_time_btn');" value="选择" class="button"/>
+      ~
+      <input type="text" name="search_end_time" maxlength="60" size="18" id="search_end_time_id" value="{$search_end_time}" />
+      <input name="search_end_time_btn" type="button" id="search_end_time_btn" onclick="return showCalendar('search_end_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_end_time_btn');" value="选择" class="button"/>
+      (yyyy-mm-dd HH:MM)
           <div class="user_submit">
               <input name="submit" type="submit" value="查 询"/>
           </div>
-          
         </form>
         </div>
       </section>
@@ -332,7 +339,7 @@
           var {$key} = "{$item}";
         {/foreach}
         jQuery(function($) {
-          $('.order_list').more({'address': 'user.php?act=async_order_list&search_mobile={$search_mobile}&search_consignee={$search_consignee}&search_country={$search_country}&search_province={$search_province}&search_city={$search_city}&search_district={$search_district}&search_address={$search_address}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
+          $('.order_list').more({'address': 'user.php?act=async_order_list&search_mobile={$search_mobile}&search_consignee={$search_consignee}&search_country={$search_country}&search_province={$search_province}&search_city={$search_city}&search_district={$search_district}&search_address={$search_address}&search_start_time={$search_start_time}&search_end_time={$search_end_time}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
             $(window).scroll(function () {
               if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 $('.get_more').click();

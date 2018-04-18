@@ -1087,31 +1087,41 @@ elseif ($action == 'act_add_bonus')
 /* 查看订单列表 */
 elseif ($action == 'order_list') {
     include_once(ROOT_PATH . 'include/lib_transaction.php');
+    include_once(ROOT_PATH . 'include/lib_time.php');
 
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
 
     $where = " WHERE user_id = '$user_id' ";
-     if (isset($_REQUEST['search_mobile'])) {
-         $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
-     }
-     if (isset($_REQUEST['search_consignee'])) {
-         $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
-     }
-     if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
-         $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
-     }
-     if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
-         $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
-     }
-     if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
-         $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
-     }
-     if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
-         $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
-     }
-     if (isset($_REQUEST['search_address'])) {
-         $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
-     }
+    if (isset($_REQUEST['search_mobile']) && !empty($_REQUEST['search_mobile'])) {
+        $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
+    }
+    if (isset($_REQUEST['search_consignee']) && !empty($_REQUEST['search_consignee'])) {
+        $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
+    }
+    if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
+        $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
+    }
+    if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
+        $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
+    }
+    if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
+        $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
+    }
+    if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
+        $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
+    }
+    if (isset($_REQUEST['search_address']) && !empty($_REQUEST['search_address'])) {
+        $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
+    }
+    if (isset($_REQUEST['search_start_time']) && !empty($_REQUEST['search_start_time'])) {
+        $search_start_time = empty($_REQUEST['search_start_time']) ? '' : (strpos($_REQUEST['search_start_time'], '-') > 0 ?  local_strtotime($_REQUEST['search_start_time']) : $_REQUEST['search_start_time']);
+        $where .= " AND add_time >= '$search_start_time'";
+    }
+    if (isset($_REQUEST['search_end_time']) && !empty($_REQUEST['search_end_time'])) {
+        $search_end_time = empty($_REQUEST['search_end_time']) ? '' : (strpos($_REQUEST['search_end_time'], '-') > 0 ?  local_strtotime($_REQUEST['search_end_time']) : $_REQUEST['search_end_time']);
+        $where .= " AND add_time <= '$search_end_time'";
+    }
+
     $record_count = $db->getOne("SELECT COUNT(*) FROM " .$ecs->table('order_info'). $where);
     $pager  = get_pager('user.php', array('act' => $action), $record_count, $page);
 
@@ -1125,43 +1135,52 @@ elseif ($action == 'order_list') {
     $smarty->assign('search_city',  $_REQUEST['search_city']);
     $smarty->assign('search_district',  $_REQUEST['search_district']);
     $smarty->assign('search_address',  $_REQUEST['search_address']);
+    $smarty->assign('search_start_time',  $_REQUEST['search_start_time']);
+    $smarty->assign('search_end_time',  $_REQUEST['search_end_time']);
     //$smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
     $smarty->assign('orders', $orders);
+    $smarty->assign('where', $where);
     $smarty->display('user_transaction.dwt');
 }
 /* 异步显示订单列表 */
 elseif ($action == 'async_order_list') {
     include_once(ROOT_PATH . 'include/lib_transaction.php');
+    include_once(ROOT_PATH . 'include/lib_time.php');
 
     $start = $_POST['last'];
     $limit = $_POST['amount'];
     $search_mobile = $_POST['search_mobile'];
     $where = " WHERE user_id = '$user_id' ";
-     if (isset($_POST['search_mobile'])) {
-         $where .= " AND mobile like '%" . $_POST['search_mobile'] . "%' ";
-     }
-     if (isset($_REQUEST['search_mobile'])) {
-         $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
-     }
-     if (isset($_REQUEST['search_consignee'])) {
-         $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
-     }
-     if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
-         $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
-     }
-     if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
-         $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
-     }
-     if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
-         $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
-     }
-     if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
-         $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
-     }
-     if (isset($_REQUEST['search_address'])) {
-         $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
-     }
+    if (isset($_POST['search_mobile']) && !empty($_REQUEST['search_mobile'])) {
+        $where .= " AND mobile like '%" . $_POST['search_mobile'] . "%' ";
+    }
+    if (isset($_REQUEST['search_consignee']) && !empty($_REQUEST['search_consignee'])) {
+        $where .= " AND consignee like '%" . $_REQUEST['search_consignee'] . "%' ";
+    }
+    if (isset($_REQUEST['search_country']) && $_REQUEST['search_country'] != 0) {
+        $where .= " AND country = '" . $_REQUEST['search_country'] . "' ";
+    }
+    if (isset($_REQUEST['search_province']) && $_REQUEST['search_province'] != 0) {
+        $where .= " AND province = '" . $_REQUEST['search_province'] . "' ";
+    }
+    if (isset($_REQUEST['search_city']) && $_REQUEST['search_city'] != 0) {
+        $where .= " AND city = '" . $_REQUEST['search_city'] . "' ";
+    }
+    if (isset($_REQUEST['search_district']) && $_REQUEST['search_district'] != 0) {
+        $where .= " AND district = '" . $_REQUEST['search_district'] . "' ";
+    }
+    if (isset($_REQUEST['search_address']) && !empty($_REQUEST['search_address'])) {
+        $where .= " AND address like '%" . $_REQUEST['search_address'] . "%' ";
+    }
+    if (isset($_REQUEST['search_start_time']) && !empty($_REQUEST['search_start_time'])) {
+        $search_start_time = empty($_REQUEST['search_start_time']) ? '' : (strpos($_REQUEST['search_start_time'], '-') > 0 ?  local_strtotime($_REQUEST['search_start_time']) : $_REQUEST['search_start_time']);
+        $where .= " AND add_time >= '$search_start_time'";
+    }
+    if (isset($_REQUEST['search_end_time']) && !empty($_REQUEST['search_end_time'])) {
+        $search_end_time = empty($_REQUEST['search_end_time']) ? '' : (strpos($_REQUEST['search_end_time'], '-') > 0 ?  local_strtotime($_REQUEST['search_end_time']) : $_REQUEST['search_end_time']);
+        $where .= " AND add_time <= '$search_end_time'";
+    }
     $orders = search_orders($limit, $start, $where);
     if(is_array($orders)){
         foreach($orders as $vo){
@@ -1193,7 +1212,7 @@ elseif ($action == 'async_order_list') {
                 $detail_content .= '<br>';
                 $detail_content .= '退货未通过审核';
             }
-            
+
             $detail_content .= '</td>'
                         .'<td style="position:relative"><span class="new-arr"></span></td>'
                     .'</tr>'
