@@ -2,15 +2,6 @@
 
 /**
  * ECSHOP 订单管理
- * ============================================================================
- * 版权所有 2005-2010 上海商派网络科技有限公司，并保留所有权利。
- * 网站地址: http://www.ecshop.com；
- * ----------------------------------------------------------------------------
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
- * 使用；不允许对程序代码以任何形式任何目的的再发布。
- * ============================================================================
- * $Author: yehuaixiao $
- * $Id: order.php 17219 2011-01-27 10:49:19Z yehuaixiao $
  */
 
 define('IN_ECS', true);
@@ -2193,8 +2184,8 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
         $total = order_weight_price($order_id);
         foreach ($shipping_list AS $key => $shipping)
         {
-            $shipping_fee = shipping_fee($shipping['shipping_code'],
-                unserialize($shipping['configure']), $total['weight'], $total['amount'], $total['number']);
+            $shipping['configure'] = unserialize($shipping['configure']);
+            $shipping_fee = shipping_fee($shipping['shipping_code'], $shipping['configure'], $total['weight'], $total['amount'], $total['number']);
             $shipping_list[$key]['shipping_fee'] = $shipping_fee;
             $shipping_list[$key]['format_shipping_fee'] = price_format($shipping_fee);
             $shipping_list[$key]['free_money'] = price_format($shipping['configure']['free_money']);
