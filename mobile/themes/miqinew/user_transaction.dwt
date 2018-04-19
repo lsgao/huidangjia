@@ -265,11 +265,20 @@
         <style type="text/css">
           .user_inp_wrap {background: #fff;padding: 10px 2%}
           .user_inp_wrap form {width: 100%;}
-          .user_inp_item input {width: 100%;border:none;background: none;font: 14px/30px "微软雅黑";color: #333}
-          .user_sel_item select {border:1px solid #ccc;color: #333;font: 14px/30px "微软雅黑";background:#fff;text-align: center;width: 30%;margin-right:3%;display: block;float: left;height: 30px}
-          .user_sel_item {position:relative;padding:10px 0 10px 80px;border-bottom: 1px solid #ccc}
+          .user_inp_item input,.user_time_box input {width: 100%;border:none;background: none;font: 14px/30px "微软雅黑";color: #333}
+          .user_sel_item select {border:none;color: #999;font: 14px/30px "微软雅黑";background:#fff;text-align: center;width: 30%;margin-right:3%;display: block;float: left;height: 30px}
+          .user_sel_item,.user_time_item {position:relative;padding:10px 0 10px 80px;border-bottom: 1px solid #ccc;overflow: hidden;}
           .user_sel_box {width: 100%;}
-          .user_sel_item:before {content: "所在区域:";font:16px/30px "微软雅黑";color:#333;display: block;position: absolute;top: 10px;left: 0;}
+          .user_time_wrap {width: 105%;position: relative;}
+          .user_time_wrap:before {position: absolute;content: "~";display: block;font: 16px/30px "微软雅黑";color: #333;top: 0;left: 45%;width: 5%;text-align: center;}
+          .user_time_box {width: 45%;margin-right: 5%;position: relative;float: left;}
+          .user_time_box input {width: 100%;}
+          .user_time_boxinput [placeholder] { text-align: center;!important;
+} 
+          .user_cho_btn {position: absolute;top: 0; left: 0;background: none;z-index: 1;}
+          .user_sel_item:before,.user_time_item:before {font:16px/30px "微软雅黑";color:#333;display: block;position: absolute;top: 10px;left: 0;}
+          .user_sel_item:before {content: "所在区域:";}
+          .user_time_item:before {content: "下单时间:";}
           .user_inp_item {padding: 10px 0;border-bottom:1px solid #ccc;}
           .user_submit {padding: 20px}
           .user_submit input {display: block;text-align: center;width: 35%;background:#ff9600;color: #fff;margin:0 auto;outline: none;border: none;font: 16px/36px "微软雅黑";border-radius: 4px}
@@ -282,6 +291,19 @@
           </div>
           <div class="user_inp_item">
                <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" />
+          </div>
+          <div class="user_time_item">
+          	<div class="user_time_wrap">
+          		<div class="user_time_box">
+	          		 <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" readonly="readonly" value="{$search_start_time}"  placeholder="请选择起始时间" />
+	     					 <input name="search_start_time_btn" type="button" id="search_start_time_btn" onclick="return showCalendar('search_start_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_start_time_btn');" class="button user_cho_btn"/>
+	          	</div>
+	          	<div class="user_time_box">
+	          		<input type="text" name="search_end_time" maxlength="60" size="18" id="search_end_time_id" readonly="readonly" value="{$search_end_time}" placeholder="请选择结束时间" />
+	     					<input name="search_end_time_btn" type="button" id="search_end_time_btn" onclick="return showCalendar('search_end_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_end_time_btn');" class="button user_cho_btn"/>
+	          	</div>
+	          	<div class="clear"></div>
+	          	</div>
           </div>
           <div class="user_sel_item">
               <div class="user_sel_box">
@@ -301,13 +323,8 @@
            <div class="user_inp_item">
               <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" />
           </div>
-          下单时间
-      <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" value="{$search_start_time}" />
-      <input name="search_start_time_btn" type="button" id="search_start_time_btn" onclick="return showCalendar('search_start_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_start_time_btn');" value="选择" class="button"/>
-      ~
-      <input type="text" name="search_end_time" maxlength="60" size="18" id="search_end_time_id" value="{$search_end_time}" />
-      <input name="search_end_time_btn" type="button" id="search_end_time_btn" onclick="return showCalendar('search_end_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_end_time_btn');" value="选择" class="button"/>
-      (yyyy-mm-dd HH:MM)
+          
+        
           <div class="user_submit">
               <input name="submit" type="submit" value="查 询"/>
           </div>

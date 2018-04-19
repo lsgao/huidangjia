@@ -245,7 +245,7 @@
 					<a href="#" class="m_return_top">返回顶部</a>
 					<div class="clear"></div>
 				</div>
-				<div class="m_index_footer_ico">
+				<div class="m_index_footer_ico" style="display: none;">
 					<div class="m_index_footer_ico_item">
 						<a href="http://www.yuehuitao.net/?computer=1">
 							<img src="{$ectouch_themes}/img/footer_computer_ico.png" class="img_res"/>
@@ -268,7 +268,7 @@
 				</div>
 			</div>
 
-			<div class="bottom_nav">
+			<div class="bottom_nav" style="display: none;">
 				<ul>
 			        <li ><a href="./"><img src="{$ectouch_themes}/img/wb_a.png"alt=""/>首页</a></li>
 			        <li ><a href="javascript:get_search_box();"><img src="{$ectouch_themes}/img/wb_b.png" alt=""/>搜索</a></li>
@@ -278,6 +278,7 @@
 			        <div class="clear"></div>
 			    </ul>
 			</div>
+			 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --></div>
 		</div>
 	</body>
 </html>
