@@ -237,7 +237,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="m_index_footer">
+			<div class="m_index_footer" style="display: none;">
 				<div class="m_index_footer_fun">
 					<a href="user.php">登录</a>
 					<a href="user.php">注册</a>
@@ -269,7 +269,7 @@
 			</div>
 
 			<div class="bottom_nav" style="display: none;">
-				<ul>
+			    <ul>
 			        <li ><a href="./"><img src="{$ectouch_themes}/img/wb_a.png"alt=""/>首页</a></li>
 			        <li ><a href="javascript:get_search_box();"><img src="{$ectouch_themes}/img/wb_b.png" alt=""/>搜索</a></li>
 			        <li ><a href="cat_all.php" ><img src="{$ectouch_themes}/img/wb_c.png"  alt=""/>分类</a></li>

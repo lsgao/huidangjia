@@ -16,8 +16,9 @@
   <p class="region">
     <!-- ICP 证书{if $icp_number} -->
     {$lang.icp_number}: <a href="http://www.miibeian.gov.cn/" target="_blank"> {$icp_number} </a> 
-    <!-- 结束ICP 证书{/if} -->  {$copyright} </p>
-  <div class="favLink region"> <a href="http://www.51huidangjia.com"> powered by ecmoban </a> </div>
+    <!-- 结束ICP 证书{/if} -->  {$copyright} 
+  </p>
+  <!--<div class="favLink region"> <a href="http://www.51huidangjia.com"> powered by 惠当家 </a> </div>-->
 </div>
 
 
