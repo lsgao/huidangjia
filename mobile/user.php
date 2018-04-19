@@ -1228,12 +1228,12 @@ elseif ($action == 'async_order_list') {
     echo json_encode($asyList);
 }
 
-/* 包裹跟踪 by wang */
+/* 包裹跟踪 */
 elseif ($action == 'order_tracking')
 {
     $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
     $ajax = isset($_GET['ajax']) ? intval($_GET['ajax']) : 0;
-    
+
     include_once(ROOT_PATH . 'include/lib_transaction.php');
     include_once(ROOT_PATH .'include/lib_order.php');
 
@@ -1254,7 +1254,7 @@ elseif ($action == 'order_tracking')
       $get_content = curl_exec($curl);
       curl_close ($curl);
     }
-    
+
     $smarty->assign('trackinfo',      $get_content);
     $smarty->display('user_transaction.dwt');
 }

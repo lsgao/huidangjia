@@ -39,7 +39,7 @@
 			<div class="banner">
 				<div class="swiper-container">
 				  <div class="swiper-wrapper">
-				    {insert name='ads' id=3 num=9}
+				    <!-- TemplateBeginEditable name="首页Banner" --><!-- #BeginLibraryItem "/library/ad_position.lbi" --> <!-- #EndLibraryItem --><!-- TemplateEndEditable -->
 				   </div>
 				</div>
 				<script> 
