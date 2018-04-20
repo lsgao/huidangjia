@@ -344,7 +344,8 @@
               <td class="order_handler"></td>
             </tr>
             <tr>
-              <td class="order_tracking"></td>
+              <!--<td class="order_tracking"></td>-->
+              <td class="package_tracking"></td>
             </tr>
           </table>
         </section>
@@ -409,6 +410,78 @@
         <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> </div>
       <!--{/if}--> 
     <!--#包裹状态查询界面 end-->
+
+    <!--#包裹追踪查询界面（快递鸟 start--> 
+      <!-- {if $action eq 'package_tracking'} -->
+      {insert_scripts files='../plugins/kdniao/kdniao.js'}
+      <script type="text/javascript">
+      {if $order.order_status=5}
+        kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+      {/if}
+      </script>
+
+      <header id="header">
+        <div class="header_l header_return"> <a class="ico_10" href="javascript:history.go(-1)"> 返回 </a> </div>
+        <h1> {$lang.label_track_packages} </h1>
+      </header>
+      <div class="fullscreen">
+        <div class="blank"></div>
+        <div data-role="content" class="smart-result">
+          <div class="content-primary">
+            <table id="queryResult" cellpadding="0" cellspacing="0"></table>
+          </div>
+        </div>
+        <script type="text/javascript">
+          jQuery(function($){
+	var resultJson = eval('({$trackinfo})');
+	var resultTable = $("#queryResult");
+	resultTable.empty();
+	if(resultJson.status == 200) { //成功
+		var resultData = resultJson.data;
+		for (var i = resultData.length - 1; i >= 0; i--) {
+			var className = "";
+			if(i%2 == 0){
+				className = "even";
+			}else{
+				className="odd";
+			}
+			if(resultData.length == 1){
+				if(resultJson.ischeck == 1){
+					className += " checked";
+				}else{
+					className += " wait";
+				}
+			}else if(i == resultData.length - 1){
+				className += " first-line";
+			}else if(i == 0){
+				className += " last-line";
+				if(resultJson.ischeck == 1){
+					className += " checked";
+				}else{
+					className += " wait";
+				}
+			}
+
+			var index = resultData[i].ftime.indexOf(" ");
+			var result_date = resultData[i].ftime.substring(0,index);
+			var result_time = resultData[i].ftime.substring(index+1);
+
+			var s_index = result_time.lastIndexOf(":");
+			result_time = result_time.substring(0,s_index);
+
+			resultTable.append("<tr class='" + className + "'><td class='col1'><span class='result-date'>" + result_date + "</span><span class='result-time'>" + result_time + "</span></td><td class='colstatus'></td><td class='col2'><span>" + resultData[i].context + "</span></td></tr>");
+		}
+		$("body").animate({scrollTop: "1000px"}, 1000);
+	}else if(resultJson.status == 400){
+		resultTable.append("<tr><td>订单暂未发货，请稍后再来查询</td></tr>");				
+	}else{
+		resultTable.append("<tr><td>"+ resultJson.message +"</td></tr>");				
+	}
+        })
+        </script>
+      </div>
+      <!--{/if}--> 
+    <!--#包裹追踪查询界面（快递鸟） end-->
 
     <!--#包裹追踪查询界面 start--> 
       <!-- {if $action eq 'order_tracking'} -->

@@ -19,7 +19,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
     'get_passwd_question', 'check_answer', 'oath', 'oath_login');
 
 /* 显示页面的action列表 */
-$ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'address_list', 'act_edit_address', 'collection_list',
+$ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'package_tracking', 'address_list', 'act_edit_address', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
 'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer',
 'point','user_card',
@@ -1186,7 +1186,8 @@ elseif ($action == 'async_order_list') {
         foreach($orders as $vo){
             //获取订单第一个商品的图片
             $img = $db->getOne("SELECT g.goods_thumb FROM " .$ecs->table('order_goods'). " as og left join " .$ecs->table('goods'). " g on og.goods_id = g.goods_id WHERE og.order_id = ".$vo['order_id']." limit 1");
-            $tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
+            //$tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
+            $tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=package_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
             $detail_content = '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">'
                 .'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">'
                     .'<tr>'
@@ -1221,14 +1222,44 @@ elseif ($action == 'async_order_list') {
                 'order_status' => '订单状态：'.$vo['order_status'],
                 'order_handler' => $vo['handler'],
                 'order_content' => $detail_content,
-                'order_tracking' => $tracking
+                //'order_tracking' => $tracking
+                'package_tracking' => $tracking
             );
         }
     }
     echo json_encode($asyList);
 }
+/* 快递鸟包裹跟踪 */
+elseif ($action == 'package_tracking')
+{
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+    $ajax = isset($_GET['ajax']) ? intval($_GET['ajax']) : 0;
 
-/* 包裹跟踪 */
+    include_once(ROOT_PATH . 'include/lib_transaction.php');
+    include_once(ROOT_PATH .'include/lib_order.php');
+
+    $sql = "SELECT order_id,order_sn,invoice_no,shipping_name,shipping_id,order_status FROM " .$ecs->table('order_info').
+            " WHERE user_id = '$user_id' AND order_id = ".$order_id;
+    $orders = $db->getRow($sql);
+    //生成快递100查询接口链接
+    $shipping   = get_shipping_object($orders['shipping_id']);
+    $query_link = $shipping->kuaidi100($orders['invoice_no']);
+    //优先使用curl模式发送数据
+    if (function_exists('curl_init') == 1){
+      $curl = curl_init();
+      curl_setopt ($curl, CURLOPT_URL, $query_link);
+      curl_setopt ($curl, CURLOPT_HEADER,0);
+      curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt ($curl, CURLOPT_USERAGENT,$_SERVER['HTTP_USER_AGENT']);
+      curl_setopt ($curl, CURLOPT_TIMEOUT,5);
+      $get_content = curl_exec($curl);
+      curl_close ($curl);
+    }
+
+    $smarty->assign('trackinfo',      $get_content);
+    $smarty->display('user_transaction.dwt');
+}
+/* 快递100包裹跟踪 */
 elseif ($action == 'order_tracking')
 {
     $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;

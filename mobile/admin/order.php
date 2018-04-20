@@ -1993,9 +1993,8 @@ elseif ($_REQUEST['act'] == 'step_post')
 //-- 修改订单（载入页面）
 /*------------------------------------------------------ */
 
-elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
-{
-    /* 检查权限 */
+elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit') {
+    //* 检查权限 */
     admin_priv('order_edit');
 
     /* 取得参数 order_id */
@@ -2013,46 +2012,35 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
     $smarty->assign('step_act', $act);
 
     /* 取得订单信息 */
-    if ($order_id > 0)
-    {
+    if ($order_id > 0) {
         $order = order_info($order_id);
 
         /* 发货单格式化 */
         $order['invoice_no'] = str_replace('<br>', ',', $order['invoice_no']);
 
         /* 如果已发货，就不能修改订单了（配送方式和发货单号除外） */
-        if ($order['shipping_status'] == SS_SHIPPED || $order['shipping_status'] == SS_RECEIVED)
-        {
-            if ($step != 'shipping')
-            {
+        if ($order['shipping_status'] == SS_SHIPPED || $order['shipping_status'] == SS_RECEIVED) {
+            if ($step != 'shipping') {
                 sys_msg($_LANG['cannot_edit_order_shipped']);
-            }
-            else
-            {
+            } else {
                 $step = 'invoice';
                 $smarty->assign('step', $step);
             }
         }
 
         $smarty->assign('order', $order);
-    }
-    else
-    {
-        if ($act != 'add' || $step != 'user')
-        {
+    } else {
+        if ($act != 'add' || $step != 'user') {
             die('invalid params');
         }
     }
 
     /* 选择会员 */
-    if ('user' == $step)
-    {
+    if ('user' == $step) {
         // 无操作
     }
-
     /* 增删改商品 */
-    elseif ('goods' == $step)
-    {
+    elseif ('goods' == $step) {
         /* 取得订单商品 */
         $goods_list = order_goods($order_id);
         if (!empty($goods_list))
@@ -2079,55 +2067,47 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
     }
 
     // 设置收货人
-    elseif ('consignee' == $step)
-    {
-        /* 查询是否存在实体商品 */
+    elseif ('consignee' == $step) {
+        //* 查询是否存在实体商品 */
         $exist_real_goods = exist_real_goods($order_id);
         $smarty->assign('exist_real_goods', $exist_real_goods);
 
         /* 取得收货地址列表 */
-        if ($order['user_id'] > 0)
-        {
+        if ($order['user_id'] > 0) {
             $smarty->assign('address_list', address_list($order['user_id']));
 
             $address_id = isset($_REQUEST['address_id']) ? intval($_REQUEST['address_id']) : 0;
-            if ($address_id > 0)
-            {
+            if ($address_id > 0) {
                 $address = address_info($address_id);
-                if ($address)
-                {
-                    $order['consignee']     = $address['consignee'];
-                    $order['country']       = $address['country'];
-                    $order['province']      = $address['province'];
-                    $order['city']          = $address['city'];
-                    $order['district']      = $address['district'];
-                    $order['email']         = $address['email'];
-                    $order['address']       = $address['address'];
-                    $order['zipcode']       = $address['zipcode'];
-                    $order['tel']           = $address['tel'];
-                    $order['mobile']        = $address['mobile'];
+                if ($address) {
+                    $order['consignee'] = $address['consignee'];
+                    $order['country'] = $address['country'];
+                    $order['province'] = $address['province'];
+                    $order['city'] = $address['city'];
+                    $order['district'] = $address['district'];
+                    $order['email'] = $address['email'];
+                    $order['address'] = $address['address'];
+                    $order['zipcode'] = $address['zipcode'];
+                    $order['tel'] = $address['tel'];
+                    $order['mobile'] = $address['mobile'];
                     $order['sign_building'] = $address['sign_building'];
-                    $order['best_time']     = $address['best_time'];
+                    $order['best_time'] = $address['best_time'];
                     $smarty->assign('order', $order);
                 }
             }
         }
 
-        if ($exist_real_goods)
-        {
-            /* 取得国家 */
+        if ($exist_real_goods) {
+            //* 取得国家 */
             $smarty->assign('country_list', get_regions());
-            if ($order['country'] > 0)
-            {
-                /* 取得省份 */
+            if ($order['country'] > 0) {
+                //* 取得省份 */
                 $smarty->assign('province_list', get_regions(1, $order['country']));
-                if ($order['province'] > 0)
-                {
-                    /* 取得城市 */
+                if ($order['province'] > 0) {
+                    //* 取得城市 */
                     $smarty->assign('city_list', get_regions(2, $order['province']));
-                    if ($order['city'] > 0)
-                    {
-                        /* 取得区域 */
+                    if ($order['city'] > 0) {
+                        //* 取得区域 */
                         $smarty->assign('district_list', get_regions(3, $order['city']));
                     }
                 }
@@ -2136,11 +2116,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
     }
 
     // 选择配送方式
-    elseif ('shipping' == $step)
-    {
-        /* 如果不存在实体商品 */
-        if (!exist_real_goods($order_id))
-        {
+    elseif ('shipping' == $step) {
+        //* 如果不存在实体商品 */
+        if (!exist_real_goods($order_id)) {
             die ('Hacking Attemp');
         }
 
@@ -5657,7 +5635,7 @@ function order_list() {
         $filter['page_count']     = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
 
         /* 查询 */
-        $sql = "SELECT o.order_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid," .
+        $sql = "SELECT o.order_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid, o.shipping_name, o.invoice_no," .
             "o.pay_status, o.return_status, o.consignee, o.address, o.email, o.tel, o.mobile, o.extension_code, o.extension_id, " .
             "(" . order_amount_field('o.') . ") AS total_fee, " .
             "IFNULL(u.user_name, '" .$GLOBALS['_LANG']['anonymous']. "') AS buyer, ".

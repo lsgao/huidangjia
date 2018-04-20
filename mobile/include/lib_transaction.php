@@ -620,7 +620,7 @@ function get_order_detail($order_id, $user_id = 0) {
          if (file_exists($plugin)) {
               include_once($plugin);
               $shipping = new $shipping_code;
-              $order['invoice_no'] = $shipping->query($order['invoice_no']);
+              //$order['invoice_no'] = $shipping->query($order['invoice_no']);
         }
     }
 
@@ -754,7 +754,7 @@ function get_order_detail_new($order_id, $user_id = 0)
         {
               include_once($plugin);
               $shipping = new $shipping_code;
-              $order['invoice_no'] = $shipping->query($order['invoice_no']);
+              //$order['invoice_no'] = $shipping->query($order['invoice_no']);
         }
     }
 

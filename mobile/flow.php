@@ -730,7 +730,8 @@ elseif ($_REQUEST['step'] == 'checkout') {
 
     /* 取得配送列表 */
     $region            = array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']);
-    $shipping_list     = available_shipping_list($region);
+    //$shipping_list     = available_shipping_list($region);
+    $shipping_list = available_free_shipping_list($region);
     $cart_weight_price = cart_weight_price($flow_type);
     $insure_disabled   = true;
     $cod_disabled      = true;

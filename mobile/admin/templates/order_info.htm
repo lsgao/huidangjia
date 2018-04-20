@@ -336,12 +336,36 @@
   {/foreach}
 </table>
 </div>
+{if $order.order_status=5}
+ <div class="list-div" style="margin-bottom: 5px">
+ <table cellspacing="1" cellpadding="3">
+  <tbody>
+    <tr>
+    <th>物流信息</th>
+    </tr>
+    <tr>
+    <td>
+      <div id="queryContext" class="fix"></div>
+    </td>
+    </tr>
+  </tbody>
+  </table>
+ </div>
+ {/if}
+
 </form>
+{insert_scripts files="../plugins/kdniao/jquery.min.js"}
+{insert_scripts files="../plugins/kdniao/kdniao.js"}
+
 {literal}
 <script language="JavaScript">
 {/literal}
   var oldAgencyId = {$order.agency_id|default:0};
 {literal}
+{if $order.order_status=5}
+  kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+{/if}
+
   onload = function()
   {
     // 开始检查订单
