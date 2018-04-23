@@ -1092,6 +1092,10 @@ elseif ($action == 'order_list') {
     $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
 
     $where = " WHERE user_id = '$user_id' ";
+    
+    if (isset($_REQUEST['search_key']) && !empty($_REQUEST['search_key'])) {
+        $where .= " AND (mobile like '%" . $_REQUEST['search_key'] . "%' OR consignee like '%" . $_REQUEST['search_key'] . "%' ) ";
+    }
     if (isset($_REQUEST['search_mobile']) && !empty($_REQUEST['search_mobile'])) {
         $where .= " AND mobile like '%" . $_REQUEST['search_mobile'] . "%' ";
     }
@@ -1128,6 +1132,7 @@ elseif ($action == 'order_list') {
     $orders = search_orders($pager['size'], $pager['start'], $where);
     //$merge  = get_user_merge($user_id);
 
+    $smarty->assign('search_key',  $_REQUEST['search_key']);
     $smarty->assign('search_mobile',  $_REQUEST['search_mobile']);
     $smarty->assign('search_consignee',  $_REQUEST['search_consignee']);
     $smarty->assign('search_country',  $_REQUEST['search_country']);
@@ -1152,6 +1157,9 @@ elseif ($action == 'async_order_list') {
     $limit = $_POST['amount'];
     $search_mobile = $_POST['search_mobile'];
     $where = " WHERE user_id = '$user_id' ";
+    if (isset($_REQUEST['search_key']) && !empty($_REQUEST['search_key'])) {
+        $where .= " AND (mobile like '%" . $_REQUEST['search_key'] . "%' OR consignee like '%" . $_REQUEST['search_key'] . "%' ) ";
+    }
     if (isset($_POST['search_mobile']) && !empty($_REQUEST['search_mobile'])) {
         $where .= " AND mobile like '%" . $_POST['search_mobile'] . "%' ";
     }

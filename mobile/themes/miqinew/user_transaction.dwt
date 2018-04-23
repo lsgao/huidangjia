@@ -287,12 +287,15 @@
         <div class="user_inp_wrap">
         <form name="formSearchOrder" action="user.php?act=order_list" method="post" >
           <div class="user_inp_item">
+               <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_mobile}" class="dd2" />
+          </div>
+          <div class="user_inp_item" style="display: none;">
                <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
           </div>
-          <div class="user_inp_item">
+          <div class="user_inp_item" style="display: none;">
                <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" />
           </div>
-          <div class="user_time_item">
+          <div class="user_time_item" style="display: none;">
           	<div class="user_time_wrap">
           		<div class="user_time_box">
 	          		 <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" readonly="readonly" value="{$search_start_time}"  placeholder="请选择起始时间" />
@@ -305,26 +308,24 @@
 	          	<div class="clear"></div>
 	          	</div>
           </div>
-          <div class="user_sel_item">
+          <div class="user_sel_item" style="display: none;">
               <div class="user_sel_box">
                 <input type="hidden" name="search_country" id="search_selCountries" value="1"/>
-          <select name="search_province" id="search_selProvinces" onchange="reload_cities(this);">
-            <option value="0">请选择...</option>
-          </select>
-          <select name="search_city" id="search_selCities" onchange="reload_districts(this);">
-            <option value="0">请选择...</option>
-          </select>
-          <select name="search_district" id="search_selDistricts">
-            <option value="0">请选择...</option>
-          </select>
-          <div class="clear"></div>
+                <select name="search_province" id="search_selProvinces" onchange="reload_cities(this);">
+                  <option value="0">请选择...</option>
+                </select>
+                <select name="search_city" id="search_selCities" onchange="reload_districts(this);">
+                  <option value="0">请选择...</option>
+                </select>
+                <select name="search_district" id="search_selDistricts">
+                  <option value="0">请选择...</option>
+                </select>
+                <div class="clear"></div>
               </div>
           </div>
-           <div class="user_inp_item">
+          <div class="user_inp_item" style="display: none;">
               <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" />
           </div>
-          
-        
           <div class="user_submit">
               <input name="submit" type="submit" value="查 询"/>
           </div>
@@ -357,7 +358,7 @@
           var {$key} = "{$item}";
         {/foreach}
         jQuery(function($) {
-          $('.order_list').more({'address': 'user.php?act=async_order_list&search_mobile={$search_mobile}&search_consignee={$search_consignee}&search_country={$search_country}&search_province={$search_province}&search_city={$search_city}&search_district={$search_district}&search_address={$search_address}&search_start_time={$search_start_time}&search_end_time={$search_end_time}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
+          $('.order_list').more({'address': 'user.php?act=async_order_list&search_key={$search_key}&search_mobile={$search_mobile}&search_consignee={$search_consignee}&search_country={$search_country}&search_province={$search_province}&search_city={$search_city}&search_district={$search_district}&search_address={$search_address}&search_start_time={$search_start_time}&search_end_time={$search_end_time}', amount: 3, 'spinner_code':'<div style="text-align:center; margin:10px;"><img src="{$ectouch_themes}/images/loader.gif" /></div>'})
             $(window).scroll(function () {
               if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 $('.get_more').click();
