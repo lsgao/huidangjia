@@ -263,7 +263,7 @@
       </script>
       <section class="wrap">
         <style type="text/css">
-          .user_inp_wrap {background: #fff;padding: 10px 2%}
+          .user_inp_wrap {background: #fff;margin:10px auto;border-radius: 15px;width: 96%;}
           .user_inp_wrap form {width: 100%;}
           .user_inp_item input,.user_time_box input {width: 100%;border:none;background: none;font: 14px/30px "微软雅黑";color: #333}
           .user_sel_item select {border:none;color: #999;font: 14px/30px "微软雅黑";background:#fff;text-align: center;width: 30%;margin-right:3%;display: block;float: left;height: 30px}
@@ -283,11 +283,16 @@
           .user_submit {padding: 20px}
           .user_submit input {display: block;text-align: center;width: 35%;background:#ff9600;color: #fff;margin:0 auto;outline: none;border: none;font: 16px/36px "微软雅黑";border-radius: 4px}
           .clear{ height:0; overflow:hidden; clear:both}
+          .user_inp_nsea {padding:0 40px 0 10px;position: relative;}
+          .user_inp_nsea input{border:none;background: none;outline: none;}
+          .user_inp_nsea .dd2 {width: 100%;font: 14px/30px "微软雅黑";color: #333}
+          .user_inp_sicon {background: url(../images/ico_07.png) no-repeat !important;background-size: 20px !important;position: absolute;width: 20px;height: 20px;top: 5px;right: 10px;}
         </style>
         <div class="user_inp_wrap">
         <form name="formSearchOrder" action="user.php?act=order_list" method="post" >
-          <div class="user_inp_item">
+          <div class="user_inp_nsea">
                <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_mobile}" class="dd2" />
+               <input name="submit" type="submit" value="" class="user_inp_sicon"/>
           </div>
           <div class="user_inp_item" style="display: none;">
                <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
@@ -326,7 +331,7 @@
           <div class="user_inp_item" style="display: none;">
               <input name="search_address" type="text" placeholder="请输入详细地址"  size="102" maxlength="100" value="{$search_address}" class="dd2" />
           </div>
-          <div class="user_submit">
+          <div class="user_submit" style="display: none;">
               <input name="submit" type="submit" value="查 询"/>
           </div>
         </form>
@@ -1254,7 +1259,7 @@
                     <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
                     <!-- {/foreach} -->
                   </select>
-                  <select name="district" id="selDistricts" {if !$district_list}style="display:none"{/if}>
+                  <select name="district" id="selDistricts" {if !$district_list}{/if}>
                     <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
                     <!-- {foreach from=$district_list item=district} -->
                     <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
