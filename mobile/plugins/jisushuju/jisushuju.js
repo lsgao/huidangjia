@@ -75,11 +75,11 @@ var jisushuju={
 						}
 						shtml+='</th></tr></thead><tbody>';
 						var tardata_time,tardata_status;
-						var sortBy = function (filed, rev, primer) {
+						var sortBy = function (field, rev, primer) {
 						    rev = (rev) ? -1 : 1;
 						    return function (a, b) {
-						        a = a[filed];
-						        b = b[filed];
+						        a = a[field];
+						        b = b[field];
 						        if (typeof (primer) != 'undefined') {
 						            a = primer(a);
 						            b = primer(b);
@@ -89,6 +89,15 @@ var jisushuju={
 						        return 1;
 						    }
 						};
+						for(var i=0;i<data_list.length;i++) {
+						    tardata_time=data_list[i].time;
+						    var index = tardata_time.indexOf(" ");
+						    var result_date = tardata_time.substring(0,index);
+						    var result_time = tardata_time.substring(index+1);
+						    var tardata_fulldate = result_date.split("-");
+						    var tardata_fulltime = result_time.split(":");
+						    data_list[i].time = new Date(tardata_fulldate[0], tardata_fulldate[1]-1, tardata_fulldate[2], tardata_fulltime[0], tardata_fulltime[1], tardata_fulltime[2]).Format("yyyy-MM-dd HH:mm:ss");
+						}
 						data_list.sort(sortBy('time', false, String));
 						for(var i=0;i<data_list.length;i++)
 						{
