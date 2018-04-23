@@ -1241,17 +1241,18 @@ elseif ($action == 'async_order_list') {
 elseif ($action == 'package_tracking')
 {
     $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-    $ajax = isset($_GET['ajax']) ? intval($_GET['ajax']) : 0;
+    //$ajax = isset($_GET['ajax']) ? intval($_GET['ajax']) : 0;
 
-    include_once(ROOT_PATH . 'include/lib_transaction.php');
-    include_once(ROOT_PATH .'include/lib_order.php');
+    //include_once(ROOT_PATH . 'include/lib_transaction.php');
+    //include_once(ROOT_PATH .'include/lib_order.php');
+    
 
     $sql = "SELECT order_id,order_sn,invoice_no,shipping_name,shipping_id,order_status FROM " .$ecs->table('order_info').
             " WHERE user_id = '$user_id' AND order_id = ".$order_id;
     $orders = $db->getRow($sql);
-    //生成快递100查询接口链接
-    $shipping   = get_shipping_object($orders['shipping_id']);
-    $query_link = $shipping->kuaidi100($orders['invoice_no']);
+    $getcom = $orders['shipping_name'];
+    include_once(ROOT_PATH .'plugins/jisushuju/jisushuju_config.php');
+    $query_link = 'http://api.jisuapi.com/express/query?appkey='. AppKey.'&type='. $postcom .'&number=' .$orders['invoice_no'];
     //优先使用curl模式发送数据
     if (function_exists('curl_init') == 1){
       $curl = curl_init();
@@ -1265,6 +1266,7 @@ elseif ($action == 'package_tracking')
     }
 
     $smarty->assign('trackinfo',      $get_content);
+
     $smarty->display('user_transaction.dwt');
 }
 /* 快递100包裹跟踪 */

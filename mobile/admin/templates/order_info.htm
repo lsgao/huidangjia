@@ -354,8 +354,8 @@
  {/if}
 
 </form>
-{insert_scripts files="../plugins/kdniao/jquery.min.js"}
-{insert_scripts files="../plugins/kdniao/kdniao.js"}
+{insert_scripts files="../plugins/jisushuju/jquery.min.js"}
+{insert_scripts files="../plugins/jisushuju/jisushuju.js"}
 
 {literal}
 <script language="JavaScript">
@@ -363,7 +363,7 @@
   var oldAgencyId = {$order.agency_id|default:0};
 {literal}
 {if $order.order_status=5}
-  kdniao.query('{$order.invoice_no}','{$order.shipping_name}');
+  jisushuju.query('{$order.invoice_no}','{$order.shipping_name}');
 {/if}
 
   onload = function()

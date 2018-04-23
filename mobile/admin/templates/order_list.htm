@@ -50,7 +50,7 @@
      <br /><a href="javascript:;" onclick="listTable.remove({$order.order_id}, remove_confirm, 'remove_order')">{$lang.remove}</a>
      {/if}
      {if $order.order_status=5}
-     <br/><a href="javascript:;" onclick="kdniao.query('{$order.invoice_no}','{$order.shipping_name}')">查看物流</a>
+     <br/><a href="javascript:;" onclick="jisushuju.query('{$order.invoice_no}','{$order.shipping_name}')">查看物流</a>
      {/if}
     </td>
   </tr>
@@ -78,8 +78,8 @@
     <input name="order_id" type="hidden" value="" />
   </div>
 </form>
-{insert_scripts files="../plugins/kdniao/jquery.min.js"}
-{insert_scripts files="../plugins/kdniao/kdniao.js"}
+{insert_scripts files="../plugins/jisushuju/jquery.min.js"}
+{insert_scripts files="../plugins/jisushuju/jisushuju.js"}
 
 <script language="JavaScript">
 listTable.recordCount = {$record_count};

@@ -17,7 +17,7 @@ define('IN_ECTOUCH', true);
 
 require(dirname(__FILE__) . '/include/init.php');
 $pcat_array = get_categories_tree();
-
+assign_template();
 
 foreach ($pcat_array as $key => $pcat_data) {
     $pcat_array[$key]['name'] = $pcat_data['name'];
