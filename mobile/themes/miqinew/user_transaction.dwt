@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>{$page_title} 触屏版</title>
+  <title>{$page_title}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -41,14 +41,14 @@
               </dl>
               {foreach from=$extend_info_list item=field}
               <!-- {if $field.id eq 6} -->
-              <dl>
+              <dl style="display: none;">
                 <dd class="dd1">{$lang.passwd_question}</dd>
                 <select name='sel_question' class="dd2" style="-webkit-appearance:none">
                     <option value='0'>{$lang.sel_question}</option>
                     {html_options options=$passwd_questions selected=$profile.passwd_question}
                 </select>
               </dl>
-              <dl>
+              <dl style="display: none;">
                 <dd class="dd1">{$lang.passwd_answer}</dd>
                 <input placeholder="{$lang.passwd_answer}" name="passwd_answer" type="text" class="dd2" value="{$profile.passwd_answer}" />
               </dl>
@@ -93,7 +93,7 @@
           <input name="submit" type="submit" value="{$lang.confirm_edit}" class="c-btn3"   />
         </form>
         <div class="blank3"></div>
-        <form name="formPassword" action="user.php" method="post" onSubmit="return editPassword()" >
+        <form name="formPassword" action="user.php" method="post" onSubmit="return editPassword()" style="display: none;" >
           <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
             <div class="table_box table_box2">
               <dl>
@@ -595,7 +595,43 @@
             <!--{/if}-->
           </table>
         </section>
-        <section class="order_box padd1 radius10">
+        <style>
+      		.order_add_itemw {margin: 0 auto;background: #fff;width: 98%;border-radius: 5px;}
+      		.order_add_item {border-bottom: 1px solid #ccc;width: 96%;margin: 0 auto;padding: 10px 0;}
+      		.order_add_pinfo {margin-bottom: 6px;}
+      		.order_add_pinfo,.order_add_cre,.order_add_deinfo {font: 14px/20px "微软雅黑";}
+      		.order_add_name,.order_add_mob {width: 50%;float: left;color: #333;}
+      		.order_add_cre,.order_add_deinfo {color: #999;}
+      		.order_add_mob {text-align: right;}
+      		.order_add_deinfo {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+      		.clear {height: 0;overflow: hidden;clear: both;}
+      		.clear10 {height: 10px;overflow: hidden; clear: both;}
+      		.order_add_fun {text-align: right;padding-right: 20px;}
+      		.order_add_fun a {font: 14px/30px "微软雅黑";color: #999;}
+      	</style>
+        <div class="order_add_itemw">
+        	<div class="order_add_item">
+        		<div class="order_add_pinfo">
+	        		<div class="order_add_name">
+	        			{$order.consignee}
+	        		</div>
+	        		<div class="order_add_mob">
+	        			{$order.mobile}
+	        		</div>
+	        		<div class="clear"></div>
+	        	</div>
+	        	<!-- {if $order.exist_real_goods} -->
+	        	<div class="order_add_deinfo">
+	        		{$order.address} 
+                <!-- {if $order.zipcode} --> 
+                [{$lang.postalcode}: {$order.zipcode}] 
+                <!-- {/if} -->
+	        	</div>
+	        	<!-- {/if} -->
+        	</div>
+        </div>
+        <div class="clear10"></div>
+        <section class="order_box padd1 radius10" style="display: none;">
           <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
             <tr>
               <td width="32%" align="right">{$lang.consignee_name}：</td>
@@ -1076,8 +1112,47 @@
         <h1> {$lang.consignee_info} </h1>
       </header>
       <section class="wrap">
+      	<style>
+      		.order_add_itemw {margin: 0 auto;background: #fff;width: 98%;border-radius: 5px;}
+      		.order_add_item {border-bottom: 1px solid #ccc;width: 96%;margin: 0 auto;padding: 10px 0;}
+      		.order_add_pinfo {margin-bottom: 6px;}
+      		.order_add_pinfo,.order_add_cre,.order_add_deinfo {font: 14px/20px "微软雅黑";}
+      		.order_add_name,.order_add_mob {width: 50%;float: left;color: #333;}
+      		.order_add_cre,.order_add_deinfo {color: #999;}
+      		.order_add_mob {text-align: right;}
+      		.order_add_deinfo {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+      		.clear {height: 0;overflow: hidden;clear: both;}
+      		.clear10 {height: 10px;overflow: hidden; clear: both;}
+      		.order_add_fun {text-align: right;padding-right: 20px;}
+      		.order_add_fun a {font: 14px/30px "微软雅黑";color: #999;}
+      	</style>
         <!-- {foreach from=$consignee_list item=consignee key=sn} -->
-        <section class="order_box padd1 radius10">
+        <div class="order_add_itemw">
+        	<div class="order_add_item">
+        		<div class="order_add_pinfo">
+	        		<div class="order_add_name">
+	        			{$consignee.consignee|escape}
+	        		</div>
+	        		<div class="order_add_mob">
+	        			{$consignee.mobile}
+	        		</div>
+	        		<div class="clear"></div>
+	        		<div class="order_add_cre">
+	        			身份证号:{$consignee.identity_card|escape}
+	        		</div>
+	        	</div>
+	        	<div class="order_add_deinfo">
+	        		{$consignee.province_name|escape} {$consignee.city_name|escape} {$consignee.district_name|escape} {$consignee.address|escape}<!-- {if $consignee.zipcode} --> 
+              [{$lang.postalcode}: {$consignee.zipcode|escape}] 
+              <!-- {/if} --> 
+	        	</div>
+        	</div>
+        	<div class="order_add_fun">
+        		<a href="user.php?act=act_edit_address&id={$consignee.address_id}&flag=display">编辑</a> | <a href="user.php?act=drop_consignee&id={$consignee.address_id}" onClick="return confirm('您真的要删除该地址吗？');">删除</a>
+        	</div>
+        </div>
+        <div class="clear10"></div>
+        <section class="order_box padd1 radius10" style="display: none;">
         <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
           <tr>
             <td width="32%" align="right">{$lang.consignee_name}：</td>
@@ -1598,68 +1673,129 @@
 
     <!--#退换货界面 start-->
      <!--{if $action eq return_goods} -->
-       <h5><span>退货申请（需要换货的朋友，请在这里填写退款申请，之后重新下单）</span></h5>
-       <div class="blank"></div>
-
+     <style>
+     	.ret_g_content {margin: 0 auto;width: 98%;}
+     	body {background: #fff;}
+     	.ret_g_item {margin-bottom:10px ;border-top:1px solid #EEE;border-bottom: 1px solid #EEE;padding: 10px 10px 10px 140px;position: relative;}
+     	.ret_g_check {position: absolute;top: 50px;left: 10px;}
+     	.ret_g_check input {width: 20px;height: 20px;}
+     	.ret_g_iimg{position: absolute;top: 20px;left: 40px;}
+     	.ret_g_iimg,.ret_g_iimg img {width: 80px;height: 80px;}
+     	.ret_g_info {width: 100%;}
+     	.ret_g_name {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;height: 20px;font: 14px/20px "微软雅黑";color: #333;}
+     	.ret_g_sn,.ret_g_attr{font: 14px/20px "微软雅黑";color: #333;}
+     	.ret_g_sn span {color: #999;}
+     	.ret_g_pri {font: 16px/20px "微软雅黑";height: 20px;overflow: hidden;color: #ff9600;}
+     	.ret_g_pri span {padding-left: 10px;font-size: 12px;color: #333;}
+     	.ret_g_cnum{float: right;}
+     	.ret_g_cnumi {width: 40px;text-align:center;font: 14/20px "微软雅黑";color: #333;border: 1px solid #EEE;box-sizing: border-box;height: 20px;}
+     	.clear{ height:0; overflow:hidden; clear:both}
+     	.ret_g_type_wrap {border-top: 1px solid #EEE;margin-top: 20px;}
+     	.ret_g_type {position: relative;padding:10px 10px 10px 80px;border-bottom: 1px solid #EEE;}
+     	.ret_g_typet {position: absolute;position: absolute;top: 10px;left: 10px;font: 14px/20px "微软雅黑";color: #333;}
+     	.ret_g_type input,.ret_g_type select {font: 14px/20px "微软雅黑";color: #333;outline: none;height: 20px;width: 100%;border: none;}
+     	.ret_g_rema {margin: 20px 0;}
+     	.ret_g_rema p {text-align: center;font: 16px/30px "微软雅黑";color: #333;}
+     	.ret_g_rema textarea {width: 100%;height: 80px;resize: none;font: 14px/20px "微软雅黑";color: #333;border: 1px solid #eee;border-left: none;border-right:none;}
+     	.ret_g_prom {font: 12px/20px "微软雅黑";color: #999;padding: 0 10px;}
+     	.ret_g_btn_wrap {width: 90%;margin: 20px auto;}
+     	.ret_g_btns,.ret_g_btnr {width: 50%;float: left;}
+     	.ret_g_btn_wrap input {width: 80%;border: none;font: 16px/36px "微软雅黑";margin: 0 auto;text-align: center;outline: none;display: block;}
+     	.ret_g_btns input {background: #ff9600;color: #fff;}
+     	.ret_g_btnr input {background: none;border: 1px solid #ff9600;color: #ff9600;box-sizing: border-box;}
+     </style>
+     <div class="ret_g_wrap">
+     	 <header id="header">
+        <div class="header_l header_return"> <a class="ico_10" href="user.php?act=order_list"> 返回 </a> </div>
+        <h1>申请退货</h1>
+      </header>
+     		<div class="ret_g_text ret_g_content">
+     			<h5><span>退货申请（需要换货的朋友，请在这里填写退款申请，之后重新下单）</span></h5>
+     		</div>
+     		<div class="ret_g_form">
        <form name="back_order" action="user.php" method="post" onsubmit="return checkBack()">
-       <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
-          <tr align="center">
-            <td bgcolor="#ffffff">商品名称</td>
-            <td bgcolor="#ffffff">编号</td>
-            <td bgcolor="#ffffff">规格</td>
-            <td bgcolor="#ffffff">商品总价</td>
-            <td bgcolor="#ffffff">购买数量</td>
-            <td bgcolor="#ffffff">退货数量</td>
-          </tr>
-          <script language="javascript">var total = 0;</script>
           <!--{foreach from=$goods_list item=goods_list key=key}-->
-          <tr>
-            <td align="center" bgcolor="#ffffff"><input type="checkbox" name="goods[]" value="{$goods_list.goods_sn}-{$goods_list.goods_name}-{$goods_list.goods_attr}-{$goods_list.subtotal}" id="cbox{$key}" />{$goods_list.goods_name}</td>
-            <td align="center" bgcolor="#ffffff">{$goods_list.goods_sn}</td>
-            <td align="right" bgcolor="#ffffff">{$goods_list.goods_attr}</td>
-            <td align="center" bgcolor="#ffffff"><font style="font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif">&yen;</font> {$goods_list.subtotal}</td>
-            <td align="center" bgcolor="#ffffff" id="number{$key}">{$goods_list.goods_number}</td>
-            <td align="center" bgcolor="#ffffff"><input type="hidden" name="subtotal[]" value="{$goods_list.subtotal}" /><input type="text" name="number[]" style="width:50px" id="putnum{$key}" onchange="checkNum({$key},this.value)" /></td>
+       <div class="ret_g_item">
+       		<script language="javascript">var total = 0;</script>
+          <div class="ret_g_check">
+          	 <input type="checkbox" name="goods[]" value="{$goods_list.goods_sn}-{$goods_list.goods_name}-{$goods_list.goods_attr}-{$goods_list.subtotal}" id="cbox{$key}" />
+          </div>
+          <div class="ret_g_iimg">
+          	<img src="{$site_url}{$goods_list.goods_thumb}"/>
+          </div>.
+          <div class="ret_g_info">
+          	<div class="ret_g_name">
+          		{$goods_list.goods_name}
+          	</div>
+          	<div class="ret_g_sn">
+          		编号:<span>{$goods_list.goods_sn}</span>
+          	</div>
+          	<div class="ret_g_attr">
+          		规格:{$goods_list.goods_attr}
+          	</div>
+          	<div class="ret_g_pri">
+          		<font style="font-size:14px;font-weight:bold;font-family:Arial, Helvetica, sans-serif">&yen;</font>{$goods_list.subtotal}<span id="number{$key}">数量:{$goods_list.goods_number}</span>
+          		<div class="ret_g_cnum">
+          			<input type="hidden" name="subtotal[]" value="{$goods_list.subtotal}" /><input type="text" name="number[]" style="width:50px" id="putnum{$key}" value="1" onchange="checkNum({$key},this.value)" class="ret_g_cnumi" /></td>
             <input type="hidden" name="act" value="back_submit" />
             <input type="hidden" name="order_id" value="{$order_id}" />
-          </tr>
-          <script language="javascript">total++;</script>
+          		</div>
+          		<div class="clear"></div>
+          	</div>
+          	<script language="javascript">total++;</script>
+          </div>
+       </div>
           <!--{/foreach}-->
-          <tr>
-          	<td bgcolor="#ffffff">选择类型</td>
-            <td colspan="5" bgcolor="#ffffff">
-              <select name="case">
-                <option value="退货">退货</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-          	<td bgcolor="#ffffff">快递公司</td>
-            <td colspan="5" bgcolor="#ffffff"><input type="text" name="shipping_name" /> <font color="#FF0000">（请输入寄回的快递公司）</font></td>
-          </tr>          
-          <tr>
-          	<td bgcolor="#ffffff">快递单号</td>
-            <td colspan="5" bgcolor="#ffffff"><input type="text" name="invoice_no" /> <font color="#FF0000">（请输入寄回的快递单号）</font></td>
-          </tr>
-          <tr>
-          	<td bgcolor="#ffffff">退货理由</td>
-            <td colspan="5" bgcolor="#ffffff"><input type="text" name="liyou" /> <font color="#FF0000">*</font></td>
-          </tr>
-          <tr>
-          	<td bgcolor="#ffffff">备注</td>
-            <td colspan="5" bgcolor="#ffffff">
-              <textarea name="beizhu" rows="5" cols="50"></textarea><br />
-              <font color="#FF0000">提示：</font><br />
-                1、申请退货后请及时联系售后，直接退货不予处理。<br />
-                2、非官方因素造成的退货，只退还商品总金额的98%。<br />
-                3、经过核实的退款申请，相关资金会退还至账户余额，请进入会员中心的资金管理下查看。
-            </td>
-          </tr>
-          <tr>
-          	<td bgcolor="#FFFFFF" colspan="6" align="center"><input type="submit" name="sub" value="提交申请" /> <input type="reset" name="res" value="重置" /></td>
-          </tr>
-      </table>
+       <div class="ret_g_type_wrap">
+       	<div class="ret_g_type">
+         	<div class="ret_g_typet">
+         		选择类型:
+         	</div>
+         	 <select name="case">
+               <option value="退货">退货</option>
+             </select>
+         </div>
+         <div class="ret_g_type">
+         	<div class="ret_g_typet">
+         		快递公司:
+         	</div>
+         	 <input type="text" name="shipping_name" placeholder="请输入您寄回的快递公司名称" />
+         </div>
+         <div class="ret_g_type">
+         	<div class="ret_g_typet">
+         		快递单号:
+         	</div>
+         	<input type="text" name="invoice_no" placeholder="请输入您寄回的快递运单号码" />
+         </div>
+         <div class="ret_g_type">
+         	<div class="ret_g_typet">
+         		退货理由:
+         	</div>
+         	<input type="text" name="liyou" placeholder="请输入您的退货理由" />
+         </div>
+       </div>
+       <div class="ret_g_rema">
+       		<p>备注</p>
+       		<textarea name="beizhu" rows="5" cols="50"></textarea>
+       </div>
+       <div class="ret_g_prom">
+       	 <p>温馨提示:</p>
+       	 <p> 1、申请退货后请及时联系售后，直接退货不予处理。</p>
+       	 <p> 2、非官方因素造成的退货，只退还商品总金额的98%。</p>
+       	 <p>3、经过核实的退款申请，相关资金会退还至账户余额，请进入会员中心的资金管理下查看。</p>
+       </div>
+       <div class="ret_g_btn_wrap">
+       	<div class="ret_g_btns">
+       		<input type="submit" name="sub" value="提交申请" />
+       	</div>
+       	<div class="ret_g_btnr">
+       		<input type="reset" name="res" value="重置" />
+       	</div>
+       	<div class="clear"></div>
+       </div>
+       
       </form>
+      </div>
          <script language="javascript">
 	var pase = false;
 	function checkBack(){
@@ -1725,6 +1861,7 @@
 		}
 	}
 	   </script>
+	   </div>
       <!--{/if}--> 
     <!--#退换货界面 start-->
 

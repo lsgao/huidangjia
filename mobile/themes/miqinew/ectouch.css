@@ -39,7 +39,7 @@ Template Type: type_0
 	.c-btn1 { border:none;display: inline-block;height: 2rem;line-height: 2rem;font-size:0.8rem;color: #fff;padding: 0 2rem; width:5rem; border-radius: 5px;background:#ec5151;}
 	.c-btn2 {color:#fff;border:0;height:2.5rem; line-height:2.5rem; width:40%;-webkit-box-flex:1;display:block;-webkit-user-select:none; font-size:0.9rem;background:#ec5151; text-align: center}
 	.c-btn2 a,.c-btn2 a:visited{color:#fff;}
-	.c-btn3 { color:#fff;border:0;height:2.5rem; line-height:2.5rem; width:100%;-webkit-box-flex:1;display:block;-webkit-user-select:none; font-size:0.9rem;background:#ee6a6a; text-align: center}
+	.c-btn3 { color:#fff;border:0;height:2.5rem; line-height:2.5rem; width:100%;-webkit-box-flex:1;display:block;-webkit-user-select:none; font-size:0.9rem;background:#ff9600; text-align: center}
 	.c-btn4 { color:#fff;border:0;height:2.5rem; line-height:2.5rem; width:100%;-webkit-box-flex:1;display:block;-webkit-user-select:none; font-size:0.9rem;background:#00D20D; text-align: center}
 	.hidden{display:none}
 	.wrap{ padding:0 0.0rem}
@@ -920,10 +920,10 @@ Template Type: type_0
 	/* 购物车商品列表 */
 	.itemlist{ padding:0.8rem 0;    border:1px solid #ddd; background:#FFF}
 	.itemlist li{ padding:0.9rem  ;position:relative; border-bottom:1px solid #ddd  }
-	.itemlist li h4{ padding-right:2rem; height:2.2rem; line-height:1.1rem; overflow:hidden}
+	.itemlist li h4{ padding-right:4rem; height:2.2rem; line-height:1.1rem; overflow:hidden}
 	.itemlist li .b{   line-height:2.2rem; }
 	.itemlist li .b .cha{ 
-	width:1.5rem; height:1.5rem; display:block; background-color:#CCC; position:absolute; right:0.9rem;top:0.9rem;
+	width:1.5rem; height:1.5rem; display:block; background-color:#CCC; position:absolute; right:2.4rem;top:0.9rem;
 	-moz-border-radius: 0.75rem;      /* Gecko browsers */
 	-webkit-border-radius:  0.75rem;   /* Webkit browsers */
 	border-radius: 0.75rem;
@@ -987,8 +987,8 @@ Template Type: type_0
 	/* 订单确认页表格_中间模块 */
 	.order_box .table_box2 dl{ padding:0; position:relative}
  
-	.table_box2 .dd1{ width:28%; vertical-align:middle;}
-	.table_box2 .dd2{ color:#999; font-size:0.8rem; text-align:left; width:90%; height:2.5rem; line-height: normal; vertical-align:middle; border:none}
+	.table_box2 .dd1{ width:20%; vertical-align:middle;font: 14px/20px "微软雅黑";}
+	.table_box2 .dd2{ color:#999; font-size:0.8rem;font: 14px/20px "微软雅黑"; text-align:left; width:100%; height:2.5rem; line-height: normal; vertical-align:middle; border:none}
 	.table_box2 .dl_box p{ line-height:36px;}
 	.table_box2  input{ color:#999;  text-align:left; width:90%; border:none; background:#fff ; padding:0; height:24px;  }
 	.table_box2  input.radio{width:auto;}

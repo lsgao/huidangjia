@@ -1298,3 +1298,277 @@
 
 
 
+-----------2018-04-20 22:09:22-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:09:22-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:09:22-----------------支付成功
+
+
+
+-----------2018-04-20 22:09:22-----------------订单金额0.01
+
+
+
+-----------2018-04-20 22:09:38-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:09:38-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:09:38-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 22:09:56-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:09:56-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:09:56-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 22:10:27-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:10:27-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:10:27-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 22:13:30-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:13:30-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:13:30-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 22:43:31-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 22:43:31-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 22:43:31-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 23:13:34-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 23:13:34-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 23:13:34-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-20 23:43:36-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-20 23:43:36-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-20 23:43:36-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-21 00:13:38-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-21 00:13:38-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-21 00:13:38-----------------订单[ 2018042078652 ]已处理
+
+
+
+-----------2018-04-21 01:13:41-----------------/work/project/huidangjia/mobile/include/modules/payment/wx_new_jspay.php
+
+-----------2018-04-21 01:13:41-----------------传递过来的XML
+'<xml><appid><![CDATA[wx7d2f71548e7e89c6]]></appid>
+<attach><![CDATA[84]]></attach>
+<bank_type><![CDATA[HXB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1500994561]]></mch_id>
+<nonce_str><![CDATA[nyevci6nu7logoaokb1ce4rp50uwlf17]]></nonce_str>
+<openid><![CDATA[oTSYI0qLyKCT4f4dswx6O93gyBt4]]></openid>
+<out_trade_no><![CDATA[2018042078652]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[3573F48708AF13903E45C38B274B406C]]></sign>
+<time_end><![CDATA[20180420220927]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000088201804202345580676]]></transaction_id>
+</xml>'
+
+
+-----------2018-04-21 01:13:41-----------------订单[ 2018042078652 ]已处理
+
+
+

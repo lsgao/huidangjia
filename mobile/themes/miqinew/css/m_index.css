@@ -1,4 +1,4 @@
-html {font-size: 16px;
+﻿html {font-size: 16px;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 	text-size-adjust: 100%
@@ -29,7 +29,7 @@ body {background: #fff !important;padding-bottom: 60px;}
 .tran1s {transition: 1s;-webkit-transition: 1s;-moz-transition: 1s;-ms-transition: 1s;}
 
 .m_nav {width:100%;margin-top: 20px;}
-.m_nav ul li {float: left;width: 25%;text-align: center;margin-bottom: 10px;}
+.m_nav ul li {float: left;width: 20% !important;text-align: center;margin-bottom: 10px;}
 .m_nav ul li a img {width: 40%;margin: 0 auto;}
 @keyframes nav_ico_h{
 	50%{transform: scale(1.3);opacity: .7;}
@@ -69,6 +69,7 @@ body {background: #fff !important;padding-bottom: 60px;}
 
 
 #m_flash {margin-bottom: 20px;}
+.hot{margin-bottom: 10px;}
 .m_hot_recom_pic {float: left;}
 .m_hot_recom_pic img,.hot_bott_banner img {width: 100%;height: auto;}
 

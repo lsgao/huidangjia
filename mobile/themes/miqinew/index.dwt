@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>{if $name}{$name}的{/if}{$shop_name}正品联盟</title>
+		<title>{if $name}{$name}的{/if}{$shop_name}</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css"/>
@@ -55,18 +55,18 @@
 			<div class="m_nav">
 				<ul>
 					<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
-      <li> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
+      <li style="width: 20%;"> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
         <span> {$nav.name} </span>
       </li>
-      <!-- {if $smarty.foreach.nav_middle_list.iteration % 10 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
-      </ul>
+      <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
+      
       <!-- {/if} -->
       <!-- {/foreach} -->
 					
 					<div class="clear"></div>
 				</ul>
 			</div>
-			<div class="m_flash_sale m_content">
+			<div class="m_flash_sale m_content" style="display: none;">
 				<div class="m_flash_tit m_index_tit">
 					<a href="search.php?intro=hot">
 						<p>限时抢购</p>
@@ -278,6 +278,7 @@
 			        <div class="clear"></div>
 			    </ul>
 			</div>
+			
 			 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --></div>
 		</div>
 	</body>

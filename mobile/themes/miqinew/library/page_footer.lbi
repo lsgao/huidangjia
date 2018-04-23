@@ -1,4 +1,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <script type="text/javascript" src="{$ectouch_themes}/js/jquery.min.js"></script>
+<link type="text/css" rel="stylesheet" href="{$ectouch_themes}/css/uiAlertView-1.0.0.css" />
+        <script type="text/javascript" src="{$ectouch_themes}/js/jquery.uiAlertView-1.0.0.js"></script>
+         <script type="text/javascript">
+
+            $(function() {
+        
+               
+                // 定义多个按钮
+                $("#shop_car_btn").click(function() {
+				
+                    var json = {
+						title:"提示",
+						msg:"您的等级不够暂时无法购买，您选择是否选择升级权限以便购买",
+						buttons:[
+							{ title:"是",click:function(){alert("您确认升级")} },
+							{ title:"否",click:function(){alert("您没有升级")} },
+							{ title:"关闭",color:"red" }
+						]
+					}
+				
+                    $.alertView(json);
+                });
+				
+				
+                
+            })
+        </script>
 <div id="content" class="footer mr-t20">
   <div class="in">
     <div class="search_box">
@@ -45,7 +73,7 @@
             </a>
         </div>
         <div class="global-nav__nav-item">
-            {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="global-nav__nav-link">{/if}
+            {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a class="global-nav__nav-link" id="shop_car_btn">{/if}
                 <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
                 <span class="global-nav__nav-tit">购物车</span>
                 <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>

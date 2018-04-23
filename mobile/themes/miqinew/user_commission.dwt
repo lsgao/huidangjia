@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>{$page_title} 触屏版</title>
+  <title>{$page_title}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -47,10 +47,10 @@
             <ul>
               {foreach from=$menuarr item=menu}
               {if $menu == 1}<li onclick="location.href='user_commission.php?act=fenxiao1'"><span class="icon">&nbsp; &nbsp; </span><span>一级会员</span> <i></i><span class="sp">{$count1}人</span></li> {/if}
-              {if $menu == 2} <li onclick="location.href='user_commission.php?act=fenxiao2'"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
-              {if $menu == 3} <li onclick="location.href='user_commission.php?act=fenxiao3'"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
-              {if $menu == 4} <li onclick="location.href='user_commission.php?act=fenxiao4'"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
-              {if $menu == 5} <li onclick="location.href='user_commission.php?act=fenxiao5'"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
+              {if $menu == 2} <li onclick="location.href='user_commission.php?act=fenxiao2'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
+              {if $menu == 3} <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
+              {if $menu == 4} <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
+              {if $menu == 5} <li onclick="location.href='user_commission.php?act=fenxiao5'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
               {/foreach} 
             </ul>
           </div>
@@ -174,7 +174,13 @@
   </section> 
   <!-- {/if} --> 
 <!-- /提成记录 end -->
-
+<style>
+	.user_ctab {width: 100%;margin-bottom: 10px;}
+	.user_ctab_item {float: left;font: 16px/30px "微软雅黑";border-right: 1px solid #eee;width: 50%;text-align: center;box-sizing: border-box;}
+	.user_ctab_item a {color: #333;background:#fff;width: 100%;display: block;}
+	.user_ctab_ah {color: #FF9600 !important;border-bottom: 1px solid #ff9600;}
+	.clear {overflow: hidden;clear: both;height: 0;}
+</style>
 <!--#账户明细（会员余额）start--> 
   <!--{if $action eq "account_detail"} -->
   <header id="header">
@@ -188,7 +194,16 @@
   </script>
   <section class="order_box padd1 radius10 single_item">
     <div class="blank"></div>
-    <table width="100%" border="0" cellpadding="5" cellspacing="1">
+    <div class="user_ctab">
+    	<div class="user_ctab_item">
+    		<a href="user_commission.php?act=account_detail" class="user_ctab_ah">账户明细</a>
+    	</div>
+    	<div class="user_ctab_item" style="border: none;">
+    		<a href="user_commission.php?act=account_log" >提现记录</a>
+    	</div>
+    	<div class="clear"></div>
+    </div>
+    <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
       <tr>
         <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
       </tr>
@@ -204,8 +219,8 @@
       <tr>
         <td align="center">{$item.change_time}</td>
         <td align="center">{$item.type}</td>
-        <td align="right">{$item.amount}</td>
-        <td title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
+        <td align="center">{$item.amount}</td>
+        <td align="center" title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
       </tr>
       <!--{/foreach}-->
       <tr>
@@ -230,7 +245,16 @@
   </script>
   <section class="order_box padd1 radius10 single_item">
     <div class="blank"></div>
-    <table width="100%" border="0" cellpadding="5" cellspacing="1">
+    <div class="user_ctab">
+    	<div class="user_ctab_item">
+    		<a href="user_commission.php?act=account_detail">账户明细</a>
+    	</div>
+    	<div class="user_ctab_item" style="border: none;">
+    		<a href="user_commission.php?act=account_log" class="user_ctab_ah" >提现记录</a>
+    	</div>
+    	<div class="clear"></div>
+    </div>
+    <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
       <tr>
         <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
       </tr>
@@ -248,12 +272,12 @@
       <!--{foreach from=$account_log item=item}-->
       <tr>
         <td align="center">{$item.add_time}</td>
-        <td align="left">{$item.type}</td>
-        <td align="right">{$item.amount}</td>
-        <td align="left">{$item.short_user_note}</td>
-        <td align="left">{$item.short_admin_note}</td>
+        <td align="center">{$item.type}</td>
+        <td align="center">{$item.amount}</td>
+        <td align="center">{$item.short_user_note}</td>
+        <td align="center">{$item.short_admin_note}</td>
         <td align="center">{$item.pay_status}</td>
-        <td align="right">{$item.handle} 
+        <td align="center">{$item.handle} 
           <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
           <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
           <!-- {/if} --></td>
@@ -284,37 +308,58 @@
           </dd>
         </dl>
         <dl>
-          <dd class="dd1">真实姓名 
+          <dd class="dd1">真实姓名 </dd>
+          <dd>
             <input name="real_name" type="text" placeholder="输入真实姓名" value="如：惠当家" class="dd2">
           </dd>
         </dl>
         <dl>
-          <dd class="dd1">开户行
+          <dd class="dd1">开户行</dd>
+          <dd>
             <input name="bank_name" type="text" placeholder="输入提现的银行名称" value="" class="dd2">
           </dd>
         </dl>
         <dl>
-          <dd class="dd1">银行账号
+          <dd class="dd1">银行账号</dd>
+          <dd>
             <input name="bank_account" type="text" placeholder="输入提现的银行账号" value="" class="dd2">
           </dd>
         </dl>
         <dl>
-          <dd class="dd1">手机号
+          <dd class="dd1">手机号</dd>
+          <dd>
             <input name="mobile_phone" type="text" placeholder="输入手机号码" value="" class="dd2">
           </dd>
         </dl>
-        <dl>
-          <dd class="dd1">备注
-            <textarea placeholder="会员备注" name="user_note" class="B_blue" style="width:100%; height:70px; border:0px; font-size:1em;"></textarea>
-          </dd>
-        </dl>
+        <style>
+        	body {background: #fff;}
+        	.remark {width: 100%;margin-bottom: 20px;}
+        	.remark p {text-align: center;font: 14px/20px "微软雅黑";color: #333;margin: 10px 0;}
+        	.remark textarea {resize: none;font: 14px/20px "微软雅黑";padding: 10px 0;text-indent: 20px;box-sizing: content-box;width: 100%;height: 80px;border: 1px solid #eee;border-left: none;border-right: none;}
+        	.user_pf_btn {width: 50%;float: left;}
+        	.user_pf_btn input {width: 80%;margin: 0 auto; border: none;outline: none;display: block;font: 16px/36px "微软雅黑";height: 36px;text-align: center;}
+        	.user_pf_sub input {background: #FF9600;color: #fff;}
+        	.user_pf_res input {border: 1px solid #FF9600;background: #fff;color: #FF9600;box-sizing: border-box;}
+        	.clear {height: 0;overflow: hidden;clear: both;}
+        </style>
+        <div class="remark">
+        	<p>备注</p>
+        	<textarea placeholder="请输入您的备注消息" name="user_note" class="B_blue"></textarea>
+        </div>
+        
       </div>
       <div class="blank3"></div>
       <div class="dd_btn">
         <input type="hidden" name="act" value="act_account">
         <input type="hidden" name="surplus_type" value="1">
-        <input type="submit" name="submit" class="btn1" style="margin-right:5px;" value="提交申请">
+      	<div class="user_pf_btn user_pf_sub">
+      		<input type="submit" name="submit" class="btn1" style="margin-right:5px;" value="提交申请">
+      	</div>
+      	<div class="user_pf_btn user_pf_res">
         <input type="reset" name="reset" class="btn2" value="重置表单">
+      	</div>
+      	<div class="clear"></div>
+        
       </div>
     </form> 
  </section>
