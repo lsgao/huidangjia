@@ -32,7 +32,10 @@ switch ($getcom) {
     case "天天快递" :
         $postcom = "TTKDEX";
         break;
-   /*case "EMS" :
+    /*case "百世快递" :
+        $postcom = "HTKY";
+        break;
+   case "EMS" :
         $postcom = "EMS";
         break;*/
     case "邮政快递包裹" :
