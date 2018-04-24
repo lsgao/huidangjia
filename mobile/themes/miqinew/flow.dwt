@@ -289,6 +289,7 @@
   <script>
     onload = function() {  
       var sp = document.getElementsByName('shipping');
+      var oRadioValue;
       for (i=0;i<sp.length;i++){
         if (sp[i].checked){
           oRadioValue = sp[i];
@@ -415,60 +416,57 @@
           <dd class="dd2 selectPayment" id="selected2">请选择支付方式</dd>
           <i></i>
         </dl>
-		<div class="dl_box" id="payment" style="display:none">
-		  <!-- {foreach from=$payment_list item=payment} -->
-		  <p>
+        <div class="dl_box" id="payment" style="display:none">
+          <!-- {foreach from=$payment_list item=payment} -->
+            <p>
            <input type="radio" class="radio" name="payment" id="payment_{$payment.pay_id}" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if} style="vertical-align:middle" /><label for="payment_{$payment.pay_id}">{$payment.pay_name} [{$payment.format_pay_fee}]</label>
            </p>
-            <!-- {/foreach} -->
-		</div>
+          <!-- {/foreach} -->
+        </div>
         <!--{else}-->
         <input name = "payment" type="radio" value = "-1" checked="checked"  style="display:none"/>
-        <!--{/if}-->  
-        <dl class="b_no" style="line-height: 40px;">
+        <!--{/if}--> 
+        <dl class="b_no" style="line-height: 40px; display:none;">
           <dd class="dd1">是否开票</dd>
-		  <span class="modRadio fr" style="margin-top: 10px;">
+          <span class="modRadio fr" style="margin-top: 10px;">
             <i class="fl"></i>
             <ins>否</ins>
          </span>
         </dl>
-		<div class="dl_box" id="inviype_box" style="margin-bottom:0.5rem; display:none;">
-            <!-- {if $inv_content_list} 能否开发票 -->
-                <dl style="line-height: 40px;">
-                    <dd class="c333">发票类型</dd>
-                    <dd>
-                     <!-- {if $inv_type_list} -->
-                    {$lang.invoice_type}
-                    <select name="inv_type" id="ECS_INVTYPE"  onchange="changeNeedInv()" style="border:1px solid #ccc;">
-                    {html_options options=$inv_type_list selected=$order.inv_type}</select>
-                    <!-- {/if} -->
-                        </dd>
-                      </dl>		
-            
-                <dl style="line-height: 40px;">
-                    <dd class="c333">发票抬头</dd>
-                    <dd><input name="inv_payee" type="text"  class="input" id="ECS_INVPAYEE" size="20" value="{$order.inv_payee}" onblur="changeNeedInv()" /></dd>
-                </dl>	
-                 <dl style="line-height: 40px;">
-                    <dd class="c333">
-                    发票内容
-                    </dd>
-                    <dd>
-                   <select name="inv_content" id="ECS_INVCONTENT"  onchange="changeNeedInv()" style="border:1px solid #ccc;">
-
-                {html_options values=$inv_content_list output=$inv_content_list selected=$order.inv_content}
-                   </select>
-                     </dd> 
-                </dl>	
-            <!-- {/if} -->
-			  
-		</div>	
+        <div class="dl_box" id="inviype_box" style="margin-bottom:0.5rem; display:none;">
+          <!-- {if $inv_content_list} 能否开发票 -->
+            <dl style="line-height: 40px;">
+              <dd class="c333">发票类型</dd>
+              <dd>
+                <!-- {if $inv_type_list} -->
+                  {$lang.invoice_type}
+                  <select name="inv_type" id="ECS_INVTYPE"  onchange="changeNeedInv()" style="border:1px solid #ccc;">
+                    {html_options options=$inv_type_list selected=$order.inv_type}
+                  </select>
+                <!-- {/if} -->
+              </dd>
+            </dl>
+            <dl style="line-height: 40px;">
+              <dd class="c333">发票抬头</dd>
+              <dd><input name="inv_payee" type="text"  class="input" id="ECS_INVPAYEE" size="20" value="{$order.inv_payee}" onblur="changeNeedInv()" /></dd>
+            </dl>
+            <dl style="line-height: 40px;">
+              <dd class="c333">
+                发票内容
+              </dd>
+              <dd>
+                <select name="inv_content" id="ECS_INVCONTENT"  onchange="changeNeedInv()" style="border:1px solid #ccc;">
+                  {html_options values=$inv_content_list output=$inv_content_list selected=$order.inv_content}
+                </select>
+              </dd>
+            </dl>
+          <!-- {/if} -->
+        </div>
       </div>
     </section>
     <div class="blank3"> </div>
-    <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
+    <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem; display:none;">
       <div class="table_box table_box2" style=" margin-bottom:0.5rem"> 
-	  
         <!-- {if $allow_use_bonus} 是否使用红包 -->
         <dl>
           <dd class="dd1"> {$lang.use_bonus} </dd>
@@ -549,7 +547,7 @@
         <!-- {/if} 是否使用积分 -->
       </div>
     </section>
-    <div class="blank3"></div>
+    <div class="blank3" style="display:none;"></div>
     <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
       <div class="table_box table_box3">
         <dl>
