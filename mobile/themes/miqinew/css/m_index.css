@@ -75,7 +75,7 @@ body {background: #fff !important;padding-bottom: 60px;}
 
 
 .m_new_item {border-bottom: 1px solid #ccc;padding: 10px 0;position: relative;}
-.m_new_tit {background: url(../img/jh_m.jpg) center no-repeat;height: 55px;width: 100%;background-size: cover;}
+.m_new_tit a img {width: 100%;}
 .m_new_item_pic {float: left;width: 30%;}
 .m_new_info {width:66%;float: left;margin-left: 4%;}
 .m_new_name {font: 14px/24px "微软雅黑";color: #333;margin-bottom: 10px;}
@@ -90,8 +90,8 @@ body {background: #fff !important;padding-bottom: 60px;}
 .m_you_like_item {float: left;width: 48%;margin: 1%;box-shadow: 0 0 1px #ccc;padding: 10px 0;}
 .m_you_like_name {display:-webkit-box;-webkit-box-orient: vertical;overflow: hidden;-webkit-line-clamp: 2;border-bottom: 1px solid #eee;padding-bottom: 4px;font: 14px/20px "微软雅黑";color: #333;height: 40px;}
 .m_you_like_name,.m_you_like_price {margin-top: 8px;}
-.m_you_like_price p {color: #ff9600;font-size: 18px;line-height: 20px;}
-.m_you_like_price s {color: #999;font-size: 12px;padding-left: 10px;}
+.m_you_like_price p {color: #ff9600;font-size: 14px;line-height: 20px;}
+.m_you_like_price s {color: #999;font-size: 12px;}
 .m_you_like_price span {padding: 0 10px;float: right;background: #FD5600;display: inline-block;font: 12px/20px "微软雅黑";color: #fff;border-radius: 10px;}
 
 .m_you_like_more,.m_index_footer_fun {border: 1px solid #e2e2e2;border-left: none;border-right: none;text-align: center;}

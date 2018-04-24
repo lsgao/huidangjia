@@ -460,7 +460,7 @@
 				className="odd";
 			}
 			if(resultData.length == 1){
-				if(resultJson.result.deliverystatus == 1){
+				if(parseInt(resultJson.result.deliverystatus) == 3){
 					className += " checked";
 				}else{
 					className += " wait";
@@ -469,7 +469,7 @@
 				className += " first-line";
 			}else if(i == 0){
 				className += " last-line";
-				if(resultJson.result.deliverystatus == 1){
+				if(parseInt(resultJson.result.deliverystatus) == 3){
 					className += " checked";
 				}else{
 					className += " wait";
@@ -487,7 +487,7 @@
 		}
 		$("body").animate({scrollTop: "1000px"}, 1000);
 	} else {
-		resultTable.append("<tr><td>"+ resultJson.msg +"</td></tr>");				
+		resultTable.append("<tr><td>"+ resultJson.msg +"</td></tr>");
 	}
         })
         </script>

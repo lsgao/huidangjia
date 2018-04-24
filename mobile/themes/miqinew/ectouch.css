@@ -147,7 +147,7 @@ Template Type: type_0
 	.search_box input{width:85%; height:2rem; line-height: normal; border:none; font-size:0.8rem }
 	.search_box button{position:absolute; top:0.4rem; right:0.6rem; width:1.2rem; height:1.2rem;   border:none;}
 	/*点击弹出搜索样式*/
-	#search_box{padding:0 3.2rem 0 1rem;position:relative;background-color:#ec5151; height:3rem; top:-3rem; display:none  }
+	#search_box{padding:0 3.2rem 0 1rem;position:relative;background-color:#ff9600; height:3rem; top:-3rem; display:none  }
 	#search_box .search_box{position:relative; top:0.5rem; }
 	#search_box .ico_08{position:absolute; top:0; right:0; display:block;width: 3rem;height:3rem; padding: 0 0.2rem;}
 	/*分类页头部搜索样式*/

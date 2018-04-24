@@ -136,7 +136,9 @@
 			</div>
 			<div class="m_new_recom m_content">
 				<div class="m_new_tit">
-					<a href="search.php?intro=new"></a>
+					<a href="search.php?intro=new">
+                                                            <img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
+                                                   </a>
 				</div>
                  <!--{foreach from=$new_goods item=goods name=new_goods}-->
 				<div class="m_new_item">
