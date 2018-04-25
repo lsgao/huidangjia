@@ -391,7 +391,7 @@
       <div class="table_box table_box2"> 
         <!--{if $total.real_goods_count neq 0}-->
         <dl>
-          <dd class="dd1">{$lang.shipping_method} <span class="span1 radius5">必填</span></dd>
+          <dd class="dd1">{$lang.shipping_method} <span class="span1 radius5" style="display: none">必填</span></dd>
           <dd class="dd2" id="selected1">请选择配送方式</dd>
           <i></i>
         </dl>
@@ -412,7 +412,7 @@
         <!--{/if}-->
          <!--{if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}-->
         <dl>
-          <dd class="dd1">{$lang.payment_method} <span class="span1 radius5">必填</span></dd>
+          <dd class="dd1">{$lang.payment_method} <span class="span1 radius5" style="display: none">必填</span></dd>
           <dd class="dd2 selectPayment" id="selected2">请选择支付方式</dd>
           <i></i>
         </dl>
