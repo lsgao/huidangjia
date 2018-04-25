@@ -1442,7 +1442,8 @@ elseif ($action == 'address_list')
     $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
 
     /* 获得用户所有的收货人信息 */
-    $consignee_list = get_consignee_list($_SESSION['user_id']);
+    $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+    $consignee_list = get_consignee_list($where);
 
     if (count($consignee_list) < 5 && $_SESSION['user_id'] > 0)
     {
@@ -1496,7 +1497,8 @@ elseif ($action == 'act_edit_address')
         $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
 
         /* 获得用户所有的收货人信息 */
-        $consignee_list = get_consignee_list($_SESSION['user_id']);
+        $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+        $consignee_list = get_consignee_list($where);
 
         foreach ($consignee_list AS $region_id => $vo)
         {

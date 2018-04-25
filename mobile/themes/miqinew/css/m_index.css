@@ -91,7 +91,7 @@ body {background: #fff !important;padding-bottom: 60px;}
 .m_you_like_name {display:-webkit-box;-webkit-box-orient: vertical;overflow: hidden;-webkit-line-clamp: 2;border-bottom: 1px solid #eee;padding-bottom: 4px;font: 14px/20px "微软雅黑";color: #333;height: 40px;}
 .m_you_like_name,.m_you_like_price {margin-top: 8px;}
 .m_you_like_price p {color: #ff9600;font-size: 14px;line-height: 20px;}
-.m_you_like_price s {color: #999;font-size: 12px;}
+.m_you_like_price s {color: #999;font-size: 12px;padding-left:10px}
 .m_you_like_price span {padding: 0 10px;float: right;background: #FD5600;display: inline-block;font: 12px/20px "微软雅黑";color: #fff;border-radius: 10px;}
 
 .m_you_like_more,.m_index_footer_fun {border: 1px solid #e2e2e2;border-left: none;border-right: none;text-align: center;}

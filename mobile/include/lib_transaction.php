@@ -176,14 +176,14 @@ function get_profile($user_id)
  * @param   int     $user_id    用户编号
  * @return  array
  */
-function get_consignee_list($user_id)
+function get_consignee_list($where)
 {
     $sql = "SELECT ua.*, r1.region_name as province_name, r2.region_name as city_name, r3.region_name as district_name "
         . " FROM " . $GLOBALS['ecs']->table('user_address') . "ua"
         . " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r1 ON ua.province=r1.region_id AND  r1.region_type=1 AND r1.parent_id=ua.country "
         . " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r2 ON ua.city=r2.region_id AND  r2.region_type=2 AND r2.parent_id=ua.province "
         . " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r3 ON ua.district=r3.region_id AND  r3.region_type=3 AND r3.parent_id=ua.city "
-        . " WHERE user_id = '$user_id' LIMIT 50";
+        . $where;
 
     return $GLOBALS['db']->getAll($sql);
 }

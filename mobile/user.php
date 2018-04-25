@@ -1397,13 +1397,11 @@ elseif ($action == 'address_list')
     $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
 
     /* 获得用户所有的收货人信息 */
-    $consignee_list = get_consignee_list($_SESSION['user_id']);
-
-    if (count($consignee_list) < 50 && $_SESSION['user_id'] > 0)
-    {
-        /* 如果用户收货人信息的总数小于50 则增加一个新的收货人信息 */
-        //$consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+    $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+    if (isset($_REQUEST['search_key']) && !empty($_REQUEST['search_key'])) {
+        $where .= " AND (mobile like '%" . $_REQUEST['search_key'] . "%' OR consignee like '%" . $_REQUEST['search_key'] . "%' ) ";
     }
+    $consignee_list = get_consignee_list($where);
 
     $smarty->assign('consignee_list', $consignee_list);
 
@@ -1423,6 +1421,7 @@ elseif ($action == 'address_list')
     $address_id  = $db->getOne("SELECT address_id FROM " .$ecs->table('users'). " WHERE user_id='$user_id'");
 
     //赋值于模板
+    $smarty->assign('search_key',  $_REQUEST['search_key']);
     $smarty->assign('real_goods_count', 1);
     $smarty->assign('shop_country',     $_CFG['shop_country']);
     $smarty->assign('shop_province',    get_regions(1, $_CFG['shop_country']));
@@ -1451,7 +1450,8 @@ elseif ($action == 'act_edit_address')
         $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
 
         /* 获得用户所有的收货人信息 */
-        $consignee_list = get_consignee_list($_SESSION['user_id']);
+        $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+        $consignee_list = get_consignee_list($where);
 
         foreach ($consignee_list AS $region_id => $vo)
         {

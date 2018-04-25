@@ -29,7 +29,8 @@ require_once(ROOT_PATH . 'lang/' .$_CFG['lang']. '/user.php');
 
 if ($_SESSION['user_id'] > 0)
 {
-    $consignee_list = get_consignee_list($_SESSION['user_id']);
+    $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+    $consignee_list = get_consignee_list($where);
 
     $choose['country'] = isset($_POST['country']) ? intval($_POST['country']) : $consignee_list[0]['country'];
     $choose['province'] = isset($_POST['province']) ? intval($_POST['province']) : $consignee_list[0]['province'];

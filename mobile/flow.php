@@ -539,7 +539,8 @@ elseif ($_REQUEST['step'] == 'consignee') {
 
         /* 获得用户所有的收货人信息 */
         if ($_SESSION['user_id'] > 0) {
-            $consignee_list = get_consignee_list($_SESSION['user_id']);
+            $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+            $consignee_list = get_consignee_list($where);
             //if (count($consignee_list) < 5) {
                 ///* 如果用户收货人信息的总数小于 5 则增加一个新的收货人信息 */
                 //$consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
