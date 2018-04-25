@@ -1697,7 +1697,7 @@ function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS)
  * @param   int     $flow_type  购物流程类型
  * @return  bool    true 完整 false 不完整
  */
-function check_consignee_info($consignee, $flow_type)
+function check_consignee_info($consignee, $flow_type, $is_bonded)
 {
     if (exist_real_goods(0, $flow_type)) {
         /* 如果存在实体商品 */
@@ -1718,6 +1718,9 @@ function check_consignee_info($consignee, $flow_type)
             } elseif (empty($consignee['district'])) {
                 $dist = get_regions(3, $consignee['city']);
                 $res = empty($dist);
+            }
+            if ($res && $is_bonded) {
+                $res = !empty($consignee['identity_card']);
             }
         }
         return $res;

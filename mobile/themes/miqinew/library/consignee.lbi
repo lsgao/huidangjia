@@ -104,11 +104,11 @@
   <dd class="w10"></dd>
   <!-- 如果登录了，显示删除按钮 -->
   <dd class="w40"> 
-    <button type="button" class="c-btn3" name="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}'">{$lang.drop}</button>
+    <button type="button" class="c-btn3" name="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}&amp;include_bonded_goods={$include_bonded_goods}'">{$lang.drop}</button>
   </dd>
 <!-- {else} -->
   <dd>
-    <button type="submit" class="c-btn3" name="Submit">{$lang.shipping_address}</button>
+    <button type="submit" class="c-btn3" name="Submit">保存地址</button>
   </dd>
 <!-- {/if} -->
 </dl>

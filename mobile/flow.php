@@ -360,6 +360,7 @@ elseif ($_REQUEST['step'] == 'link_buy')
 elseif ($_REQUEST['step'] == 'login')
 {
     include_once('lang/'. $_CFG['lang']. '/user.php');
+    $include_bonded_goods = $_REQUEST['include_bonded_goods'];
     /*
      * 用户登录注册
      */
@@ -496,8 +497,8 @@ elseif ($_REQUEST['step'] == 'login')
 
             if (register($username, $password, $email))
             {
-                /* 用户注册成功 */
-                ecs_header("Location: flow.php?step=consignee\n");
+                //* 用户注册成功 */
+                ecs_header("Location: flow.php?step=consignee&include_bonded_goods=". $include_bonded_goods ."\n");
                 exit;
             }
             else
@@ -519,6 +520,9 @@ elseif ($_REQUEST['step'] == 'consignee') {
 
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $include_bonded_goods = $_REQUEST['include_bonded_goods'];
+        if ($include_bonded_goods != 1) {
+            $include_bonded_goods = 0;
+        }
         /* 取得购物类型 */
         $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
         /*
@@ -536,10 +540,11 @@ elseif ($_REQUEST['step'] == 'consignee') {
         /* 获得用户所有的收货人信息 */
         if ($_SESSION['user_id'] > 0) {
             $consignee_list = get_consignee_list($_SESSION['user_id']);
-            if (count($consignee_list) < 5) {
-                /* 如果用户收货人信息的总数小于 5 则增加一个新的收货人信息 */
-                $consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
-            }
+            //if (count($consignee_list) < 5) {
+                ///* 如果用户收货人信息的总数小于 5 则增加一个新的收货人信息 */
+                //$consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+            //}
+            $consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
         } else {
             if (isset($_SESSION['flow_consignee'])) {
                 $consignee_list = array($_SESSION['flow_consignee']);
@@ -612,16 +617,17 @@ elseif ($_REQUEST['step'] == 'consignee') {
 }
 elseif ($_REQUEST['step'] == 'drop_consignee')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 删除收货人信息
     /*------------------------------------------------------ */
     include_once('include/lib_transaction.php');
 
     $consignee_id = intval($_GET['id']);
+    $include_bonded_goods = $_REQUEST['include_bonded_goods'];
 
     if (drop_consignee($consignee_id))
     {
-        ecs_header("Location: flow.php?step=consignee\n");
+        ecs_header("Location: flow.php?step=consignee&include_bonded_goods=" . $include_bonded_goods ."\n");
         exit;
     }
     else
@@ -630,11 +636,10 @@ elseif ($_REQUEST['step'] == 'drop_consignee')
     }
 }
 elseif ($_REQUEST['step'] == 'checkout') {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 订单确认
-    /*------------------------------------------------------ */
-
-    /* 取得购物类型 */
+    //*------------------------------------------------------ */
+    //* 取得购物类型 */
     $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
 
     /* 团购标志 */
@@ -658,30 +663,6 @@ elseif ($_REQUEST['step'] == 'checkout') {
         show_message($_LANG['no_goods_in_cart'], 'index.php', 'index.php', 'warning');
     }
 
-
-    /*
-     * 检查用户是否已经登录
-     * 如果用户已经登录了则检查是否有默认的收货地址
-     * 如果没有登录则跳转到登录和注册页面
-     */
-    if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0) {
-
-        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
-        ecs_header("Location: flow.php?step=login\n");
-        exit;
-    }
-
-    $consignee = get_consignee($_SESSION['user_id']);
-    /* 检查收货人信息是否完整 */
-    if (!check_consignee_info($consignee, $flow_type)) {
-        /* 如果不完整则转向到收货人信息填写界面 */
-        ecs_header("Location: flow.php?step=consignee\n");
-        exit;
-    }
-
-    $_SESSION['flow_consignee'] = $consignee;
-    $smarty->assign('consignee', $consignee);
-
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
     $smarty->assign('goods_list', $cart_goods);
@@ -692,6 +673,30 @@ elseif ($_REQUEST['step'] == 'checkout') {
             break;
         }
     }
+ 
+     /*
+     * 检查用户是否已经登录
+     * 如果用户已经登录了则检查是否有默认的收货地址
+     * 如果没有登录则跳转到登录和注册页面
+     */
+    if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0) {
+
+        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
+        ecs_header("Location: flow.php?step=login&include_bonded_goods=" . $include_bonded_goods . "\n");
+        exit;
+    }
+
+    $consignee = get_consignee($_SESSION['user_id']);
+    /* 检查收货人信息是否完整 */
+    if (!check_consignee_info($consignee, $flow_type, $include_bonded_goods)) {
+        /* 如果不完整则转向到收货人信息填写界面 */
+        ecs_header("Location: flow.php?step=consignee&include_bonded_goods=" . $include_bonded_goods . "\n");
+        exit;
+    }
+
+    $_SESSION['flow_consignee'] = $consignee;
+    $smarty->assign('consignee', $consignee);
+
     $smarty->assign('include_bonded_goods', $include_bonded_goods);
 
     /* 对是否允许修改购物车赋值 */
@@ -968,8 +973,15 @@ elseif ($_REQUEST['step'] == 'select_shipping')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1029,8 +1041,15 @@ elseif ($_REQUEST['step'] == 'select_insure')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1085,8 +1104,15 @@ elseif ($_REQUEST['step'] == 'select_payment')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1144,8 +1170,15 @@ elseif ($_REQUEST['step'] == 'select_pack')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1200,8 +1233,15 @@ elseif ($_REQUEST['step'] == 'select_card')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1265,8 +1305,15 @@ elseif ($_REQUEST['step'] == 'change_surplus')
 
         /* 对商品信息赋值 */
         $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+        $include_bonded_goods = 0;
+        foreach ($cart_goods AS $key => $val) {
+            if (1 == $cart_goods[$key]['is_bonded']) {
+                $include_bonded_goods = 1;
+                break;
+            }
+        }
 
-        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
         {
             $result['error'] = $_LANG['no_goods_in_cart'];
         }
@@ -1329,8 +1376,15 @@ elseif ($_REQUEST['step'] == 'change_integral')
 
         /* 对商品信息赋值 */
         $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+        $include_bonded_goods = 0;
+        foreach ($cart_goods AS $key => $val) {
+            if (1 == $cart_goods[$key]['is_bonded']) {
+                $include_bonded_goods = 1;
+                break;
+            }
+        }
 
-        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+        if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
         {
             $result['error'] = $_LANG['no_goods_in_cart'];
         }
@@ -1371,8 +1425,15 @@ elseif ($_REQUEST['step'] == 'change_bonus')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1430,8 +1491,15 @@ elseif ($_REQUEST['step'] == 'change_needinv')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
         die($json->encode($result));
@@ -1557,6 +1625,15 @@ elseif ($_REQUEST['step'] == 'done')
         unset($cart_goods_stock, $_cart_goods_stock);
     }
 
+    /* 订单中的商品 */
+    $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
     /*
      * 检查用户是否已经登录
      * 如果用户已经登录了则检查是否有默认的收货地址
@@ -1564,18 +1641,18 @@ elseif ($_REQUEST['step'] == 'done')
      */
     if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0)
     {
-        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
-        ecs_header("Location: flow.php?step=login\n");
+        //* 用户没有登录且没有选定匿名购物，转向到登录页面 */
+        ecs_header("Location: flow.php?step=login&include_bonded_goods=" . $include_bonded_goods . "\n");
         exit;
     }
 
     $consignee = get_consignee($_SESSION['user_id']);
 
     /* 检查收货人信息是否完整 */
-    if (!check_consignee_info($consignee, $flow_type))
+    if (!check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         /* 如果不完整则转向到收货人信息填写界面 */
-        ecs_header("Location: flow.php?step=consignee\n");
+        ecs_header("Location: flow.php?step=consignee&include_bonded_goods=" . $include_bonded_goods . "\n");
         exit;
     }
 
@@ -1679,9 +1756,6 @@ elseif ($_REQUEST['step'] == 'done')
             $order['bonus_sn'] = $bonus_sn;
         }
     }
-
-    /* 订单中的商品 */
-    $cart_goods = cart_goods($flow_type);
 
     if (empty($cart_goods))
     {
@@ -2234,8 +2308,15 @@ elseif ($_REQUEST['step'] == 'validate_bonus')
 
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
+    $include_bonded_goods = 0;
+    foreach ($cart_goods AS $key => $val) {
+        if (1 == $cart_goods[$key]['is_bonded']) {
+            $include_bonded_goods = 1;
+            break;
+        }
+    }
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
