@@ -262,31 +262,6 @@
         {/literal}
       </script>
       <section class="wrap">
-        <style type="text/css">
-          .user_inp_wrap {background: #fff;margin:10px auto;border-radius: 15px;width: 96%;}
-          .user_inp_wrap form {width: 100%;}
-          .user_inp_item input,.user_time_box input {width: 100%;border:none;background: none;font: 14px/30px "微软雅黑";color: #333}
-          .user_sel_item select {border:none;color: #999;font: 14px/30px "微软雅黑";background:#fff;text-align: center;width: 30%;margin-right:3%;display: block;float: left;height: 30px}
-          .user_sel_item,.user_time_item {position:relative;padding:10px 0 10px 80px;border-bottom: 1px solid #ccc;overflow: hidden;}
-          .user_sel_box {width: 100%;}
-          .user_time_wrap {width: 105%;position: relative;}
-          .user_time_wrap:before {position: absolute;content: "~";display: block;font: 16px/30px "微软雅黑";color: #333;top: 0;left: 45%;width: 5%;text-align: center;}
-          .user_time_box {width: 45%;margin-right: 5%;position: relative;float: left;}
-          .user_time_box input {width: 100%;}
-          .user_time_boxinput [placeholder] { text-align: center;!important;}
-          .user_cho_btn {position: absolute;top: 0; left: 0;background: none;z-index: 1;}
-          .user_sel_item:before,.user_time_item:before {font:16px/30px "微软雅黑";color:#333;display: block;position: absolute;top: 10px;left: 0;}
-          .user_sel_item:before {content: "所在区域:";}
-          .user_time_item:before {content: "下单时间:";}
-          .user_inp_item {padding: 10px 0;border-bottom:1px solid #ccc;}
-          .user_submit {padding: 20px}
-          .user_submit input {display: block;text-align: center;width: 35%;background:#ff9600;color: #fff;margin:0 auto;outline: none;border: none;font: 16px/36px "微软雅黑";border-radius: 4px}
-          .clear{ height:0; overflow:hidden; clear:both}
-          .user_inp_nsea {padding:0 40px 0 10px;position: relative;}
-          .user_inp_nsea input{border:none;background: none;outline: none;}
-          .user_inp_nsea .dd2 {width: 100%;font: 14px/30px "微软雅黑";color: #333}
-          .user_inp_sicon {background: url(../images/ico_07.png) no-repeat !important;background-size: 20px !important;position: absolute;width: 20px;height: 20px;top: 5px;right: 10px;}
-        </style>
         <div class="user_inp_wrap">
         <form name="formSearchOrder" action="user.php?act=order_list" method="post" >
           <div class="user_inp_nsea">
@@ -606,20 +581,6 @@
             <!--{/if}-->
           </table>
         </section>
-        <style>
-      		.order_add_itemw {margin: 0 auto;background: #fff;width: 98%;border-radius: 5px;}
-      		.order_add_item {border-bottom: 1px solid #ccc;width: 96%;margin: 0 auto;padding: 10px 0;}
-      		.order_add_pinfo {margin-bottom: 6px;}
-      		.order_add_pinfo,.order_add_cre,.order_add_deinfo {font: 14px/20px "微软雅黑";}
-      		.order_add_name,.order_add_mob {width: 50%;float: left;color: #333;}
-      		.order_add_cre,.order_add_deinfo {color: #999;}
-      		.order_add_mob {text-align: right;}
-      		.order_add_deinfo {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
-      		.clear {height: 0;overflow: hidden;clear: both;}
-      		.clear10 {height: 10px;overflow: hidden; clear: both;}
-      		.order_add_fun {text-align: right;padding-right: 20px;}
-      		.order_add_fun a {font: 14px/30px "微软雅黑";color: #999;}
-      	</style>
         <div class="order_add_itemw">
         	<div class="order_add_item">
         		<div class="order_add_pinfo">
@@ -1123,25 +1084,13 @@
         <h1> {$lang.consignee_info} </h1>
       </header>
       <section class="wrap">
-        <style>
-            .order_add_itemw {margin: 0 auto;background: #fff;width: 98%;border-radius: 5px;}
-            .order_add_item {border-bottom: 1px solid #ccc;width: 96%;margin: 0 auto;padding: 10px 0;}
-            .order_add_pinfo {margin-bottom: 6px;}
-            .order_add_pinfo,.order_add_cre,.order_add_deinfo {font: 14px/20px "微软雅黑";}
-            .order_add_name,.order_add_mob {width: 50%;float: left;color: #333;}
-            .order_add_cre,.order_add_deinfo {color: #999;}
-            .order_add_mob {text-align: right;}
-            .order_add_deinfo {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
-            .clear {height: 0;overflow: hidden;clear: both;}
-            .clear10 {height: 10px;overflow: hidden; clear: both;}
-            .order_add_fun {text-align: right;padding-right: 20px;}
-            .order_add_fun a {font: 14px/30px "微软雅黑";color: #999;}
-        </style>
-        <form name="formSearchOrder" action="user.php?act=address_list" method="post" >
-          <div class="user_inp_nsea">
-               <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_key}" class="dd2" />
-               <input name="submit" type="submit" value="查找" class="user_inp_sicon"/>
-          </div>
+        <form name="formSearchAddress" action="user.php?act=address_list" method="post" >
+          <div class="user_inp_wrap">
+	          <div class="user_inp_nsea">
+	               <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_key}" class="dd2" />
+	               <input name="submit" type="submit" value="" class="user_inp_sicon"/>
+	          </div>
+	        </div>
         </form>
         <!-- {foreach from=$consignee_list item=consignee key=sn} -->
           <div class="order_add_itemw">
@@ -1228,7 +1177,69 @@
       </script>
       <section class="wrap">
         <section class="order_box padd1 radius10">
-          <form action="user.php" method="post" name="theForm" onsubmit="return checkConsignee(this)">
+          <div class="add_addr_wrap">
+            <form action="user.php" method="post" name="theForm" onsubmit="return checkConsignee(this)">
+              <div class="add_addr_item">
+                <div class="add_addr_name">收货人</div>
+                <div class="add_addr_inp"><input name="consignee" placeholder="请输入{$lang.consignee_name}{$lang.require_field}" type="text" class="inputBg_touch" value="{$consignee.consignee|escape}" /></div>
+              </div>
+              <div class="add_addr_item">
+                <div class="add_addr_name">手机</div>
+                <div class="add_addr_inp"><input placeholder="请输入您的联系{$lang.phone}{$lang.require_field}" name="mobile" type="text" class="inputBg_touch" value="{$consignee.mobile|escape}" /></div>
+              </div>
+              <div class="add_addr_item">
+                <div class="add_addr_name">配送区域</div>
+                <div class="add_addr_inp">
+                  <input type="hidden" name="country" id="selCountries" value=1/>
+                  <select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+                    <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+                    <!-- {foreach from=$province_list item=province} -->
+                    <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                    <!-- {/foreach} -->
+                  </select>
+                  <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+                    <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+                    <!-- {foreach from=$city_list item=city} -->
+                    <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                    <!-- {/foreach} -->
+                  </select>
+                  <select name="district" id="selDistricts" {if !$district_list}{/if}>
+                    <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+                    <!-- {foreach from=$district_list item=district} -->
+                    <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                    <!-- {/foreach} -->
+                  </select>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="add_addr_item">
+                <div class="add_addr_name">详细地址</div>
+                <div class="add_addr_inp"><input name="address" placeholder="请输入收货人的{$lang.detailed_address}{$lang.require_field}" type="text" class="inputBg_touch" value="{$consignee.address|escape}" /></div>
+              </div>
+              <div class="add_addr_item">
+                <div class="add_addr_name">身份证号</div>
+                <div class="add_addr_inp"><input name="identity_card" placeholder="请输入收货人的身份证号码" type="text" class="inputBg_touch" value="{$consignee.identity_card|escape}" /></div>
+              </div>
+              <div class="add_addr_item">
+                <div class="add_addr_name">邮政编码</div>
+                <div class="add_addr_inp"><input placeholder="请输入收货人的{$lang.postalcode}" name="zipcode" type="text" class="inputBg_touch" value="{$consignee.zipcode|escape}" /></div>
+              </div>
+              <div class="add_addr_item" style="display: none;">
+                <div class="add_addr_name">电子邮箱</div>
+                <div class="add_addr_inp"><input name="email" placeholder="请输入收货人的{$lang.email_address}" type="text" class="inputBg_touch" value="{$consignee.email|escape}" /></div>
+              </div>
+              <div class="add_addr_sub">
+                <!-- {if $consignee.consignee && $consignee.email} -->
+                  <input type="submit" name="submit"  class="c-btn3" value="{$lang.confirm_edit}"  style="margin-right:5px;" />
+                <!-- {else} -->
+                  <input type="submit" name="submit"  class="c-btn3"  value="保存收货地址"/>
+                <!-- {/if} -->
+                <input type="hidden" name="act" value="act_edit_address" />
+                <input name="address_id" type="hidden" value="{$consignee.address_id}" />
+        		</div>
+        		</form>
+            </div>
+          <form action="user.php" method="post" name="theForm" onsubmit="return checkConsignee(this)" style="display: none;">
             <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
               <tr>
                 <td width="70">收货人</td>

@@ -513,7 +513,7 @@ elseif ($_REQUEST['step'] == 'login')
     }
 }
 elseif ($_REQUEST['step'] == 'consignee') {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 收货人信息
     /*------------------------------------------------------ */
     include_once('include/lib_transaction.php');
@@ -578,42 +578,142 @@ elseif ($_REQUEST['step'] == 'consignee') {
         $smarty->assign('real_goods_count', exist_real_goods(0, $flow_type) ? 1 : 0);
         $smarty->assign('include_bonded_goods', $include_bonded_goods);
     } else {
-        /*
-         * 保存收货人信息
-         */
-        $consignee = array(
-            'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
-            'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
-            'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
-            'province'      => empty($_POST['province'])   ? '' :   intval($_POST['province']),
-            'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
-            'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
-            'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
-            'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
-            'identity_card'       => empty($_POST['identity_card'])    ? '' :   compile_str($_POST['identity_card']),
-            'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
-            'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
-            'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
-            'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
-            'best_time'     => empty($_POST['best_time'])  ? '' :   compile_str($_POST['best_time']),
-        );
-        
-        if ($_SESSION['user_id'] > 0) {
-            include_once(ROOT_PATH . 'include/lib_transaction.php');
+        if ($_REQUEST['act'] == 'query') {
+            $include_bonded_goods = 0;
+            if (isset($_REQUEST['include_bonded_goods']) && !empty($_REQUEST['include_bonded_goods'])) {
+            	$include_bonded_goods = $_REQUEST['include_bonded_goods'];
+            }
+            if ($include_bonded_goods != 1) {
+                $include_bonded_goods = 0;
+            }
+            /* 取得购物类型 */
+            $flow_type = isset($_SESSION['flow_type']) ? intval($_SESSION['flow_type']) : CART_GENERAL_GOODS;
+            /*
+             * 收货人信息填写界面
+             */
+            if (isset($_REQUEST['direct_shopping'])) {
+                $_SESSION['direct_shopping'] = 1;
+            }
 
-            /* 如果用户已经登录，则保存收货人信息 */
-            $consignee['user_id'] = $_SESSION['user_id'];
-            save_consignee($consignee, true);
+            /* 取得国家列表、商店所在国家、商店所在国家的省列表 */
+            $smarty->assign('country_list',       get_regions());
+            $smarty->assign('shop_country',       $_CFG['shop_country']);
+            $smarty->assign('shop_province_list', get_regions(1, $_CFG['shop_country']));
+
+            /* 获得用户所有的收货人信息 */
+            if ($_SESSION['user_id'] > 0) {
+                $search_key = '';
+                $where = " WHERE user_id = '" . $_SESSION['user_id'] . "' ";
+                if (isset($_REQUEST['search_key']) && !empty($_REQUEST['search_key'])) {
+                    $search_key = $_REQUEST['search_key'];
+                    $where .= " AND (mobile like '%" . $_REQUEST['search_key'] . "%' OR consignee like '%" . $_REQUEST['search_key'] . "%' ) ";
+                }
+                $consignee_list = get_consignee_list($where);
+                //if (count($consignee_list) < 5) {
+                    ///* 如果用户收货人信息的总数小于 5 则增加一个新的收货人信息 */
+                    //$consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+                //}
+                $consignee_list[] = array('country' => $_CFG['shop_country'], 'email' => isset($_SESSION['email']) ? $_SESSION['email'] : '');
+            } else {
+                if (isset($_SESSION['flow_consignee'])) {
+                    $consignee_list = array($_SESSION['flow_consignee']);
+                } else {
+                    $consignee_list[] = array('country' => $_CFG['shop_country']);
+                }
+            }
+            $smarty->assign('name_of_region',   array($_CFG['name_of_region_1'], $_CFG['name_of_region_2'], $_CFG['name_of_region_3'], $_CFG['name_of_region_4']));
+            $smarty->assign('consignee_list', $consignee_list);
+
+            /* 取得每个收货地址的省市区列表 */
+            $province_list = array();
+            $city_list = array();
+            $district_list = array();
+            foreach ($consignee_list as $region_id => $consignee) {
+                $consignee['country']  = isset($consignee['country'])  ? intval($consignee['country'])  : 0;
+                $consignee['province'] = isset($consignee['province']) ? intval($consignee['province']) : 0;
+                $consignee['city']     = isset($consignee['city'])     ? intval($consignee['city'])     : 0;
+                $province_list[$region_id] = get_regions(1, $consignee['country']);
+                $city_list[$region_id]     = get_regions(2, $consignee['province']);
+                $district_list[$region_id] = get_regions(3, $consignee['city']);
+            }
+            $smarty->assign('province_list', get_regions( 1 , 1 ));
+            // $smarty->assign('province_list', $province_list);
+            $smarty->assign('city_list',     $city_list);
+            $smarty->assign('district_list', $district_list);
+
+            /* 返回收货人页面代码 */
+            $smarty->assign('real_goods_count', exist_real_goods(0, $flow_type) ? 1 : 0);
+            $smarty->assign('include_bonded_goods', $include_bonded_goods);
+            $smarty->assign('search_key', $search_key);
+        } else if ($_REQUEST['act'] == 'checkout') {
+            //* 保存收货人信息 */
+            $consignee = array(
+                'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
+                'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
+                'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
+                'province'      => empty($_POST['province'])   ? '' :   intval($_POST['province']),
+                'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
+                'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
+                'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
+                'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
+                'identity_card'       => empty($_POST['identity_card'])    ? '' :   compile_str($_POST['identity_card']),
+                'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
+                'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
+                'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
+                'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
+                'best_time'     => empty($_POST['best_time'])  ? '' :   compile_str($_POST['best_time']),
+            );
+
+            if ($_SESSION['user_id'] > 0) {
+                include_once(ROOT_PATH . 'include/lib_transaction.php');
+                /* 如果用户已经登录，则保存收货人信息 */
+                $consignee['user_id'] = $_SESSION['user_id'];
+                save_consignee($consignee, true);
+            }
+
+            /* 保存到session */
+            $consignee['country_name'] = get_region($consignee['country'])['region_name'];
+            $consignee['province_name'] = get_region($consignee['province'])['region_name'];
+            $consignee['city_name'] = get_region($consignee['city'])['region_name'];
+            $consignee['district_name'] = get_region($consignee['district'])['region_name'];
+            $_SESSION['flow_consignee'] = stripslashes_deep($consignee);
+            ecs_header("Location: flow.php?step=checkout\n");
+            exit;
+        } else {
+            //* 保存收货人信息 */
+            $consignee = array(
+                'address_id'    => empty($_POST['address_id']) ? 0  :   intval($_POST['address_id']),
+                'consignee'     => empty($_POST['consignee'])  ? '' :   compile_str(trim($_POST['consignee'])),
+                'country'       => empty($_POST['country'])    ? '' :   intval($_POST['country']),
+                'province'      => empty($_POST['province'])   ? '' :   intval($_POST['province']),
+                'city'          => empty($_POST['city'])       ? '' :   intval($_POST['city']),
+                'district'      => empty($_POST['district'])   ? '' :   intval($_POST['district']),
+                'email'         => empty($_POST['email'])      ? '' :   compile_str($_POST['email']),
+                'address'       => empty($_POST['address'])    ? '' :   compile_str($_POST['address']),
+                'identity_card'       => empty($_POST['identity_card'])    ? '' :   compile_str($_POST['identity_card']),
+                'zipcode'       => empty($_POST['zipcode'])    ? '' :   compile_str(make_semiangle(trim($_POST['zipcode']))),
+                'tel'           => empty($_POST['tel'])        ? '' :   compile_str(make_semiangle(trim($_POST['tel']))),
+                'mobile'        => empty($_POST['mobile'])     ? '' :   compile_str(make_semiangle(trim($_POST['mobile']))),
+                'sign_building' => empty($_POST['sign_building']) ? '' :compile_str($_POST['sign_building']),
+                'best_time'     => empty($_POST['best_time'])  ? '' :   compile_str($_POST['best_time']),
+            );
+
+            if ($_SESSION['user_id'] > 0) {
+                include_once(ROOT_PATH . 'include/lib_transaction.php');
+                /* 如果用户已经登录，则保存收货人信息 */
+                $consignee['user_id'] = $_SESSION['user_id'];
+                save_consignee($consignee, true);
+            }
+
+            /* 保存到session */
+            $consignee['country_name'] = get_region($consignee['country'])['region_name'];
+            $consignee['province_name'] = get_region($consignee['province'])['region_name'];
+            $consignee['city_name'] = get_region($consignee['city'])['region_name'];
+            $consignee['district_name'] = get_region($consignee['district'])['region_name'];
+            $_SESSION['flow_consignee'] = stripslashes_deep($consignee);
+            ecs_header("Location: flow.php?step=checkout\n");
+            exit;
         }
-
-        /* 保存到session */
-        $consignee['country_name'] = get_region($consignee['country'])['region_name'];
-        $consignee['province_name'] = get_region($consignee['province'])['region_name'];
-        $consignee['city_name'] = get_region($consignee['city'])['region_name'];
-        $consignee['district_name'] = get_region($consignee['district'])['region_name'];
-        $_SESSION['flow_consignee'] = stripslashes_deep($consignee);
-        ecs_header("Location: flow.php?step=checkout\n");
-        exit;
     }
 }
 elseif ($_REQUEST['step'] == 'drop_consignee')
@@ -959,7 +1059,7 @@ elseif ($_REQUEST['step'] == 'checkout') {
 }
 elseif ($_REQUEST['step'] == 'select_shipping')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变配送方式
     /*------------------------------------------------------ */
     include_once('include/cls_json.php');
@@ -1026,7 +1126,7 @@ elseif ($_REQUEST['step'] == 'select_shipping')
 }
 elseif ($_REQUEST['step'] == 'select_insure')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 选定/取消配送的保价
     /*------------------------------------------------------ */
 
@@ -1089,7 +1189,7 @@ elseif ($_REQUEST['step'] == 'select_insure')
 }
 elseif ($_REQUEST['step'] == 'select_payment')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变支付方式
     /*------------------------------------------------------ */
 
@@ -1155,7 +1255,7 @@ elseif ($_REQUEST['step'] == 'select_payment')
 }
 elseif ($_REQUEST['step'] == 'select_pack')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变商品包装
     /*------------------------------------------------------ */
 
@@ -1218,7 +1318,7 @@ elseif ($_REQUEST['step'] == 'select_pack')
 }
 elseif ($_REQUEST['step'] == 'select_card')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变贺卡
     /*------------------------------------------------------ */
 
@@ -1281,7 +1381,7 @@ elseif ($_REQUEST['step'] == 'select_card')
 }
 elseif ($_REQUEST['step'] == 'change_surplus')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变余额
     /*------------------------------------------------------ */
     include_once('include/cls_json.php');
@@ -1343,7 +1443,7 @@ elseif ($_REQUEST['step'] == 'change_surplus')
 }
 elseif ($_REQUEST['step'] == 'change_integral')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变积分
     /*------------------------------------------------------ */
     include_once('include/cls_json.php');
@@ -1412,7 +1512,7 @@ elseif ($_REQUEST['step'] == 'change_integral')
 }
 elseif ($_REQUEST['step'] == 'change_bonus')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变红包
     /*------------------------------------------------------ */
     include_once('include/cls_json.php');
@@ -1474,7 +1574,7 @@ elseif ($_REQUEST['step'] == 'change_bonus')
 }
 elseif ($_REQUEST['step'] == 'change_needinv')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变发票的设置
     /*------------------------------------------------------ */
     include_once('include/cls_json.php');
@@ -1543,7 +1643,7 @@ elseif ($_REQUEST['step'] == 'change_needinv')
 }
 elseif ($_REQUEST['step'] == 'change_oos')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 改变缺货处理时的方式
     /*------------------------------------------------------ */
 
@@ -1557,7 +1657,7 @@ elseif ($_REQUEST['step'] == 'change_oos')
 }
 elseif ($_REQUEST['step'] == 'check_surplus')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 检查用户输入的余额
     /*------------------------------------------------------ */
     $surplus   = floatval($_GET['surplus']);
@@ -1572,7 +1672,7 @@ elseif ($_REQUEST['step'] == 'check_surplus')
 }
 elseif ($_REQUEST['step'] == 'check_integral')
 {
-    /*------------------------------------------------------ */
+    //*------------------------------------------------------ */
     //-- 检查用户输入的余额
     /*------------------------------------------------------ */
     $points      = floatval($_GET['integral']);
@@ -2175,7 +2275,7 @@ elseif ($_REQUEST['step'] == 'drop_goods')
 /* 把优惠活动加入购物车 */
 elseif ($_REQUEST['step'] == 'add_favourable')
 {
-    /* 取得优惠活动信息 */
+    //* 取得优惠活动信息 */
     $act_id = intval($_POST['act_id']);
     $favourable = favourable_info($act_id);
     if (empty($favourable))
@@ -2436,7 +2536,7 @@ elseif ($_REQUEST['step'] == 'add_package_to_cart')
 }
 else
 {
-    /* 标记购物流程为普通商品 */
+    //* 标记购物流程为普通商品 */
     $_SESSION['flow_type'] = CART_GENERAL_GOODS;
 
     /* 如果是一步购物，跳到结算中心 */
@@ -2495,9 +2595,15 @@ else
     $fittings_list = get_goods_fittings($parent_list);
 
     $smarty->assign('fittings_list', $fittings_list);
-    
-    //新增购物来路链接，用于返回跳转 by carson 20140425
-    $smarty->assign('jump_http_referer', $_SERVER["HTTP_REFERER"]);
+
+    //新增购物来路链接，用于返回跳转
+    $jump_http_referer = "/mobile/";
+    if(strpos($_SERVER["HTTP_REFERER"],'flow.php') !== false) {
+        $smarty->assign('jump_http_referer', $jump_http_referer);
+    } else {
+        $jump_http_referer = $_SERVER["HTTP_REFERER"];
+        $smarty->assign('jump_http_referer', $jump_http_referer);
+    }
 }
 
 $smarty->assign('currency_format', $_CFG['currency_format']);

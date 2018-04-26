@@ -257,20 +257,29 @@
       <li>3.购买成功</li>
     </ul>
   </div>
-  <div class="blank3"></div>
-  <div class="wrap"> 
-  <!-- 如果有收货地址，循环显示用户的收获地址 --> 
-  <!-- {foreach from=$consignee_list item=consignee key=sn} -->
-    <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
-      <div class="table_box2 table_box">
-        <form style="padding:8px;" action="flow.php" method="post" name="theForm" id="theForm" onSubmit="return checkConsignee(this, {$include_bonded_goods})">
-          <!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
-        </form>
+  <div class="wrap">
+    <form name="formSearchAddress" action="flow.php?step=consignee" method="post" >
+      <div class="user_inp_wrap">
+        <div class="user_inp_nsea">
+          <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_key}" class="dd2" />
+          <input name="submit" type="submit" value="" class="user_inp_sicon"/>
+        </div>
       </div>
-    </section>
-    <div class="blank3"></div>
-  <!-- {/foreach} -->
-  </div>
+      <input type="hidden" name="act" value="query" />
+      <input type="hidden" name="include_bonded_goods" value="{$include_bonded_goods}" />
+    </form>
+    <!-- 如果有收货地址，循环显示用户的收获地址 --> 
+    <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+      <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+        <div class="table_box2 table_box">
+          <form style="padding:8px;" action="flow.php" method="post" name="theForm" id="theForm" onSubmit="return checkConsignee(this, {$include_bonded_goods})">
+            <!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
+          </form>
+        </div>
+      </section>
+      <div class="blank3"></div>
+    <!-- {/foreach} -->
+    </div>
   <!-- {/if} -->
 <!-- 收货人信息填写界面 end-->
 
@@ -353,9 +362,9 @@
         <div class="in">
           <div class="table_box table_box1">
             <dl>
-              <dd class="w50">{$lang.consignee_name} <span class="f1">{$consignee.consignee|escape}</span></dd>
+              <dd class="w50">{$lang.consignee_name} <span>{$consignee.consignee|escape}</span></dd>
               <dd class="w50 c999">
-                <div class="ico_14"></div>
+                <div class="ico_14" style="display: none;"></div>
                 {$consignee.mobile} <a href="flow.php?step=consignee&include_bonded_goods={$include_bonded_goods}" class="modify radius5">{$lang.modify}</a>
               </dd>
             </dl>

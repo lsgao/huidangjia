@@ -1,117 +1,92 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 {insert_scripts files='utils.js,transport.js'}
-<dl>
-  <dd class="dd1">收货人</dd>
-  <dd class="dd2">
-    <input name="consignee" type="text" class="inputBg" id="consignee_{$sn}" value="{$consignee.consignee|escape}" />
-    <span>*</span></dd>
-</dl>
-<dl>
-  <dd class="dd1">手机</dd>
-  <dd class="dd2">
-    <input name="mobile" type="text" class="inputBg"  id="mobile_{$sn}" value="{$consignee.mobile|escape}" />
-    <span>*</span></dd>
-</dl>
-
-
-<!-- {if $real_goods_count gt 0} --> 
-<!-- 购物车中存在实体商品显示国家和地区 -->
-<dl>
-  <dd class="dd1">{$lang.country_province}</dd>
-  <dd class="dd2">
-    <!--
-    <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border:1px solid #ccc; padding:2px;">
-      <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
-      <!-- {foreach from=$country_list item=country} -->
-      <option value="{$country.region_id}"{if $country.region_id eq '1'} selected{/if}>{$country.region_name}</option>
-      <!-- {/foreach} -->
-    </select>
-    -->
-    <input type="hidden" name="country" id="selCountries_{$sn}" value="1"/>
-    <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" style="border:1px solid #ccc; padding:2px">
-      <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
-      <!-- {foreach from=$province_list item=province} -->
-      <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
-      <!-- {/foreach} -->
-    </select>
-    <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" style="border:1px solid #ccc; padding:2px">
-      <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
-      <!-- {foreach from=$city_list.$sn item=city} -->
-      <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
-      <!-- {/foreach} -->
-    </select>
-    <select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}{/if} style="border:1px solid #ccc; padding:2px">
-      <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
-      <!-- {foreach from=$district_list.$sn item=district} -->
-      <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
-      <!-- {/foreach} -->
-    </select>
-    <span>*</span> </dd>
-</dl>
-<!-- {/if} --> 
-
-<!-- {if $real_goods_count gt 0} -->
-<!-- 购物车中存在实体商品显示详细地址以及邮政编码 -->
-<dl>
-  <dd class="dd1">{$lang.detailed_address}</dd>
-  <dd class="dd2">
-    <input name="address" type="text" class="inputBg"  id="address_{$sn}" value="{$consignee.address|escape}" />
-    <span>*</span>
-  </dd>
-</dl>
-<!-- {if $include_bonded_goods eq 1} -->
-<dl>
-  <dd class="dd1">身份证</dd>
-  <dd class="dd2">
-    <input name="identity_card" type="text" class="inputBg"  id="identity_card_{$sn}" value="{$consignee.identity_card|escape}" />
-    <span>*</span>
-  </dd>
-</dl>
-<!-- {else} -->
-  <input name="identity_card" type="hidden" id="identity_card_{$sn}" value="{$consignee.identity_card|escape}" />
-<!-- {/if} -->
-<dl>
-  <dd class="dd1">邮政编码</dd>
-  <dd class="dd2">
-    <input name="zipcode" type="text" class="inputBg"  id="zipcode_{$sn}" value="{$consignee.zipcode|escape}" />
-  </dd>
-</dl>
-<!-- {/if} --> 
-
-<!--
-<dl>
-<dd class="dd1">{$lang.backup_phone}</dd><dd class="dd2"><input name="mobile" type="text" class="inputBg"  id="mobile_{$sn}" value="{$consignee.mobile|escape}" /></dd><dd class="dd3"><i></i></dd>
-</dl>
---> 
-<!-- {if $real_goods_count gt 0} --> 
-<!-- 购物车中存在实体商品显示最佳送货时间及标志行建筑 --> 
-<!--
-<dl>
-<dd class="dd1">{$lang.sign_building}</dd><dd class="dd2"><input name="sign_building" type="text" class="inputBg"  id="sign_building_{$sn}" value="{$consignee.sign_building|escape}" /></dd><dd class="dd3"><i></i></dd>
-</dl>
-<dl>
-<dd class="dd1">{$lang.deliver_goods_time}</dd><dd class="dd2"><input name="best_time" type="text"  class="inputBg" id="best_time_{$sn}" value="{$consignee.best_time|escape}" /></dd><dd class="dd3"><i></i></dd>
-</dl>
---> 
-<!-- {/if} -->
-
-<dl style="border:none; padding-bottom:0">
-<!-- {if $smarty.session.user_id gt 0 and $consignee.address_id gt 0} --> 
-  <dd class="w40">
-    <button type="submit" class="c-btn3" name="Submit">{$lang.shipping_address}</button>
-  </dd>
-  <dd class="w10"></dd>
-  <!-- 如果登录了，显示删除按钮 -->
-  <dd class="w40"> 
-    <button type="button" class="c-btn3" name="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}&amp;include_bonded_goods={$include_bonded_goods}'">{$lang.drop}</button>
-  </dd>
-<!-- {else} -->
-  <dd>
-    <button type="submit" class="c-btn3" name="Submit">保存地址</button>
-  </dd>
-<!-- {/if} -->
-</dl>
-<input type="hidden" name="step" value="consignee" />
-<input type="hidden" name="act" value="checkout" />
-<input name="address_id" type="hidden" value="{$consignee.address_id}" />
+<div class="add_addr_wrap">
+  <div class="add_addr_item">
+    <div class="add_addr_name"> 收货人</div>
+    <div class="add_addr_inp"><input name="consignee" type="text" class="inputBg" id="consignee_{$sn}" placeholder="请输入收货人姓名" value="{$consignee.consignee|escape}" /></div>
+  </div>
+  <div class="add_addr_item">
+    <div class="add_addr_name">手机</div>
+    <div class="add_addr_inp"><input name="mobile" type="text" class="inputBg"  id="mobile_{$sn}" placeholder="请输入收货人的手机号码" value="{$consignee.mobile|escape}" /></div>
+  </div>
+  <!-- {if $real_goods_count gt 0} --> 
+    <!-- 购物车中存在实体商品显示国家和地区 -->
+    <div class="add_addr_item">
+      <div class="add_addr_name">{$lang.country_province}</div>
+      <div class="add_addr_inp">
+        <!--
+        <select name="country" id="selCountries_{$sn}" onchange="region.changed(this, 1, 'selProvinces_{$sn}')" style="border:1px solid #ccc; padding:2px;">
+          <option value="0">{$lang.please_select}{$name_of_region[0]}</option>
+          <!-- {foreach from=$country_list item=country} -->
+          <option value="{$country.region_id}"{if $country.region_id eq '1'} selected{/if}>{$country.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        -->
+        <input type="hidden" name="country" id="selCountries_{$sn}" value="1"/>
+        <select name="province" id="selProvinces_{$sn}" onchange="region.changed(this, 2, 'selCities_{$sn}')" style="border:1px solid #ccc; padding:2px">
+          <option value="0">{$lang.please_select}{$name_of_region[1]}</option>
+          <!-- {foreach from=$province_list item=province} -->
+          <option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <select name="city" id="selCities_{$sn}" onchange="region.changed(this, 3, 'selDistricts_{$sn}')" style="border:1px solid #ccc; padding:2px">
+          <option value="0">{$lang.please_select}{$name_of_region[2]}</option>
+          <!-- {foreach from=$city_list.$sn item=city} -->
+          <option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <select name="district" id="selDistricts_{$sn}" {if !$district_list.$sn}{/if} style="border:1px solid #ccc; padding:2px">
+          <option value="0">{$lang.please_select}{$name_of_region[3]}</option>
+          <!-- {foreach from=$district_list.$sn item=district} -->
+          <option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <div class="clear"></div>
+      </div>
+    </div>
+  <!-- {/if} -->
+  <!-- {if $real_goods_count gt 0} -->
+    <!-- 购物车中存在实体商品显示详细地址以及邮政编码 -->
+    <div class="add_addr_item">
+      <div class="add_addr_name">{$lang.detailed_address}</div>
+      <div class="add_addr_inp"><input name="address" type="text" class="inputBg"  id="address_{$sn}" placeholder="请输入收货人的详细地址" value="{$consignee.address|escape}" /></div>
+    </div>
+    <!-- {if $include_bonded_goods eq 1} -->
+      <div class="add_addr_item">
+        <div class="add_addr_name">身份证号</div>
+        <div class="add_addr_inp"><input name="identity_card" type="text" class="inputBg"  id="identity_card_{$sn}" placeholder="请输入收货人的身份证号码" value="{$consignee.identity_card|escape}" /></div>
+      </div>
+    <!-- {else} -->
+      <div class="add_addr_item" style="display: none;">
+        <div class="add_addr_name">身份证号</div>
+        <div class="add_addr_inp"><input name="identity_card" type="hidden" id="identity_card_{$sn}" placeholder="请输入收货人的身份证号码" value="{$consignee.identity_card|escape}" /></div>
+      </div>
+    <!-- {/if} -->
+    <div class="add_addr_item">
+      <div class="add_addr_name">邮政编码</div>
+      <div class="add_addr_inp"><input name="zipcode" type="text" class="inputBg"  id="zipcode_{$sn}" placeholder="请输入收货人的邮政编码" value="{$consignee.zipcode|escape}" /></div>
+    </div>
+  <!-- {/if} -->
+  <style>
+    .add_addr_subt {width: 100%;}
+    .add_addr_subt button {border: none;outline: none;width: 88%;margin: 0 auto;font: 16px/30px "微软雅黑";text-align: center;height: 30px;box-sizing: border-box;}
+    .add_addr_subt_box {width: 50%;float: left;}
+    .add_addr_use button {background: #FF9600;color: #fff;}
+    .add_addr_del button {border: 1px solid #FF9600;color: #ff9600;background: #fff;}
+    .add_addr_subt,.add_addr_subo {padding-top: 20px;}
+    .add_addr_subo button {border: none;outline: none;width: 100%;font: 16px/30px "微软雅黑";text-align: center;height: 30px;box-sizing: border-box;}
+  </style>
+  <!-- {if $smarty.session.user_id gt 0 and $consignee.address_id gt 0} --> 
+    <div class="add_addr_subt">
+      <div class="add_addr_subt_box add_addr_use"><button type="submit" class="c-btn3" name="Submit">{$lang.shipping_address}</button></div>
+      <div class="add_addr_subt_box add_addr_del"><button type="button" class="c-btn3" name="button" onclick="if (confirm('{$lang.drop_consignee_confirm}')) location.href='flow.php?step=drop_consignee&amp;id={$consignee.address_id}&amp;include_bonded_goods={$include_bonded_goods}'">{$lang.drop}</button></div>
+      <div class="clear"></div>
+    </div>
+  <!-- {else} -->
+    <div class="add_addr_subo"><button type="submit" class="c-btn3" name="Submit">保存地址</button></div>
+  <!-- {/if} -->
+  <input type="hidden" name="step" value="consignee" />
+  <input type="hidden" name="act" value="checkout" />
+  <input name="address_id" type="hidden" value="{$consignee.address_id}" />
+</div>
