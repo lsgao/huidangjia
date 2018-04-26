@@ -12,7 +12,7 @@ require_once(ROOT_PATH . 'include/lib_goods.php');
 
 if ($_REQUEST['act'] == 'order_query')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('order_view');
 
     /* 载入配送方式 */
@@ -5563,7 +5563,11 @@ function order_list() {
             $where .= " AND o.user_id = '$filter[user_id]'";
         }
         if ($filter['user_name']) {
-            $where .= " AND u.user_name LIKE '%" . mysql_like_quote($filter['user_name']) . "%'";
+            $where .= " AND (" .
+                " u.user_name LIKE '%" . mysql_like_quote($filter['user_name']) . "%' " .
+                " OR " .
+                " wx_u.nickname LIKE '%" . mysql_like_quote($filter['user_name']) . "%' " .
+                " ) ";
         }
         if ($filter['start_time']) {
             $where .= " AND o.add_time >= '$filter[start_time]'";
@@ -5625,8 +5629,12 @@ function order_list() {
 
         /* 记录总数 */
         if ($filter['user_name']) {
-            $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_info') . " AS o ,".
-                   $GLOBALS['ecs']->table('users') . " AS u " . $where;
+            $sql = "SELECT COUNT(*) " .
+                " FROM " .
+                    $GLOBALS['ecs']->table('order_info') . " AS o " .
+                " LEFT JOIN " . $GLOBALS['ecs']->table('users') . " AS u ON u.user_id=o.user_id ". 
+                " LEFT JOIN " . "wxch_user". " AS wx_u ON u.wxid=wx_u.wxid ". 
+                $where;
         } else {
             $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_info') . " AS o ". $where;
         }
@@ -5638,13 +5646,15 @@ function order_list() {
         $sql = "SELECT o.order_id, o.order_sn, o.add_time, o.order_status, o.shipping_status, o.order_amount, o.money_paid, o.shipping_name, o.invoice_no," .
             "o.pay_status, o.return_status, o.consignee, o.address, o.email, o.tel, o.mobile, o.extension_code, o.extension_id, " .
             "(" . order_amount_field('o.') . ") AS total_fee, " .
-            "IFNULL(u.user_name, '" .$GLOBALS['_LANG']['anonymous']. "') AS buyer, ".
+            "CONCAT( IFNULL(IFNULL(wx_u.nickname, u.user_name), '" .$GLOBALS['_LANG']['anonymous']. "'), ' (', u.user_name, ')')  AS buyer, ".
             "r1.region_name AS province_name, r2.region_name AS city_name, r3.region_name AS district_name ".
             " FROM " . $GLOBALS['ecs']->table('order_info') . " AS o " .
-            " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r1 ON o.province=r1.region_id AND  r1.region_type=1 AND r1.parent_id=o.country " .
-            " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r2 ON o.city=r2.region_id AND  r2.region_type=2 AND r2.parent_id=o.province " .
-            " LEFT JOIN ". $GLOBALS['ecs']->table('region') . "AS r3 ON o.district=r3.region_id AND  r3.region_type=3 AND r3.parent_id=o.city " .
-            " LEFT JOIN " .$GLOBALS['ecs']->table('users'). " AS u ON u.user_id=o.user_id ". $where .
+            " LEFT JOIN " . $GLOBALS['ecs']->table('region') . "AS r1 ON o.province=r1.region_id AND  r1.region_type=1 AND r1.parent_id=o.country " .
+            " LEFT JOIN " . $GLOBALS['ecs']->table('region') . "AS r2 ON o.city=r2.region_id AND  r2.region_type=2 AND r2.parent_id=o.province " .
+            " LEFT JOIN " . $GLOBALS['ecs']->table('region') . "AS r3 ON o.district=r3.region_id AND  r3.region_type=3 AND r3.parent_id=o.city " .
+            " LEFT JOIN " . $GLOBALS['ecs']->table('users') . " AS u ON u.user_id=o.user_id ". 
+            " LEFT JOIN " . "wxch_user". " AS wx_u ON u.wxid=wx_u.wxid ". 
+            $where .
             " ORDER BY $filter[sort_by] $filter[sort_order] ".
             " LIMIT " . ($filter['page'] - 1) * $filter['page_size'] . ",$filter[page_size]";
 
@@ -5659,7 +5669,7 @@ function order_list() {
 
     $row = $GLOBALS['db']->getAll($sql);
 
-    /* 格式话数据 */
+    /* 格式化数据 */
     foreach ($row AS $key => $value) {
         $row[$key]['formated_order_amount'] = price_format($value['order_amount']);
         $row[$key]['formated_money_paid'] = price_format($value['money_paid']);
