@@ -179,10 +179,13 @@ function collect(goodsId)
  */
 function collectResponse(result)
 {
-
-//修改
   //alert(result.message);
-  document.getElementById("collect_box").className="collect1";
+  var collect_box_classname = document.getElementById("collect_box").className;
+  if (collect_box_classname == "collect") {
+    document.getElementById("collect_box").className="collect1";
+  } else {
+    document.getElementById("collect_box").className="collect";
+  }
 }
 
 /* *

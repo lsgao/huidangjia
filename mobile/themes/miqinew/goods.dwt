@@ -13,44 +13,42 @@
 <link href="{$ectouch_themes}/ectouch.css?id=10" rel="stylesheet" type="text/css" />
 
 <style>
-.user_top_goods {
-height: 5rem;
-overflow: hidden; 
-background:#ffbf6b;
-position:relative
-
-}
-.user_top_goods dt {
-float: left;
-margin: 0.8rem 0.8rem 0;
-text-align: center;
-position: relative;
-width: 3.7rem;
-height: 3.7rem;
-border-radius: 3.7rem;
-padding:0.15rem; background:#FFFFFF
-}
-.user_top_goods dt img {
-width: 3.7rem;
-height:3.7rem;
-border-radius: 3.7rem;
-}
-.guanzhu {
-background-color: #ffbf6b;
-}
-
-.guanzhu {
-color: #fff;
-border: 0;
-height: 2.5rem;
-line-height: 2.5rem;
-width: 100%;
--webkit-box-flex: 1;
-display: block;
--webkit-user-select: none;
-font-size: 0.9rem;
-}
-#cover2 {
+  .user_top_goods {
+    height: 5rem;
+    overflow: hidden; 
+    background:#ffbf6b;
+    position:relative
+  }
+  .user_top_goods dt {
+    float: left;
+    margin: 0.8rem 0.8rem 0;
+    text-align: center;
+    position: relative;
+    width: 3.7rem;
+    height: 3.7rem;
+    border-radius: 3.7rem;
+    padding:0.15rem; background:#FFFFFF
+  }
+  .user_top_goods dt img {
+    width: 3.7rem;
+    height:3.7rem;
+    border-radius: 3.7rem;
+  }
+  .guanzhu {
+    background-color: #ffbf6b;
+  }
+  .guanzhu {
+    color: #fff;
+    border: 0;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    width: 100%;
+    -webkit-box-flex: 1;
+    display: block;
+    -webkit-user-select: none;
+    font-size: 0.9rem;
+  }
+  #cover2 {
     background-color: #333333;
     display: none;
     left: 0;
@@ -58,23 +56,22 @@ font-size: 0.9rem;
     position: absolute;
     top: 0;
     z-index: 1000;
-}
-#share_weixin, #share_qq {
+  }
+  #share_weixin, #share_qq {
     right: 10px;
     top: 2px;
     width: 260px;
-}
-#share_weixin, #share_qq, #share_qr {
+  }
+  #share_weixin, #share_qq, #share_qr {
     display: none;
     position: fixed;
     z-index: 3000;
-}
-#share_weixin img, #share_qq img {
+  }
+  #share_weixin img, #share_qq img {
     height: 165px;
     width: 260px;
-}
-
-		.button_3 {
+  }
+  .button_3 {
     background-color: #EEEEEE;
     border: 1px solid #666666;
     color: #666666;
@@ -82,13 +79,13 @@ font-size: 0.9rem;
     line-height: 20px;
     padding: 10px 0;
     text-align: center;
-}
-#share_weixin button, #share_qq button {
+  }
+  #share_weixin button, #share_qq button {
     margin-top: 25px;
     width: 100%;
-}
+  }
 </style>
-<!--智能人人开发新增  ---> 
+
 <script type="text/javascript" src="../data/static/js/common1.js">
 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
@@ -115,18 +112,15 @@ function changenum(diff) {
 <header id="header">
   <div class="header_l header_return"> <a class="ico_10" href="cat_all.php"> 返回 </a> </div>
   <h1> 商品详情 </h1>
-
 </header>
 <!--商品图 s---> 
 <script src="{$ectouch_themes}/js/TouchSlide.js"></script>
-
 <section class="goods_slider">
-
   <div id="slideBox" class="slideBox">
     <div class="scroller"> 
       <!--<div><a href="javascript:showPic()"><img src="{$goods.goods_thumb}"  alt="{$goods.goods_name}" /></a></div>-->
       <ul>
-	  <li><a href="javascript:showPic()"><img alt="" src="{$site_url}{$goods.original_img}"/></a></li>
+        <li><a href="javascript:showPic()"><img alt="" src="{$site_url}{$goods.original_img}"/></a></li>
         <!--{if $pictures}--> 
         <!-- {foreach from=$pictures item=picture name=no}--> 
 		<!-- {if $smarty.foreach.no.iteration > 1}  -->
@@ -147,7 +141,6 @@ function changenum(diff) {
       </ul>
     </div>
   </div>
-
 </section>
 <script type="text/javascript">
 TouchSlide({ 
@@ -158,25 +151,22 @@ TouchSlide({
 	autoPage:true,//自动分页
 	autoPlay:false //自动播放
 });
-
 function showPic(){
-	var data = document.getElementById("slideBox").className;
-	var reCat = /ui-gallery/;
-	//str1.indexOf(str2);
-	if( reCat.test(data) ){
-		document.getElementById("slideBox").className = 'slideBox';
-	}else{
-		document.getElementById("slideBox").className = 'slideBox ui-gallery';
-		//document.getElementById("slideBox").style.position = 'fixed';
-	}
+  var data = document.getElementById("slideBox").className;
+  var reCat = /ui-gallery/;
+  //str1.indexOf(str2);
+  if( reCat.test(data) ){
+  	document.getElementById("slideBox").className = 'slideBox';
+  }else{
+  	document.getElementById("slideBox").className = 'slideBox ui-gallery';
+  	//document.getElementById("slideBox").style.position = 'fixed';
+  }
 }
 </script> 
 <!--商品图 end---> 
 <!--商品参数-->
 <section class="goodsInfo">
-
-<!--智能人人开发修改兼容收藏
-  <a class="{if $is_collect==1}collect1{else}collect{/if}" id="collect_box" href="javascript:collect({$goods.goods_id})" style="display: inline;">{$record_count}</a>-->
+  <a class="{if $is_collect==1}collect1{else}collect{/if}" id="collect_box" href="javascript:collect({$goods.goods_id})" style="display: inline;">{$record_count}</a>
   <div class="title">
     <h1> {$goods.goods_style_name} </h1>
   </div>

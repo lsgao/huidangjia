@@ -2285,9 +2285,22 @@ elseif ($action == 'collect')
             " WHERE user_id='$_SESSION[user_id]' AND goods_id = '$goods_id'";
         if ($GLOBALS['db']->GetOne($sql) > 0)
         {
-            $result['error'] = 1;
-            $result['message'] = $GLOBALS['_LANG']['collect_existed'];
-            die($json->encode($result));
+            //$result['error'] = 1;
+            //$result['message'] = $GLOBALS['_LANG']['collect_existed'];
+            //die($json->encode($result));
+            $sql = "DELETE FROM " .$GLOBALS['ecs']->table('collect_goods'). " WHERE user_id=" . $_SESSION[user_id] . " AND " . "goods_id=" . $goods_id;
+            if ($GLOBALS['db']->query($sql) === false)
+            {
+                $result['error'] = 1;
+                $result['message'] = $GLOBALS['db']->errorMsg();
+                die($json->encode($result));
+            }
+            else
+            {
+                $result['error'] = 0;
+                $result['message'] = $GLOBALS['_LANG']['collect_success'];
+                die($json->encode($result));
+            }
         }
         else
         {
