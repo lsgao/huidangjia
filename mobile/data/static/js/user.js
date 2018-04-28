@@ -14,7 +14,7 @@ function userEdit()
 
   if (email.length == 0)
   {
-    msg += email_empty + '\n';
+    //msg += email_empty + '\n';
   }
   else
   {

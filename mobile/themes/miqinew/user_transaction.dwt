@@ -35,7 +35,7 @@
         <form name="formEdit" action="user.php" method="post" onSubmit="return userEdit()">
           <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
             <div class="table_box table_box2">
-              <dl>
+              <dl style="display: none;">
                 <dd class="dd1">电子邮箱 </dd>
                 <input name="email" type="text" placeholder="输入电子邮箱"  value="{$profile.email}" class="dd2" />
               </dl>
@@ -609,7 +609,7 @@
               <td width="32%" align="right">{$lang.consignee_name}：</td>
               <td width="68%" align="left">{$order.consignee}</td>
             </tr>
-            <tr>
+            <tr style="display: none;">
               <td align="right">{$lang.email_address}：</td>
               <td align="left">{$order.email}</td>
             </tr>
@@ -1229,16 +1229,16 @@
                 <div class="add_addr_inp"><input name="email" placeholder="请输入收货人的{$lang.email_address}" type="text" class="inputBg_touch" value="{$consignee.email|escape}" /></div>
               </div>
               <div class="add_addr_sub">
-                <!-- {if $consignee.consignee && $consignee.email} -->
+                <!-- {if $consignee.consignee} -->
                   <input type="submit" name="submit"  class="c-btn3" value="{$lang.confirm_edit}"  style="margin-right:5px;" />
                 <!-- {else} -->
                   <input type="submit" name="submit"  class="c-btn3"  value="保存收货地址"/>
                 <!-- {/if} -->
                 <input type="hidden" name="act" value="act_edit_address" />
                 <input name="address_id" type="hidden" value="{$consignee.address_id}" />
-        		</div>
-        		</form>
-            </div>
+              </div>
+            </form>
+          </div>
           <form action="user.php" method="post" name="theForm" onsubmit="return checkConsignee(this)" style="display: none;">
             <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
               <tr>

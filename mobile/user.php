@@ -336,7 +336,7 @@ if ($action == 'register')
 /* 注册会员的处理 */
 elseif ($action == 'act_register')
 {
-    /* 增加是否关闭注册 */
+    //* 增加是否关闭注册 */
     if ($_CFG['shop_reg_closed'])
     {
         $smarty->assign('action',     'register');
@@ -775,7 +775,7 @@ elseif ($action == 'act_edit_profile')
     {
          show_message($_LANG['passport_js']['home_phone_invalid']);
     }
-    if (!is_email($email))
+    if (!empty($email) && !is_email($email))
     {
         show_message($_LANG['msg_email_format']);
     }
