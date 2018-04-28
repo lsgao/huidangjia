@@ -1191,7 +1191,7 @@ elseif ($action == 'async_order_list') {
     }
     $orders = search_orders($limit, $start, $where);
     if(is_array($orders)){
-        foreach($orders as $vo){
+        foreach($orders as $vo) {
             //获取订单第一个商品的图片
             $img = $db->getOne("SELECT g.goods_thumb FROM " .$ecs->table('order_goods'). " as og left join " .$ecs->table('goods'). " g on og.goods_id = g.goods_id WHERE og.order_id = ".$vo['order_id']." limit 1");
             //$tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
@@ -1237,7 +1237,7 @@ elseif ($action == 'async_order_list') {
     }
     echo json_encode($asyList);
 }
-/* 快递鸟包裹跟踪 */
+/* 极速数据包裹跟踪 */
 elseif ($action == 'package_tracking')
 {
     $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
@@ -1254,7 +1254,7 @@ elseif ($action == 'package_tracking')
     include_once(ROOT_PATH .'plugins/jisushuju/jisushuju_config.php');
     $query_link = 'http://api.jisuapi.com/express/query?appkey='. AppKey.'&type='. $postcom .'&number=' .$orders['invoice_no'];
     //优先使用curl模式发送数据
-    if (function_exists('curl_init') == 1){
+    if (function_exists('curl_init') == 1) {
       $curl = curl_init();
       curl_setopt ($curl, CURLOPT_URL, $query_link);
       curl_setopt ($curl, CURLOPT_HEADER,0);
@@ -4202,7 +4202,7 @@ function page_and_size($filter)
  */
 function get_accountlist($user_id, $account_type = '')
 {
-    /* 检查参数 */
+    //* 检查参数 */
     $where = " WHERE user_id = '$user_id' ";
     if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points')))
     {

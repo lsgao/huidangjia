@@ -576,7 +576,7 @@
             <!--{/if}-->
             <!-- {if $order.invoice_no}-->
             <tr>
-                <td><a href="user.php?act=order_tracking&order_id={$order.order_id}" class="c-btn3">订单跟踪</a></td>
+                <td><a href="user.php?act=package_tracking&order_id={$order.order_id}" class="c-btn3">订单跟踪</a></td>
             </tr>
             <!--{/if}-->
           </table>

@@ -239,21 +239,19 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
 		}
 
 		$smarty->assign('user_prices',            $user_prices); 
-		/*智能人人开发添加*/
 		
-		//智能人人开发添加判断该商品是否被收藏过
+		//判断该商品是否被收藏过
 			$is_collect=0;
 			$user_id=$_SESSION['user_id'];
 			$sql = "SELECT * FROM " .$GLOBALS['ecs']->table('collect_goods'). " WHERE user_id = '$user_id' and goods_id='$goods_id'";
 			$is_collect = $GLOBALS['db']->getRow($sql);
-			
 		if(!empty($is_collect))	{
 			$smarty->assign('is_collect', 1 );
 		}else{
 			$smarty->assign('is_collect', 0 );
-		}		
-		//智能人人开发添加判断该商品是否被收藏过
-		// 会员等级价格
+		}
+
+        // 会员等级价格
         $smarty->assign('pictures',            get_goods_gallery($goods_id));                    // 商品相册
         $smarty->assign('bought_goods',        get_also_bought($goods_id));                      // 购买了该商品的用户还购买了哪些商品
         $smarty->assign('goods_rank',          get_goods_rank($goods_id));                       // 商品的销售排名
@@ -297,35 +295,32 @@ else
 $db->query('UPDATE ' . $ecs->table('goods') . " SET click_count = click_count + 1 WHERE goods_id = '$_REQUEST[id]'");
 
 
-		/*人人科技修改*/
-		
-		
-		$userid=$_SESSION['user_id'];
-		if(!empty($userid)){	
-			$url="http://".$_SERVER['HTTP_HOST']."/mobile/goods.php?id=".$goods_id."&u=".$userid;
-			//20141204新增分享返积分
-			$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
-		}else{
-			$url="";
-			//20141204新增分享返积分
-			$dourl="";
-		}
-		require_once "wxjs/jssdk.php";
-		$ret = $db->getRow("SELECT  *  FROM `wxch_config`");
-		$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
-		$signPackage = $jssdk->GetSignPackage();
-		$smarty->assign('signPackage',  $signPackage);
-		$smarty->assign('userid',  $userid);
-		$smarty->assign('share_info',  $share_info);	
-		$smarty->assign('dourl',  $dourl);		
-		$smarty->assign('url',  $url);
-		/*人人科技修改*/
-		/*甜   心100  修复开发*/
-		
-		$tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
-		$smarty->assign('tianxin_url',  $tianxin_url); 
-		
-		/*甜   心100  修复开发*/
+$userid=$_SESSION['user_id'];
+if(!empty($userid)){	
+	$url="http://".$_SERVER['HTTP_HOST']."/mobile/goods.php?id=".$goods_id."&u=".$userid;
+	//20141204新增分享返积分
+	$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
+}else{
+	$url="";
+	//20141204新增分享返积分
+	$dourl="";
+}
+require_once "wxjs/jssdk.php";
+$ret = $db->getRow("SELECT  *  FROM `wxch_config`");
+$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+$smarty->assign('signPackage',  $signPackage);
+$smarty->assign('userid',  $userid);
+$smarty->assign('share_info',  $share_info);	
+$smarty->assign('dourl',  $dourl);		
+$smarty->assign('url',  $url);
+/*人人科技修改*/
+/*甜   心100  修复开发*/
+
+$tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
+$smarty->assign('tianxin_url',  $tianxin_url); 
+
+/*甜   心100  修复开发*/
 $smarty->assign('now_time',  gmtime());           // 当前系统时间
 $smarty->display('goods.dwt',      $cache_id);
 

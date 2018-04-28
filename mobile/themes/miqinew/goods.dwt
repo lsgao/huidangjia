@@ -215,7 +215,8 @@ function showPic(){
   <!-- {/if} -->
   
   <ul>
-    <li>月销量：{$goods.sales_volume_total}件</li>
+    <li style="display: none;">月销量：{$goods.sales_volume_total}件</li>
+    <li>月销量：{$goods.click_count}件</li>
   </ul>
 </section>
 
