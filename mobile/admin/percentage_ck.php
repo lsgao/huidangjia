@@ -129,6 +129,9 @@ elseif ($_REQUEST['act'] == 'separate') {
         $sql = "SELECT value FROM " . $GLOBALS['ecs']->table('touch_shop_config') . " WHERE code = 'percentage_supershopkeeper_2'";
         $percentage_supershopkeeper_2 = $db->getOne($sql);
         $percentage_supershopkeeper_2 /= 100;
+        $sql = "SELECT value FROM " . $GLOBALS['ecs']->table('touch_shop_config') . " WHERE code = 'percentage_originator'";
+        $percentage_originator = $db->getOne($sql);
+        $percentage_originator /= 100;
 
         $down_user_percentage = 0;
 
@@ -142,8 +145,11 @@ elseif ($_REQUEST['act'] == 'separate') {
         } else {
             if ($row['user_rank'] == 2) { // 掌柜
                 $setmoney = round($money * $percentage_shopkeeper, 2);
-            } else if ($row['user_rank'] == 3 || $row['user_rank'] == 4) { // 大掌柜 或 创始人
+            } else if ($row['user_rank'] == 3) { // 大掌柜 
                 $setmoney = round($money * $percentage_supershopkeeper_1, 2);
+                $down_user_percentage = $setmoney;
+            } else if ($row['user_rank'] == 4) { // 创始人
+                $setmoney = round($money * $percentage_originator, 2);
                 $down_user_percentage = $setmoney;
             }
             $setpoint = 0;
@@ -166,7 +172,7 @@ elseif ($_REQUEST['act'] == 'separate') {
             } else {
                 if ($row['user_rank'] == 2) { // 掌柜
                     // 掌柜对于非直接下级的销售没有提成
-                } else if ($row['user_rank'] == 3 || $row['user_rank'] == 4) { // 大掌柜
+                } else if ($row['user_rank'] == 3) { // 大掌柜
                     if ($row['child_user_rank'] == 3) { // 下属为大掌柜，其上级大掌柜，以下属大掌柜的佣金为基数，提取佣金
                         $setmoney = round($down_user_percentage * $percentage_supershopkeeper_2, 2);
                         $down_user_percentage = $setmoney;
@@ -174,6 +180,10 @@ elseif ($_REQUEST['act'] == 'separate') {
                         $setmoney = round($money * $percentage_supershopkeeper_1, 2);
                         $down_user_percentage = $setmoney;
                     }
+                } else if ($row['user_rank'] == 4) { // 创始人
+                    // 以订单金额为基数，提取佣金
+                    $setmoney = round($money * $percentage_originator, 2);
+                    $down_user_percentage = $setmoney;
                 }
                 $setpoint = 0;
                 $info = sprintf($_LANG['separate_info'], $order_sn, $setmoney, $setpoint);

@@ -158,7 +158,9 @@ if ($action == 'default') {
     $status_commission = array();
     if($info['user_rank'] == 2) { // 本人是掌柜
         $status_commission = get_shopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper']);
-    } else if($info['user_rank'] == 3 || $info['user_rank'] == 4) { // 本人是大掌柜或者创始人
+    } else if($info['user_rank'] == 3) { // 本人是大掌柜
+        $status_commission = get_supershopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper'], $percentage['percentage_supershopkeeper_1'], $percentage['percentage_supershopkeeper_2']);
+    } else if($info['user_rank'] == 4) { // 本人创始人
         $status_commission = get_supershopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper'], $percentage['percentage_supershopkeeper_1'], $percentage['percentage_supershopkeeper_2']);
     } else { // 本人是其他等级的用户，不计算佣金
     }
@@ -228,17 +230,40 @@ elseif ($action == 'fenxiao1') {
                     } else {
                     	continue;
                     }
-                } else if ($info['user_rank'] == 3 || $info['user_rank'] == 4) {// 大掌柜或创始人
+                } else if ($info['user_rank'] == 3) {// 大掌柜
                     if ($i == 1) {
                         $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'];
                         $order_info = $db->getRow($sql);
                         if ($value['user_rank'] == 2) { // 掌柜
-                            $order_commission = round($order_info['order_amount'] * $percentage['percentage_supershopkeeper_1'], 2);
+                            $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
                             //$user_commission = get_shopkeeper_commission($value['user_id'], $i, $num, $percentage['percentage_shopkeeper'], true);
                             //$order_commission = $user_commission['weifukuan']['order_amount'] + $user_commission['yifukuan']['order_amount'] + $user_commission['yishouhuo']['order_amount'];
                             //$order_commission = round($order_commission * $percentage['percentage_supershopkeeper_1'], 2);
                         } else if ($value['user_rank'] == 3) { // 大掌柜
                             $order_commission = 0;
+                            //$user_commission = get_supershopkeeper_commission($value['user_id'], $i, $num, $percentage['percentage_shopkeeper'], true);
+                            //$order_commission = $user_commission['weifukuan']['commission'] + $user_commission['yifukuan']['commission'] + $user_commission['yishouhuo']['commission'];
+                            //$order_commission = round($order_commission * $percentage['percentage_supershopkeeper_2'], 2);
+                        } else {
+                            $order_commission = 0;
+                        }
+                        $user_info[$key]['order_num'] = $order_info['order_num'];
+                        $user_info[$key]['order_amount'] = $order_info['order_amount'];
+                        $user_info[$key]['commission'] = $order_commission;
+                    } else {
+                    	continue;
+                    }
+                } else if ($info['user_rank'] == 4) {// 创始人
+                    if ($i == 1) {
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'];
+                        $order_info = $db->getRow($sql);
+                        if ($value['user_rank'] == 2) { // 掌柜
+                            $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
+                            //$user_commission = get_shopkeeper_commission($value['user_id'], $i, $num, $percentage['percentage_shopkeeper'], true);
+                            //$order_commission = $user_commission['weifukuan']['order_amount'] + $user_commission['yifukuan']['order_amount'] + $user_commission['yishouhuo']['order_amount'];
+                            //$order_commission = round($order_commission * $percentage['percentage_supershopkeeper_1'], 2);
+                        } else if ($value['user_rank'] == 3) { // 大掌柜
+                            $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
                             //$user_commission = get_supershopkeeper_commission($value['user_id'], $i, $num, $percentage['percentage_shopkeeper'], true);
                             //$order_commission = $user_commission['weifukuan']['commission'] + $user_commission['yifukuan']['commission'] + $user_commission['yishouhuo']['commission'];
                             //$order_commission = round($order_commission * $percentage['percentage_supershopkeeper_2'], 2);
@@ -271,107 +296,6 @@ elseif ($action == 'fenxiao1') {
     $smarty->assign('user_list',    $new_arr);
     $smarty->display('user_commission.dwt');
 }
-/*
-//显示二级分销代理
-elseif ($action == 'fenxiao2') {
-    include_once(ROOT_PATH .'include/lib_clips.php');
-    //推荐注册分成
-    $user_list['user_list'] = array();
-    $auid = $_SESSION['user_id'];
-    $info = get_user_default($user_id);
-    $percentage = get_percentage();
-    $num = 4;
-    $up_uid = "'$auid'";
-    $all_count = 0;
-    $supershopkeeper_array = array();
-    for ($i = 1; $i <= 2; $i++) {
-        $count = 0;
-        if ($up_uid) {
-            $sql = "SELECT user_id FROM " . $ecs->table('users') . " WHERE parent_id IN($up_uid)";
-            $query = $db->query($sql);
-            $up_uid = '';
-            while ($rt = $db->fetch_array($query)) {
-                $up_uid .= $up_uid ? ",'$rt[user_id]'" : "'$rt[user_id]'";
-                $count++;
-            }
-        }
-        $all_count += $count;
-        if ($count) {
-            $sql = "SELECT user_id, user_name, user_rank, parent_id, '$i' AS level, email, is_validated, user_money, frozen_money, rank_points, pay_points, reg_time,wxid ".
-                " FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id IN ($up_uid)" .
-                " ORDER by level, user_id";
-            $user_info = $db->getAll($sql);
-            foreach($user_info as $key=>$value) {
-                $order_commission = 0;
-                if ($info['user_rank'] == 2) {// 掌柜
-                    if ($i == 2) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
-                        $order_info = $db->getRow($sql);
-                        $order_commission = 0;
-                        $user_info[$key]['order_num'] = $order_info['order_num'];
-                        $user_info[$key]['order_amount'] = $order_info['order_amount'];
-                        $user_info[$key]['commission'] = $order_commission;
-                    } else {
-                    	continue;
-                    }
-                } else if ($info['user_rank'] == 3 || $info['user_rank'] == 4) {// 大掌柜或创始人
-                    if ($i == 1) {
-                        if ($value['user_rank'] == 2) {
-                            $supershopkeeper_array[$value['user_id']] = 0;
-                            continue;
-                        } else if ($value['user_rank'] == 3) {
-                            $supershopkeeper_array[$value['user_id']] = 1;
-                            continue;
-                        } else {
-                            $supershopkeeper_array[$value['user_id']] = 0;
-                            continue;
-                        }
-                    } else if ($i == 2) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
-                        $order_info = $db->getRow($sql);
-                        if ($value['user_rank'] == 2 || $value['user_rank'] == 3) { // 掌柜或大掌柜
-                            $has_supershopkeeper = $supershopkeeper_array[$value['parent_id']];
-                            if ($has_supershopkeeper == 0) {
-                                $order_commission = round($order_info['order_amount'] * $percentage['percentage_supershopkeeper_1'], 2);
-                            } else {
-                                $percentage_rate = $percentage['percentage_supershopkeeper_1'];
-                            	for($k = 1; $k <= $has_supershopkeeper; $k ++) {
-                                    $percentage_rate = $percentage['percentage_supershopkeeper_1'] * $percentage['percentage_supershopkeeper_2'];
-                                }
-                                $order_commission = round($order_info['order_amount'] * $percentage_rate, 2);
-                            }
-                        } else {
-                            $order_commission = 0;
-                        }
-                        $user_info[$key]['order_num'] = $order_info['order_num'];
-                        $user_info[$key]['order_amount'] = $order_info['order_amount'];
-                        $user_info[$key]['commission'] = $order_commission;
-                    } else {
-                    	continue;
-                    }
-                } else {
-                    continue;
-                }
-            }
-            $user_list['user_list'] = array_merge($user_list['user_list'], $user_info);
-        }
-    }
-    $new_arr=array();
-    foreach($user_list['user_list'] as $key =>$value) {
-        if ($value['level'] == 2){
-            $wxid = $value['wxid'];
-            $weixin_info = $GLOBALS['db']->getRow("SELECT nickname,headimgurl FROM wxch_user WHERE wxid = '$wxid'");
-            $value['head_url'] = $weixin_info['headimgurl'];
-            $value['nickname'] = $weixin_info['nickname'];
-            $new_arr[] = $value;
-        }
-    }
-    $count = count($new_arr);
-    $smarty->assign('count',    $count);
-    $smarty->assign('user_list',    $new_arr);
-    $smarty->display('user_commission.dwt');
-}
-*/
 //显示二级以上分销代理
 elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' || $action == 'fenxiao4') {
     $level = 2;
@@ -398,6 +322,7 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
     $up_uid = "'$auid'";
     $all_count = 0;
     $supershopkeeper_array = array();
+    $percentage_originator_array = array();
 
     for ($i = 1; $i <= $level; $i++) {
         $count = 0;
@@ -431,7 +356,7 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
                     } else {
                     	continue;
                     }
-                } else if ($info['user_rank'] == 3 || $info['user_rank'] == 4) {// 大掌柜或创始人
+                } else if ($info['user_rank'] == 3) {// 大掌柜
                     if ($i < $level) {
                         if ($value['user_rank'] == 2) {
                             $supershopkeeper_array[$value['user_id']]['value'] = 0;
@@ -461,6 +386,38 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
                                 }
                                 $order_commission = round($order_info['order_amount'] * $percentage_rate, 2);
                             }
+                        } else {
+                            $order_commission = 0;
+                        }
+                        $user_info[$key]['order_num'] = $order_info['order_num'];
+                        $user_info[$key]['order_amount'] = $order_info['order_amount'];
+                        $user_info[$key]['commission'] = $order_commission;
+                        $user_info[$key]['has_supershopkeeper'] = $has_supershopkeeper;
+                    } else {
+                    	continue;
+                    }
+                } else if ($info['user_rank'] == 4) {// 创始人
+                    if ($i < $level) {
+                        if ($value['user_rank'] == 2) {
+                            $percentage_originator_array[$value['user_id']]['value'] = 0;
+                            $percentage_originator_array[$value['user_id']]['parent_id'] = $value['parent_id'];
+                            continue;
+                        } else if ($value['user_rank'] == 3) {
+                            $percentage_originator_array[$value['user_id']]['value'] = 1;
+                            $percentage_originator_array[$value['user_id']]['parent_id'] = $value['parent_id'];
+                            continue;
+                        } else {
+                            $percentage_originator_array[$value['user_id']]['value'] = 0;
+                            $percentage_originator_array[$value['user_id']]['parent_id'] = $value['parent_id'];
+                            continue;
+                        }
+                    } else if ($i == $level) {
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
+                        $order_info = $db->getRow($sql);
+                        $has_supershopkeeper = 0;
+                        if ($value['user_rank'] == 2 || $value['user_rank'] == 3) { // 掌柜或大掌柜
+                            //$has_supershopkeeper = get_supershopkeeper_num($percentage_originator_array, $value['parent_id']);
+                            $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
                         } else {
                             $order_commission = 0;
                         }

@@ -32,6 +32,9 @@ if ($_REQUEST['act'] == 'query')
     $sql = "SELECT value FROM " . $ecs->table('touch_shop_config') . " WHERE code = 'percentage_supershopkeeper_2'";
     $percentage_supershopkeeper_2 = $db->getOne($sql);
     $smarty->assign('percentage_supershopkeeper_2', $percentage_supershopkeeper_2);
+    $sql = "SELECT value FROM " . $ecs->table('touch_shop_config') . " WHERE code = 'percentage_originator'";
+    $percentage_originator = $db->getOne($sql);
+    $smarty->assign('percentage_originator', $percentage_originator);
     $smarty->display('percentage.htm');
 }
 /*------------------------------------------------------ */
@@ -42,9 +45,11 @@ elseif ($_REQUEST['act'] == 'update') {
     $percentage_shopkeeper = (float) $_POST['percentage_shopkeeper'];
     $percentage_supershopkeeper_1 = (float)$_POST['percentage_supershopkeeper_1'];
     $percentage_supershopkeeper_2 = (float)$_POST['percentage_supershopkeeper_2'];
+    $percentage_originator = (float)$_POST['percentage_originator'];
     update_percentage('percentage_shopkeeper', $percentage_shopkeeper);
     update_percentage('percentage_supershopkeeper_1', $percentage_supershopkeeper_1);
     update_percentage('percentage_supershopkeeper_2', $percentage_supershopkeeper_2);
+    update_percentage('percentage_originator', $percentage_originator);
     $links[] = array('text' => $_LANG['percentage'], 'href' => 'percentage.php?act=query');
     sys_msg($_LANG['edit_ok'], 0 ,$links);
 }
