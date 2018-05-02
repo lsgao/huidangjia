@@ -18,7 +18,7 @@ body {background: #fff !important;padding-bottom: 60px;}
 #m_login_text {width:40px;font: 14px/30px "微软雅黑";color: #fff;right: 5px;top: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 #m_logo {width: 72px;height: 24px;top: 3px;left: 4px;}
 .search {margin: 0 50px 0 40px;position: relative;background: #fff;border-radius: 15px;;}
-#keywordBox {padding-left: 30px;width: 100%;height: 30px;font:14px/30px "微软雅黑";border: none;background: none;line-height: normal;}
+#keywordBox {width: 100%;height: 30px;font:14px/30px "微软雅黑";border: none;background: none;line-height: normal;}
 .search button {position: absolute;top: 4px;right: 10px;border: none;background: url(../images/ico_07.png) no-repeat;background-size: 20px;width: 20px;height: 20px;box-sizing: content-box;}
 .ico-search {position: absolute;top: 9px;left: 9px;width: 12px;height: 12px;background-position: -72px 0;}
 
@@ -59,8 +59,9 @@ body {background: #fff !important;padding-bottom: 60px;}
 .m_flash_sale_pic {width: 100%;}
 .m_flash_sale_pic img {width: 90%;margin: 5% auto;}
 .m_flash_sale_tit {display: -webkit-box;-webkit-line-clamp: 2;overflow: hidden;-webkit-box-orient: vertical;font: 12px/18px "微软雅黑";color: #333;}
+.m_flash_sale_price {text-align:center}
 .m_flash_sale_price span {font-size: 13px;color: #ed5657;font-weight: 500;}
-.m_flash_sale_price s {color: #999;font-size: 10px;padding-left: 10px;}
+.m_flash_sale_price s {color: #999;font-size: 10px;line-height:1}
 
 
 .swiper-pagination-bullet-active {background: #ff9600 !important;}
