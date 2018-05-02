@@ -96,10 +96,10 @@ if ($action == 'default') {
     $res[1]=$count1;
     $sql = "SELECT  user_id  FROM " . $ecs->table('users') . " WHERE parent_id=$up_uid";
     $up_uid_all_two=$GLOBALS['db']->getAll($sql);
-    $count2=0;
-    $count3=0;
-    $count4=0;
-    $count5=0;
+    $count2 = 0;
+    $count3 = 0;
+    $count4 = 0;
+    $count5 = 0;
     if(!empty($up_uid_all_two)){
         foreach($up_uid_all_two as $key =>$value) {
             $sql = "SELECT  count(*)  as num  FROM " . $ecs->table('users') . " WHERE parent_id=$value[user_id]";
@@ -134,10 +134,10 @@ if ($action == 'default') {
             }
         }
     }
-    $res[2]=$count2;
-    $res[3]=$count3;
-    $res[4]=$count4;
-    $res[5]=$count5;
+    $res[2] = $count2;
+    $res[3] = $count3;
+    $res[4] = $count4;
+    $res[5] = $count5;
     //print_r($res);
     $smarty->assign('tianxin', $tianxin);
     $smarty->assign('userrank', $userrank);
@@ -155,13 +155,26 @@ if ($action == 'default') {
     $num =  4;
     $up_uid = "'$auid'";
     $all_count = 0;
+    for ($i = 1; $i <= $num; $i ++) {
+        $count = 0;
+        if ($up_uid) {
+            $sql = "SELECT user_id,user_name FROM " . $ecs->table('users') . " WHERE parent_id IN($up_uid)";
+            $query = $db->query($sql);
+            $up_uid = '';
+            while ($rt = $db->fetch_array($query)) {
+                $up_uid .= $up_uid ? ",'$rt[user_id]'" : "'$rt[user_id]'";
+                $count ++;
+            }
+        }
+        $all_count += $count;
+    }
     $status_commission = array();
     if($info['user_rank'] == 2) { // 本人是掌柜
         $status_commission = get_shopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper']);
     } else if($info['user_rank'] == 3) { // 本人是大掌柜
         $status_commission = get_supershopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper'], $percentage['percentage_supershopkeeper_1'], $percentage['percentage_supershopkeeper_2']);
     } else if($info['user_rank'] == 4) { // 本人创始人
-        $status_commission = get_supershopkeeper_commission($auid, 1, $num, $percentage['percentage_shopkeeper'], $percentage['percentage_supershopkeeper_1'], $percentage['percentage_supershopkeeper_2']);
+        $status_commission = get_originator_commission($auid, 1, $num, $percentage['percentage_originator']);
     } else { // 本人是其他等级的用户，不计算佣金
     }
 
@@ -755,11 +768,13 @@ function get_percentage_ck($user_id, $level, $supershopkeeper_num, $ancestor_use
             } else if ($level >= 2) {
                 if ($ancestor_user_rank == 2) { // 最上级是掌柜
                     $percentage_rate = 0;
-                } else if($ancestor_user_rank == 3 || $ancestor_user_rank == 4) { // 最上级是大掌柜或创始人
+                } else if($ancestor_user_rank == 3) { // 最上级是大掌柜
                     $percentage_rate = $percentage['percentage_supershopkeeper_1'];
                     for($k = 1; $k <= $supershopkeeper_num; $k ++) {
 	                $percentage_rate *= $percentage['percentage_supershopkeeper_2'];
                     }
+                } else if($ancestor_user_rank == 4) { // 最上级是大掌柜或创始人
+                    $percentage_rate = $percentage['percentage_originator'];
                 } else {
                     $percentage_rate = 0;
                 }
@@ -846,7 +861,56 @@ function get_accountlist($user_id, $account_type = '')
     return array('account' => $arr, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
 }
 
+/*
+ * 查询创始人佣金及订单数据
+ * order_num : 团队订单总数
+ * order_amount : 团队销售总额
+ * commission : 佣金 （创始人佣金 = 所有下属的团队销售总额 * 设定比例）
+ */
+function get_originator_commission($user_id, $level, $max_level, $percentage_originator, $is_team=true) {
+    $commission = array();
+    if ($level >$max_level) {
+        return $commission;
+    }
+    // -- 1.未付款的订单的佣金统计
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=0";
+    $order_info = $GLOBALS['db']->getRow($sql);
+    $commission['weifukuan']['order_num'] = $order_info['order_num'];
+    $commission['weifukuan']['order_amount'] = $order_info['order_amount'];
+    $commission['weifukuan']['commission'] = 0;
+    // -- 2.已经付款且未收货的订单的佣金统计
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2";
+    $order_info = $GLOBALS['db']->getRow($sql);
+    $commission['yifukuan']['order_num'] = $order_info['order_num'];
+    $commission['yifukuan']['order_amount'] = $order_info['order_amount'];
+    $commission['yifukuan']['commission'] = 0;
+    // -- 3.已经收货的订单的佣金统计
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id."  and  shipping_status  =2";
+    $order_info = $GLOBALS['db']->getRow($sql);
+    $commission['yishouhuo']['order_num'] = $order_info['order_num'];
+    $commission['yishouhuo']['order_amount'] = $order_info['order_amount'];
+    $commission['yishouhuo']['commission'] = 0;
 
+    if ($is_team) {
+        $sql = "SELECT user_id, user_name,user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE parent_id  = " .$user_id;
+        $direct_reports = $GLOBALS['db']->query($sql);
+        while ($rt = $GLOBALS['db']->fetch_array($direct_reports)) {
+            $child_commission = array();
+            $child_commission = get_originator_commission($rt['user_id'], $level + 1, $max_level, $percentage_originator);
+            $commission['weifukuan']['commission'] += round($child_commission['weifukuan']['order_amount'] * $percentage_originator, 2);
+            $commission['yifukuan']['commission'] += round($child_commission['yifukuan']['order_amount'] * $percentage_originator, 2);
+            $commission['yishouhuo']['commission'] += round($child_commission['yishouhuo']['order_amount'] * $percentage_originator, 2);
+
+            $commission['weifukuan']['order_num'] += $child_commission['weifukuan']['order_num'];
+            $commission['weifukuan']['order_amount'] += $child_commission['weifukuan']['order_amount'];
+            $commission['yifukuan']['order_num'] += $child_commission['yifukuan']['order_num'];
+            $commission['yifukuan']['order_amount'] += $child_commission['yifukuan']['order_amount'];
+            $commission['yishouhuo']['order_num'] += $child_commission['yishouhuo']['order_num'];
+            $commission['yishouhuo']['order_amount'] += $child_commission['yishouhuo']['order_amount'];
+        }
+    }
+    return $commission;
+}
 
 /*
  * 查询大掌柜佣金及订单数据
@@ -979,9 +1043,13 @@ function get_percentage() {
     $sql = "SELECT value FROM " . $GLOBALS['ecs']->table('touch_shop_config') . " WHERE code = 'percentage_supershopkeeper_2'";
     $percentage_supershopkeeper_2 = $GLOBALS['db']->getOne($sql);
     $percentage_supershopkeeper_2 /= 100;
+    $sql = "SELECT value FROM " . $GLOBALS['ecs']->table('touch_shop_config') . " WHERE code = 'percentage_originator'";
+    $percentage_originator = $GLOBALS['db']->getOne($sql);
+    $percentage_originator /= 100;
     $percentage['percentage_shopkeeper'] = $percentage_shopkeeper;
     $percentage['percentage_supershopkeeper_1'] = $percentage_supershopkeeper_1;
     $percentage['percentage_supershopkeeper_2'] = $percentage_supershopkeeper_2;
+    $percentage['percentage_originator'] = $percentage_originator;
     return $percentage;
 }
 
