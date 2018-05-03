@@ -182,7 +182,11 @@
     </section>
     <footer class="toolbar">
       <p>合计: <em class="price" id="goods_subtotal">{$total.goods_price}</em></p>
-      {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=checkout">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');">{/if}结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
+      {if $total.real_goods_count eq 0}
+        <a href="flow.php?step=checkout">结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
+      {else}
+        {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=checkout">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');">{/if}结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
+      {/if}
     </footer>
   <!-- {else} -->
     <section class="wrap"  >
@@ -358,73 +362,84 @@
         var flow_no_payment = "{$lang.flow_no_payment}";
         var flow_no_shipping = "{$lang.flow_no_shipping}";
       </script>
-      <section class="order_box padd1 radius10" style="padding-top:0">
-        <div class="in">
-          <div class="table_box table_box1">
-            <dl>
-              <dd class="w50">{$lang.consignee_name} <span>{$consignee.consignee|escape}</span></dd>
-              <dd class="w50 c999">
-                <div class="ico_14" style="display: none;"></div>
-                {$consignee.mobile} <a href="flow.php?step=consignee&include_bonded_goods={$include_bonded_goods}" class="modify radius5">{$lang.modify}</a>
-              </dd>
-            </dl>
-            <dl>
-              <dd class="w50 b_no" >{$lang.country_province} {$consignee.province_name|escape} {$consignee.city_name|escape} {$consignee.district_name|escape}</dd>
-            </dl>
-            <dl>
-              <dd class="w50 b_no" >{$lang.detailed_address} {$consignee.address|escape} </dd>
-            </dl>
-            {if $include_bonded_goods eq 1}
-            <dl>
-              <dd class="w50 b_no" >身份证 {$consignee.identity_card|escape} </dd>
-            </dl>
-            {/if}
-            <dl>
-              <dd class="w50 b_no" >邮政编码 {$consignee.zipcode|escape} </dd>
-            </dl>
+      <!--{if $total.real_goods_count neq 0}-->
+        <section class="order_box padd1 radius10" style="padding-top:0">
+          <div class="in">
+            <div class="table_box table_box1">
+              <dl>
+                <dd class="w50">{$lang.consignee_name} <span>{$consignee.consignee|escape}</span></dd>
+                <dd class="w50 c999">
+                  <div class="ico_14" style="display: none;"></div>
+                  {$consignee.mobile} <a href="flow.php?step=consignee&include_bonded_goods={$include_bonded_goods}" class="modify radius5">{$lang.modify}</a>
+                </dd>
+              </dl>
+              <dl>
+                <dd class="w50 b_no" >{$lang.country_province} {$consignee.province_name|escape} {$consignee.city_name|escape} {$consignee.district_name|escape}</dd>
+              </dl>
+              <dl>
+                <dd class="w50 b_no" >{$lang.detailed_address} {$consignee.address|escape} </dd>
+              </dl>
+              {if $include_bonded_goods eq 1}
+                <dl>
+                  <dd class="w50 b_no" >身份证 {$consignee.identity_card|escape} </dd>
+                </dl>
+              {/if}
+              <dl>
+                <dd class="w50 b_no" >邮政编码 {$consignee.zipcode|escape} </dd>
+              </dl>
+            </div>
           </div>
+        </section>
+      <!--{else}-->
+      <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
+        <div class="table_box table_box2"> 
+            <dl>
+              <dd class="dd1">推荐码<span class="span1 radius5">必填</span></dd>
+              <dd class="dd2"><input type="text" name="invite_code" id="invite_code" maxlength="6" size="8"/></dd>
+              <i></i>
+            </dl>
         </div>
       </section>
+      <!--{/if}-->
       <div class="blank3"></div>
       <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
         <div class="table_box table_box2"> 
           <!--{if $total.real_goods_count neq 0}-->
-          <dl>
-            <dd class="dd1">{$lang.shipping_method} <span class="span1 radius5" style="display: none">必填</span></dd>
-            <dd class="dd2" id="selected1">请选择配送方式</dd>
-            <i></i>
-          </dl>
-         <div class="dl_box" id="shipping" style="display:none">
-          <!-- {foreach from=$shipping_list item=shipping} 循环配送方式 -->
-          <p>
-            <input name="shipping" type="radio" class="radio" id="shipping_{$shipping.shipping_id}" value="{$shipping.shipping_id}" {if $order.shipping_id eq $shipping.shipping_id}checked="true"{/if} supportCod="{$shipping.support_cod}" insure="{$shipping.insure}" onclick="selectShipping(this)" style="vertical-align:middle" />
-            <label for="shipping_{$shipping.shipping_id}"> {$shipping.shipping_name} [{$shipping.format_shipping_fee}]</label>
-          </p>
-          <!-- {/foreach} 循环配送方式 -->
-          <!--
-          <input name="need_insure" id="ECS_NEEDINSURE" type="checkbox"  onclick="selectInsure(this.checked)" value="1" {if $order.need_insure}checked="true"{/if} {if $insure_disabled}disabled="true"{/if}  />
-          {$lang.need_insure}
-          -->
-        </div>
+            <dl>
+              <dd class="dd1">{$lang.shipping_method} <span class="span1 radius5" style="display: none">必填</span></dd>
+              <dd class="dd2" id="selected1">请选择配送方式</dd>
+              <i></i>
+            </dl>
+            <div class="dl_box" id="shipping" style="display:none">
+              <!-- {foreach from=$shipping_list item=shipping} 循环配送方式 -->
+                <p>
+                  <input name="shipping" type="radio" class="radio" id="shipping_{$shipping.shipping_id}" value="{$shipping.shipping_id}" {if $order.shipping_id eq $shipping.shipping_id}checked="true"{/if} supportCod="{$shipping.support_cod}" insure="{$shipping.insure}" onclick="selectShipping(this)" style="vertical-align:middle" />
+                  <label for="shipping_{$shipping.shipping_id}"> {$shipping.shipping_name} [{$shipping.format_shipping_fee}]</label>
+                </p>
+              <!-- {/foreach} 循环配送方式 -->
+              <!--
+              <input name="need_insure" id="ECS_NEEDINSURE" type="checkbox"  onclick="selectInsure(this.checked)" value="1" {if $order.need_insure}checked="true"{/if} {if $insure_disabled}disabled="true"{/if}  />{$lang.need_insure}
+              -->
+            </div>
           <!--{else}-->
-          <input name="shipping"  type="radio" value = "-1" checked="checked"  style="display:none"/>
+            <input name="shipping"  type="radio" value = "-1" checked="checked"  style="display:none"/>
           <!--{/if}-->
-           <!--{if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}-->
-          <dl>
-            <dd class="dd1">{$lang.payment_method} <span class="span1 radius5" style="display: none">必填</span></dd>
-            <dd class="dd2 selectPayment" id="selected2">请选择支付方式</dd>
-            <i></i>
-          </dl>
-          <div class="dl_box" id="payment" style="display:none">
-            <!-- {foreach from=$payment_list item=payment} -->
-              <p>
-             <input type="radio" class="radio" name="payment" id="payment_{$payment.pay_id}" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if} style="vertical-align:middle" /><label for="payment_{$payment.pay_id}">{$payment.pay_name} [{$payment.format_pay_fee}]</label>
-             </p>
-            <!-- {/foreach} -->
-          </div>
+          <!--{if $is_exchange_goods neq 1 || $total.real_goods_count neq 0}-->
+            <dl>
+              <dd class="dd1">{$lang.payment_method} <span class="span1 radius5" style="display: none">必填</span></dd>
+              <dd class="dd2 selectPayment" id="selected2">请选择支付方式</dd>
+              <i></i>
+            </dl>
+            <div class="dl_box" id="payment" style="display:none">
+              <!-- {foreach from=$payment_list item=payment} -->
+                <p>
+               <input type="radio" class="radio" name="payment" id="payment_{$payment.pay_id}" value="{$payment.pay_id}" {if $order.pay_id eq $payment.pay_id}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this)" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if} style="vertical-align:middle" /><label for="payment_{$payment.pay_id}">{$payment.pay_name} [{$payment.format_pay_fee}]</label>
+               </p>
+              <!-- {/foreach} -->
+            </div>
           <!--{else}-->
-          <input name = "payment" type="radio" value = "-1" checked="checked"  style="display:none"/>
-          <!--{/if}--> 
+            <input name = "payment" type="radio" value = "-1" checked="checked"  style="display:none"/>
+          <!--{/if}-->
           <dl class="b_no" style="line-height: 40px; display:none;">
             <dd class="dd1">是否开票</dd>
             <span class="modRadio fr" style="margin-top: 10px;">
@@ -465,51 +480,51 @@
       </section>
       <div class="blank3"> </div>
       <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem; display:none;">
-        <div class="table_box table_box2" style=" margin-bottom:0.5rem"> 
+        <div class="table_box table_box2" style=" margin-bottom:0.5rem">
           <!-- {if $allow_use_bonus} 是否使用红包 -->
-          <dl>
-            <dd class="dd1"> {$lang.use_bonus} </dd>
-            <dd class="dd2" id="selected4"> 未选择 </dd>  
-            <i></i>
-          </dl>
-          <div class="dl_box" id="bonus_box" style="display:none;">
-            <!-- {foreach from=$bonus_list item=bonus} -->
-             <p>
-              <input name="bonus" type="radio" class="radio" value="0" {if $order.bonus_id eq 0}selected{/if} onclick="changeBonus(this.value)" />不使用红包
-             </p>
-              <p>
-              <input name="bonus" type="radio" id="bonus_{$bonus.bonus_id}" class="radio" value="{$bonus.bonus_id}"  onclick="changeBonus(this.value)" /><label for="bonus_{$bonus.bonus_id}">{$bonus.type_name}[{$bonus.bonus_money_formated}]</label>
-             </p>
-              <!-- {/foreach} -->
-          </div>
-          <!-- {/if} 是否使用红包 --> 
+            <dl>
+              <dd class="dd1"> {$lang.use_bonus} </dd>
+              <dd class="dd2" id="selected4"> 未选择 </dd>  
+              <i></i>
+            </dl>
+            <div class="dl_box" id="bonus_box" style="display:none;">
+              <!-- {foreach from=$bonus_list item=bonus} -->
+               <p>
+                <input name="bonus" type="radio" class="radio" value="0" {if $order.bonus_id eq 0}selected{/if} onclick="changeBonus(this.value)" />不使用红包
+               </p>
+                <p>
+                <input name="bonus" type="radio" id="bonus_{$bonus.bonus_id}" class="radio" value="{$bonus.bonus_id}"  onclick="changeBonus(this.value)" /><label for="bonus_{$bonus.bonus_id}">{$bonus.type_name}[{$bonus.bonus_money_formated}]</label>
+               </p>
+                <!-- {/foreach} -->
+            </div>
+          <!-- {/if} 是否使用红包 -->
           <!-- {if $pack_list} 是否有包装 -->
-          <dl class="b_no">
-            <dd class="dd1">{$lang.goods_package}</dd>
-            <dd class="dd2" id="selected5"> 未选择 </dd>  
-             <i></i>
-          </dl>
-          <div class="dl_box" id="package_box" style="display:none;">
-            <p> <input type="radio" class="radio"  name="pack" value="0" {if $order.pack_id eq 0}checked="true"{/if} onclick="selectPack(this)" />{$lang.no_pack}</p>
-            <!-- {foreach from=$pack_list item=pack} 循环包装 -->
-            <p><input type="radio" class="radio" name="pack" id="pack_{$pack.pack_id}" value="{$pack.pack_id}" {if $order.pack_id eq $pack.pack_id}checked="true"{/if} onclick="selectPack(this)" /><label for="pack_{$pack.pack_id}">{$pack.pack_name}[{$pack.format_pack_fee}]</label></p>
-            <!-- {/foreach} 循环包装 -->
-          </div>
+            <dl class="b_no">
+              <dd class="dd1">{$lang.goods_package}</dd>
+              <dd class="dd2" id="selected5"> 未选择 </dd>  
+               <i></i>
+            </dl>
+            <div class="dl_box" id="package_box" style="display:none;">
+              <p> <input type="radio" class="radio"  name="pack" value="0" {if $order.pack_id eq 0}checked="true"{/if} onclick="selectPack(this)" />{$lang.no_pack}</p>
+              <!-- {foreach from=$pack_list item=pack} 循环包装 -->
+              <p><input type="radio" class="radio" name="pack" id="pack_{$pack.pack_id}" value="{$pack.pack_id}" {if $order.pack_id eq $pack.pack_id}checked="true"{/if} onclick="selectPack(this)" /><label for="pack_{$pack.pack_id}">{$pack.pack_name}[{$pack.format_pack_fee}]</label></p>
+              <!-- {/foreach} 循环包装 -->
+            </div>
           <!-- {/if} 是否使用包装 --> 
           <!-- {if $card_list} 是否有贺卡 -->
-          <dl class="b_no">
-            <dd class="dd1">{$lang.goods_card}</dd>
-            <dd class="dd2" id="selected6"> 未选择 </dd>  
-            <i></i>
-          </dl>
-          <div class="dl_box" id="card_box" style="display:none;">
-            <p> <input type="radio" class="radio"  name="card" value="0" {if $order.card_id eq 0}checked="true"{/if} onclick="selectCard(this)" />{$lang.no_card}</p>
-            <!-- {foreach from=$card_list item=card} 循环贺卡 -->
-            <p><input type="radio" class="radio"  name="card"  id="card_{$card.card_id}" value="{$card.card_id}" {if $order.card_id eq $card.card_id}checked="true"{/if} onclick="selectCard(this)"  /><label for="card_{$card.card_id}">{$card.card_name}[{$card.format_card_fee}]</label>
-            </p>
-            <!-- {/foreach} 循环贺卡 -->
-          </div>
-          <!-- {/if} 是否使用贺卡 --> 
+            <dl class="b_no">
+              <dd class="dd1">{$lang.goods_card}</dd>
+              <dd class="dd2" id="selected6"> 未选择 </dd>  
+              <i></i>
+            </dl>
+            <div class="dl_box" id="card_box" style="display:none;">
+              <p> <input type="radio" class="radio"  name="card" value="0" {if $order.card_id eq 0}checked="true"{/if} onclick="selectCard(this)" />{$lang.no_card}</p>
+              <!-- {foreach from=$card_list item=card} 循环贺卡 -->
+              <p><input type="radio" class="radio"  name="card"  id="card_{$card.card_id}" value="{$card.card_id}" {if $order.card_id eq $card.card_id}checked="true"{/if} onclick="selectCard(this)"  /><label for="card_{$card.card_id}">{$card.card_name}[{$card.format_card_fee}]</label>
+              </p>
+              <!-- {/foreach} 循环贺卡 -->
+            </div>
+          <!-- {/if} 是否使用贺卡 -->
          <div class="dl_box">
             <dl>
               <dd>{$lang.use_surplus}</dd>
@@ -574,7 +589,11 @@
           <!-- #BeginLibraryItem "/Library/order_total.lbi" --><!-- #EndLibraryItem --> </div>
       </section>
       <div class="blank3"></div>
-      {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<input type="submit" name="submit" value="提交订单" class="c-btn3" />{else}<input type="button" name="submit" onclick="alert('您的用户级别无法购买商品');" value="提交订单" class="c-btn3" /{/if}
+      {if $total.real_goods_count eq 0}
+        <input type="submit" name="submit" value="提交订单" class="c-btn3" />
+      {else}
+        {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<input type="submit" name="submit" value="提交订单" class="c-btn3" />{else}<input type="button" name="submit" onclick="alert('您的用户级别无法购买商品');" value="提交订单" class="c-btn3" /{/if}
+      {/if}
       <input type="hidden" name="step" value="done" />
     </form>
   </section>

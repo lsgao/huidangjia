@@ -775,14 +775,13 @@ elseif ($_REQUEST['step'] == 'checkout') {
         }
     }
  
-     /*
-     * 检查用户是否已经登录
-     * 如果用户已经登录了则检查是否有默认的收货地址
-     * 如果没有登录则跳转到登录和注册页面
-     */
+     ///*
+     //* 检查用户是否已经登录
+     //* 如果用户已经登录了则检查是否有默认的收货地址
+     //* 如果没有登录则跳转到登录和注册页面
+     //*/
     if (empty($_SESSION['direct_shopping']) && $_SESSION['user_id'] == 0) {
-
-        /* 用户没有登录且没有选定匿名购物，转向到登录页面 */
+        //* 用户没有登录且没有选定匿名购物，转向到登录页面 */
         ecs_header("Location: flow.php?step=login&include_bonded_goods=" . $include_bonded_goods . "\n");
         exit;
     }
@@ -1786,7 +1785,7 @@ elseif ($_REQUEST['step'] == 'done')
         'shipping_status' => SS_UNSHIPPED,
         'pay_status'      => PS_UNPAYED,
         'agency_id'       => get_agency_by_regions(array($consignee['country'], $consignee['province'], $consignee['city'], $consignee['district']))
-        );
+    );
 
     /* 扩展信息 */
     if (isset($_SESSION['flow_type']) && intval($_SESSION['flow_type']) != CART_GENERAL_GOODS)
@@ -1875,23 +1874,34 @@ elseif ($_REQUEST['step'] == 'done')
         $order[$key] = addslashes($value);
     }
 
-   /* 判断是不是实体商品 */
-    foreach ($cart_goods AS $val)
-    {
-        /* 统计实体商品的个数 */
-        if ($val['is_real'])
-        {
-            $is_real_good=1;
+    $goods_count = 0;
+    foreach ($cart_goods AS $val) {// 商品的个数
+        if ($val['is_real']) {// 判断是不是实体商品
+            $is_real_good = 1;
         }
+        if ($val['goods_id'] == 1298) {// 掌柜年卡
+            $is_shopkeeper_card = 1;
+        }
+        $goods_count ++;
     }
-    if(isset($is_real_good))
-    {
+
+    if (isset($is_real_good)) {
         $sql="SELECT shipping_id FROM " . $ecs->table('touch_shipping') . " WHERE shipping_id=".$order['shipping_id'] ." AND enabled =1"; 
-        if(!$db->getOne($sql))
-        {
+        if(!$db->getOne($sql)) {
            show_message($_LANG['flow_no_shipping']);
         }
+    } else {// 全部为虚拟商品
+        if (isset($is_shopkeeper_card)) {// 商品中包含掌柜年卡
+            if ($goods_count > 1) {
+                show_message('掌柜年卡必须单独下单，不能与其他商品一起购买。');
+            } else {
+                if (!isset($_POST['invite_code']) || empty($_POST['invite_code'])) {
+                    show_message('请填写推荐人。');
+                }
+            }
+        }
     }
+
     /* 订单中的总额 */
     $total = order_fee($order, $cart_goods, $consignee);
     $order['bonus']        = $total['bonus'];
@@ -1947,19 +1957,14 @@ elseif ($_REQUEST['step'] == 'done')
     $order['order_amount']  = number_format($total['amount'], 2, '.', '');
 
     /* 如果全部使用余额支付，检查余额是否足够 */
-    if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0)
-    {
-        if($order['surplus'] >0) //余额支付里如果输入了一个金额
-        {
+    if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0) {
+        if($order['surplus'] >0) { //余额支付里如果输入了一个金额
             $order['order_amount'] = $order['order_amount'] + $order['surplus'];
             $order['surplus'] = 0;
         }
-        if ($order['order_amount'] > ($user_info['user_money'] + $user_info['credit_line']))
-        {
+        if ($order['order_amount'] > ($user_info['user_money'] + $user_info['credit_line'])) {
             show_message($_LANG['balance_not_enough']);
-        }
-        else
-        {
+        } else {
             $order['surplus'] = $order['order_amount'];
             $order['order_amount'] = 0;
         }
@@ -2037,12 +2042,12 @@ elseif ($_REQUEST['step'] == 'done')
 
     /* 插入订单商品 */
     $sql = "INSERT INTO " . $ecs->table('order_goods') . "( " .
-                "order_id, goods_id, goods_name, goods_sn, product_id, goods_number, market_price, ".
-                "goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id) ".
-            " SELECT '$new_order_id', goods_id, goods_name, goods_sn, product_id, goods_number, market_price, ".
+        "order_id, goods_id, goods_name, goods_sn, product_id, goods_number, market_price, ".
+        "goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id) ".
+        " SELECT '$new_order_id', goods_id, goods_name, goods_sn, product_id, goods_number, market_price, ".
                 "goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id".
-            " FROM " .$ecs->table('cart') .
-            " WHERE session_id = '".SESS_ID."' AND rec_type = '$flow_type'";
+                " FROM " .$ecs->table('cart') .
+                " WHERE session_id = '".SESS_ID."' AND rec_type = '$flow_type'";
     $db->query($sql);
     
     /* 修改拍卖活动状态 */
@@ -2146,13 +2151,12 @@ elseif ($_REQUEST['step'] == 'done')
                 }
             }
         }
-
     }
 
-    //增加销量统计用于排序 by wang start
+    //增加销量统计用于排序
     $sql = 'update ' .$GLOBALS['ecs']->table('goods') . ' AS a, ' .$GLOBALS['ecs']->table('cart') . ' AS b '.
-    'set a.sales_count = a.sales_count + b.goods_number '.
-    "WHERE a.goods_id = b.goods_id AND b.session_id = '".SESS_ID."' AND b.rec_type = '$flow_type'";
+        'set a.sales_count = a.sales_count + b.goods_number '.
+        "WHERE a.goods_id = b.goods_id AND b.session_id = '".SESS_ID."' AND b.rec_type = '$flow_type'";
     $db->query($sql);
     //增加销量排序用于排序 by wang end
     
@@ -2176,7 +2180,7 @@ elseif ($_REQUEST['step'] == 'done')
     }
     else
     {
-        /* 取得支付信息，生成支付代码 */
+        //* 取得支付信息，生成支付代码 */
         if ($order['order_amount'] > 0) {
             $payment = payment_info($order['pay_id']);
 
@@ -2206,6 +2210,23 @@ elseif ($_REQUEST['step'] == 'done')
         unset($_SESSION['flow_order']);
         unset($_SESSION['direct_shopping']);
     }
+
+    
+    if (!isset($is_real_good) && isset($is_shopkeeper_card) && $goods_count == 1) {// 商品中只有掌柜年卡
+        // 修改订单状态
+        $sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " .
+            " WHERE order_id = '".$new_order_id."' ";
+        $db->query($sql);
+        $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . 
+            " WHERE order_id = '".$new_order_id."' AND goods_id=1298";
+        $goods_number = $db->getOne($sql);
+        // 掌柜年卡分润
+        $_POST['invite_code'] = isset($_POST['invite_code']) ? compile_str($_POST['invite_code']) : '';
+        $invite_code = $_POST['invite_code'];
+        ecs_header("Location:./user.php?act=membership_upgrade&invite_code=" . $_POST['invite_code'] . "&goods_number=" . $goods_number . "&order_sn=" . $order['order_sn'] . "\n");
+        exit;
+    }
+
 }
 elseif($_REQUEST['step'] == 'ok')
 {

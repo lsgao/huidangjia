@@ -3968,55 +3968,101 @@ elseif ($action == 'membership_upgrade') {
     //$back_sn = $_GET['back_sn'];
     // 推荐码
     $invite_code = $_REQUEST['invite_code'];
+    $goods_number = 1;
+    if (isset($_REQUEST['goods_number']) && $_REQUEST['goods_number'] > 1) {
+        $goods_number = $_REQUEST['goods_number'];
+    }
+    $order_sn = '';
+    if (isset($_REQUEST['order_sn']) && !empty($_REQUEST['order_sn'])) {
+        $order_sn = $_REQUEST['order_sn'];
+    }
     if (!empty($invite_code)) {
-      if($invite_code && strlen($invite_code) == 6) {
-        $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
-        //取得邀请码的账号ID
-        $pattern = "/^(0+)(\d+)/i";
-        $replacement = "\$2";
-        $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
-        // 更新用户的推荐人
-        if(strncasecmp($invite_mark, "au", 2) == 0) {
-          $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_admin_id <= 0";
-        } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
-          /* 此推荐人是否存在 */
-          if ($invite_id == 0) {
-            $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
-            sys_msg('推荐码无法找到推荐人', 0, $link);
-            exit;
-          }
-          $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
+        if($invite_code && strlen($invite_code) == 6) {
+            $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
+            //取得邀请码的账号ID
+            $pattern = "/^(0+)(\d+)/i";
+            $replacement = "\$2";
+            $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
+            // 更新用户的推荐人
+            if(strncasecmp($invite_mark, "au", 2) == 0) {
+                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_admin_id <= 0";
+            } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                //* 此推荐人是否存在 */
+                if ($invite_id == 0) {
+                    $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
+                    sys_msg('推荐码无法找到推荐人', 0, $link);
+                    exit;
+                }
+                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
+            }
+            $db->query($invite_sql);
+            // 更新用户级别
+            $user_rank = $_SESSION['user_rank'];
+            if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
+                $update_rank_sql = 'UPDATE ' . $ecs->table('users') . " SET user_rank = 2 WHERE user_id = '" . $user_id . "'";
+                $db->query($update_rank_sql);
+                $_SESSION['user_rank'] = 2;
+            }
+            if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                // 推荐人等级
+                $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
+                // 推荐人分润
+                $level_num = 4;
+                $change_desc = "购买掌柜年卡的分润(用户" . $user_id .", 订单号" . $order_sn . ")";
+                if ($parent_rank == 2) {// 掌柜
+                    $amount = 150 * $goods_number;
+                    card_percentage_ck($invite_id, $amount, $change_desc);
+                    $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
+                    if ($super_shopkeeper_id > 0) {
+                        $amount = 50 * $goods_number;
+                        card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
+                        $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+                        $amount = 50 * $goods_number;
+                        card_percentage_ck($originator_id, $amount, $change_desc);
+                    } else {
+                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                        $amount = 100 * $goods_number;
+                        card_percentage_ck($originator_id, $amount, $change_desc);
+                    }
+                } else if ($parent_rank == 3) {// 大掌柜
+                    $amount = 200 * $goods_number;
+                    card_percentage_ck($invite_id, $amount, $change_desc);
+                    $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                    $amount = 50 * $goods_number;
+                    card_percentage_ck($originator_id, $amount, $change_desc);
+                } else if ($parent_rank == 4) {// 创始人
+                    $amount = 250 * $goods_number;
+                    card_percentage_ck($invite_id, $amount, $change_desc);
+                }
+            }
         }
-        $db->query($invite_sql);
-        // 推荐人等级
-        $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
-        // 增加用户余额
-        $amount = 0;
-        if ($parent_rank == 2) {// 掌柜
-            $amount = 150;
-        } else if ($parent_rank == 3) {// 大掌柜
-            $amount = 200;
-        } else if ($parent_rank == 4) {// 创始人
-            $amount = 250;
-        }
-        if ($amount > 0) {
-            $sql = "INSERT INTO " .$ecs->table('user_account').
-                " VALUES ('', '$user_id', 'system', '$amount', '".gmtime()."', '".gmtime()."', '$admin_note', '$user_note', '$process_type', '$payment', '$is_paid','')";
-            $db->query($sql);
-            $id = $db->insert_id();
-        }
-
-      }
     } else {
     	//提示没有输入推荐码
+    	echo ('没有输入推荐码');
     }
-    //include_once(ROOT_PATH .'include/lib_transaction.php');
-    //ecs_header("Location: user.php?act=order_list");
+    ecs_header("Location: user.php");
     exit;
 }
 
+function find_parent($child_id, $target_rank, $max_level, $current_level = 1) {
+    if ($current_level > $max_level) {
+        return -1;
+    }
+    $parent = $GLOBALS['db']->getRow("SELECT p.user_id AS parent_id, p.user_rank AS parent_rank from ecs_users p , ecs_users u where u.user_id='" . $child_id . "' AND u.parent_id=p.user_id");
+    $parent_id = $parent['parent_id'];
+    $parent_rank = $parent['parent_rank'];
+    if ($parent_rank == $target_rank) {
+        return $parent_id;
+    } else {
+        return find_parent($parent_id, $target_rank, $max_level, $current_level + 1);
+    }
+}
 
-
+function card_percentage_ck($user_id, $amount, $change_desc) {
+    log_account_change($user_id, $amount, 0, 0, 0, $change_desc, ACT_OTHER);
+    //$sql = "INSERT INTO " . $GLOBALS['ecs']->table('account_log') . " (user_id, user_money, change_time, change_desc, change_type)" . " VALUES ('" . $user_id . "', '" . $amount . "', '". gmtime() ."', '" . $change_desc . "', '99')";
+    //$GLOBALS['db']->query($sql);
+}
 
 //生成随机数
 function random($length = 6, $numeric = 0) {
@@ -4033,9 +4079,6 @@ function random($length = 6, $numeric = 0) {
     }
     return $hash;
 }
-
-
-
 //定义，显示某个会员下面的分成订单情况
 function get_affiliate_ck($user_id,$level)
 {

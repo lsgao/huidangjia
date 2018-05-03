@@ -593,7 +593,7 @@ function order_fee($order, $goods, $consignee) {
 
         $total['goods_price']  += $val['goods_price'] * $val['goods_number'];
         //计算商品的
-        /*人人科技新增加入订单商品分成金额*/
+        /*加入订单商品分成金额*/
         if(!empty($val['fencheng'])) {
                 $total['fencheng']  += $val['fencheng'] * $val['goods_number'];
         } else {
