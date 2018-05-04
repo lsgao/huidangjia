@@ -49,7 +49,7 @@
      {if $order.can_remove}
      <br /><a href="javascript:;" onclick="listTable.remove({$order.order_id}, remove_confirm, 'remove_order')">{$lang.remove}</a>
      {/if}
-     {if $order.order_status=5}
+     {if $order.order_status=5 && $order.invoice_no}
      <br/><a href="javascript:;" onclick="jisushuju.query('{$order.invoice_no}','{$order.shipping_name}')">查看物流</a>
      {/if}
     </td>

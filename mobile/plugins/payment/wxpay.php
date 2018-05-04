@@ -30,7 +30,7 @@ if (isset ( $set_modules ) && $set_modules == TRUE) {
  /* 作者 */
  $modules [$i] ['author'] = 'Ruptech';
  /* 网址 */
- $modules [$i] ['website'] = 'http://www.ruptech.cn';
+ $modules [$i] ['website'] = 'http://www.ruptech.com';
  /* 版本号 */
  $modules [$i] ['version'] = '1.0.0';
  /* 配置信息 */

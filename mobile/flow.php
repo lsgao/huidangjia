@@ -2049,7 +2049,7 @@ elseif ($_REQUEST['step'] == 'done')
                 " FROM " .$ecs->table('cart') .
                 " WHERE session_id = '".SESS_ID."' AND rec_type = '$flow_type'";
     $db->query($sql);
-    
+
     /* 修改拍卖活动状态 */
     if ($order['extension_code']=='auction')
     {
@@ -2211,12 +2211,16 @@ elseif ($_REQUEST['step'] == 'done')
         unset($_SESSION['direct_shopping']);
     }
 
-    
+    // 记录订单流水日志
+    order_action($order['order_sn'], OS_CONFIRMED, SS_UNSHIPPED, $order['pay_status'], '', $GLOBALS['_LANG']['buyer']);
+
     if (!isset($is_real_good) && isset($is_shopkeeper_card) && $goods_count == 1) {// 商品中只有掌柜年卡
         // 修改订单状态
-        $sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " .
-            " WHERE order_id = '".$new_order_id."' ";
-        $db->query($sql);
+        //$sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " . " WHERE order_id = '".$new_order_id."' ";
+        //$db->query($sql);
+        update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED));
+        // 记录订单流水日志
+        order_action($order['order_sn'], OS_SPLITED, SS_SHIPPED, $order['pay_status'], '', 'system');
         $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . 
             " WHERE order_id = '".$new_order_id."' AND goods_id=1298";
         $goods_number = $db->getOne($sql);

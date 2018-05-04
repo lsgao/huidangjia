@@ -3996,6 +3996,8 @@ elseif ($action == 'membership_upgrade') {
                 $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
             }
             $db->query($invite_sql);
+            // 记录订单流水日志
+            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
             // 更新用户级别
             $user_rank = $_SESSION['user_rank'];
             if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {

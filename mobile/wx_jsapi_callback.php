@@ -10,13 +10,12 @@ $payment = new wx_new_jspay();
 $payment->respond();
 exit;
 
-    function write_log1($file,$txt)
-    {
-       $fp =  fopen($file,'ab+');
-       fwrite($fp,'-----------'.date('Y-m-d H:i:s').'-----------------');
-       fwrite($fp,$txt);
-       fwrite($fp,"\r\n");
-       fclose($fp);
-    }
+function write_log1($file,$txt) {
+   $fp =  fopen($file,'ab+');
+   fwrite($fp,'-----------'.date('Y-m-d H:i:s').'-----------------');
+   fwrite($fp,$txt);
+   fwrite($fp,"\r\n");
+   fclose($fp);
+}
 
 ?>
