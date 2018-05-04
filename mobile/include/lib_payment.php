@@ -144,7 +144,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
 
             /* 根据记录类型做相应处理 */
             if ($pay_log['order_type'] == PAY_ORDER) {
-                /* 取得订单信息 */
+                //* 取得订单信息 */
                 $sql = 'SELECT order_id, user_id, order_sn, consignee, address, tel, mobile, shipping_id, extension_code, extension_id, goods_amount ' .
                     'FROM ' . $GLOBALS['ecs']->table('order_info') .
                     " WHERE order_id = '$pay_log[order_id]'";
@@ -185,19 +185,87 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                     if (!virtual_goods_ship($virtual_goods, $msg, $order_sn, true)) {
                         $GLOBALS['_LANG']['pay_success'] .= '<div style="color:red;">'.$msg.'</div>'.$GLOBALS['_LANG']['virtual_goods_ship_fail'];
                     }
-
                     /* 如果订单没有配送方式，自动完成发货操作 */
                     if ($order['shipping_id'] == -1) {
                         /* 将订单标识为已发货状态，并记录发货记录 */
                         $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
-                            " SET shipping_status = '" . SS_SHIPPED . "', shipping_time = '" . gmtime() . "'" .
+                            " SET " . "shipping_status = '" . SS_SHIPPED . "', shipping_time = '" . gmtime() . "'" .", order_status = '" . OS_SPLITED . "'" .
                             " WHERE order_id = '$order_id'";
                         $GLOBALS['db']->query($sql);
-
                          /* 记录订单操作记录 */
-                        order_action($order_sn, OS_CONFIRMED, SS_SHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
+                        order_action($order_sn, OS_SPLITED, SS_SHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
+                        include_once(dirname(__FILE__).'/lib_order.php');
                         $integral = integral_to_give($order);
                         log_account_change($order['user_id'], 0, 0, intval($integral['rank_points']), intval($integral['custom_points']), sprintf($GLOBALS['_LANG']['order_gift_integral'], $order['order_sn']));
+                    }
+                }
+                // 判断是否是掌柜年卡
+                $sql = "SELECT COUNT(goods_id) FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id=" . $order_id;
+                $goods_count = $GLOBALS['db']->getOne($sql);
+                $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=1298";
+                $goods_number = $GLOBALS['db']->getOne($sql);
+                if ($goods_count == 1 && $goods_number > 0) {
+                    // 掌柜年卡分润
+                    $invite_code = $order['consignee'];
+                    if (!empty($invite_code)) {
+                        if($invite_code && strlen($invite_code) == 6) {
+                            $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
+                            //取得邀请码的账号ID
+                            $pattern = "/^(0+)(\d+)/i";
+                            $replacement = "\$2";
+                            $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
+                            // 更新用户的推荐人
+                            if(strncasecmp($invite_mark, "au", 2) == 0) {
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_admin_id <= 0";
+                            } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                                //* 此推荐人是否存在 */
+                                if ($invite_id == 0) {
+                                    exit;
+                                }
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                            }
+                            $GLOBALS['db']->query($invite_sql);
+                            // 记录订单流水日志
+                            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
+                            // 更新用户级别
+                            $user_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
+                            if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
+                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
+                                $GLOBALS['db']->query($update_rank_sql);
+                            }
+                            if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                                // 推荐人等级
+                                $parent_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$invite_id'");
+                                // 推荐人分润
+                                $level_num = 4;
+                                $change_desc = "购买掌柜年卡的分润(用户" . $order['user_id'] .", 订单号" . $order_sn . ")";
+                                if ($parent_rank == 2) {// 掌柜
+                                    $amount = 150 * $goods_number;
+                                    card_percentage_ck($invite_id, $amount, $change_desc);
+                                    $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
+                                    if ($super_shopkeeper_id > 0) {
+                                        $amount = 50 * $goods_number;
+                                        card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
+                                        $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+                                        $amount = 50 * $goods_number;
+                                        card_percentage_ck($originator_id, $amount, $change_desc);
+                                    } else {
+                                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                                        $amount = 100 * $goods_number;
+                                        card_percentage_ck($originator_id, $amount, $change_desc);
+                                    }
+                                } else if ($parent_rank == 3) {// 大掌柜
+                                    $amount = 200 * $goods_number;
+                                    card_percentage_ck($invite_id, $amount, $change_desc);
+                                    $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                                    $amount = 50 * $goods_number;
+                                    card_percentage_ck($originator_id, $amount, $change_desc);
+                                } else if ($parent_rank == 4) {// 创始人
+                                    $amount = 250 * $goods_number;
+                                    card_percentage_ck($invite_id, $amount, $change_desc);
+                                }
+                            }
+                        }
                     }
                 }
             } elseif ($pay_log['order_type'] == PAY_SURPLUS) {
@@ -262,4 +330,29 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
     }
 }
 
+function find_parent($child_id, $target_rank, $max_level, $current_level = 1) {
+    if ($current_level > $max_level) {
+        return -1;
+    }
+    $parent = $GLOBALS['db']->getRow("SELECT p.user_id AS parent_id, p.user_rank AS parent_rank from ecs_users p , ecs_users u where u.user_id='" . $child_id . "' AND u.parent_id=p.user_id");
+    $parent_id = $parent['parent_id'];
+    $parent_rank = $parent['parent_rank'];
+    if ($parent_rank == $target_rank) {
+        return $parent_id;
+    } else {
+        return find_parent($parent_id, $target_rank, $max_level, $current_level + 1);
+    }
+}
+
+function card_percentage_ck($user_id, $amount, $change_desc) {
+    log_account_change($user_id, $amount, 0, 0, 0, $change_desc, ACT_OTHER);
+}
+
+function write_log_in_lib_payment($txt) {
+   $fp =  fopen('/work/project/huidangjia/data/wx_log_payment.txt','ab+');
+   fwrite($fp,'write_log_in_lib_payment-----------'.date('Y-m-d H:i:s').'-----------------');
+   fwrite($fp,$txt);
+   fwrite($fp,"\r\n");
+   fclose($fp);
+}
 ?>

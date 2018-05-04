@@ -1897,6 +1897,17 @@ elseif ($_REQUEST['step'] == 'done')
             } else {
                 if (!isset($_POST['invite_code']) || empty($_POST['invite_code'])) {
                     show_message('请填写推荐人。');
+                } else {
+                	$order['consignee'] = $_POST['invite_code'];
+                	$order['country'] = 0;
+                	$order['province'] = 0;
+                	$order['city'] = 0;
+                	$order['district'] = 0;
+                	$order['address'] = '';
+                	$order['tel'] = '';
+                	$order['mobile'] = '';
+                	$order['email'] = '';
+                	$order['identity_card'] = '';
                 }
             }
         }
