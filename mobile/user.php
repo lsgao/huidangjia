@@ -3831,7 +3831,7 @@ elseif ($action == 'return_goods') {
     if ($back_sn) {
         echo("<script>alert('该订单已经提交过申请，请勿重复提交!');history.go(-1);</script>");
     } else {
-        /* 订单商品 */
+        //* 订单商品 */
         $goods_list = order_goods($id);
         foreach ($goods_list AS $key => $value) {
         	$goods_list[$key]['market_price'] = price_format($value['market_price'], false);
@@ -3963,6 +3963,9 @@ elseif ($action == 'cancel_back') {
     $db->query($sql);
     ecs_header("Location: user.php?act=order_list");
     exit;
+}
+elseif ($action == 'membership') {
+    $smarty->display('user_transaction.dwt');
 }
 elseif ($action == 'membership_upgrade') {
     //$back_sn = $_GET['back_sn'];

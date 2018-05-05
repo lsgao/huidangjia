@@ -1885,6 +1885,16 @@
      <!--{/if}-->   
     <!--#退货信息详情 end-->
 
+    <!--#会员升级宣传画面 start--> 
+      <!--{if $action eq membership} -->
+      <header id="header">
+        <div class="header_l header_return"> <a class="ico_10" href="javascript:history.go(-1)"> 返回 </a> </div>
+        <h1> {$lang.order_status} </h1>
+      </header>
+      <section class="wrap">
+      </section>
+      <!--{/if} --> 
+    <!--#会员升级宣传画面 end--> 
     <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
   </div>
 </div>
