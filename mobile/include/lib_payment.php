@@ -241,28 +241,28 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                 $change_desc = "购买掌柜年卡的分润(用户" . $order['user_id'] .", 订单号" . $order_sn . ")";
                                 if ($parent_rank == 2) {// 掌柜
                                     $amount = 150 * $goods_number;
-                                    card_percentage_ck($invite_id, $amount, $change_desc);
-                                    $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
+                                    card_percentage($invite_id, $amount, $change_desc);
+                                    $super_shopkeeper_id = get_parent($invite_id, 3, $level_num, 1);
                                     if ($super_shopkeeper_id > 0) {
                                         $amount = 30 * $goods_number;
-                                        card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
-                                        $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+                                        card_percentage($super_shopkeeper_id, $amount, $change_desc);
+                                        $originator_id = get_parent($super_shopkeeper_id, 4, $level_num, 1);
                                         $amount = 20 * $goods_number;
-                                        card_percentage_ck($originator_id, $amount, $change_desc);
+                                        card_percentage($originator_id, $amount, $change_desc);
                                     } else {
-                                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                                        $originator_id = get_parent($invite_id, 4, $level_num, 1);
                                         $amount = 50 * $goods_number;
-                                        card_percentage_ck($originator_id, $amount, $change_desc);
+                                        card_percentage($originator_id, $amount, $change_desc);
                                     }
                                 } else if ($parent_rank == 3) {// 大掌柜
                                     $amount = 230 * $goods_number;
-                                    card_percentage_ck($invite_id, $amount, $change_desc);
-                                    $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                                    card_percentage($invite_id, $amount, $change_desc);
+                                    $originator_id = get_parent($invite_id, 4, $level_num, 1);
                                     $amount = 20 * $goods_number;
-                                    card_percentage_ck($originator_id, $amount, $change_desc);
+                                    card_percentage($originator_id, $amount, $change_desc);
                                 } else if ($parent_rank == 4) {// 创始人
                                     $amount = 250 * $goods_number;
-                                    card_percentage_ck($invite_id, $amount, $change_desc);
+                                    card_percentage($invite_id, $amount, $change_desc);
                                 }
                             }
                         }
@@ -330,7 +330,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
     }
 }
 
-function find_parent($child_id, $target_rank, $max_level, $current_level = 1) {
+function get_parent($child_id, $target_rank, $max_level, $current_level = 1) {
     if ($current_level > $max_level) {
         return -1;
     }
@@ -340,11 +340,11 @@ function find_parent($child_id, $target_rank, $max_level, $current_level = 1) {
     if ($parent_rank == $target_rank) {
         return $parent_id;
     } else {
-        return find_parent($parent_id, $target_rank, $max_level, $current_level + 1);
+        return get_parent($parent_id, $target_rank, $max_level, $current_level + 1);
     }
 }
 
-function card_percentage_ck($user_id, $amount, $change_desc) {
+function card_percentage($user_id, $amount, $change_desc) {
     log_account_change($user_id, $amount, 0, 0, 0, $change_desc, ACT_OTHER);
 }
 

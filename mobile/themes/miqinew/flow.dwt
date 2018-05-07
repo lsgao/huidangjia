@@ -479,7 +479,7 @@
         </div>
       </section>
       <div class="blank3"> </div>
-      <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem; display:none;">
+      <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
         <div class="table_box table_box2" style=" margin-bottom:0.5rem">
           <!-- {if $allow_use_bonus} 是否使用红包 -->
             <dl>
