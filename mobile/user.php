@@ -4019,21 +4019,21 @@ elseif ($action == 'membership_upgrade') {
                     card_percentage_ck($invite_id, $amount, $change_desc);
                     $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
                     if ($super_shopkeeper_id > 0) {
-                        $amount = 50 * $goods_number;
+                        $amount = 30 * $goods_number;
                         card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
                         $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
-                        $amount = 50 * $goods_number;
+                        $amount = 20 * $goods_number;
                         card_percentage_ck($originator_id, $amount, $change_desc);
                     } else {
                         $originator_id = find_parent($invite_id, 4, $level_num, 1);
-                        $amount = 100 * $goods_number;
+                        $amount = 50 * $goods_number;
                         card_percentage_ck($originator_id, $amount, $change_desc);
                     }
                 } else if ($parent_rank == 3) {// 大掌柜
-                    $amount = 200 * $goods_number;
+                    $amount = 230 * $goods_number;
                     card_percentage_ck($invite_id, $amount, $change_desc);
                     $originator_id = find_parent($invite_id, 4, $level_num, 1);
-                    $amount = 50 * $goods_number;
+                    $amount = 20 * $goods_number;
                     card_percentage_ck($originator_id, $amount, $change_desc);
                 } else if ($parent_rank == 4) {// 创始人
                     $amount = 250 * $goods_number;
