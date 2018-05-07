@@ -45,54 +45,74 @@
 						</div>
 				</div>
 				<div class="index_head_cla">
-					<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
-     <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> 
-       {$nav.name}</a>
-  
-      <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
-      
-      <!-- {/if} -->
-      <!-- {/foreach} -->
+					 <!--{foreach from=$categories item=cat}-->
+				   <a href="{$cat.url}"> {$cat.name|escape:html} </a>
+				      
+				    
+				    <!--{/foreach}-->
+					
 					
 				</div>
 			</div>
 			<div class="banner" style="margin: 0;">
-				<div class="swiper-container">
+				<div class="swiper-container" id="index_banner">
 				  <div class="swiper-wrapper">
 				    <!-- TemplateBeginEditable name="首页Banner" --><!-- #BeginLibraryItem "/library/ad_position.lbi" --> <!-- #EndLibraryItem --><!-- TemplateEndEditable -->
 				   </div>
+					<div class="swiper-pagination" id="monitor">
+					</div>
 				</div>
 				<script> 
-				var mySwiper = new Swiper('.swiper-container', {
+				var mySwiper = new Swiper('#index_banner', {
 					autoplay: 6000,//可选选项，自动滑动
 					loop:true,
 					autoplayDisableOnInteraction : false,
-					pagination : '.swiper-pagination',
+					pagination : '#monitor',
 				})
 				</script>
 			</div>
-                                <div class="m_nav" style="display:none">
-                                    <ul>
-                                        <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
-                                          <li style="width: 20%;"> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
-                                            <span> {$nav.name} </span>
-                                          </li>
-                                          <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
-                                          
-                                          <!-- {/if} -->
-                                          <!-- {/foreach} -->
+            <div class="m_nav">
+                <ul>
+                    <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+                    <li style="width: 20%;"> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
+                        <span> {$nav.name} </span>
+                    </li>
+	                <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
+	                                          
+	                <!-- {/if} -->
+                	<!-- {/foreach} -->
                                         
-                                        <div class="clear"></div>
-                                    </ul>
-                                </div>
-			<div class="index_ad">
-				<ul>
-					{insert name='ads' id=4 num=99}
-				</ul>
-			</div>
+                	<div class="clear"></div>
+                </ul>
+            </div>
+            <div class="index_text_wrap">
+				<div class="index_text_tit">惠当家</div>
+				<div class="swiper-container" id="index_text">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							文章标题五一假期注意保管好随身物品
+						</div>
+						<div class="swiper-slide">
+							文章标题五一假期注意保管好随身物品
+						</div>
+						<div class="swiper-slide">
+							文章标题五一假期注意保管好随身物品
+						</div>
+					</div>
+				</div>
+				<script>
+					var mySwiper = new Swiper('#index_text',{
+					observer:true,
+					autoplay:1000,
+					autoplayDisableOnInteraction : false,
+					loop:true,
+					direction : 'vertical',
+					})
+				</script>
+			</div>	
 			<div class="index_rec">
 				
-				<div class="index_rec_wrap">
+				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
 						{insert name='ads' id=5 num=8}
 						{insert name='ads' id=6 num=2}
@@ -100,6 +120,11 @@
 						<div class="clear"></div>
 					</div>
 				</div>
+			</div>
+			<div class="index_ad">
+				<ul>
+					{insert name='ads' id=4 num=99}
+				</ul>
 			</div>
 			
 			<!--热卖-->

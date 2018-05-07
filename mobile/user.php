@@ -22,7 +22,7 @@ array('login','act_login','register','act_register','act_edit_password','get_pas
 $ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'package_tracking', 'address_list', 'act_edit_address', 'collection_list',
 'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
 'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer',
-'point','user_card',
+'point','user_card','membership',
 'fenxiao1','myorder','myorder_detail','fenxiao2','fenxiao3','fenxiao4',
 'order_search', 'exchange_goods', 'sub_back', 'back_detail', 'back_submit', 'return_goods', 'order_back_list', 'order_back_list_search','cancel_back');
 /* 未登录处理 */

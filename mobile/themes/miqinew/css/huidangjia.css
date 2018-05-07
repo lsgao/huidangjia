@@ -18,12 +18,14 @@
 
 
 .banner img,.index_ad img,.index_rec img {width: 100%;height: auto;}
-.index_ad {margin-top: 10px;}
-.index_rec_wrap,.index_bur {background: url(../huidangjia/7.png) repeat-y;background-size: cover;padding: 20px 0;}
-.index_rec_box {width: 92%;margin: 0 auto;background: #eee;padding: 10px;box-sizing: border-box;}
-.index_rec_sitem {float: left;width: 25%}
+
+.index_ad ul li {margin-bottom:10px}
+.index_rec_wrap,.index_bur {background: url(../img/index_bg.jpg) repeat-y;background-size: cover;}
+.index_rec_box {width: 98%;margin: 0 auto;padding: 10px;box-sizing: border-box;}
+.index_rec_sitem {float: left;width: 23%;margin: 1% 1% 1% 1%}
 .index_rec_bitem {float: left;width: 50%;}
 
+.index_bur {padding:20px 0}
 .index_bur_t {text-align: center;font: 24px/40px simhei;font-weight: 700;}
 .index_bur_t a {color: #fff;}
 .index_bur_item {margin:20px auto;width: 96%;}
@@ -33,8 +35,13 @@
 .index_bur_info {width: 100%;}
 .index_bur_name {font: 14px/20px "微软雅黑";color: #333;margin-bottom: 4px; overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
 .index_bur_pri {line-height:30px;color: #ff9600;font-size: 16px;}
-.index_bur_pri span {font-size: 20px;color: #333;font-weight: 700;}
+.index_bur_pri span {font-size: 18px;color: #333;font-weight: 700;}
 .index_bur_pri s {font-size: 12px;color: #666;}
 .index_bur_pri span,.index_bur_pri s {padding: 0 10px;}
 .index_bur_but {border-top: 1px solid #ccc;padding: 10px 0;}
-.index_bur_but span {border: 1px solid #333;font: 14px/20px "微软雅黑";color: #333;padding: 0 40px 0 10px;background: url(../huidangjia/index_bur_icon.png)  no-repeat;background-position: 90px 0;}
+.index_bur_but span {border: 1px solid #333;font: 14px/20px "微软雅黑";color: #333;padding: 0 40px 0 10px;background: url(../huidangjia/index_bur_icon.png)  no-repeat;background-position: 90px -2px;}
+
+
+.index_text_wrap {padding-left: 100px;position: relative;font: 14px/20px "微软雅黑";margin-top: 10px;}
+#index_text,#index_text .swiper-slide{width: 96%;color: #333;height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.index_text_tit {position: absolute;top:0;left: 10px;background: url(../img/index_text.png) center no-repeat;width: 80px;text-align: center;color: #ff9600;height: 20px;}

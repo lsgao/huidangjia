@@ -1885,15 +1885,138 @@
      <!--{/if}-->   
     <!--#退货信息详情 end-->
 
-    <!--#会员升级宣传画面 start--> 
+    <!--#会员升级宣传画面 start-->
       <!--{if $action eq membership} -->
       <header id="header">
         <div class="header_l header_return"> <a class="ico_10" href="javascript:history.go(-1)"> 返回 </a> </div>
-        <h1> {$lang.order_status} </h1>
+        <h1> 升级掌柜 </h1>
       </header>
       <section class="wrap">
+      	<div class="vip_card_wrap">
+      		<div class="vip_card">
+      			<img src="{$ectouch_themes}/img/vip.jpg" onclick="showvipcla()"/>
+      		</div>
+      	</div>
+      	<div class="vip_card_con">
+      		<div class="vip_card_tit">
+      			惠当家掌柜尊享权益
+      		</div>
+      		<div class="vip_card_info">
+      			<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon1.png"/>
+	      			<p>双重奖励提现</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon2.png"/>
+	      			<p>定制沙龙体验</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon3.png"/>
+	      			<p>自购轻松省钱</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon4.png"/>
+	      			<p>商品分享收益</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon5.png"/>
+	      			<p>专属金牌客服</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon6.png"/>
+	      			<p>好友邀请奖励</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon7.png"/>
+	      			<p>新人积分优惠券礼包</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon8.png"/>
+	      			<p>尊享低价正品</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon9.png"/>
+	      			<p>专属购物节日</p>
+	      		</div>
+	      		<div class="vip_card_item">
+	      			<img src="{$ectouch_themes}/img/vip_icon10.png"/>
+	      			<p>定期领优惠券</p>
+	      		</div>
+	      		<div class="clear"></div>
+      		</div>
+      	</div>
+      	<div class="vip_dis_sub vip_dis_con">
+	      		<a href="goods.php?id=1298">365元立即开通</a>
+	      	</div>
       </section>
-      <!--{/if} --> 
+      <div class="vip_dis_wrap" id="vip_dis_wrap">
+      	<div class="vip_dis_box">
+      		<div class="vip_dis_tit">
+	      		<p>省钱计算器</p>
+	      		<div class="vip_dis_clo" onclick="closevipcla()"></div>
+	      	</div>
+	      	<div class="vip_dis_con">
+	      		<div class="vip_dis_exp">
+		      		<p>根据惠当家数据计算成为惠当家自用掌柜后预计可省7450元。根据惠当家用户数据计算，家庭日常消耗品最低开销≈10500/年，成为掌柜后可节省≈7450元</p>
+		      	</div>
+	      	</div>
+	      	<div class="vip_dis_deta">
+	      		<p>开销明细</p>
+	      	</div>
+	      	<div class="vip_dis_con vip_deta_con">
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				积分优惠券折扣<span>￥500</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      			<p class="vip_dis_gra">升级为掌柜的指定积分、定期优惠券，力度更大更省钱</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				专享优惠<span>￥450</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      			<p class="vip_dis_gra">尊享购物街、低价秒杀等优惠</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				自购省钱<span>￥2000</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      			<p class="vip_dis_gra">尊享低价精选商品，多买多省</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				奖励收益<span>￥4500</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      			<p class="vip_dis_gra">分享和推广高额奖励收益</p>
+	      		</div>
+	      	</div>
+	      	<div class="vip_dis_tal vip_dis_con">
+	      		<p>
+	      			成为掌柜平均可省<span>≈7450元</span>
+	      			<div class="clear"></div>
+	      		</p>
+	      	</div>
+	      	<div class="vip_dis_sub vip_dis_con">
+	      		<a href="goods.php?id=1298">立即开通</a>
+	      	</div>
+      	</div>
+      </div>
+      <div id="vip_mask"></div>
+      <script type="text/javascript">
+        /*点击关闭或者弹出省钱计算器*/  
+        function showvipcla( ){
+        	document.getElementById("vip_dis_wrap").style.display="block";
+        	document.getElementById("vip_mask").style.display="block";
+        }
+        function closevipcla( ){
+        	document.getElementById("vip_dis_wrap").style.display="none";
+        	document.getElementById("vip_mask").style.display="none";
+        }
+      </script>
+      <!--{/if} -->
     <!--#会员升级宣传画面 end--> 
     <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
   </div>

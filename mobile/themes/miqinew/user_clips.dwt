@@ -67,6 +67,9 @@
   <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
     <a href="user_commission.php" class="clearfix"> <span>分销中心</span><i></i> </a>
   </div>
+  <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
+    <a href="user.php?act=membership" class="clearfix"> <span>升级掌柜</span><i></i> </a>
+  </div>
   <div class="blank3"></div>
   <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
     <a href="user.php?act=message_list" class="clearfix"> <span>{$lang.label_message}</span><i></i> </a>
