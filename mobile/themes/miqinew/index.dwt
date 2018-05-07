@@ -89,15 +89,9 @@
 				<div class="index_text_tit">惠当家</div>
 				<div class="swiper-container" id="index_text">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							文章标题五一假期注意保管好随身物品
-						</div>
-						<div class="swiper-slide">
-							文章标题五一假期注意保管好随身物品
-						</div>
-						<div class="swiper-slide">
-							文章标题五一假期注意保管好随身物品
-						</div>
+						<!--{foreach from=$hot_articles item=article name=hot_articles}-->
+						<div class="swiper-slide"><a href="{$article.url}">{$article.title}</a></div>
+						<!--{/foreach}-->
 					</div>
 				</div>
 				<script>
@@ -109,9 +103,8 @@
 					direction : 'vertical',
 					})
 				</script>
-			</div>	
+			</div>
 			<div class="index_rec">
-				
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
 						{insert name='ads' id=5 num=8}
@@ -132,10 +125,7 @@
 				<div class="index_bur_t">
 					<a  href="search.php?intro=hot">爆款尖货</a>
 				</div>
-				
 				 <!--{foreach from=$hot_goods item=goods name=hot_goods}-->
-                
-				
 				<div class="index_bur_item">
 					<a href="{$goods.url}">
 					<div class="index_bur_box">
@@ -253,7 +243,6 @@
 							</div>
 							 <!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}--><!--{/if}-->
                 <!--{/foreach}-->
-						
 					</div>
 				</div>
 				<script>
@@ -266,25 +255,22 @@
 			</div>
 			<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --></div>
 		</section>
-		
 		<script type="text/javascript">
-/*头部搜索点击关闭或者弹出搜索框*/  
-function showSearch( ){
-	document.getElementById("index_search_box").style.display="block";
-}
-function closeSearch(){
-	document.getElementById("index_search_box").style.display="none";
-}
-/* 搜索验证 */
-function check(Id){
-	var strings = document.getElementById(Id).value;
-	if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
-		return false;
-	}
-	return true;
-}
-</script>
-		
-		
+			/*头部搜索点击关闭或者弹出搜索框*/  
+			function showSearch( ){
+				document.getElementById("index_search_box").style.display="block";
+			}
+			function closeSearch(){
+				document.getElementById("index_search_box").style.display="none";
+			}
+			/* 搜索验证 */
+			function check(Id){
+				var strings = document.getElementById(Id).value;
+				if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
+					return false;
+				}
+				return true;
+			}
+		</script>
 	</body>
 </html>

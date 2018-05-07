@@ -53,6 +53,7 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
     $smarty->assign('feed_url',        ($_CFG['rewrite'] == 1) ? 'feed.xml' : 'feed.php'); // RSS URL
 
     $smarty->assign('categories',      get_categories_tree()); // 分类树
+    $smarty->assign('hot_articles',      get_cat_articles(29,1,100));
     $smarty->assign('helps',           get_shop_help());       // 网店帮助
     $smarty->assign('top_goods',       get_top10());           // 销售排行
 
@@ -100,43 +101,41 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
     assign_dynamic('index');
 }
 
-		$userid=$_SESSION['user_id'];
-		if(!empty($userid)){	
-			$url="http://".$_SERVER['HTTP_HOST']."/mobile/index.php?u=".$userid;
-			//分享返积分
-			$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
-		}else{
-			$url="";
-			//分享返积分
-			$dourl="";
-		}
-		require_once "wxjs/jssdk.php";
-		$ret = $db->getRow("SELECT  *  FROM `wxch_config`");
-		$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
-		$signPackage = $jssdk->GetSignPackage();
-		$smarty->assign('signPackage',  $signPackage);
-		$smarty->assign('userid',  $userid);
-		$smarty->assign('share_info',  $share_info);
-		$smarty->assign('dourl',  $dourl);		
-		$smarty->assign('url',  $url);
-		/*人人科技修改*/
-	/*人人科技开发显示店铺名称*/
-	$u=$_GET['u'];
-	if(!empty($u)){
-		$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$u.'';
-		$name = $db->getOne($sql);
-		
-		}
+$userid=$_SESSION['user_id'];
+if(!empty($userid)){	
+	$url="http://".$_SERVER['HTTP_HOST']."/mobile/index.php?u=".$userid;
+	//分享返积分
+	$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
+}else{
+	$url="";
+	//分享返积分
+	$dourl="";
+}
+require_once "wxjs/jssdk.php";
+$ret = $db->getRow("SELECT  *  FROM `wxch_config`");
+$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+$smarty->assign('signPackage',  $signPackage);
+$smarty->assign('userid',  $userid);
+$smarty->assign('share_info',  $share_info);
+$smarty->assign('dourl',  $dourl);		
+$smarty->assign('url',  $url);
 
-	if(!empty($user_id)){
-		$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$user_id.'';
-		$name = $db->getOne($sql);
-		}	
-		/*甜   心100  修复开发*/
-		
-		$tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
-		$smarty->assign('tianxin_url',  $tianxin_url); 		
-		
+/*显示店铺名称*/
+$u=$_GET['u'];
+if(!empty($u)){
+	$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$u.'';
+	$name = $db->getOne($sql);
+}
+
+if(!empty($user_id)){
+	$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$user_id.'';
+	$name = $db->getOne($sql);
+}
+
+$tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
+$smarty->assign('tianxin_url',  $tianxin_url); 		
+
 $smarty->assign('name', $name);
 $smarty->display('index.dwt', $cache_id);
 
