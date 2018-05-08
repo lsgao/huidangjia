@@ -16,7 +16,7 @@ $back_act='';
 $not_login_arr =
     array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','send_pwd_sms','password', 'signin', 'add_tag', 
     'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 
-    'get_passwd_question', 'check_answer', 'oath', 'oath_login');
+    'get_passwd_question', 'check_answer', 'oath', 'oath_login','membership');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'package_tracking', 'address_list', 'act_edit_address', 'collection_list',

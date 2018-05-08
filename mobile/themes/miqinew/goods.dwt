@@ -488,11 +488,11 @@ function changePriceResponse(res)
         link: '{$url}',
         imgUrl: '{$site_url}{$goods.original_img}',
         trigger: function (res) {
-          {if $url}
-            alert('恭喜！分享可以获取提成哦！');
-          {else}
-            alert('糟糕，需要分销商登录才能获得提成哦！');
-          {/if}
+          //{if $url}
+            //alert('恭喜！分享可以获取提成哦！');
+          //{else}
+            //alert('糟糕，需要分销商登录才能获得提成哦！');
+          //{/if}
         },
         success: function (res) {
           {if $dourl }
@@ -512,11 +512,11 @@ function changePriceResponse(res)
         link: '{$url}',
         imgUrl: '{$site_url}{$goods.original_img}',
         trigger: function (res) {
-          {if $url}
-            alert('恭喜！分享可以获取提成哦！');
-          {else}
-            alert('糟糕，需要分销商登录才能获得提成哦！');
-          {/if}
+          //{if $url}
+            //alert('恭喜！分享可以获取提成哦！');
+          //{else}
+            //alert('糟糕，需要分销商登录才能获得提成哦！');
+          //{/if}
         },
         success: function (res) {
           {if $dourl }
