@@ -187,13 +187,13 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                     }
                     /* 如果订单没有配送方式，自动完成发货操作 */
                     if ($order['shipping_id'] == -1) {
-                        /* 将订单标识为已发货状态，并记录发货记录 */
+                        //* 将订单标识为已发货状态，并记录发货记录 */
                         $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
                             " SET " . "shipping_status = '" . SS_SHIPPED . "', shipping_time = '" . gmtime() . "'" .", order_status = '" . OS_SPLITED . "'" .
                             " WHERE order_id = '$order_id'";
                         $GLOBALS['db']->query($sql);
                          /* 记录订单操作记录 */
-                        order_action($order_sn, OS_SPLITED, SS_SHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
+                        order_action($order_sn, OS_SPLITED, SS_SHIPPED, $pay_status, $note, 'system');
                         include_once(dirname(__FILE__).'/lib_order.php');
                         $integral = integral_to_give($order);
                         log_account_change($order['user_id'], 0, 0, intval($integral['rank_points']), intval($integral['custom_points']), sprintf($GLOBALS['_LANG']['order_gift_integral'], $order['order_sn']));
@@ -225,14 +225,19 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                 $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
                             }
                             $GLOBALS['db']->query($invite_sql);
-                            // 记录订单流水日志
-                            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
                             // 更新用户级别
                             $user_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
                             if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
                                 $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
                                 $GLOBALS['db']->query($update_rank_sql);
                             }
+                            // 更新订单状态为确认收货
+                            $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                                " SET " . "shipping_status = '" . SS_RECEIVED . "' " .
+                                " WHERE order_id = '$order_id'";
+                            $GLOBALS['db']->query($sql);
+                            // 记录订单流水日志
+                            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
                             if (strncasecmp($invite_mark, "uu", 2) == 0) {
                                 // 推荐人等级
                                 $parent_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$invite_id'");

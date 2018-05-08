@@ -14,7 +14,7 @@ $back_act='';
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','send_pwd_sms','password', 'signin', 'add_tag', 
+    array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','send_pwd_sms','password', 'signin', 'add_tag', 
     'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 
     'get_passwd_question', 'check_answer', 'oath', 'oath_login');
 
@@ -3999,8 +3999,6 @@ elseif ($action == 'membership_upgrade') {
                 $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
             }
             $db->query($invite_sql);
-            // 记录订单流水日志
-            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
             // 更新用户级别
             $user_rank = $_SESSION['user_rank'];
             if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
@@ -4008,6 +4006,13 @@ elseif ($action == 'membership_upgrade') {
                 $db->query($update_rank_sql);
                 $_SESSION['user_rank'] = 2;
             }
+            // 更新订单状态为确认收货
+            $sql = 'UPDATE ' . $ecs->table('order_info') .
+                " SET " . "shipping_status = '" . SS_RECEIVED . "' " .
+                " WHERE order_id = '$order_id'";
+            $db->query($sql);
+            // 记录订单流水日志
+            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
             if (strncasecmp($invite_mark, "uu", 2) == 0) {
                 // 推荐人等级
                 $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
