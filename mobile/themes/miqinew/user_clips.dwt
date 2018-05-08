@@ -312,51 +312,51 @@
 
 <!-- *积分记录 start-->
   <!--{if $action eq 'point'} -->
-      <header id="header">
-        <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
-        <h1> 积分记录</h1>
-      </header>
-      <section class="wrap">
-        <section class="order_box padd1 radius10"> 
-          <table cellpadding="3" cellspacing="1" style=" width:100%;">
-            <tr>
-              <th align="center">变化时间</th>
-              <th align="center">{$lang.change_desc}</th>
-              <th align="center">{$lang.pay_points}</th>
-            </tr>
-            {foreach from=$account_list item=account}
-              {if $account.pay_points gt 0}
-                <tr>
-                  <td align="center">{$account.change_time}</td>
-                  <td align="center">{$account.change_desc|escape:html}</td>
-                  <td align="center">
-                    <span style="color:#0000FF">+{$account.pay_points}</span>
-                  </td>
-                </tr>
-              {elseif $account.pay_points lt 0}
-                <tr>
-                  <td align="center">{$account.change_time}</td>
-                  <td align="center">{$account.change_desc|escape:html}</td>
-                  <td align="center">
-                    <span style="color:#FF0000">{$account.pay_points}</span>
-                  </td>
-                </tr>
-              {else}
-                <tr style="display:none">
-                  <td align="center">{$account.change_time}</td>
-                  <td align="center">{$account.change_desc|escape:html}</td>
-                  <td align="center">
-                    <span >{$account.pay_points}</span>
-                  </td>
-                </tr>
-              {/if}
-            {foreachelse}
-            <tr><td class="no-records" colspan="6">{$lang.no_records}</td></tr>
-            {/foreach}
-          </table>
-        </section>
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+      <h1> 积分记录</h1>
+    </header>
+    <section class="wrap">
+      <section class="order_box padd1 radius10"> 
+        <table cellpadding="3" cellspacing="1" style=" width:100%;">
+          <tr>
+            <th align="center">变化时间</th>
+            <th align="center">{$lang.change_desc}</th>
+            <th align="center">{$lang.pay_points}</th>
+          </tr>
+          {foreach from=$account_list item=account}
+            {if $account.pay_points gt 0}
+              <tr>
+                <td align="center">{$account.change_time}</td>
+                <td align="center">{$account.change_desc|escape:html}</td>
+                <td align="center">
+                  <span style="color:#0000FF">+{$account.pay_points}</span>
+                </td>
+              </tr>
+            {elseif $account.pay_points lt 0}
+              <tr>
+                <td align="center">{$account.change_time}</td>
+                <td align="center">{$account.change_desc|escape:html}</td>
+                <td align="center">
+                  <span style="color:#FF0000">{$account.pay_points}</span>
+                </td>
+              </tr>
+            {else}
+              <tr style="display:none">
+                <td align="center">{$account.change_time}</td>
+                <td align="center">{$account.change_desc|escape:html}</td>
+                <td align="center">
+                  <span >{$account.pay_points}</span>
+                </td>
+              </tr>
+            {/if}
+          {foreachelse}
+          <tr><td class="no-records" colspan="6">{$lang.no_records}</td></tr>
+          {/foreach}
+        </table>
       </section>
-  <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+    </section>
+    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
   <!--{/if} -->
 <!-- #积分记录 end-->
 
