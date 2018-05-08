@@ -4394,7 +4394,7 @@ elseif ($_REQUEST['act'] == 'operate_post') {
                      'order_amount'     => $order['money_paid']);
         update_order($order_id, $arr);
 
-        /* todo 处理退款 */
+        /* 处理退款 */
         if ($order['pay_status'] != PS_UNPAYED)
         {
             $refund_type = $_REQUEST['refund'];
@@ -4493,6 +4493,12 @@ elseif ($_REQUEST['act'] == 'operate_post') {
         $sql = "UPDATE " . $GLOBALS['ecs']->table('order_goods') . "
                 SET send_number = 0
                 WHERE order_id = '$order_id'";
+        $GLOBALS['db']->query($sql, 'SILENT');
+
+        // 修改退货申请单状态
+        $sql = "UPDATE " . $GLOBALS['ecs']->table('order_back') . 
+                " SET status = '4', subtotal = " . $order['goods_amount'] . 
+                " WHERE order_sn = '" . $order['order_sn'] . "'";
         $GLOBALS['db']->query($sql, 'SILENT');
 
         /* 清除缓存 */
