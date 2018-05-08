@@ -1902,6 +1902,7 @@
       			惠当家掌柜尊享权益
       		</div>
       		<div class="vip_card_info">
+      			<a href="http://www.yuehuitao.net/mobile/themes/miqinew/vip_info.html">
       			<div class="vip_card_item">
 	      			<img src="{$ectouch_themes}/img/vip_icon1.png"/>
 	      			<p>双重奖励提现</p>
@@ -1943,6 +1944,7 @@
 	      			<p>定期领优惠券</p>
 	      		</div>
 	      		<div class="clear"></div>
+	      	</a>
       		</div>
       	</div>
       	<div class="vip_dis_sub vip_dis_con">
@@ -1966,28 +1968,88 @@
 	      	<div class="vip_dis_con vip_deta_con">
 	      		<div class="vip_dis_item">
 	      			<p class="vip_dis_tb">
-	      				积分优惠券折扣<span>￥500</span>
+	      				洗洁精<span>¥3/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				洗衣粉<span>¥5/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				沐浴露<span>¥10/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				洗发水<span>¥25/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				牙膏<span>¥7/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				纸巾<span>¥25/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				零食<span>¥100/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				生鲜水果<span>¥200/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				疾病健康预防<span>¥300/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				皮肤护理美容<span>¥200/月*12月</span>
+	      				<div class="clear"></div>
+	      			</p>
+	      		</div>
+	      		<div class="vip_dis_item">
+	      			<p class="vip_dis_tb">
+	      				积分优惠券折扣<span>¥500</span>
 	      				<div class="clear"></div>
 	      			</p>
 	      			<p class="vip_dis_gra">升级为掌柜的指定积分、定期优惠券，力度更大更省钱</p>
 	      		</div>
 	      		<div class="vip_dis_item">
 	      			<p class="vip_dis_tb">
-	      				专享优惠<span>￥450</span>
+	      				专享优惠<span>¥450</span>
 	      				<div class="clear"></div>
 	      			</p>
 	      			<p class="vip_dis_gra">尊享购物街、低价秒杀等优惠</p>
 	      		</div>
 	      		<div class="vip_dis_item">
 	      			<p class="vip_dis_tb">
-	      				自购省钱<span>￥2000</span>
+	      				自购省钱<span>¥2000</span>
 	      				<div class="clear"></div>
 	      			</p>
 	      			<p class="vip_dis_gra">尊享低价精选商品，多买多省</p>
 	      		</div>
 	      		<div class="vip_dis_item">
 	      			<p class="vip_dis_tb">
-	      				奖励收益<span>￥4500</span>
+	      				奖励收益<span>¥4500</span>
 	      				<div class="clear"></div>
 	      			</p>
 	      			<p class="vip_dis_gra">分享和推广高额奖励收益</p>

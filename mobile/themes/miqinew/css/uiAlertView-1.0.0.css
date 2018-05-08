@@ -1,4 +1,4 @@
-
+﻿
 /* ----- lodding 数据加载 DIV 样式   ----- */
 .lodding-mask {			/* 蒙版 */
 	position:absolute;
@@ -6,7 +6,7 @@
 	top:0;
 	width:100%;
 	height:100%;
-	z-index:99999;
+	z-index:999999;
 	background:rgba(0,0,0,0.6);
 	-khtml-opacity: 0.6;                
 	opacity: 0.6; 
