@@ -20,11 +20,11 @@ $not_login_arr =
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'package_tracking', 'address_list', 'act_edit_address', 'collection_list',
-'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
-'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer',
-'point','user_card','membership',
-'fenxiao1','myorder','myorder_detail','fenxiao2','fenxiao3','fenxiao4',
-'order_search', 'exchange_goods', 'sub_back', 'back_detail', 'back_submit', 'return_goods', 'order_back_list', 'order_back_list_search','cancel_back');
+    'message_list', 'tag_list', 'get_password', 'reset_password', 'booking_list', 'add_booking', 'account_raply',
+    'account_deposit', 'account_log', 'account_detail', 'act_account', 'pay', 'default', 'bonus', 'group_buy', 'group_buy_detail', 'affiliate', 'comment_list','validate_email','track_packages', 'transform_points','qpassword_name', 'get_passwd_question', 'check_answer',
+    'point','user_card','membership',
+    'fenxiao1','myorder','myorder_detail','fenxiao2','fenxiao3','fenxiao4',
+    'order_search', 'exchange_goods', 'sub_back', 'back_detail', 'back_submit', 'return_goods', 'order_back_list', 'order_back_list_search','cancel_back');
 /* 未登录处理 */
 if (empty($_SESSION['user_id']))
 {
@@ -3774,28 +3774,43 @@ elseif ($action == 'clear_history')
 {
     setcookie('ECS[history]',   '', 1);
 }
-//新增by   tianxin100积分记录
+//积分记录
 elseif ($action == 'point')
-{	
-	
-	$user_id=$_SESSION['user_id'];
-	$account_type = '';
-    $account_list = get_accountlist($user_id, $account_type);
-	//print_r($account_list['account']);
-    $smarty->assign('account_list', $account_list['account']);
-	//查找用户的积分变化记录
-	/*
-	$sql = "SELECT * FROM " . $ecs->table('account_log') . " WHERE user_id = ".$_SESSION['user_id'];
-	$log = $GLOBALS['db']->getAll($sql);
-	
-	foreach($log  as $k=>$v){
-		
-		$v['change_time']=local_date("Y-m-d H:i:s",$v['change_time']);
-		
-		$log[$k]['change_time']=$v['change_time'];
-	}*/
-	$smarty->assign('log', $log ); 
-	$smarty->display('user_clips.dwt');
+{
+    $user_id=$_SESSION['user_id'];
+    $account_type = 'pay_points';
+    $where = " WHERE user_id = '$user_id' ";
+    if (in_array($account_type, array('user_money', 'frozen_money', 'rank_points', 'pay_points')))
+    {
+        $where .= " AND $account_type <> 0 ";
+    }
+    /* 查询记录总数，计算分页数 */
+    $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('account_log') . $where;
+    $record_count = $GLOBALS['db']->getOne($sql);
+    $page = (empty($_REQUEST['page']) || intval($_REQUEST['page']) <= 0) ? 1 : intval($_REQUEST['page']);
+    $pager = get_pager('user.php', array('act' => $action), $record_count, $page);
+    /* 查询记录 */
+    $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('account_log') . $where .
+            " ORDER BY log_id DESC";
+    $res = $GLOBALS['db']->selectLimit($sql, $pager['size'], $pager['start']);
+    $account_list = array();
+    while ($row = $GLOBALS['db']->fetchRow($res))
+    {
+        $row['change_time'] = local_date($GLOBALS['_CFG']['time_format'], $row['change_time']);
+        $account_list[] = $row;
+    }
+    $smarty->assign('account_list', $account_list);
+    $smarty->assign('pager', $pager);
+    //查找用户的积分变化记录
+    /*
+    $sql = "SELECT * FROM " . $ecs->table('account_log') . " WHERE user_id = ".$_SESSION['user_id'];
+    $log = $GLOBALS['db']->getAll($sql);
+    foreach ($log  as $k=>$v) {
+    	$v['change_time']=local_date("Y-m-d H:i:s",$v['change_time']);
+    	$log[$k]['change_time']=$v['change_time'];
+    }*/
+    $smarty->assign('log', $log ); 
+    $smarty->display('user_clips.dwt');
 }
 
 
@@ -4263,7 +4278,7 @@ function get_affiliate_ck($user_id,$level)
     $arr = array('logdb' => $logdbnew, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
 
     return $arr;
-}	
+}
 function page_and_size($filter)
 {
     if (isset($_REQUEST['page_size']) && intval($_REQUEST['page_size']) > 0)
@@ -4326,7 +4341,7 @@ function get_accountlist($user_id, $account_type = '')
     $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('account_log') . $where .
             " ORDER BY log_id DESC";
     $res = $GLOBALS['db']->selectLimit($sql, $filter['page_size'], $filter['start']);
-
+echo $sql . '---';
     $arr = array();
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
@@ -4334,7 +4349,7 @@ function get_accountlist($user_id, $account_type = '')
         $arr[] = $row;
     }
 
-    return array('account' => $arr, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
+    return array('account' => $arr, 'filter' => $filter, 'page' => $filter['page'], 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
 }
 
 /**

@@ -2077,8 +2077,6 @@ elseif ($_REQUEST['step'] == 'done')
     {
         log_account_change($order['user_id'], 0, 0, 0, $order['integral'] * (-1), sprintf($_LANG['pay_order'], $order['order_sn']));
     }
-
-
     if ($order['bonus_id'] > 0 && $temp_amout > 0)
     {
         use_bonus($order['bonus_id'], $new_order_id);

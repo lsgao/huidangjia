@@ -489,7 +489,7 @@ elseif ($action == 'account_detail')
            " AND $account_type <> 0 ";
     $record_count = $db->getOne($sql);
     //分页函数
-    $pager = get_pager('user.php', array('act' => $action), $record_count, $page);
+    $pager = get_pager('user_commission.php', array('act' => $action), $record_count, $page);
     //获取剩余余额
     $surplus_amount = get_user_surplus($user_id);
     if (empty($surplus_amount)) {
