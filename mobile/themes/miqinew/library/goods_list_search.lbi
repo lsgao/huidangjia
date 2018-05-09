@@ -19,7 +19,7 @@
     <input type="hidden" name="order" value="{$pager.order}" />
   </form>
 </div>
-   	<!--{if $goods_list}-->
+  <!--{if $goods_list}-->
     <div id="J_ItemList" class="srp album flex-f-row" style="opacity:1;">
       <!--{foreach name=goods_list from=$goods_list item=goods}--> 
       <!-- {if $goods.goods_id} -->
@@ -37,12 +37,13 @@
               <!--{/if}--> 
             </div>
             <div class="proService"> <del>{$goods.market_price}</del></div>
-            <div class="proSales">月销:<em>{$goods.sales_count}</em></div>
+            <div class="proSales" style="display:none;">月销:<em>{$goods.sales_count}</em></div>
+            <div class="proSales">月销:<em>{$goods.click_count}</em></div>
             <div class="proIcons"> 
-			 <!-- {if $goods.watermark_img} --> 
-			<img width="55" height="16" src="{$ectouch_themes}/images/{$goods.watermark_img}.png" alt="{$goods.goods_name}" />
-			<!-- {/if} --> 
-			 </div>
+              <!-- {if $goods.watermark_img} --> 
+                <img width="55" height="16" src="{$ectouch_themes}/images/{$goods.watermark_img}.png" alt="{$goods.goods_name}" />
+              <!-- {/if} --> 
+            </div>
           </div>
         </div>
       </div>

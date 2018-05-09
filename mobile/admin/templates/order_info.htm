@@ -151,22 +151,24 @@
   <tr>
     <td><div align="right"><strong>{$lang.label_consignee}</strong></div></td>
     <td>{$order.consignee|escape}</td>
-    <td><div align="right"><strong>{$lang.label_email}</strong></div></td>
-    <td>{$order.email}</td>
-  </tr>
-  <tr>
-    <td><div align="right"><strong>{$lang.label_address}</strong></div></td>
-    <td>[{$order.region}] {$order.address|escape}</td>
-    <td><div align="right"><strong>{$lang.label_zipcode}</strong></div></td>
-    <td>{$order.zipcode|escape}</td>
-  </tr>
-  <tr>
-    <td><div align="right"><strong>{$lang.label_tel}</strong></div></td>
-    <td>{$order.tel}</td>
+    <td style="display:none;"><div align="right"><strong>{$lang.label_email}</strong></div></td>
+    <td style="display:none;">{$order.email}</td>
     <td><div align="right"><strong>{$lang.label_mobile}</strong></div></td>
     <td>{$order.mobile|escape}</td>
   </tr>
   <tr>
+    <td><div align="right"><strong>{$lang.label_address}</strong></div></td>
+    <td colspan="3">【{$order.region}】 {$order.address|escape}</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.label_zipcode}</strong></div></td>
+    <td>{$order.zipcode|escape}</td>
+    <td style="display:none;"><div align="right"><strong>{$lang.label_tel}</strong></div></td>
+    <td style="display:none;">{$order.tel}</td>
+    <td><div align="right"><strong>身份证</strong></div></td>
+    <td>{$order.identity_card|escape}</td>
+  </tr>
+  <tr style="display:none;">
     <td><div align="right"><strong>{$lang.label_sign_building}</strong></div></td>
     <td>{$order.sign_building|escape}</td>
     <td><div align="right"><strong>{$lang.label_best_time}</strong></div></td>
