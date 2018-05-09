@@ -231,9 +231,9 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                 $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
                                 $GLOBALS['db']->query($update_rank_sql);
                             }
-                            // 更新订单状态为确认收货
+                            // 更新：订单状态=确认收货，订单类型=掌柜年卡
                             $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
-                                " SET " . "shipping_status = '" . SS_RECEIVED . "' " .
+                                " SET " . "shipping_status='" . SS_RECEIVED . "', " . "order_type='掌柜年卡' " . 
                                 " WHERE order_id = '$order_id'";
                             $GLOBALS['db']->query($sql);
                             // 记录订单流水日志

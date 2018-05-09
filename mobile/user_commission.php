@@ -234,7 +234,7 @@ elseif ($action == 'fenxiao1') {
                 $order_commission = 0;
                 if ($info['user_rank'] == 2) {// 掌柜
                     if ($i == 1) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         $order_commission = round($order_info['order_amount'] * $percentage['percentage_shopkeeper'], 2);
                         $user_info[$key]['order_num'] = $order_info['order_num'];
@@ -245,7 +245,7 @@ elseif ($action == 'fenxiao1') {
                     }
                 } else if ($info['user_rank'] == 3) {// 大掌柜
                     if ($i == 1) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         if ($value['user_rank'] == 2) { // 掌柜
                             $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
@@ -268,7 +268,7 @@ elseif ($action == 'fenxiao1') {
                     }
                 } else if ($info['user_rank'] == 4) {// 创始人
                     if ($i == 1) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         if ($value['user_rank'] == 2) { // 掌柜
                             $order_commission = round($order_info['order_amount'] * $percentage['percentage_originator'], 2);
@@ -358,7 +358,7 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
                 $order_commission = 0;
                 if ($info['user_rank'] == 2) {// 掌柜
                     if ($i == $level) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         $has_supershopkeeper = 0;
                         $order_commission = 0;
@@ -385,7 +385,7 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
                             continue;
                         }
                     } else if ($i == $level) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         $has_supershopkeeper = 0;
                         if ($value['user_rank'] == 2 || $value['user_rank'] == 3) { // 掌柜或大掌柜
@@ -425,7 +425,7 @@ elseif ($action == 'fenxiao2' || $action == 'fenxiao3' || $action == 'fenxiao3' 
                             continue;
                         }
                     } else if ($i == $level) {
-                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'];
+                        $sql = "SELECT count(*) as order_num ,sum(fencheng)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'] . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
                         $order_info = $db->getRow($sql);
                         $has_supershopkeeper = 0;
                         if ($value['user_rank'] == 2 || $value['user_rank'] == 3) { // 掌柜或大掌柜
@@ -873,19 +873,19 @@ function get_originator_commission($user_id, $level, $max_level, $percentage_ori
         return $commission;
     }
     // -- 1.未付款的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=0";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id." and  pay_status=0" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['weifukuan']['order_num'] = $order_info['order_num'];
     $commission['weifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['weifukuan']['commission'] = 0;
     // -- 2.已经付款且未收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yifukuan']['order_num'] = $order_info['order_num'];
     $commission['yifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['yifukuan']['commission'] = 0;
     // -- 3.已经收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id."  and  shipping_status  =2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id."  and  shipping_status  =2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yishouhuo']['order_num'] = $order_info['order_num'];
     $commission['yishouhuo']['order_amount'] = $order_info['order_amount'];
@@ -924,19 +924,19 @@ function get_supershopkeeper_commission($user_id, $level, $max_level, $percentag
         return $commission;
     }
     // -- 1.未付款的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=0";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id." and  pay_status=0" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['weifukuan']['order_num'] = $order_info['order_num'];
     $commission['weifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['weifukuan']['commission'] = 0;
     // -- 2.已经付款且未收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yifukuan']['order_num'] = $order_info['order_num'];
     $commission['yifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['yifukuan']['commission'] = 0;
     // -- 3.已经收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id."  and  shipping_status  =2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id."  and  shipping_status  =2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yishouhuo']['order_num'] = $order_info['order_num'];
     $commission['yishouhuo']['order_amount'] = $order_info['order_amount'];
@@ -982,19 +982,19 @@ function get_shopkeeper_commission($user_id, $level, $max_level, $percentage_sho
     }
 
     // -- 1.未付款的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=0";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."  WHERE user_id=" . $user_id." and  pay_status=0" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['weifukuan']['order_num'] = $order_info['order_num'];
     $commission['weifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['weifukuan']['commission'] = 0;
     // -- 2.已经付款且未收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id." and  pay_status=2 and   shipping_status  <> 2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yifukuan']['order_num'] = $order_info['order_num'];
     $commission['yifukuan']['order_amount'] = $order_info['order_amount'];
     $commission['yifukuan']['commission'] = 0;
     // -- 3.已经收货的订单的佣金统计
-    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $user_id."  and  shipping_status  =2";
+    $sql = "SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $user_id."  and  shipping_status  =2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
     $order_info = $GLOBALS['db']->getRow($sql);
     $commission['yishouhuo']['order_num'] = $order_info['order_num'];
     $commission['yishouhuo']['order_amount'] = $order_info['order_amount'];
@@ -1012,13 +1012,13 @@ function get_shopkeeper_commission($user_id, $level, $max_level, $percentage_sho
             $commission['yishouhuo']['order_num'] += $child_commission['yishouhuo']['order_num'];
             $commission['yishouhuo']['order_amount'] += $child_commission['yishouhuo']['order_amount'];
             // 计算直接下属的订单销售额
-            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=". $value['user_id'] ." and  pay_status=0";
+            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=". $value['user_id'] ." and  pay_status=0" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
             $order_info = $GLOBALS['db']->getRow($sql);
             $commission['weifukuan']['commission'] += round($order_info['order_amount'] * $percentage_shopkeeper, 2);
-            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id'] . " and  pay_status=2 and   shipping_status  <> 2";
+            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id'] . " and  pay_status=2 and   shipping_status  <> 2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
             $order_info = $GLOBALS['db']->getRow($sql);
             $commission['yifukuan']['commission'] += round($order_info['order_amount'] * $percentage_shopkeeper, 2);
-            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')."WHERE user_id=" . $value['user_id']."  and  shipping_status  =2";
+            $sql = "SELECT sum(goods_amount - discount)  as order_amount FROM " . $GLOBALS['ecs']->table('order_info')." WHERE user_id=" . $value['user_id']."  and  shipping_status  =2" . " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
             $order_info = $GLOBALS['db']->getRow($sql);
             $commission['yishouhuo']['commission'] += round($order_info['order_amount'] * $percentage_shopkeeper, 2);
         }

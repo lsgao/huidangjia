@@ -2227,7 +2227,7 @@ elseif ($_REQUEST['step'] == 'done')
         // 修改订单状态
         //$sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " . " WHERE order_id = '".$new_order_id."' ";
         //$db->query($sql);
-        update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED));
+        update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '掌柜年卡'));
         // 记录订单流水日志
         order_action($order['order_sn'], OS_SPLITED, SS_SHIPPED, $order['pay_status'], '', 'system');
         $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . 
