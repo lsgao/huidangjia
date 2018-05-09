@@ -1207,7 +1207,9 @@ elseif ($action == 'async_order_list') {
             if ($vo['shipping_status'] == 2 && $vo['return_status'] == 0) {
                 $detail_content .= '<br>';
                 $script = 'javascript:if(confirm(\'真的确定申请退货吗？\')){window.location.href=\'user.php?act=return_goods&order_id=' . $vo['order_id'] . '\'}';
-                $detail_content .= '<a href="'.$script.'" style="text-decoration:none;color:#F00">申请退货</a>';
+                if ($vo['order_type'] != '掌柜年卡') {
+                    $detail_content .= '<a href="'.$script.'" style="text-decoration:none;color:#F00">申请退货</a>';
+                }
             } else if ($vo['shipping_status'] == 2 && $vo['return_status'] == 2) {
                 $sql = "SELECT * FROM " .$ecs->table('order_back'). " WHERE order_sn = '" . $vo['order_sn'] ."' AND status = 2";
                 $back_info = $db->getRow($sql);
@@ -4361,7 +4363,7 @@ echo $sql . '---';
  */
 function search_orders($num = 10, $start = 0, $where) {
     $arr    = array();
-    $sql = "SELECT order_id, order_sn, order_status, shipping_id, shipping_status, pay_status, return_status, add_time, " .
+    $sql = "SELECT order_id, order_sn, order_status, shipping_id, shipping_status, pay_status, return_status, add_time, order_type, " .
         " (goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
         " FROM " .$GLOBALS['ecs']->table('order_info') .
         $where .
@@ -4400,7 +4402,8 @@ function search_orders($num = 10, $start = 0, $where) {
             'return_status'   => $row['return_status'],
             'shipping_id'	=> $row['shipping_id'],
             'total_fee'      => price_format($row['total_fee'], false),
-            'handler'        => $row['handler']
+            'handler'        => $row['handler'],
+            'order_type' => $row['order_type'],
         );
     }
     return $arr;

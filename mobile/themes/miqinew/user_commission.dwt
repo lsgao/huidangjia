@@ -310,7 +310,7 @@
         <dl>
           <dd class="dd1">真实姓名 </dd>
           <dd>
-            <input name="real_name" type="text" placeholder="输入真实姓名" value="如：惠当家" class="dd2">
+            <input name="real_name" type="text" placeholder="输入真实姓名" value="" class="dd2">
           </dd>
         </dl>
         <dl>
