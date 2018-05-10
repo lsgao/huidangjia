@@ -106,7 +106,7 @@
             <td class="label"><a href="javascript:showNotice('noticeUserPrice');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.lab_user_price}</td>
             <td>
               {foreach from=$user_rank_list item=user_rank}
-              {$user_rank.rank_name}<span id="nrank_{$user_rank.rank_id}"></span><input type="text" id="rank_{$user_rank.rank_id}" name="user_price[]" value="{$member_price_list[$user_rank.rank_id]|default:-1}" onkeyup="if(parseInt(this.value)<-1){this.value='-1';};set_price_note({$user_rank.rank_id})" size="8" />
+              {$user_rank.rank_name}<span id="nrank_{$user_rank.rank_id}"></span><input type="text" id="rank_{$user_rank.rank_id}" name="user_price[]" value="{$member_price_list.$user_rank.rank_id|default:-1}" onkeyup="if(parseInt(this.value)<-1){this.value='-1';};set_price_note({$user_rank.rank_id})" size="8" />
               <input type="hidden" name="user_rank[]" value="{$user_rank.rank_id}" />
               {/foreach}
               <br />

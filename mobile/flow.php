@@ -1908,6 +1908,7 @@ elseif ($_REQUEST['step'] == 'done')
                 	$order['mobile'] = '';
                 	$order['email'] = '';
                 	$order['identity_card'] = '';
+                	$order['order_type'] = '掌柜年卡';
                 }
             }
         }

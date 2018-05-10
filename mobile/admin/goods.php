@@ -799,7 +799,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     $warn_number = isset($_POST['warn_number']) ? $_POST['warn_number'] : 0;
     $goods_type = isset($_POST['goods_type']) ? $_POST['goods_type'] : 0;
     $give_integral = isset($_POST['give_integral']) ? intval($_POST['give_integral']) : '-1';
-    $fencheng = isset($_POST['fencheng']) ? intval($_POST['fencheng']) : '0';
+    $fencheng = isset($_POST['fencheng']) ? floatval($_POST['fencheng']) : '0';
     $rank_integral = isset($_POST['rank_integral']) ? intval($_POST['rank_integral']) : '-1';
     $suppliers_id = isset($_POST['suppliers_id']) ? intval($_POST['suppliers_id']) : '0';
     $is_bonded = isset($_POST['is_bonded']) ? 1 : 0;
