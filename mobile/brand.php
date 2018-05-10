@@ -135,7 +135,9 @@ if (!$smarty->is_cached('brand.dwt', $cache_id)) {
             <em>' . $shop_price . '</em> 
           </div>
           <div class="proService"> <del>' . $vo['market_price'] . '</del></div>
-          <div class="proSales">月销:<em>' . $vo['sales_count'] . '</em></div>
+          <div class="proSales" style="display:none;">月销:<em>' . $vo['sales_count'] . '</em></div>
+          <div class="proSales">月销:<em>' . $vo['click_count'] . '</em></div><br>
+          <div class="proSales">库存:<em>' . $vo['goods_number'] . '</em></div>
           <div class="proIcons">' . $watermark_img . '</div>
         </div>'
                 );
@@ -145,7 +147,7 @@ if (!$smarty->is_cached('brand.dwt', $cache_id)) {
         exit;
     }
     /*
-     * 异步显示商品列表 by wang end
+     * 异步显示商品列表
      */
     if ($display == 'grid') {
         if (count($goodslist) % 2 != 0) {
@@ -200,7 +202,7 @@ function brand_recommend_goods($type, $brand, $cat = 0) {
             $cat_where = '';
         }
 
-        $sql = 'SELECT g.goods_id, g.goods_name, g.market_price, g.shop_price AS org_price, g.promote_price, ' .
+        $sql = 'SELECT g.goods_id, g.goods_name, g.market_price, g.shop_price AS org_price, g.promote_price, g.sales_count, g.click_count, g.goods_number, ' .
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, " .
                 'promote_start_date, promote_end_date, g.goods_brief, g.goods_thumb, goods_img, ' .
                 'b.brand_name, g.is_best, g.is_new, g.is_hot, g.is_promote ' .
@@ -241,13 +243,15 @@ function brand_recommend_goods($type, $brand, $cat = 0) {
             $goods[$idx]['name'] = $row['goods_name'];
             $goods[$idx]['brief'] = $row['goods_brief'];
             $goods[$idx]['brand_name'] = $row['brand_name'];
-            $goods[$idx]['short_style_name'] = $GLOBALS['_CFG']['goods_name_length'] > 0 ?
-                    sub_str($row['goods_name'], $GLOBALS['_CFG']['goods_name_length']) : $row['goods_name'];
+            $goods[$idx]['short_style_name'] = $GLOBALS['_CFG']['goods_name_length'] > 0 ? sub_str($row['goods_name'], $GLOBALS['_CFG']['goods_name_length']) : $row['goods_name'];
             $goods[$idx]['market_price'] = price_format($row['market_price']);
             $goods[$idx]['shop_price'] = price_format($row['shop_price']);
             $goods[$idx]['thumb'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
             $goods[$idx]['goods_img'] = get_image_path($row['goods_id'], $row['goods_img']);
             $goods[$idx]['url'] = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+            $goods[$idx]['sales_count'] = $row['sales_count'];
+            $goods[$idx]['click_count'] = $row['click_count'];
+            $goods[$idx]['goods_number'] = $row['goods_number'];
 
             $idx++;
         }
@@ -286,7 +290,7 @@ function brand_get_goods($brand_id, $cate, $size, $page, $sort, $order) {
     $cate_where = ($cate > 0) ? 'AND ' . get_children($cate) : '';
 
     /* 获得商品列表 */
-    $sql = 'SELECT g.goods_id, g.goods_name, g.market_price, g.shop_price AS org_price, ' .
+    $sql = 'SELECT g.goods_id, g.goods_name, g.market_price, g.shop_price AS org_price, g.sales_count, g.click_count, g.goods_number, ' .
             "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, g.promote_price, " .
             'g.promote_start_date, g.promote_end_date, g.goods_brief, g.goods_thumb , g.goods_img ' .
             'FROM ' . $GLOBALS['ecs']->table('goods') . ' AS g ' .
@@ -318,6 +322,9 @@ function brand_get_goods($brand_id, $cate, $size, $page, $sort, $order) {
         $arr[$row['goods_id']]['goods_thumb'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $arr[$row['goods_id']]['goods_img'] = get_image_path($row['goods_id'], $row['goods_img']);
         $arr[$row['goods_id']]['url'] = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+        $arr[$row['goods_id']]['sales_count'] = $row['sales_count'];
+        $arr[$row['goods_id']]['click_count'] = $row['click_count'];
+        $arr[$row['goods_id']]['goods_number'] = $row['goods_number'];
     }
 
     return $arr;
