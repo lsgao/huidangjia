@@ -36,14 +36,19 @@
               <em>{$goods.shop_price}</em> 
               <!--{/if}--> 
             </div>
+            <div class="clear"></div>
             <div class="proService"> <del>{$goods.market_price}</del></div>
             <div class="proSales" style="display:none;">月销:<em>{$goods.sales_count}</em></div>
             <div class="proSales">月销:<em>{$goods.click_count}</em></div>
+            <div class="clear"></div>
+           
             <div class="proIcons"> 
               <!-- {if $goods.watermark_img} --> 
                 <img width="55" height="16" src="{$ectouch_themes}/images/{$goods.watermark_img}.png" alt="{$goods.goods_name}" />
               <!-- {/if} --> 
             </div>
+             <div class="proSales">库存：<em>{$goods.goods_number}</em></div>
+            <div class="clear"></div>
           </div>
         </div>
       </div>

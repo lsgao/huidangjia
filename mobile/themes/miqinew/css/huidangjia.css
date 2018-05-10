@@ -46,3 +46,8 @@
 .index_text_wrap {padding-left: 100px;position: relative;font: 14px/20px "微软雅黑";margin-top: 10px;}
 #index_text,#index_text .swiper-slide{width: 96%;color: #333;height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .index_text_tit {position: absolute;top:0;left: 10px;background: url(../img/index_text.png) center no-repeat;width: 80px;text-align: center;color: #ff9600;height: 20px;}
+
+.m_flash_wrap {padding: 20px 10px;margin-bottom: 10px !important;margin-top:20px !important;position: relative;box-shadow: 0 0 8px #ccc;}
+.m_flash_tit {position: absolute;width: 100px;text-align: center;background: #fff;font: 14px/20px "微软雅黑";text-align: center;top: -10px;left: 50%;margin-left: -50px;box-shadow: 0 0 8px #ccc;}
+#m_flash {margin: 0;}
+.m_flash_sale_price p {white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}

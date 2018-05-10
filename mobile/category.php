@@ -461,7 +461,7 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
     }
 
     /* 获得商品列表 */
-    $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, g.market_price, g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price, ' .
+    $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, g.market_price, g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price,g.goods_number,g.click_count, ' .
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, g.promote_price, g.goods_type, " .
                 'g.promote_start_date, g.promote_end_date, g.goods_brief, g.goods_thumb , g.goods_img,g.sales_volume_base ' .
             'FROM ' . $GLOBALS['ecs']->table('goods') . ' AS g ' .
@@ -526,7 +526,8 @@ function category_get_goods($children, $brand, $min, $max, $ext, $size, $page, $
         $arr[$row['goods_id']]['goods_thumb']      = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $arr[$row['goods_id']]['goods_img']        = get_image_path($row['goods_id'], $row['goods_img']);
         $arr[$row['goods_id']]['url']              = build_uri('goods', array('gid'=>$row['goods_id']), $row['goods_name']);
-		
+		$arr[$row['goods_id']]['goods_number']              = $row['goods_number'];
+		$arr[$row['goods_id']]['click_count']              = $row['click_count'];
         $arr[$row['goods_id']]['sales_count']      = get_sales_volume($row['goods_id'])+$row['sales_volume_base']; //显示月销量 by wang
     }
 

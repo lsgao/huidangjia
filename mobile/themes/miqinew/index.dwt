@@ -104,6 +104,48 @@
 					})
 				</script>
 			</div>
+				<!--促销开始-->
+			<!-- {if $hot_goods} -->
+			<div class="m_flash_sale m_content m_flash_wrap">
+				<div class="m_flash_tit">
+						<p>特价促销</p>
+				</div>
+				<div class="swiper-container  swiper-container-horizontal m_flash" id="m_flash">
+					<div class="swiper-wrapper">
+						 <!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
+						<div class="swiper-slide">
+							<a href="{$goods.url}">
+								<div class="m_flash_sale_pic">
+									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+								</div>
+								<div class="m_flash_sale_tit">
+									{$goods.goods_style_name|escape:html|truncate:15}
+								</div>
+								
+								<div class="m_flash_sale_price" style="text-align: center;">
+									<p><span>{$goods.promote_price}</span></p>
+									<p><s>{$goods.market_price}</s></p>
+									
+								</div>
+							</a>
+							</div>
+							 <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><!--{/if}-->
+                <!--{/foreach}-->
+						
+						
+					</div>
+				</div>
+				<script>
+					var mySwiper = new Swiper('#m_flash',{
+					slidesPerView : 'auto',
+						spaceBetween : 20,
+						//loop:true,
+					})
+				</script>
+				
+			</div>
+			<!-- {/if} -->
+			<!--促销结束-->
 			<div class="index_rec">
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
@@ -114,12 +156,13 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="index_ad">
 				<ul>
 					{insert name='ads' id=4 num=99}
 				</ul>
 			</div>
-			
+		
 			<!--热卖-->
 			<div class="index_bur">
 				<div class="index_bur_t">
