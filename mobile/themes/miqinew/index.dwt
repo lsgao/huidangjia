@@ -1,144 +1,151 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8" />
 		<title>{if $name}{$name}的{/if}{$shop_name}</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css"/>
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css"/>
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/huidangjia.css"/>
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css"/>
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css"/>
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css"/>
-		<script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/huidangjia.css" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css" />
+		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css" />
+		<script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
 	</head>
+
 	<body>
 		<section class="index_wrap">
 			<div class="index_header">
 				<div class="index_header_wrap">
-					<div class="header_user"style="text-align: center;">
+					<div class="header_user" style="text-align: center;">
 						{if $smarty.session.user_id gt 0}
-					<a href="user.php">
-   						{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none"/ >{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none"/ >{/if} 
-					</a>
-					{else}
-					 <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
-					{/if}
+						<a href="user.php">
+							{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
+						</a>
+						{else}
+						<a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
+						{/if}
 					</div>
 					<div class="header_logo">
 						<a href="./">
-							<img src="{$ectouch_themes}/huidangjia/header_logo.png"/>
+							<img src="{$ectouch_themes}/huidangjia/header_logo.png" />
 						</a>
-						
+
 					</div>
-					
-					<div class="header_search"  onClick="showSearch()"></div>
+
+					<div class="header_search" onClick="showSearch()"></div>
 					<div class="header_sea_wrap" id="index_search_box">
 						<form action="search.php" method="post" id="searchForm" name="searchForm">
 							<div class="header_sea_box">
 								<input class="text" type="search" name="keywords" id="keywordBox" placeholder="请输入您喜欢的商品名称" autofocus/>
 							</div>
 							<button type="submit" value="搜 索" onclick="return check('keywordBox')">搜索</button>
-						    </form>
-						    <div class="ico_close"  onClick="closeSearch()"></div>
-						</div>
+						</form>
+						<div class="ico_close" onClick="closeSearch()"></div>
+					</div>
 				</div>
 				<div class="index_head_cla">
-					 <!--{foreach from=$categories item=cat}-->
-				   <a href="{$cat.url}"> {$cat.name|escape:html} </a>
-				      
-				    
-				    <!--{/foreach}-->
-					
-					
+					<!--{foreach from=$categories item=cat}-->
+					<a href="{$cat.url}"> {$cat.name|escape:html} </a>
+
+					<!--{/foreach}-->
+
 				</div>
 			</div>
 			<div class="banner" style="margin: 0;">
 				<div class="swiper-container" id="index_banner">
-				  <div class="swiper-wrapper">
-				    <!-- TemplateBeginEditable name="首页Banner" --><!-- #BeginLibraryItem "/library/ad_position.lbi" --> <!-- #EndLibraryItem --><!-- TemplateEndEditable -->
-				   </div>
+					<div class="swiper-wrapper">
+						<!-- TemplateBeginEditable name="首页Banner" -->
+						<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+						<!-- #EndLibraryItem -->
+						<!-- TemplateEndEditable -->
+					</div>
 					<div class="swiper-pagination" id="monitor">
 					</div>
 				</div>
-				<script> 
-				var mySwiper = new Swiper('#index_banner', {
-					autoplay: 6000,//可选选项，自动滑动
-					loop:true,
-					autoplayDisableOnInteraction : false,
-					pagination : '#monitor',
-				})
+				<script>
+					var mySwiper = new Swiper('#index_banner', {
+						autoplay: 6000, //可选选项，自动滑动
+						loop: true,
+						autoplayDisableOnInteraction: false,
+						pagination: '#monitor',
+					})
 				</script>
 			</div>
-            <div class="m_nav">
-                <ul>
-                    <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
-                    <li style="width: 20%;"> <a href="{$nav.url}"{if $nav.opennew eq 1} target="_blank"{/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
-                        <span> {$nav.name} </span>
-                    </li>
-	                <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
-	                                          
-	                <!-- {/if} -->
-                	<!-- {/foreach} -->
-                                        
-                	<div class="clear"></div>
-                </ul>
-            </div>
-            <div class="index_text_wrap">
+			<div class="m_nav">
+				<ul>
+					<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+					<li style="width: 20%;">
+						<a href="{$nav.url}" {if $nav.opennew eq 1} target="_blank" {/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
+						<span> {$nav.name} </span>
+					</li>
+					<!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
+
+					<!-- {/if} -->
+					<!-- {/foreach} -->
+
+					<div class="clear"></div>
+				</ul>
+			</div>
+			<div class="index_text_wrap">
 				<div class="index_text_tit">惠当家</div>
 				<div class="swiper-container" id="index_text">
 					<div class="swiper-wrapper">
 						<!--{foreach from=$hot_articles item=article name=hot_articles}-->
-						<div class="swiper-slide"><a href="{$article.url}">{$article.title}</a></div>
+						<div class="swiper-slide">
+							<a href="{$article.url}">{$article.title}</a>
+						</div>
 						<!--{/foreach}-->
 					</div>
 				</div>
 				<script>
-					var mySwiper = new Swiper('#index_text',{
-					observer:true,
-					autoplay:3000,
-					autoplayDisableOnInteraction : false,
-					loop:true,
-					direction : 'vertical',
+					var mySwiper = new Swiper('#index_text', {
+						observer: true,
+						autoplay: 3000,
+						autoplayDisableOnInteraction: false,
+						loop: true,
+						direction: 'vertical',
 					})
 				</script>
 			</div>
-				<!--促销开始-->
+			<!--促销开始-->
 			<!-- {if $hot_goods} -->
 			<div class="m_flash_sale m_content m_flash_wrap">
 				<div class="m_flash_tit">
-						<p>特价促销</p>
+					<p>特价促销</p>
 				</div>
 				<div class="swiper-container  swiper-container-horizontal m_flash" id="m_flash">
 					<div class="swiper-wrapper">
-						 <!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
+						<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
 						<div class="swiper-slide">
 							<a href="{$goods.url}">
 								<div class="m_flash_sale_pic">
-									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+									<img src="{$site_url}{$goods.thumb}" class="img_res" />
 								</div>
 								<div class="m_flash_sale_tit">
 									{$goods.goods_style_name|escape:html|truncate:15}
 								</div>
-								
+
 								<div class="m_flash_sale_price" style="text-align: center;">
 									<p><span>{$goods.promote_price}</span></p>
 									<p><s>{$goods.market_price}</s></p>
-									
+
 								</div>
 							</a>
-							</div>
-							 <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><!--{/if}-->
-                <!--{/foreach}-->
-						
-						
+						</div>
+						<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
+						</ul>
+						<!--{/if}-->
+						<!--{/foreach}-->
+
 					</div>
 				</div>
 				<script>
-					var mySwiper = new Swiper('#m_flash',{
-					slidesPerView : 'auto',
-						spaceBetween : 20,
+					var mySwiper = new Swiper('#m_flash', {
+						slidesPerView: 'auto',
+						spaceBetween: 20,
 						//loop:true,
 					})
 				</script>
@@ -147,94 +154,88 @@
 			<!--促销结束-->
 			<!--测试-->
 			<div id="tabs" style="display: none;">
-			    <ul id="lists">
-			        <li class="abc active">10点开抢</li>
-			        <li class="abc">明日预告</li>
-			    </ul>
-			    <div class="hide active">
-			    	<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
-			    	<!--{if $smarty.foreach.hot_goods.iteration < 4}--> 
-			        	<a href="{$goods.url}" class="so_com_item">
-									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
-									<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
-								
-									<p><span>{$goods.promote_price}</span></p>
-									<p><s>{$goods.market_price}</s></p>
-									
-						</a>
-						 <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><!--{/if}-->
-               		
-               		<!--{/if}-->
-               <!--{/foreach}-->
-			        <a href="{$goods.url}" class="so_com_more so_com_item">
-									<img src="{$ectouch_themes}/img/so_com_more.jpg"/>
-								
-									<p></p>
-									
-						</a>
-			    </div>
-			    <div class="hide">
-			       <!--{foreach from=$cat_id212 item=goods name=cat_id212}-->
-  <a href="{$goods.url}" title="{$goods.name|escape:html}">
-    <img src="{$option.static_path}{$goods.thumb}">
-    {$goods.name}
-    <!--{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}-->
-    </a>
-    </li>
-  <!--{/foreach}-->
-			    </div>
+				<ul id="lists">
+					<li class="abc active">10点开抢</li>
+					<li class="abc">明日预告</li>
+				</ul>
+				<div class="hide active">
+					<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
+					<!--{if $smarty.foreach.hot_goods.iteration < 4}-->
+					<a href="{$goods.url}" class="so_com_item">
+						<img src="{$site_url}{$goods.thumb}" class="img_res" />
+						<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
+						<p><span>{$goods.promote_price}</span></p>
+						<p><s>{$goods.market_price}</s></p>
+					</a>
+					<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
+					</ul>
+					<!--{/if}-->
+
+					<!--{/if}-->
+					<!--{/foreach}-->
+					<a href="{$goods.url}" class="so_com_more so_com_item">
+						<img src="{$ectouch_themes}/img/so_com_more.jpg" />
+						<p></p>
+					</a>
+				</div>
+				<div class="hide">
+					<!--{foreach from=$tomorrow_goods item=goods name=tomorrow_goods}-->
+					<a href="{$goods.url}" title="{$goods.name|escape:html}">
+						<img src="{$site_url}{$goods.thumb}"> {$goods.name}
+						<!--{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}-->
+					</a>
+					</li>
+					<!--{/foreach}-->
+				</div>
 			</div>
 			<script>
-				 window.onload = function(){
-		        //获取tabs下的所有div
-		        var tabs = document.getElementById("tabs");
-		        var tabs_divs = tabs.getElementsByTagName("div");
-		        //获取lists下的所有li
-		        var tabs_ul = document.getElementById("lists");
-		        var tabs_lis = tabs_ul.getElementsByTagName("li");  
-		
-		            //给元素添加className
-		        function addClass(elem,value){
-		                if(!elem.className){
-		                    elem.className = value; //如果元素没有class，直接加
-		                }else{
-		                    var newClassName = elem.className;//如果元素已有class，追加
-		                    newClassName +=" ";
-		                    newClassName +=value;
-		                    elem.className = newClassName;  
-		                }
-		        }
-		        //给元素删除className
-		        function deleteClass(elem,value){
-		                var newClassName = elem.className;
-		                if(newClassName.indexOf(value)){//查找元素是否有需要删除的class
-		                    elem.className = newClassName.replace(value," ");//如果有，则替换掉
-		                }
-		        }
-		
-		
-		        for(var i =0,len = tabs_lis.length; i<len;i++){
-		            tabs_lis[i].index = i;
-		
-		            tabs_lis[i].onclick = function(){
-		                for(var j = 0;j<len;j++){
-		                    deleteClass(tabs_lis[j],"active");
-		                    deleteClass(tabs_divs[j],"active")
-		                }
-		                addClass(this,"active");
-		                addClass(tabs_divs[this.index],"active")
-		            }
-		        }
-		
-		    } 
+				window.onload = function() {
+					//获取tabs下的所有div
+					var tabs = document.getElementById("tabs");
+					var tabs_divs = tabs.getElementsByTagName("div");
+					//获取lists下的所有li
+					var tabs_ul = document.getElementById("lists");
+					var tabs_lis = tabs_ul.getElementsByTagName("li");
+
+					//给元素添加className
+					function addClass(elem, value) {
+						if(!elem.className) {
+							elem.className = value; //如果元素没有class，直接加
+						} else {
+							var newClassName = elem.className; //如果元素已有class，追加
+							newClassName += " ";
+							newClassName += value;
+							elem.className = newClassName;
+						}
+					}
+					//给元素删除className
+					function deleteClass(elem, value) {
+						var newClassName = elem.className;
+						if(newClassName.indexOf(value)) { //查找元素是否有需要删除的class
+							elem.className = newClassName.replace(value, " "); //如果有，则替换掉
+						}
+					}
+
+					for(var i = 0, len = tabs_lis.length; i < len; i++) {
+						tabs_lis[i].index = i;
+
+						tabs_lis[i].onclick = function() {
+							for(var j = 0; j < len; j++) {
+								deleteClass(tabs_lis[j], "active");
+								deleteClass(tabs_divs[j], "active")
+							}
+							addClass(this, "active");
+							addClass(tabs_divs[this.index], "active")
+						}
+					}
+
+				}
 			</script>
 			<!--测试结束-->
 			<div class="index_rec">
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
-						{insert name='ads' id=5 num=8}
-						{insert name='ads' id=6 num=2}
-						{insert name='ads' id=7 num=1}
+						{insert name='ads' id=5 num=8} {insert name='ads' id=6 num=2} {insert name='ads' id=7 num=1}
 						<div class="clear"></div>
 					</div>
 				</div>
@@ -244,63 +245,66 @@
 					{insert name='ads' id=4 num=99}
 				</ul>
 			</div>
-		
+
 			<!--热卖-->
 			<div class="index_bur">
 				<div class="index_bur_t">
-					<a  href="search.php?intro=hot">爆款尖货</a>
+					<a href="search.php?intro=hot">爆款尖货</a>
 				</div>
-				 <!--{foreach from=$hot_goods item=goods name=hot_goods}-->
+				<!--{foreach from=$hot_goods item=goods name=hot_goods}-->
 				<div class="index_bur_item">
 					<a href="{$goods.url}">
-					<div class="index_bur_box">
-						<div class="index_bur_img">
-							<img src="{$site_url}{$goods.thumb}" />
+						<div class="index_bur_box">
+							<div class="index_bur_img">
+								<img src="{$site_url}{$goods.thumb}" />
+							</div>
+							<div class="index_bur_info">
+								<div class="index_bur_name">
+									{$goods.name|escape:html|truncate:30}
+								</div>
+								<!-- {if $goods.promote_price neq ""} -->
+								<div class="index_bur_pri">
+									现价<span>{$goods.promote_price}</span>
+								</div>
+
+								<!-- {else}-->
+
+								<div class="index_bur_pri">
+									现价<span>{$goods.shop_price}</span>|<s>{$goods.market_price}</s>
+								</div>
+								<!--{/if}-->
+								<div class="index_bur_but">
+									<span>BUY NOW</span>
+								</div>
+							</div>
 						</div>
-						<div class="index_bur_info">
-							<div class="index_bur_name">
-								{$goods.name|escape:html|truncate:30}
-							</div>
-							<!-- {if $goods.promote_price neq ""} --> 
-							<div class="index_bur_pri">
-								现价{$goods.promote_price}
-							</div>
-                
-                			<!-- {else}--> 
-			
-							<div class="index_bur_pri">
-								现价<span>{$goods.shop_price}</span>|<s>{$goods.market_price}</s>
-							</div>
-               				 <!--{/if}-->
-							<div class="index_bur_but">
-								<span>BUY NOW</span>
-							</div>
-						</div>
-					</div>
 					</a>
 				</div>
-				<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><ul><!--{/if}-->
-                <!--{/foreach}-->
+				<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
+				</ul>
+				<ul>
+					<!--{/if}-->
+					<!--{/foreach}-->
 			</div>
-			
+
 			<!--新品-->
 			<div class="m_new_recom m_content">
 				<div class="m_new_tit">
 					<a href="search.php?intro=new">
-                         <img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
-                    </a>
+						<img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
+					</a>
 				</div>
-                 <!--{foreach from=$new_goods item=goods name=new_goods}-->
+				<!--{foreach from=$new_goods item=goods name=new_goods}-->
 				<div class="m_new_item">
 					<a href="{$goods.url}">
 						<div class="m_new_item_pic">
-							<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+							<img src="{$site_url}{$goods.thumb}" class="img_res" />
 						</div>
 						<div class="m_new_info">
 							<div class="m_new_name">
 								<p>{$goods.name|escape:html|truncate:50}</p>
 							</div>
-							<!-- {if $goods.promote_price neq ""} --> 
+							<!-- {if $goods.promote_price neq ""} -->
 							<div class="m_new_pri">
 								<p>
 									{$goods.promote_price}
@@ -309,7 +313,7 @@
 									<div class="clear"></div>
 								</p>
 							</div>
-							<!-- {else}--> 
+							<!-- {else}-->
 							<div class="m_new_pri">
 								<p>
 									{$goods.shop_price}
@@ -321,14 +325,17 @@
 							<!--{/if}-->
 						</div>
 						<div class="clear"></div>
-						
+
 					</a>
 				</div>
-				 <!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}--></ul><ul><!--{/if}-->
-                <!--{/foreach}-->
-                
+				<!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}-->
+				</ul>
+				<ul>
+					<!--{/if}-->
+					<!--{/foreach}-->
+
 			</div>
-			
+
 			<div class="m_flash_sale m_content" style="display: block;">
 				<div class="m_you_like_tit">
 					<a href="search.php?intro=best">
@@ -336,66 +343,71 @@
 						<i></i>
 						<p>这里总有您所喜爱的商品</p>
 					</a>
-					
+
 				</div>
 				<div class="swiper-container  swiper-container-horizontal index123" id="index123">
 					<div class="swiper-wrapper">
-						 <!--{foreach from=$best_goods item=goods name=best_goods}-->
+						<!--{foreach from=$best_goods item=goods name=best_goods}-->
 						<div class="swiper-slide">
 							<a href="{$goods.url}">
 								<div class="m_flash_sale_pic">
-									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+									<img src="{$site_url}{$goods.thumb}" class="img_res" />
 								</div>
 								<div class="m_flash_sale_tit">
 									{$goods.goods_style_name|escape:html|truncate:30}
 								</div>
-								 <!-- {if $goods.promote_price neq ""} --> 
-								 <div class="m_flash_sale_price">
+								<!-- {if $goods.promote_price neq ""} -->
 								<div class="m_flash_sale_price">
-                                                                                            <p><span>{$goods.shop_price}</span></p>
-                                                                                            <p><s>{$goods.market_price}</s></p>
-                                                                                    </div>
+									<div class="m_flash_sale_price">
+										<p><span>{$goods.shop_price}</span></p>
+										<p><s>{$goods.market_price}</s></p>
+									</div>
 								</div>
-                                				           <!-- {else}--> 
-                                				           <div class="m_flash_sale_price">
-                                                                                            <p><span>{$goods.shop_price}</span></p>
-                                                                                            <p><s>{$goods.market_price}</s></p>
+								<!-- {else}-->
+								<div class="m_flash_sale_price">
+									<p><span>{$goods.shop_price}</span></p>
+									<p><s>{$goods.market_price}</s></p>
 								</div>
-				
-                                                                        <!--{/if}-->
-								
+
+								<!--{/if}-->
+
 							</a>
-							</div>
-							 <!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}--><!--{/if}-->
-                <!--{/foreach}-->
+						</div>
+						<!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}-->
+						<!--{/if}-->
+						<!--{/foreach}-->
 					</div>
 				</div>
 				<script>
-						var m123 = new Swiper('.index123', {
-						slidesPerView : 'auto',
-						spaceBetween : 20,
-						loop:true,
-						})
+					var m123 = new Swiper('.index123', {
+						slidesPerView: 'auto',
+						spaceBetween: 20,
+						loop: true,
+					})
 				</script>
 			</div>
-			<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem --></div>
+			<!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+			<!-- #EndLibraryItem -->
+			</div>
 		</section>
 		<script type="text/javascript">
-			/*头部搜索点击关闭或者弹出搜索框*/  
-			function showSearch( ){
-				document.getElementById("index_search_box").style.display="block";
+			/*头部搜索点击关闭或者弹出搜索框*/
+			function showSearch() {
+				document.getElementById("index_search_box").style.display = "block";
 			}
-			function closeSearch(){
-				document.getElementById("index_search_box").style.display="none";
+
+			function closeSearch() {
+				document.getElementById("index_search_box").style.display = "none";
 			}
 			/* 搜索验证 */
-			function check(Id){
+			function check(Id) {
 				var strings = document.getElementById(Id).value;
-				if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0){
+				if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0) {
 					return false;
 				}
 				return true;
 			}
 		</script>
 	</body>
+
 </html>
