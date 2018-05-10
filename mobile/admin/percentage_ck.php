@@ -54,7 +54,38 @@ elseif ($_REQUEST['act'] == 'query')
 
     make_json_result($smarty->fetch('percentage_ck_list.htm'), '', array('filter' => $logdb['filter'], 'page_count' => $logdb['page_count']));
 }
+//年卡分佣金列表
+if ($_REQUEST['act'] == 'card_commission_list') {
+    $logdb = get_card_commission();
+    $smarty->assign('full_page',  1);
+    $smarty->assign('ur_here', $_LANG['percentage_ck']);
+    $smarty->assign('on', $separate_on);
+    $smarty->assign('logdb',        $logdb['logdb']);
+    $smarty->assign('filter',       $logdb['filter']);
+    $smarty->assign('record_count', $logdb['record_count']);
+    $smarty->assign('page_count',   $logdb['page_count']);
+    if (!empty($_GET['auid']))
+    {
+        $smarty->assign('action_link',  array('text' => $_LANG['back_note'], 'href'=>"users.php?act=edit&id=$_GET[auid]"));
+    }
+    assign_query_info();
+    $smarty->display('card_commission_list.htm');
+}
+// 年卡分佣金列表--分页
+elseif ($_REQUEST['act'] == 'query_card_commission')
+{
+    $logdb = get_card_commission();
+    $smarty->assign('logdb',        $logdb['logdb']);
+    $smarty->assign('on', $separate_on);
+    $smarty->assign('filter',       $logdb['filter']);
+    $smarty->assign('record_count', $logdb['record_count']);
+    $smarty->assign('page_count',   $logdb['page_count']);
 
+    $sort_flag  = sort_flag($logdb['filter']);
+    $smarty->assign($sort_flag['tag'], $sort_flag['img']);
+
+    make_json_result($smarty->fetch('card_commission_list.htm'), '', array('filter' => $logdb['filter'], 'page_count' => $logdb['page_count']));
+}
 
 
 /*
@@ -202,7 +233,7 @@ elseif ($_REQUEST['act'] == 'separate') {
     sys_msg($_LANG['edit_ok'], 0 ,$links);
 }
 
-function get_percentage_ck() {
+function get_card_commission() {
     $sqladd = '';
     if (isset($_REQUEST['status']))
     {
@@ -218,6 +249,7 @@ function get_percentage_ck() {
     {
         $sqladd = ' AND a.user_id=' . $_GET['auid'];
     }
+    $sqladd .= " AND order_type='掌柜年卡'";
 
     /*
         SQL解释：
@@ -271,5 +303,68 @@ function write_percentage_log($oid, $uid, $username, $money, $point, $separate_b
     if ($oid) {
         $GLOBALS['db']->query($sql);
     }
+}
+
+function get_percentage_ck() {
+    $sqladd = '';
+    if (isset($_REQUEST['status']))
+    {
+        $sqladd = ' AND o.is_separate = ' . (int)$_REQUEST['status'];
+        $filter['status'] = (int)$_REQUEST['status'];
+    }
+    if (isset($_REQUEST['order_sn']))
+    {
+        $sqladd = ' AND o.order_sn LIKE \'%' . trim($_REQUEST['order_sn']) . '%\'';
+        $filter['order_sn'] = $_REQUEST['order_sn'];
+    }
+    if (isset($_GET['auid']))
+    {
+        $sqladd = ' AND a.user_id=' . $_GET['auid'];
+    }
+    $sqladd .= " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
+
+    /*
+        SQL解释：
+        列出同时满足以下条件的订单分成情况：
+        1、有效订单o.user_id > 0
+        2、满足以下情况之一：
+            a.有用户注册上线的未分成订单 u.parent_id > 0 AND o.is_separate = 0
+            b.已分成订单 o.is_separate > 0
+    */
+    $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o".
+        " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
+        " LEFT JOIN " . $GLOBALS['ecs']->table('percentage_log') . " a ON o.order_id = a.order_id" .
+        " WHERE o.user_id > 0 AND (u.parent_id > 0 AND o.is_separate = 0 OR o.is_separate > 0) $sqladd";
+    $filter['record_count'] = $GLOBALS['db']->getOne($sql);
+
+    $logdb = array();
+    /* 分页大小 */
+    $filter = page_and_size($filter);
+
+    $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type,u.parent_id as up FROM " . $GLOBALS['ecs']->table('order_info') . " o".
+        " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
+        " LEFT JOIN " . $GLOBALS['ecs']->table('percentage_log') . " a ON o.order_id = a.order_id" .
+        " WHERE o.user_id > 0 AND ( (u.parent_id > 0 AND o.is_separate = 0) OR o.is_separate > 0 ) $sqladd".
+        " ORDER BY order_id DESC" .
+        " LIMIT " . $filter['start'] . ",$filter[page_size]";
+    $query = $GLOBALS['db']->query($sql);
+    while ($rt = $GLOBALS['db']->fetch_array($query)) {
+        if($rt['up'] > 0) {
+            $rt['separate_able'] = 1;
+        }
+        if(!empty($rt['suid'])) {
+            //在percentage_log有记录
+            $rt['info'] = sprintf($GLOBALS['_LANG']['separate_info2'], $rt['suid'], $rt['auser'], $rt['money'], $rt['point']);
+            if($rt['separate_type'] == -1 || $rt['separate_type'] == -2) {
+                //已被撤销
+                $rt['is_separate'] = 3;
+                $rt['info'] = "<s>" . $rt['info'] . "</s>";
+            }
+        }
+        $logdb[] = $rt;
+    }
+    $arr = array('logdb' => $logdb, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
+
+    return $arr;
 }
 ?>

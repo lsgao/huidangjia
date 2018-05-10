@@ -39,7 +39,9 @@
     <td><span onclick="listTable.edit(this, 'edit_grade', {$cat.cat_id})">{$cat.grade}</span></td>
     <td width="10%" align="right"><span onclick="listTable.edit(this, 'edit_sort_order', {$cat.cat_id})">{$cat.sort_order}</span></td>
     <td width="24%" align="center">
-      <a href="category.php?act=edit&amp;cat_id={$cat.cat_id}">{$lang.edit}</a>
+      <a href="category.php?act=move&cat_id={$cat.cat_id}">{$lang.move_goods}</a> |
+      <a href="category.php?act=edit&amp;cat_id={$cat.cat_id}">{$lang.edit}</a> |
+      <a href="javascript:;" onclick="listTable.remove({$cat.cat_id}, '{$lang.drop_confirm}')" title="{$lang.remove}">{$lang.remove}</a>
     </td>
   </tr>
   {/foreach}

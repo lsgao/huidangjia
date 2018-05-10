@@ -377,7 +377,7 @@ else
 
     /* 查询商品 */
     $sql = "SELECT g.goods_id, g.goods_name, g.market_price, g.is_new, g.is_best, g.is_hot, g.shop_price AS org_price, ".
-                "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, click_count, ".
+                "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price, g.click_count, g.goods_number, ".
                 "g.promote_price, g.promote_start_date, g.promote_end_date, g.goods_thumb, g.goods_img, g.goods_brief, g.goods_type ".
             "FROM " .$ecs->table('goods'). " AS g ".
             "LEFT JOIN " . $GLOBALS['ecs']->table('member_price') . " AS mp ".
@@ -443,6 +443,7 @@ else
         $arr[$row['goods_id']]['url']           = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
         $arr[$row['goods_id']]['sales_count']      = get_sales_volume($row['goods_id']); //显示月销量
         $arr[$row['goods_id']]['click_count'] = $row['click_count'];
+        $arr[$row['goods_id']]['goods_number'] = $row['goods_number'];
     }
     if($display == 'grid')
     {

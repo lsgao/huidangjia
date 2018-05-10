@@ -26,7 +26,7 @@
   <th width="8%">{$lang.order_stats.name}</th>
   <th width="8%">{$lang.sch_stats.name}</th>
   <th>{$lang.log_info}</th>
-  <th width="8%">{$lang.separate_type}</th>
+  <th width="8%" style="display: none;">{$lang.separate_type}</th>
   <th width="10%">{$lang.handler}</th>
 </tr>
 <!-- {foreach from=$logdb item=val} -->
@@ -35,7 +35,7 @@
   <td>{$lang.order_stats.$val.order_status}</td>
   <td>{$lang.sch_stats.$val.is_separate}</td>
   <td>{$val.info}</td>
-  <td>{$lang.separate_by.$val.separate_type}</td>
+  <td style="display: none;">{$lang.separate_by.$val.separate_type}</td>
   <td>
   <!-- {if $val.is_separate eq 0 && $val.separate_able eq 1 && $on eq 1&& $val.order_status eq 5} -->
   <a href="javascript:confirm_redirect(separate_confirm, 'percentage_ck.php?act=separate&oid={$val.order_id}')">{$lang.percentage_separate}</a> | <a href="javascript:confirm_redirect(cancel_confirm, 'percentage_ck.php?act=del&oid={$val.order_id}')">{$lang.percentage_cancel}</a>

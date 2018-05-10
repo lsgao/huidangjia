@@ -16,16 +16,12 @@
 .index_head_cla {font: 16px/30px "微软雅黑";color: #333;width: 96%;margin:0 auto;overflow-x: scroll;height: 30px;white-space: nowrap;}
 .index_head_cla::-webkit-scrollbar {display:none}
 .index_head_cla a {display:inline-block;width: 70px;padding-right:20px;height: 30px;text-align: center;}
-
-
 .banner img,.index_ad img,.index_rec img {width: 100%;height: auto;}
-
 .index_ad ul li {margin-bottom:10px}
 .index_rec_wrap,.index_bur {background: url(../img/index_bg.jpg) repeat-y;background-size: cover;}
 .index_rec_box {width: 98%;margin: 0 auto;padding: 10px;box-sizing: border-box;}
 .index_rec_sitem {float: left;width: 23%;margin: 1% 1% 1% 1%}
 .index_rec_bitem {float: left;width: 50%;}
-
 .index_bur {padding:20px 0}
 .index_bur_t {text-align: center;font: 24px/40px simhei;font-weight: 700;}
 .index_bur_t a {color: #fff;}
@@ -41,13 +37,25 @@
 .index_bur_pri span,.index_bur_pri s {padding: 0 10px;}
 .index_bur_but {border-top: 1px solid #ccc;padding: 10px 0;}
 .index_bur_but span {border: 1px solid #333;font: 14px/20px "微软雅黑";color: #333;padding: 0 40px 0 10px;background: url(../huidangjia/index_bur_icon.png)  no-repeat;background-position: 90px -2px;}
-
-
 .index_text_wrap {padding-left: 100px;position: relative;font: 14px/20px "微软雅黑";margin-top: 10px;}
 #index_text,#index_text .swiper-slide{width: 96%;color: #333;height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .index_text_tit {position: absolute;top:0;left: 10px;background: url(../img/index_text.png) center no-repeat;width: 80px;text-align: center;color: #ff9600;height: 20px;}
-
 .m_flash_wrap {padding: 20px 10px;margin-bottom: 10px !important;margin-top:20px !important;position: relative;box-shadow: 0 0 8px #ccc;}
 .m_flash_tit {position: absolute;width: 100px;text-align: center;background: #fff;font: 14px/20px "微软雅黑";text-align: center;top: -10px;left: 50%;margin-left: -50px;box-shadow: 0 0 8px #ccc;}
 #m_flash {margin: 0;}
-.m_flash_sale_price p {white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
+.m_flash_sale_price p,.so_com_item p {white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
+#lists {width: 202px;margin: 0 auto;border: 1px solid #FF9600;border-radius: 4px;overflow: hidden;}
+#lists li {font: 14px/20px "微软雅黑";float: left;width: 100px;text-align: center;color: #FF9600;}
+#lists .active  {color: #fff;background: #ff9600;}
+.so_com_item {width: 21%;margin: 2%;float: left;padding: 10px 0;}
+.so_com_item {line-height: 14px;}
+.so_com_item img {width: 60%;height: auto;margin: 10px auto;}
+.so_com_item p {font-size:14px;color: #333;text-align: center;}
+.so_com_tit {text-align: left; display: none;}
+.so_com_item p span {font-size: 14px;color: #FF9600;}
+.so_com_item p s {color: #999;font-size: 12px;}
+.so_com_more {background: #ffdfb2;}
+.so_com_more p {;width: 60%;margin: 0 auto;display: block;text-align: center;background: url(../img/so_com_more_text.jpg) center no-repeat;height: 28px;background-size: cover;}
+#tabs .hide {display: none;}
+#tabs .active {display: block !important;}
+#tabs .hide:after {clear: both;height: 0;overflow: hidden;display: block;content: "";}

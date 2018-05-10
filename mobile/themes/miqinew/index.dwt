@@ -142,10 +142,93 @@
 						//loop:true,
 					})
 				</script>
-				
 			</div>
 			<!-- {/if} -->
 			<!--促销结束-->
+			<!--测试-->
+			<div id="tabs" style="display: none;">
+			    <ul id="lists">
+			        <li class="abc active">10点开抢</li>
+			        <li class="abc">明日预告</li>
+			    </ul>
+			    <div class="hide active">
+			    	<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
+			    	<!--{if $smarty.foreach.hot_goods.iteration < 4}--> 
+			        	<a href="{$goods.url}" class="so_com_item">
+									<img src="{$site_url}{$goods.thumb}" class="img_res"/>
+									<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
+								
+									<p><span>{$goods.promote_price}</span></p>
+									<p><s>{$goods.market_price}</s></p>
+									
+						</a>
+						 <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--></ul><!--{/if}-->
+               		
+               		<!--{/if}-->
+               <!--{/foreach}-->
+			        <a href="{$goods.url}" class="so_com_more so_com_item">
+									<img src="{$ectouch_themes}/img/so_com_more.jpg"/>
+								
+									<p></p>
+									
+						</a>
+			    </div>
+			    <div class="hide">
+			       <!--{foreach from=$cat_id212 item=goods name=cat_id212}-->
+  <a href="{$goods.url}" title="{$goods.name|escape:html}">
+    <img src="{$option.static_path}{$goods.thumb}">
+    {$goods.name}
+    <!--{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}-->
+    </a>
+    </li>
+  <!--{/foreach}-->
+			    </div>
+			</div>
+			<script>
+				 window.onload = function(){
+		        //获取tabs下的所有div
+		        var tabs = document.getElementById("tabs");
+		        var tabs_divs = tabs.getElementsByTagName("div");
+		        //获取lists下的所有li
+		        var tabs_ul = document.getElementById("lists");
+		        var tabs_lis = tabs_ul.getElementsByTagName("li");  
+		
+		            //给元素添加className
+		        function addClass(elem,value){
+		                if(!elem.className){
+		                    elem.className = value; //如果元素没有class，直接加
+		                }else{
+		                    var newClassName = elem.className;//如果元素已有class，追加
+		                    newClassName +=" ";
+		                    newClassName +=value;
+		                    elem.className = newClassName;  
+		                }
+		        }
+		        //给元素删除className
+		        function deleteClass(elem,value){
+		                var newClassName = elem.className;
+		                if(newClassName.indexOf(value)){//查找元素是否有需要删除的class
+		                    elem.className = newClassName.replace(value," ");//如果有，则替换掉
+		                }
+		        }
+		
+		
+		        for(var i =0,len = tabs_lis.length; i<len;i++){
+		            tabs_lis[i].index = i;
+		
+		            tabs_lis[i].onclick = function(){
+		                for(var j = 0;j<len;j++){
+		                    deleteClass(tabs_lis[j],"active");
+		                    deleteClass(tabs_divs[j],"active")
+		                }
+		                addClass(this,"active");
+		                addClass(tabs_divs[this.index],"active")
+		            }
+		        }
+		
+		    } 
+			</script>
+			<!--测试结束-->
 			<div class="index_rec">
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
@@ -156,7 +239,6 @@
 					</div>
 				</div>
 			</div>
-			
 			<div class="index_ad">
 				<ul>
 					{insert name='ads' id=4 num=99}
