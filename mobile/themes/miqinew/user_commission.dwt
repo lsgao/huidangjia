@@ -30,7 +30,7 @@
     </dd>
     <div class="user_distri_list">
       <ul>
-        <li> 累计销售：￥{$total_commission.order_amount}</li>
+        <li> 累计销售：￥{$total_commission.order_amount} （其中计算佣金的销售金额：￥{$total_commission.order_fencheng}）</li>
         <li> 累计佣金：￥{$total_commission.commission}</li>
       </ul>
     </div>

@@ -160,7 +160,7 @@
 				</ul>
 				<div class="hide active">
 					<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
-					<!--{if $smarty.foreach.hot_goods.iteration < 8}-->
+					<!--{if $smarty.foreach.hot_goods.iteration < 4}-->
 					<a href="{$goods.url}" class="so_com_item">
 						<img src="{$site_url}{$goods.thumb}" class="img_res" />
 						<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
@@ -179,12 +179,20 @@
 				</div>
 				<div class="hide">
 					<!--{foreach from=$tomorrow_goods item=goods name=tomorrow_goods}-->
-					<!--{if $smarty.foreach.tomorrow_goods.iteration < 8}-->
+					<!--{if $smarty.foreach.tomorrow_goods.iteration < 4}-->
 					<a href="{$goods.url}" class="so_com_item" title="{$goods.name|escape:html}">
 						<img src="{$site_url}{$goods.thumb}" class="img_res" />
 						<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
-						<p><span>{$goods.promote_price}</span></p>
-						<p><s>{$goods.market_price}</s></p>
+						<!-- {if $goods.promote_price neq ""} -->
+								<p>
+									<span>{$goods.promote_price}</span>
+								</p>
+
+								<!-- {else}-->
+
+									<p><span>{$goods.shop_price}</span></p>
+									<p><s>{$goods.market_price}</s></p>
+								<!--{/if}-->
 					</a>
 					<!--{/if}-->
 					<!--{/foreach}-->
