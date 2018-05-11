@@ -112,7 +112,7 @@
 			</div>
 			<!--促销开始-->
 			<!-- {if $hot_goods} -->
-			<div class="m_flash_sale m_content m_flash_wrap">
+			<div class="m_flash_sale m_content m_flash_wrap" style="display: none;">
 				<div class="m_flash_tit">
 					<p>特价促销</p>
 				</div>
@@ -152,15 +152,15 @@
 			</div>
 			<!-- {/if} -->
 			<!--促销结束-->
-			<!--测试-->
-			<div id="tabs" style="display: none;">
+			<!--促销新开始-->
+			<div id="tabs">
 				<ul id="lists">
 					<li class="abc active">10点开抢</li>
 					<li class="abc">明日预告</li>
 				</ul>
 				<div class="hide active">
 					<!--{foreach from=$promotion_goods item=goods name=hot_goods}-->
-					<!--{if $smarty.foreach.hot_goods.iteration < 4}-->
+					<!--{if $smarty.foreach.hot_goods.iteration < 8}-->
 					<a href="{$goods.url}" class="so_com_item">
 						<img src="{$site_url}{$goods.thumb}" class="img_res" />
 						<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
@@ -168,24 +168,30 @@
 						<p><s>{$goods.market_price}</s></p>
 					</a>
 					<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
-					</ul>
 					<!--{/if}-->
 
 					<!--{/if}-->
 					<!--{/foreach}-->
-					<a href="{$goods.url}" class="so_com_more so_com_item">
+					<a href="" class="so_com_more so_com_item">
 						<img src="{$ectouch_themes}/img/so_com_more.jpg" />
 						<p></p>
 					</a>
 				</div>
 				<div class="hide">
 					<!--{foreach from=$tomorrow_goods item=goods name=tomorrow_goods}-->
-					<a href="{$goods.url}" title="{$goods.name|escape:html}">
-						<img src="{$site_url}{$goods.thumb}"> {$goods.name}
-						<!--{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}-->
+					<!--{if $smarty.foreach.tomorrow_goods.iteration < 8}-->
+					<a href="{$goods.url}" class="so_com_item" title="{$goods.name|escape:html}">
+						<img src="{$site_url}{$goods.thumb}" class="img_res" />
+						<p class="so_com_tit">{$goods.goods_style_name|escape:html|truncate:15}</p>
+						<p><span>{$goods.promote_price}</span></p>
+						<p><s>{$goods.market_price}</s></p>
 					</a>
-					</li>
+					<!--{/if}-->
 					<!--{/foreach}-->
+					<a href="category.php?id=227" class="so_com_more so_com_item">
+						<img src="{$ectouch_themes}/img/so_com_more.jpg" />
+						<p></p>
+					</a>
 				</div>
 			</div>
 			<script>
@@ -231,7 +237,7 @@
 
 				}
 			</script>
-			<!--测试结束-->
+			<!--促销新结束-->
 			<div class="index_rec">
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
