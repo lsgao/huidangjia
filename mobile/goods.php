@@ -178,7 +178,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
                 $goods['bonus_money'] = price_format($goods['bonus_money']);
             }
         }
-		$goods['goods_desc'] = str_replace('src="/images/', 'src="'.$config['site_url'].'images/', $goods['goods_desc']); //修复产品详情的图片 by wang
+        $goods['goods_desc'] = str_replace('src="/images/', 'src="'.$config['site_url'].'images/', $goods['goods_desc']); //修复产品详情的图片 by wang
         $smarty->assign('goods',              $goods);
         $smarty->assign('goods_id',           $goods['goods_id']);
         $smarty->assign('promote_end_time',   $goods['gmt_end_time']);
@@ -314,8 +314,6 @@ $smarty->assign('userid',  $userid);
 $smarty->assign('share_info',  $share_info);	
 $smarty->assign('dourl',  $dourl);		
 $smarty->assign('url',  $url);
-/*人人科技修改*/
-/*甜   心100  修复开发*/
 
 $tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
 $smarty->assign('tianxin_url',  $tianxin_url); 

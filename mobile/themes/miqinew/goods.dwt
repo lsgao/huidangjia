@@ -91,18 +91,18 @@
 <script type="text/javascript">
 // 筛选商品属性
 jQuery(function($) {
-	$(".info").click(function(){
-		$('.goodsBuy .fields').slideToggle("fast");
-	});
+  $(".info").click(function(){
+    $('.goodsBuy .fields').slideToggle("fast");
+  });
 })
 
 function changenum(diff) {
-	var num = parseInt(document.getElementById('goods_number').value);
-	var goods_number = num + Number(diff);
-	if( goods_number >= 1){
-		document.getElementById('goods_number').value = goods_number;//更新数量
-		changePrice();
-	}
+  var num = parseInt(document.getElementById('goods_number').value);
+  var goods_number = num + Number(diff);
+  if( goods_number >= 1){
+    document.getElementById('goods_number').value = goods_number;//更新数量
+    changePrice();
+  }
 }
 
 
@@ -110,105 +110,105 @@ function changenum(diff) {
 </head>
 <body>
 <header id="header">
-	<div class="header_l header_return">
-		<a class="ico_10" href="cat_all.php"> 返回 </a>
-	</div>
-	<h1> 商品详情 </h1>
+  <div class="header_l header_return">
+    <a class="ico_10" href="cat_all.php"> 返回 </a>
+  </div>
+  <h1> 商品详情 </h1>
 </header>
 <!--商品图 s--->
 <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css" />
 <script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
 <section class="goods_slider">
-	<div class="pp_product_img">
-		<style>
-			.swiper-pagination-bullet-active {
-				background-color: #ff9800 !important;
-			}
-			
-			#goods_banner img {
-				width: 100%;
-			}
-		</style>
-		<div class="swiper-container swiper-container-horizontal" id="goods_banner">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<a href="javascript:showPic()">
-						<img src="{$site_url}{$goods.goods_thumb}" alt="{$goods.goods_name}" />
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="javascript:showPic()"><img alt="" src="{$site_url}{$goods.original_img}" /></a>
-				</div>
-				<!--{if $pictures}-->
-				<!-- {foreach from=$pictures item=picture name=no}-->
-				<!-- {if $smarty.foreach.no.iteration > 1}  -->
-				<div class="swiper-slide">
-					<a href="javascript:showPic()"><img alt="" src="{if $picture.img_url}{$picture.img_url}{else}{$site_url}{$picture.thumb_url}{/if}" /></a>
-				</div>
-				<!-- {/if}-->
-				<!--{/foreach}-->
-				<!--{/if}-->
-						
-					</div>
-					<div class="swiper-pagination swiper-pagination-bullets" id="goods_bpage"></div>
-				</div>
-			</div>
-			<script>
-				var mySwiper = new Swiper('#goods_banner',{
-				pagination : '#goods_bpage',
-				observer:true,
-				autoplay : 3000,
-				autoplayDisableOnInteraction : false,
-				loop:true,
-				})
-			</script>
+  <div class="pp_product_img">
+    <style>
+      .swiper-pagination-bullet-active {
+        background-color: #ff9800 !important;
+      }
+      
+      #goods_banner img {
+        width: 100%;
+      }
+    </style>
+    <div class="swiper-container swiper-container-horizontal" id="goods_banner">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="javascript:showPic()">
+            <img src="{$site_url}{$goods.goods_thumb}" alt="{$goods.goods_name}" />
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="javascript:showPic()"><img alt="" src="{$site_url}{$goods.original_img}" /></a>
+        </div>
+        <!--{if $pictures}-->
+        <!-- {foreach from=$pictures item=picture name=no}-->
+        <!-- {if $smarty.foreach.no.iteration > 1}  -->
+        <div class="swiper-slide">
+          <a href="javascript:showPic()"><img alt="" src="{if $picture.img_url}{$picture.img_url}{else}{$site_url}{$picture.thumb_url}{/if}" /></a>
+        </div>
+        <!-- {/if}-->
+        <!--{/foreach}-->
+        <!--{/if}-->
+            
+          </div>
+          <div class="swiper-pagination swiper-pagination-bullets" id="goods_bpage"></div>
+        </div>
+      </div>
+      <script>
+        var mySwiper = new Swiper('#goods_banner',{
+        pagination : '#goods_bpage',
+        observer:true,
+        autoplay : 3000,
+        autoplayDisableOnInteraction : false,
+        loop:true,
+        })
+      </script>
 </section>
 <!--{if $goods.is_promote and $goods.gmt_end_time } 促销--> 
   {insert_scripts files='lefttime.js'}
   <div class="goods_prom_wrap">
-  	<div class="goods_prom_pri">
-  		<!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
+    <div class="goods_prom_pri">
+      <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
     <p><small>{$lang.promote_price}</small>{$goods.promote_price}</p>
     <p>
-    	{if  $user_prices }
-				<small>{$user_prices.rank_name}：</small>{$user_prices.price}
-			{/if}
+      {if  $user_prices }
+        <small>{$user_prices.rank_name}：</small>{$user_prices.price}
+      {/if}
     </p>
     <span>限时抢购</span><s>{$goods.market_price}</s> 
     <!-- {/if} -->
-  	</div>
-  	<div class="goods_prom_time">
-  		<p>距离结束还剩：</p>
-  		<span class="time"><time class="countdown" id="leftTime">{$lang.please_waiting}</time></span>
-  	</div>
-  	<div class="clear"></div>
+    </div>
+    <div class="goods_prom_time">
+      <p>距离结束还剩：</p>
+      <span class="time"><time class="countdown" id="leftTime">{$lang.please_waiting}</time></span>
+    </div>
+    <div class="clear"></div>
   </div>
   <!--{/if}-->
 <!--商品图 end---> 
 <!--商品参数-->
 <div class="pp_product_infor" style="display: none;">
-				<div class="content">
-					<div class="pp_product_name">
-						<p>
-							{$goods.goods_style_name}
-						</p>
-						<div class="pp_collection">
-						</div>
-					</div>
-					<div class="pp_product_price">
-						
-						<p>¥<b>285.00</b><s>¥427.00</s><span>包邮</span><span>包税</span></p>
-					</div>
-					<div class="pp_discount">
-						<p>
-							<small class="discount_text">注</small>{$goods.goods_brief}
-						</p>
-						<p>
-							<small class="return_text">返</small>
-						</p>
-					</div>
-				</div>
-			</div>
+        <div class="content">
+          <div class="pp_product_name">
+            <p>
+              {$goods.goods_style_name}
+            </p>
+            <div class="pp_collection">
+            </div>
+          </div>
+          <div class="pp_product_price">
+            
+            <p>¥<b>285.00</b><s>¥427.00</s><span>包邮</span><span>包税</span></p>
+          </div>
+          <div class="pp_discount">
+            <p>
+              <small class="discount_text">注</small>{$goods.goods_brief}
+            </p>
+            <p>
+              <small class="return_text">返</small>
+            </p>
+          </div>
+        </div>
+      </div>
 <section class="goodsInfo">
   <a class="{if $is_collect==1}collect1{else}collect{/if}" id="collect_box" href="javascript:collect({$goods.goods_id})" style="display: inline;">{$record_count}</a>
   <div class="title">
@@ -227,9 +227,9 @@ function changenum(diff) {
     <del>{$goods.market_price}</del> 
     <!-- {/if} --></li>
     <!--{/if}--> 
-	{if  $user_prices }
-    <li>	
-	{$user_prices.rank_name}：<b class="price" >{$user_prices.price}</b></li>
+  {if  $user_prices }
+    <li>  
+  {$user_prices.rank_name}：<b class="price" >{$user_prices.price}</b></li>
 {/if}
   </ul>
   <!--{if $goods.is_promote and $goods.gmt_end_time } 促销--> 
@@ -273,7 +273,7 @@ function changenum(diff) {
     <div class="selected"> </div>
     </label>
     <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
-     <div class="fields"   style="display: block;">	 
+     <div class="fields"   style="display: block;">   
         <ul class="ul1">
           <li>{$lang.amount}：<font id="ECS_GOODS_AMOUNT" class="price"></font></li>
           <li><!--推荐功能--></li>
@@ -287,17 +287,17 @@ function changenum(diff) {
             <!-- {* 判断属性是复选还是单选 *} -->
             <!-- {if $spec.attr_type eq 1} -->
                 <!-- {if $cfg.goodsattr_style eq 1} -->
-				  <!-- {if $spec.name eq '颜色'}-->
+          <!-- {if $spec.name eq '颜色'}-->
                     <!-- {foreach from=$spec.values item=value key=key} -->
                     <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
                     <label for="spec_value_{$value.id}">{if $value.product_number eq 0}{$value.label}-<font class="price">缺货</font>{else}{$value.label}-<font class="price">{$value.product_number}{$goods.measure_unit}</font>{/if}</label> 
-                    <!-- {/foreach} -->					
+                    <!-- {/foreach} -->          
                     <!--{else}-->
-					<!--{foreach from=$spec.values item=value key=key}-->
-					<input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
+          <!--{foreach from=$spec.values item=value key=key}-->
+          <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
                     <label for="spec_value_{$value.id}">{$value.label}</label> 
-					<!-- {/foreach} -->
-			      <!--{/if}-->
+          <!-- {/foreach} -->
+            <!--{/if}-->
                     <input type="hidden" name="spec_list" value="{$key}" />
                 <!-- {else} -->
                     <select name="spec_{$spec_key}" onchange="changePrice()">
@@ -316,7 +316,7 @@ function changenum(diff) {
                 <input type="hidden" name="spec_list" value="{$key}" />
             <!-- {/if} -->
             </div>
-		  </li>
+      </li>
           <!-- {/foreach} --> 
           <!-- {* 结束循环可选属性 *} -->
         </ul>
@@ -337,13 +337,13 @@ function changenum(diff) {
         <script type="text/javascript">
             function showDiv(){
                 document.getElementById('popDiv').style.display = 'block';
-				document.getElementById('hidDiv').style.display = 'block';
-				document.getElementById('cartNum').innerHTML = document.getElementById('goods_number').value;
-				document.getElementById('cartPrice').innerHTML = document.getElementById('ECS_GOODS_AMOUNT').innerHTML;
+        document.getElementById('hidDiv').style.display = 'block';
+        document.getElementById('cartNum').innerHTML = document.getElementById('goods_number').value;
+        document.getElementById('cartPrice').innerHTML = document.getElementById('ECS_GOODS_AMOUNT').innerHTML;
             }
             function closeDiv(){
                 document.getElementById('popDiv').style.display = 'none';
-				document.getElementById('hidDiv').style.display = 'none';
+        document.getElementById('hidDiv').style.display = 'none';
             }
      </script>
         <!--
@@ -378,23 +378,23 @@ function changenum(diff) {
 //介绍 评价 咨询切换
 var tab_now = 1;
 function tab(id){
-	document.getElementById('tabs' + tab_now).className = document.getElementById('tabs' + tab_now).className.replace('current', '');
-	document.getElementById('tabs' + id).className = document.getElementById('tabs' + id).className.replace('', 'current');
+  document.getElementById('tabs' + tab_now).className = document.getElementById('tabs' + tab_now).className.replace('current', '');
+  document.getElementById('tabs' + id).className = document.getElementById('tabs' + id).className.replace('', 'current');
 
-	tab_now = id;
-	if (id == 1) {
-		document.getElementById('tab1').className = '';
-		document.getElementById('tab2').className = 'hidden';
-		document.getElementById('tab3').className = 'hidden';
-	}else if (id == 2) {
-		document.getElementById('tab1').className = 'hidden';
-		document.getElementById('tab2').className = '';
-		document.getElementById('tab3').className = 'hidden';
-	}else if (id == 3) {
-		document.getElementById('tab1').className = 'hidden';
-		document.getElementById('tab2').className = 'hidden';
-		document.getElementById('tab3').className = '';
-	}
+  tab_now = id;
+  if (id == 1) {
+    document.getElementById('tab1').className = '';
+    document.getElementById('tab2').className = 'hidden';
+    document.getElementById('tab3').className = 'hidden';
+  }else if (id == 2) {
+    document.getElementById('tab1').className = 'hidden';
+    document.getElementById('tab2').className = '';
+    document.getElementById('tab3').className = 'hidden';
+  }else if (id == 3) {
+    document.getElementById('tab1').className = 'hidden';
+    document.getElementById('tab2').className = 'hidden';
+    document.getElementById('tab3').className = '';
+  }
 }
 </script> 
 
@@ -410,12 +410,12 @@ function tab(id){
   <div id="tab1" class="">
     <div class="desc wrap">
       <div class="blank2"></div>
-	  
-	  {if $goods.mobile_desc }
-		{$goods.mobile_desc}
-	  {else}
-		{$goods.goods_desc}
-	  {/if}
+    
+    {if $goods.mobile_desc }
+    {$goods.mobile_desc}
+    {else}
+    {$goods.goods_desc}
+    {/if}
     </div>
   </div>
   <div id="tab2" class="hidden">
@@ -507,12 +507,9 @@ function changePriceResponse(res)
 }
 <!-- {/literal} -->
 </script>
-
-
-
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script>
-  <!-- {/literal} -->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+  <!-- {literal} -->
     wx.config({
       debug: false,
       appId: '{$signPackage.appId}',
@@ -526,41 +523,43 @@ function changePriceResponse(res)
     });
     wx.ready(function () {
       //监听“分享给朋友”
-      wx.onMenuShareAppMessage({
-        title: '{$goods.goods_style_name}',
-        desc: '{$goods.goods_style_name}',
-        link: '{$url}',
-        imgUrl: '{$site_url}{$goods.original_img}',
-        trigger: function (res) {
-          //{if $url}
-            //alert('恭喜！分享可以获取提成哦！');
-          //{else}
-            //alert('糟糕，需要分销商登录才能获得提成哦！');
-          //{/if}
-        },
-        success: function (res) {
-          {if $dourl }
-            window.location.href="{$dourl}&type=1"; 
-          {/if}
-        },
-        cancel: function (res) {
-          alert('很遗憾，您已取消分享');
-        },
-        fail: function (res) {
-          alert(JSON.stringify(res));
+      wx.onMenuShareAppMessage(
+        {
+          title: '{$goods.goods_style_name}',
+          desc: '{$goods.goods_style_name}',
+          link: '{$url}',
+          imgUrl: '{$site_url}{$goods.original_img}',
+          trigger: function (res) {
+            {if $url}
+              //alert('恭喜！分享可以获取提成哦！');
+            {else}
+              //alert('糟糕，需要分销商登录才能获得提成哦！');
+            {/if}
+          },
+          success: function (res) {
+            {if $dourl }
+              window.location.href="{$dourl}&type=1"; 
+            {/if}
+          },
+          cancel: function (res) {
+            alert('很遗憾，您已取消分享');
+          },
+          fail: function (res) {
+            alert(JSON.stringify(res));
+          }
         }
-      });
+      );
       //分享到朋友圈
       wx.onMenuShareTimeline({
         title: '{$goods.goods_style_name}',
         link: '{$url}',
         imgUrl: '{$site_url}{$goods.original_img}',
         trigger: function (res) {
-          //{if $url}
+          {if $url}
             //alert('恭喜！分享可以获取提成哦！');
-          //{else}
+          {else}
             //alert('糟糕，需要分销商登录才能获得提成哦！');
-          //{/if}
+          {/if}
         },
         success: function (res) {
           {if $dourl }
@@ -575,7 +574,7 @@ function changePriceResponse(res)
         }
       });
     });
-  <!-- {literal} -->
+  <!-- {/literal} -->
 </script>
 <section id="s-action" class="s-action float">
   {if $goods.goods_id neq 1298}
