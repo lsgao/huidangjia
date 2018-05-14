@@ -395,6 +395,15 @@ function get_promote_goods($cats = '')
         $goods[$idx]['thumb']        = get_image_path($row['goods_id'], $row['goods_thumb'], true);
         $goods[$idx]['goods_img']    = get_image_path($row['goods_id'], $row['goods_img']);
         $goods[$idx]['url']          = build_uri('goods', array('gid' => $row['goods_id']), $row['goods_name']);
+         $time = gmtime();
+        if ($time >= $row['promote_start_date'] && $time <= $row['promote_end_date'])
+        {
+             $goods[$idx]['gmt_end_time'] = local_date('M d, Y H:i:s',$row['promote_end_date']);
+        }
+        else
+        {
+            $goods[$idx]['gmt_end_time'] = 0;
+        }
     }
 
     return $goods;

@@ -55,8 +55,9 @@
 .so_com_item p span {font-size: 14px;color: #FF9600;}
 .so_com_item p s {color: #999;font-size: 12px;}
 .so_com_more {background: #ffdfb2;}
-.so_com_more p {;width: 60%;margin: 0 auto;display: block;text-align: center;background: url(../img/so_com_more_text.jpg) center no-repeat;height: 28px;background-size: cover;}
+.so_com_more p {;width: 70%;margin: 0 auto;display: block;text-align: center;background: url(../img/so_com_more_text.jpg) center no-repeat;height: 42px;background-size: cover;}
 #tabs {margin-top:20px}
 #tabs .hide {display: none;}
 #tabs .active {display: block !important;}
 #tabs .hide:after {clear: both;height: 0;overflow: hidden;display: block;content: "";}
+#tabs font {font: 12px/14px "微软雅黑";padding: 2px;background: #333;color: #fff;margin: 1px;border-radius: 2px;}

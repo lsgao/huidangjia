@@ -46,41 +46,34 @@
   <!-- {if $goods_list } -->
     <section class="wrap" style="padding-bottom:5rem"  >
       <form id="formCart" name="formCart" method="post" action="flow.php">
-        <ul class="radius10 itemlist">
+        <ul class="itemlist">
           <!-- {foreach from=$goods_list item=goods} -->
-            <li class="new-tbl-type">
-              <div class="itemlist_l new-tbl-cell"> 
-                <!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 --> 
-                  <a  href="goods.php?id={$goods.goods_id}" target="_blank"> <img class="lazy" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" /> </a> 
-                  <!-- {if $goods.parent_id gt 0} 配件 -->
-                    <span style="color:#FF0000">（{$lang.accessories}）</span> 
-                  <!-- {/if} --> 
-                  <!-- {if $goods.is_gift gt 0} 赠品 -->
-                    <span style="color:#FF0000">（{$lang.largess}）</span> 
-                  <!-- {/if} --> 
-                <!-- {elseif $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} -->
-                  <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" class="f6">{$goods.goods_name}<span style="color:#FF0000;">（{$lang.remark_package}）</span></a>
-                  <div id="suit_{$goods.goods_id}" style="display:none"> 
-                    <!-- {foreach from=$goods.package_goods_list item=package_goods_list} --> 
-                      <a href="goods.php?id={$package_goods_list.goods_id}" target="_blank" class="f6">{$package_goods_list.goods_name}</a><br />
-                    <!-- {/foreach} --> 
-                  </div>
-                <!-- {else} 优惠活动 --> 
-                  {$goods.goods_name} 
-                <!-- {/if} --> 
-              </div>
-              <div class="desc new-tbl-cell">
-                <a style="color:#333" href="goods.php?id={$goods.goods_id}" target="_blank" class="fragment">
-                  <h4>{$goods.goods_name}</h4>
-                </a>
-                <div style="clear:both"> </div>
-                <!-- {if $show_goods_attribute eq 1} 显示商品属性 -->
-                  <p> {$goods.goods_attr|nl2br} </p>
+          <style>
+          	.itemlist {padding: 0;background: none;border: none;}
+.content a {box-shadow: none;padding: 0;height: auto;}
+.itemlist li {padding: 0;border: none;}
+          </style>
+            <div class="shop_item">
+							<div class="content">
+								<div class="item_isp" style="display: none;">
+									<i class="item_check" choose="1"></i>
+									<p>商品为<span>惠当家</span></p>
+								</div>
+								<div class="item_con">
+									<div class="item_img">
+										<!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 --> 
+                  <a  href="goods.php?id={$goods.goods_id}" target="_blank"> <img style="width: 100%;height: auto;" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" /> </a> 
                 <!-- {/if} -->
-                <div class="b">
-                  <em class="price">{$goods.goods_price}</em>
-                  <span style="jianju">x </span>
-                  <span class="txt">
+									</div>
+									<div class="item_img_in">
+										<a style="color:#333" href="goods.php?id={$goods.goods_id}">
+                  <p class="item_img_tit">{$goods.goods_name}</p>
+                </a>
+										<!-- {if $show_goods_attribute eq 1} 显示商品属性 -->
+                  <p class="item_size">规格： {$goods.goods_attr|nl2br} </p>
+                <!-- {/if} -->
+										<p class="item_num">
+											<span class="txt">
                     <button type="button" class="decrease" onclick="changenum({$goods.rec_id},-1)">-</button>
                     <!-- {if $goods.goods_id gt 0 && $goods.is_gift eq 0 && $goods.parent_id eq 0} 普通商品可修改数量 -->
                       <input class="num" type="text" min="1" max="1000" name="goods_number[{$goods.rec_id}]" id="goods_number_{$goods.rec_id}" value="{$goods.goods_number}" size="4"   onkeyup="changenum({$goods.rec_id},0)"/>
@@ -116,10 +109,29 @@
                       {$goods.goods_number}
                     <!-- {/if} --> 
                   </span>
-                  <a href="javascript:if (confirm('{$lang.drop_goods_confirm}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; "   class="ico_08 cha"> </a>
-                </div>
-              </div>
-            </li>
+										</p>
+									</div>
+									<div class="item_price">
+										<ul>
+											<li class="item_money">
+												<span class="pri">{$goods.goods_price}</span>
+											</li>
+											<li class="item_marm">
+												<s>{$goods.market_price}</s>
+											</li>
+											<li class="item_tariff">
+												<span>关税：0.00</span>
+											</li>
+										</ul>
+										<a href="javascript:if (confirm('{$lang.drop_goods_confirm}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " style="width: auto;margin-top: 7px;" ><img src="{$ectouch_themes}/img/item_del_ico.png" height="16px" width="16px"/></a>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="item_sum" style="display: none;">
+									<p>小计：¥<span class="small_num" id="">275.00</span></p>
+								</div>
+							</div>
+						</div>
           <!-- {/foreach} -->
         </ul>
         <input type="hidden" name="step" value="update_cart" />
@@ -543,7 +555,7 @@
             </dl>
             <dl>
               <dd class="c333"></dd>
-              <dd ><a href="flow.php" class="modify radius5">{$lang.modify}</a></dd>
+              <dd  style="display: none;"><a href="flow.php" class="modify radius5">{$lang.modify}</a></dd>
             </dl>
           </div>	
           <!-- {if $allow_use_integral} 是否使用积分 -->
