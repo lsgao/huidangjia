@@ -296,13 +296,13 @@ $db->query('UPDATE ' . $ecs->table('goods') . " SET click_count = click_count + 
 
 
 $userid=$_SESSION['user_id'];
-if(!empty($userid)){	
+if(!empty($userid)){
 	$url="http://".$_SERVER['HTTP_HOST']."/mobile/goods.php?id=".$goods_id."&u=".$userid;
-	//20141204新增分享返积分
+	//分享返积分
 	$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
 }else{
 	$url="";
-	//20141204新增分享返积分
+	//分享返积分
 	$dourl="";
 }
 require_once "wxjs/jssdk.php";
@@ -311,14 +311,12 @@ $jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
 $signPackage = $jssdk->GetSignPackage();
 $smarty->assign('signPackage',  $signPackage);
 $smarty->assign('userid',  $userid);
-$smarty->assign('share_info',  $share_info);	
-$smarty->assign('dourl',  $dourl);		
+$smarty->assign('share_info',  $share_info);
+$smarty->assign('dourl',  $dourl);
 $smarty->assign('url',  $url);
 
 $tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
 $smarty->assign('tianxin_url',  $tianxin_url); 
-
-/*甜   心100  修复开发*/
 $smarty->assign('now_time',  gmtime());           // 当前系统时间
 $smarty->display('goods.dwt',      $cache_id);
 

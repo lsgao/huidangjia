@@ -538,7 +538,7 @@ function changePriceResponse(res)
           },
           success: function (res) {
             {if $dourl }
-              window.location.href="{$dourl}&type=1"; 
+              //window.location.href="{$dourl}&type=1"; 
             {/if}
           },
           cancel: function (res) {
@@ -563,7 +563,7 @@ function changePriceResponse(res)
         },
         success: function (res) {
           {if $dourl }
-            window.location.href="{$dourl}&type=2"; 
+            //window.location.href="{$dourl}&type=2"; 
           {/if}
         },
         cancel: function (res) {
