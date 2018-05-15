@@ -186,31 +186,52 @@ function changenum(diff) {
   <!--{/if}-->
 <!--商品图 end---> 
 <!--商品参数-->
-<div class="pp_product_infor" style="display: none;">
+<div class="pp_product_infor">
         <div class="content">
           <div class="pp_product_name">
             <p>
               {$goods.goods_style_name}
             </p>
-            <div class="pp_collection">
+            <div class="pp_collection goodsInfo">
+            	 <a class="{if $is_collect==1}collect1{else}collect{/if}" id="collect_box" href="javascript:collect({$goods.goods_id})" style="display: inline;">{$record_count}</a>
             </div>
           </div>
           <div class="pp_product_price">
-            
-            <p>¥<b>285.00</b><s>¥427.00</s><span>包邮</span><span>包税</span></p>
+            <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
+            <p>{$lang.promote_price}<b>{$goods.promote_price}</b>
+						    <!-- {if $cfg.show_marketprice} 市场价格-->
+						    <s>{$goods.market_price}</s><span><del></del> 
+						    <!-- {/if} -->
+					    <span style="display: none;">包邮</span>
+            </p> 
+					    <!--{else}-->
+					    <p>{$lang.shop_price}<b>{$goods.shop_price_formated}</b>
+						    <!-- {if $cfg.show_marketprice} 市场价格-->
+						    <s>{$goods.market_price}</s>
+						    <!-- {/if} -->
+					    <span style="display: none;">包邮</span></p>
+					    <!--{/if}--> 
+					    {if  $user_prices }
+							  <p>
+							  	{$user_prices.rank_name}：
+							  	<b>{$user_prices.price}</b>
+							  	<em style="float: right;color: #999;">月销量：{$goods.click_count}件</em>
+							  	<div class="clear"></div>
+							  </p>
+							{/if}
           </div>
           <div class="pp_discount">
             <p>
               <small class="discount_text">注</small>{$goods.goods_brief}
             </p>
-            <p>
+            <p style="display: none;">
               <small class="return_text">返</small>
             </p>
           </div>
         </div>
       </div>
-<section class="goodsInfo">
-  <a class="{if $is_collect==1}collect1{else}collect{/if}" id="collect_box" href="javascript:collect({$goods.goods_id})" style="display: inline;">{$record_count}</a>
+<section class="goodsInfo"  style="display: none;">
+ 
   <div class="title">
     <h1> {$goods.goods_style_name} </h1>
   </div>
@@ -219,13 +240,18 @@ function changenum(diff) {
   </div>
   <ul>
     <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
-    <li>{$lang.promote_price}<b class="price">{$goods.promote_price}</b>　<!-- {if $cfg.show_marketprice} 市场价格-->
-    <del>{$goods.market_price}</del> 
-    <!-- {/if} --></li> 
+    <li>{$lang.promote_price}<b class="price">{$goods.promote_price}</b>　
+	    <!-- {if $cfg.show_marketprice} 市场价格-->
+	    <del>{$goods.market_price}</del> 
+	    <!-- {/if} -->
+    </li> 
     <!--{else}-->
-    <li>{$lang.shop_price}<b class="price">{$goods.shop_price_formated}</b>　<!-- {if $cfg.show_marketprice} 市场价格-->
-    <del>{$goods.market_price}</del> 
-    <!-- {/if} --></li>
+    <li>{$lang.shop_price}
+    	<b class="price">{$goods.shop_price_formated}</b>　
+	    <!-- {if $cfg.show_marketprice} 市场价格-->
+	    <del>{$goods.market_price}</del> 
+	    <!-- {/if} -->
+    </li>
     <!--{/if}--> 
   {if  $user_prices }
     <li>  

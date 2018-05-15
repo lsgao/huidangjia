@@ -1649,3 +1649,7 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .pp_product_price s {color: #999;padding-left: 10px;}
 .pp_product_price span {display: inline-block;text-align: center; color: #fff;background: #ff9600;border-radius:4px;width: 40px;font: 13px/18px "微软雅黑";margin-left: 10px;}
 .pp_product_price {border-bottom: 1px solid #eee;}
+.goodsInfo .collect,.goodsInfo .collect1 {display: block !important;width: 30px;height: 30px;background-size: 26px !important;margin: 0;padding: 0;box-shadow: none;}
+.goodsInfo .collect {background:url(img/ico_star1.png) no-repeat center;}
+.goodsInfo .collect1 {background:url(img/ico_star2.png) no-repeat center;}
+.pp_collection {width: 40px;position: absolute; right: 0;top: 0;text-align: center;border-left: 1px solid #eee;line-height: 1.1;}
