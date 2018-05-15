@@ -2,15 +2,6 @@
 
 /**
  * ECSHOP 前台公用文件
- * ============================================================================
- * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
- * 网站地址: http://www.ecshop.com；
- * ----------------------------------------------------------------------------
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
- * 使用；不允许对程序代码以任何形式任何目的的再发布。
- * ============================================================================
- * $Author: liubo $
- * $Id: init.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 if (!defined('IN_ECTOUCH'))
@@ -171,6 +162,23 @@ if (!defined('INIT_NO_SMARTY')) {
     }
     $smarty->assign('ectouch_themes', 'themes/' . $_CFG['template']);
     $smarty->assign('site_url', $config['site_url']); //不带/结尾
+    $userid=$_SESSION['user_id'];
+    if (!empty($userid)) {
+        $url="http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'] ."?u=".$userid;
+        //分享返积分
+        $dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
+    } else {
+        $url="http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'];
+        //分享返积分
+        $dourl="";
+    }
+    require_once "wxjs/jssdk.php";
+    $ret = $GLOBALS['db']->getRow("SELECT  *  FROM `wxch_config`");
+    $jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+    $signPackage = $jssdk->GetSignPackage();
+    $smarty->assign('signPackage',  $signPackage);
+    $smarty->assign('dourl',  $dourl);
+    $smarty->assign('url',  $url);
 }
 
 if (!defined('INIT_NO_USERS')) {
@@ -212,12 +220,12 @@ if (!defined('INIT_NO_USERS')) {
 
     /* 设置推荐会员 */
     if (isset($_GET['u'])) {
-	
+    
         set_affiliate();
     }
     /* 设置推荐会员 */
     if (isset($_GET['wxid'])) {
-	
+    
         set_affiliate();
     }
 
@@ -263,159 +271,144 @@ if (!defined('INIT_NO_SMARTY') && gzip_enabled()) {
     ob_start();
 }
 
-//*20141208人人科技独家开发新增*/
-	if (isset($_GET['u']))
-    {
-		$u=$_GET['u'];
-   
-    }else{
-		$u="";
-		
-	}
+if (isset($_GET['u']))
+{
+    $u=$_GET['u'];
+   }else{
+    $u="";
+}
 
-	$iipp = $_SERVER["REMOTE_ADDR"];
-	$phone_state=$_SERVER['HTTP_USER_AGENT'];
-	//echo $iipp.'|';
-	//echo $phone_state.'|';
-	//echo $u.'|';
-	$sql_one="SELECT * FROM " . $GLOBALS['ecs']->table('ip_log') . " WHERE ip = '$iipp' and  phone_state='$phone_state' and u_id='$u' ";	
-	$ipinfo1=$GLOBALS['db']->GetRow($sql_one);
-	//print_r($ipinfo1);
-	if(empty($ipinfo1)&&!empty($u)){
-		//将IP和推荐会员的u存入数据库中，从而获得会员上下级关系
+$iipp = $_SERVER["REMOTE_ADDR"];
+$phone_state=$_SERVER['HTTP_USER_AGENT'];
+//echo $iipp.'|';
+//echo $phone_state.'|';
+//echo $u.'|';
+$sql_one="SELECT * FROM " . $GLOBALS['ecs']->table('ip_log') . " WHERE ip = '$iipp' and  phone_state='$phone_state' and u_id='$u' ";    
+$ipinfo1=$GLOBALS['db']->GetRow($sql_one);
+//print_r($ipinfo1);
+if(empty($ipinfo1)&&!empty($u)){
+    //将IP和推荐会员的u存入数据库中，从而获得会员上下级关系
 
-		$sql = "INSERT INTO ".$GLOBALS['ecs']->table('ip_log')."(ip, u_id,state,phone_state) "."VALUES ('$iipp', '$u','$state','$phone_state')";
-		$GLOBALS['db']->query($sql);
-		//记录结束		
-	}
+    $sql = "INSERT INTO ".$GLOBALS['ecs']->table('ip_log')."(ip, u_id,state,phone_state) "."VALUES ('$iipp', '$u','$state','$phone_state')";
+    $GLOBALS['db']->query($sql);
+    //记录结束
+}
 //新增绑定上下级关系开始
-	$iipp = $_SERVER["REMOTE_ADDR"];
-	$sql_two="SELECT * FROM " . $GLOBALS['ecs']->table('ip_log') . " WHERE ip = '$iipp' and state=0 and phone_state='$phone_state' ORDER BY id DESC LIMIT 0 , 1
-";	
-	$ipinfo=$GLOBALS['db']->GetRow($sql_two);
+$iipp = $_SERVER["REMOTE_ADDR"];
+$sql_two="SELECT * FROM " . $GLOBALS['ecs']->table('ip_log') . " WHERE ip = '$iipp' and state=0 and phone_state='$phone_state' ORDER BY id DESC LIMIT 0 , 1";    
+$ipinfo=$GLOBALS['db']->GetRow($sql_two);
 
-	
-	$id=$ipinfo['id'];
-	$up_uid=$ipinfo['u_id'];
-	$user_id=$_SESSION['user_id'];
+$id=$ipinfo['id'];
+$up_uid=$ipinfo['u_id'];
+$user_id=$_SESSION['user_id'];
 
-	$sql_one="SELECT * FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$user_id'";	
-	$userinfo=$GLOBALS['db']->GetRow($sql_one);
-	//找出自己所有的下级
-	$sql="SELECT * FROM " . $GLOBALS['ecs']->table('users') . " WHERE parent_id = '$user_id'";	
-	$childinfo=$GLOBALS['db']->GetAll($sql);
-	$flag=true;
-	//验证关系：自己的下级不能是自己的上级
-	foreach($childinfo as $k=>$v){
-	
-		if($v['user_id']==$up_uid){
-			
-			$flag=false;
-		}else{
-			$flag=true;
-		}	
-	}
-	
-/*避免上下级关系混乱，人人科技修复*/
-					$sql="SELECT * FROM  ecs_users  WHERE parent_id = '$user_id'";	
-					$childinfo_tianxin=$GLOBALS['db']->GetAll($sql);
-					
-					$flag_tianxin=true;
-					if(!empty($childinfo_tianxin)){
-						$flag_tianxin=false;
-					}else{
-						$flag_tianxin=true;
-					}
+$sql_one="SELECT * FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$user_id'";    
+$userinfo=$GLOBALS['db']->GetRow($sql_one);
+//找出自己所有的下级
+$sql="SELECT * FROM " . $GLOBALS['ecs']->table('users') . " WHERE parent_id = '$user_id'";    
+$childinfo=$GLOBALS['db']->GetAll($sql);
+$flag=true;
+//验证关系：自己的下级不能是自己的上级
+foreach($childinfo as $k=>$v){
+    if($v['user_id']==$up_uid){
+        $flag=false;
+    }else{
+        $flag=true;
+    }
+}
+    
+/*避免上下级关系混乱*/
+$sql="SELECT * FROM  ecs_users  WHERE parent_id = '$user_id'";    
+$childinfo_tianxin=$GLOBALS['db']->GetAll($sql);
+
+$flag_tianxin=true;
+if(!empty($childinfo_tianxin)){
+    $flag_tianxin=false;
+}else{
+    $flag_tianxin=true;
+}
 
 
 /*避免上下级关系混乱，人人科技修复*/
-	//三个条件进行判断。1：必须是推荐的2：上下级关系不能改变3：验证关系：自己的上级不能是自己下级
-	if(!empty($ipinfo)&&$userinfo['parent_id']==0&&$flag&&$user_id&&$flag_tianxin){
-	
-
-        $affiliate  = unserialize($GLOBALS['_CFG']['affiliate']);
-        if (isset($affiliate['on']) && $affiliate['on'] == 1&&$up_uid!=$_SESSION['user_id'])
-        {
-            // 推荐开关开启
-            empty($affiliate) && $affiliate = array();
-            $affiliate['config']['level_register_all'] = intval($affiliate['config']['level_register_all']);
-            $affiliate['config']['level_register_up'] = intval($affiliate['config']['level_register_up']);
-			//该用户是推荐来的
-            if ($up_uid)
-            {	
-				//标注此用户被推荐过了
-				$info=array('state'=>1);
-				$GLOBALS['db']->autoExecute($ecs->table('ip_log'), $info, 'UPDATE', "id = {$id}");
-                if (!empty($affiliate['config']['level_register_all']))
+//三个条件进行判断。1：必须是推荐的2：上下级关系不能改变3：验证关系：自己的上级不能是自己下级
+if(!empty($ipinfo)&&$userinfo['parent_id']==0&&$flag&&$user_id&&$flag_tianxin){
+    $affiliate  = unserialize($GLOBALS['_CFG']['affiliate']);
+    if (isset($affiliate['on']) && $affiliate['on'] == 1&&$up_uid!=$_SESSION['user_id'])
+    {
+        // 推荐开关开启
+        empty($affiliate) && $affiliate = array();
+        $affiliate['config']['level_register_all'] = intval($affiliate['config']['level_register_all']);
+        $affiliate['config']['level_register_up'] = intval($affiliate['config']['level_register_up']);
+        //该用户是推荐来的
+        if ($up_uid)
+        {    
+            //标注此用户被推荐过了
+            $info=array('state'=>1);
+            $GLOBALS['db']->autoExecute($ecs->table('ip_log'), $info, 'UPDATE', "id = {$id}");
+            if (!empty($affiliate['config']['level_register_all']))
+            {
+                if (!empty($affiliate['config']['level_register_up']))
                 {
-                    if (!empty($affiliate['config']['level_register_up']))
+                    $rank_points = $GLOBALS['db']->getOne("SELECT rank_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'");
+                    if ($rank_points + $affiliate['config']['level_register_all'] <= $affiliate['config']['level_register_up'])
                     {
-                        $rank_points = $GLOBALS['db']->getOne("SELECT rank_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'");
-                        if ($rank_points + $affiliate['config']['level_register_all'] <= $affiliate['config']['level_register_up'])
-                        {
-                            log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'],$affiliate['config']['level_register_all'], sprintf($GLOBALS['_LANG']['register_affiliate'], $_SESSION['user_id'], $username));
-                        }
-                    }
-                    else
-                    {
-                        log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
+                        log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'],$affiliate['config']['level_register_all'], sprintf($GLOBALS['_LANG']['register_affiliate'], $_SESSION['user_id'], $username));
                     }
                 }
-
-
-				
-					$sql = 'UPDATE '. $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
-					$GLOBALS['db']->query($sql);
-					require(ROOT_PATH . 'wxch_share.php');
-					//设置推荐人
-					
-				
+                else
+                {
+                    log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
+                }
             }
-        }			
-	}
+            $sql = 'UPDATE '. $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
+            $GLOBALS['db']->query($sql);
+            require(ROOT_PATH . 'wxch_share.php');
+            //设置推荐人
+        }
+    }
+}
 
-	
-	if(!empty($_SESSION['user_id'])){
-	
-		$user_id=$_SESSION['user_id'];
-		$sql = "SELECT parent_id FROM ". $ecs->table('users') .  "where user_id ='$user_id'";
-		$parent_id=$GLOBALS['db']->getOne($sql);
-		if(empty($parent_id)){
-			if(isset($_GET['u'])){
-				if($u== $user_id){
-					$share_info="";
-				}else{
-					$sql = "SELECT * FROM ecs_users where user_id ='$u'";
-					$user_info=$GLOBALS['db']->getRow($sql);
-					$share_userid=$user_info['wxid'];
-					$sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
-					$share_info=$GLOBALS['db']->getRow($sql);
-				}
-			}
-		}else{
-			$sql = "SELECT wxid FROM ". $ecs->table('users') .  "where user_id ='$parent_id'";
-			$share_userid=$GLOBALS['db']->getOne($sql);	
-			$sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
-			$share_info=$GLOBALS['db']->getRow($sql);
-		}
-	
-	}else{
-		
-		if(isset($_GET['u'])){
-			if($u== $user_id){
-				$share_info="";
-			}else{
-				$sql = "SELECT * FROM ecs_users where user_id ='$u'";
-				$user_info=$GLOBALS['db']->getRow($sql);
-				$share_userid=$user_info['wxid'];
-				$sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
-				$share_info=$GLOBALS['db']->getRow($sql);
-				}
-		}
-	}
+    
+if(!empty($_SESSION['user_id'])){
 
-//新增绑定上下级关系结束
-/*20141208人人科技独家开发新增*/
+    $user_id=$_SESSION['user_id'];
+    $sql = "SELECT parent_id FROM ". $ecs->table('users') .  "where user_id ='$user_id'";
+    $parent_id=$GLOBALS['db']->getOne($sql);
+    if(empty($parent_id)){
+        if(isset($_GET['u'])){
+            if($u== $user_id){
+                $share_info="";
+            }else{
+                $sql = "SELECT * FROM ecs_users where user_id ='$u'";
+                $user_info=$GLOBALS['db']->getRow($sql);
+                $share_userid=$user_info['wxid'];
+                $sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
+                $share_info=$GLOBALS['db']->getRow($sql);
+            }
+        }
+    }else{
+        $sql = "SELECT wxid FROM ". $ecs->table('users') .  "where user_id ='$parent_id'";
+        $share_userid=$GLOBALS['db']->getOne($sql);    
+        $sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
+        $share_info=$GLOBALS['db']->getRow($sql);
+    }
+    
+}else{
+    
+    if(isset($_GET['u'])){
+        if($u== $user_id){
+            $share_info="";
+        }else{
+            $sql = "SELECT * FROM ecs_users where user_id ='$u'";
+            $user_info=$GLOBALS['db']->getRow($sql);
+            $share_userid=$user_info['wxid'];
+            $sql = "SELECT * FROM wxch_user where wxid ='$share_userid'";
+            $share_info=$GLOBALS['db']->getRow($sql);
+            }
+    }
+}
+
+//绑定上下级关系结束
 /* 检查是否是微信浏览器访问 */
 function is_wechat_browser(){
     $user_agent = $_SERVER['HTTP_USER_AGENT'];

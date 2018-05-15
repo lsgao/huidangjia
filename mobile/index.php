@@ -119,7 +119,7 @@ $signPackage = $jssdk->GetSignPackage();
 $smarty->assign('signPackage',  $signPackage);
 $smarty->assign('userid',  $userid);
 $smarty->assign('share_info',  $share_info);
-$smarty->assign('dourl',  $dourl);		
+$smarty->assign('dourl',  $dourl);
 $smarty->assign('url',  $url);
 
 /*显示店铺名称*/
