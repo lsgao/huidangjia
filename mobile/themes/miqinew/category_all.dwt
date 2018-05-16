@@ -190,7 +190,8 @@ function check(Id){
     //分享到朋友圈
     wx.onMenuShareTimeline({
       title: '惠当家正品联盟',
-      link: '惠当家正品联盟',
+      desc: '{$page_title}',
+      link: '{$url}',
       imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
       trigger: function (res) {
         {if $url}

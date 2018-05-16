@@ -162,9 +162,13 @@ if (!defined('INIT_NO_SMARTY')) {
     }
     $smarty->assign('ectouch_themes', 'themes/' . $_CFG['template']);
     $smarty->assign('site_url', $config['site_url']); //不带/结尾
-    $userid=$_SESSION['user_id'];
+    $userid = "";
+    if ( isset($_SESSION['user_id']) && ! empty($_SESSION['user_id']) ) {
+        $userid = $_SESSION['user_id'];
+    }
     if (!empty($userid)) {
-        $url="http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'] ."?u=".$userid;
+        $url="http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'];
+        //$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF']."?".$_SERVER['QUERY_STRING'] ."&u=".$userid;
         //分享返积分
         $dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
     } else {

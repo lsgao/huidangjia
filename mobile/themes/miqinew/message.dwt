@@ -36,5 +36,73 @@
   </ul>
 </section>
 <div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+	<!-- {/literal} -->
+  wx.config({
+    debug: false,
+    appId: '{$signPackage.appId}',
+    timestamp: '{$signPackage.timestamp}',
+    nonceStr: '{$signPackage.nonceStr}',
+    signature: '{$signPackage.signature}',
+    jsApiList: [
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage' 
+    ]
+  });
+ wx.ready(function () {
+    //监听“分享给朋友”
+    wx.onMenuShareAppMessage({
+      title: '{$page_title}',
+      desc: '{$page_title}',
+      link: '{$url}',
+      imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
+      trigger: function (res) {
+        {if $url}
+          //alert('恭喜！分享可以获取提成哦！');
+        {else}
+          //alert('糟糕，需要分销商登录才能获得提成哦！');
+        {/if}
+      },
+      success: function (res) {
+        {if $dourl }
+          //window.location.href="{$dourl}&type=1"; 
+        {/if}
+      },
+      cancel: function (res) {
+        alert('很遗憾，您已取消分享');
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+
+    //分享到朋友圈
+    wx.onMenuShareTimeline({
+      title: '惠当家正品联盟',
+      desc: '{$page_title}',
+      link: '{$url}',
+      imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
+      trigger: function (res) {
+        {if $url}
+          //alert('恭喜！分享可以获取提成哦！');
+        {else}
+          //alert('糟糕，需要分销商登录才能获得提成哦！');
+        {/if}
+      },
+      success: function (res) {
+        {if $dourl }
+          //window.location.href="{$dourl}&type=2"; 
+        {/if}
+      },
+      cancel: function (res) {
+         alert('很遗憾，您已取消分享');
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+});
+</script>
 </body>
 </html>
