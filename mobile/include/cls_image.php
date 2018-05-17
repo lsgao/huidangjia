@@ -78,9 +78,7 @@ class cls_image
             $dir = ROOT_PATH . $this->data_dir . '/' . $dir . '/';
             if ($img_name)
             {
-                $img_name = $dir . $img_name; // 
-
-				//将图片定位到正确地址
+                $img_name = $dir . $img_name; // 将图片定位到正确地址
             }
         }
 

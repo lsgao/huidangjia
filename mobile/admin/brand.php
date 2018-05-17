@@ -45,7 +45,7 @@ if ($_REQUEST['act'] == 'list')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'add')
 {
-    /* 权限判断 */
+    //* 权限判断 */
     admin_priv('brand_manage');
 
     $smarty->assign('ur_here',     $_LANG['07_brand_add']);
@@ -58,7 +58,7 @@ elseif ($_REQUEST['act'] == 'add')
 }
 elseif ($_REQUEST['act'] == 'insert')
 {
-    /*检查品牌名是否重复*/
+    //*检查品牌名是否重复*/
     admin_priv('brand_manage');
 
     $is_show = isset($_REQUEST['is_show']) ? intval($_REQUEST['is_show']) : 0;
@@ -82,13 +82,14 @@ elseif ($_REQUEST['act'] == 'insert')
      /*处理URL*/
     $site_url = sanitize_url( $_POST['site_url'] );
     
-     /*处理图片品牌banner  by ecmoban S*/
-    $banner_name = basename($image->upload_image($_FILES['brand_banner'],'brandlogo'));
+     /*处理图片*/
+    $banner_name = basename($image->upload_image($_FILES['brand_banner'],'brandbanner'));
+    $logo_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo'));
     
     /*插入数据*/
 
-    $sql = "INSERT INTO ".$ecs->table('brand')."(brand_name, site_url, brand_desc, is_show, sort_order , brand_banner) ".
-           "VALUES ('$_POST[brand_name]', '$site_url', '$_POST[brand_desc]', '$is_show', '$_POST[sort_order]' , '$_POST[banner_name]]')";
+    $sql = "INSERT INTO ".$ecs->table('brand')."(brand_name, site_url, brand_desc, is_show, sort_order , brand_banner, brand_logo) ".
+           "VALUES ('$_POST[brand_name]', '$site_url', '$_POST[brand_desc]', '$is_show', '$_POST[sort_order]' , '$banner_name', '$logo_name')";
     $db->query($sql);
      /**by ecmoban E*/
     admin_log($_POST['brand_name'],'add','brand');
@@ -110,7 +111,7 @@ elseif ($_REQUEST['act'] == 'insert')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit')
 {
-    /* 权限判断 */
+    //* 权限判断 */
     admin_priv('brand_manage');
     $sql = "SELECT brand_id, brand_name, site_url, brand_logo, brand_desc, brand_logo, is_show, sort_order , brand_banner ".
             "FROM " .$ecs->table('brand'). " WHERE brand_id='$_REQUEST[id]'";
@@ -128,7 +129,7 @@ elseif ($_REQUEST['act'] == 'updata')
     admin_priv('brand_manage');
     if ($_POST['brand_name'] != $_POST['old_brandname'])
     {
-        /*检查品牌名是否相同*/
+        //*检查品牌名是否相同*/
         $is_only = $exc->is_only('brand_name', $_POST['brand_name'], $_POST['id']);
 
         if (!$is_only)
@@ -150,8 +151,8 @@ elseif ($_REQUEST['act'] == 'updata')
     /* 处理图片 */
     //$img_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo'));
 
-    $banner_name = basename($image->upload_image($_FILES['brand_banner'],'brandlogo')); //by ecmoban
-    
+    $banner_name = basename($image->upload_image($_FILES['brand_banner'],'brandbanner'));
+    $logo_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo'));
     $param = "brand_name = '$_POST[brand_name]',  site_url='$site_url', brand_desc='$_POST[brand_desc]', is_show='$is_show', sort_order='$_POST[sort_order]' ";
     //if (!empty($img_name))
     //{
@@ -163,6 +164,11 @@ elseif ($_REQUEST['act'] == 'updata')
     {
         //有图片上传
         $param .= " ,brand_banner = '$banner_name' ";
+    }
+    if (!empty($logo_name))
+    {
+        //有图片上传
+        $param .= " ,brand_logo = '$logo_name' ";
     }
     /**by ecmoban */
     if ($exc->edit($param,  $_POST['id']))
@@ -303,9 +309,28 @@ elseif ($_REQUEST['act'] == 'remove')
 /*------------------------------------------------------ */
 //-- 删除品牌图片
 /*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'drop_banner')
+{
+    //* 权限判断 */
+    admin_priv('brand_manage');
+    $brand_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    /* 取得logo名称 */
+    $sql = "SELECT brand_banner FROM " .$ecs->table('brand'). " WHERE brand_id = '$brand_id'";
+    $banner_name = $db->getOne($sql);
+
+    if (!empty($banner_name))
+    {
+        @unlink(ROOT_PATH . DATA_DIR . '/brandbanner/' .$banner_name);
+        $sql = "UPDATE " .$ecs->table('brand'). " SET brand_banner = '' WHERE brand_id = '$brand_id'";
+        $db->query($sql);
+    }
+    $link= array(array('text' => $_LANG['brand_edit_lnk'], 'href' => 'brand.php?act=edit&id=' . $brand_id), array('text' => $_LANG['brand_list_lnk'], 'href' => 'brand.php?act=list'));
+    sys_msg($_LANG['drop_brand_logo_success'], 0, $link);
+}
 elseif ($_REQUEST['act'] == 'drop_logo')
 {
-    /* 权限判断 */
+    //* 权限判断 */
     admin_priv('brand_manage');
     $brand_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
