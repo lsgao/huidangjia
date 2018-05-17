@@ -461,7 +461,7 @@
               if (resultJson.msg == '快递公司为空') {
                 resultTable.append("<tr><td>"+ "目前不支持此快递公司的查询。<br>快递公司：{$order_shipping_name}<br>快递单号：{$order_invoice_no}<br>请您到快递公司官网进行查询。" +"</td></tr>");
               } else {
-                resultTable.append("<tr><td>"+ resultJson.msg +"</td></tr>");
+                resultTable.append("<tr><td>"+ resultJson.msg + "<br>快递公司：{$order_shipping_name}<br>快递单号：{$order_invoice_no}" + "</td></tr>");
               }
             }
         })

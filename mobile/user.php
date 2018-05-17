@@ -1195,7 +1195,7 @@ elseif ($action == 'async_order_list') {
             //获取订单第一个商品的图片
             $img = $db->getOne("SELECT g.goods_thumb FROM " .$ecs->table('order_goods'). " as og left join " .$ecs->table('goods'). " g on og.goods_id = g.goods_id WHERE og.order_id = ".$vo['order_id']." limit 1");
             //$tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
-            $tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=package_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
+            $tracking = (($vo['shipping_id'] > 0 && $vo['shipping_id'] != 23) && ($vo['shipping_status'] == SS_SHIPPED || $vo['shipping_status'] == SS_RECEIVED || $vo['shipping_status'] == SS_SHIPPED_PART)) ? '<a href="user.php?act=package_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
             $detail_content = '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">'
                 .'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">'
                     .'<tr>'
