@@ -15,7 +15,7 @@
 .header_sea_box:before {content:"";display:blcok;background: url(../huidangjia/search_bg.png) center no-repeat;background-size: 20px;position: absolute;top: 0;left: 0;width: 30px;height: 30px;}
 .index_head_cla {font: 16px/30px "微软雅黑";color: #333;width: 96%;margin:0 auto;overflow-x: scroll;height: 30px;white-space: nowrap;}
 .index_head_cla::-webkit-scrollbar {display:none}
-.index_head_cla a {display:inline-block;width: 70px;padding-right:20px;height: 30px;text-align: center;}
+.index_head_cla a {padding:0 5px;height: 30px;text-align: center;}
 .banner img,.index_ad img,.index_rec img {width: 100%;height: auto;}
 .index_ad ul li {margin-bottom:10px}
 .index_rec_wrap,.index_bur {background: url(../img/index_bg.jpg) repeat-y;background-size: cover;}

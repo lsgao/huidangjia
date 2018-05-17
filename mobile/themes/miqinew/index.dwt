@@ -54,6 +54,7 @@
 
 				</div>
 			</div>
+			
 			<div class="banner" style="margin: 0;">
 				<div class="swiper-container" id="index_banner">
 					<div class="swiper-wrapper">
@@ -109,6 +110,20 @@
 						direction: 'vertical',
 					})
 				</script>
+					
+				<!-- logol -->
+				<ul class="side grid effect-1" id="grid" style="display: none;">
+        <!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} --> 
+        <li> <a href="{$brand_data.url}"> <img brandid="{$brand_data.brand_id}" class="banner" dataimg="data/brandlogo/{$brand_data.brand_banner}" src="{$site_url}/data/brandlogo/{$brand_data.brand_logo}" loaded="true" style="transition: all 360ms ease 0s; opacity: 1;">
+          <p class="box-logo"> <img dataimg="{$brand_data.brand_name|escape:html} ({$brand_data.goods_num})" src="{$site_url}/data/brandlogo/{$brand_data.brand_logo}" alt="{$brand_data.brand_name|escape:html} ({$brand_data.goods_num})"  style="width: 90px; height: 45px; transition: all 360ms ease 0s; opacity: 1;" loaded="true"> </p>
+          <div class="box-info">
+            <h4 class="box-title">{$brand_data.brand_name}</h4>
+            <p class="box-desc">{$brand_data.brand_desc}</p>
+          </div>
+          </a> </li>
+        <!-- {/foreach} -->
+      </ul>
+      <!-- logol -->
 			</div>
 			<!--促销新开始-->
 			
@@ -118,7 +133,15 @@
 			<div class="index_rec">
 				<div class="index_rec_wrap" style="background: none;">
 					<div class="index_rec_box">
-						{insert name='ads' id=5 num=8} {insert name='ads' id=6 num=2} {insert name='ads' id=7 num=1}
+						 <!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} --> 
+						 <!--{if $smarty.foreach.brand_list_foreach.iteration < 9}-->
+						  	<div class="index_rec_sitem">
+								<a href="{$brand_data.url}"> <img brandid="{$brand_data.brand_id}" dataimg="data/brandlogo/{$brand_data.brand_banner}" src="{$site_url}/data/brandlogo/{$brand_data.brand_logo}" loaded="true"></a>
+							</div>
+							<!--{/if}-->
+						<!-- {/foreach} -->
+							
+						<div style="display: none;">{insert name='ads' id=5 num=8} {insert name='ads' id=6 num=2} {insert name='ads' id=7 num=1}</div>
 						<div class="clear"></div>
 					</div>
 				</div>
