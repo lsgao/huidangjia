@@ -1251,10 +1251,10 @@ elseif ($action == 'package_tracking')
 
     $sql = "SELECT order_id,order_sn,invoice_no,shipping_name,shipping_id,order_status FROM " .$ecs->table('order_info').
             " WHERE user_id = '$user_id' AND order_id = ".$order_id;
-    $orders = $db->getRow($sql);
-    $getcom = $orders['shipping_name'];
+    $order = $db->getRow($sql);
+    $getcom = $order['shipping_name'];
     include_once(ROOT_PATH .'plugins/jisushuju/jisushuju_config.php');
-    $query_link = 'http://api.jisuapi.com/express/query?appkey='. AppKey.'&type='. $postcom .'&number=' .$orders['invoice_no'];
+    $query_link = 'http://api.jisuapi.com/express/query?appkey='. AppKey.'&type='. $postcom .'&number=' .$order['invoice_no'];
     //优先使用curl模式发送数据
     if (function_exists('curl_init') == 1) {
       $curl = curl_init();
@@ -1267,7 +1267,9 @@ elseif ($action == 'package_tracking')
       curl_close ($curl);
     }
 
-    $smarty->assign('trackinfo',      $get_content);
+    $smarty->assign('trackinfo', $get_content);
+    $smarty->assign('order_shipping_name', $order['shipping_name']);
+    $smarty->assign('order_invoice_no', $order['invoice_no']);
 
     $smarty->display('user_transaction.dwt');
 }

@@ -406,63 +406,64 @@
         </div>
         <script type="text/javascript">
           jQuery(function($){
-	var resultJson = {$trackinfo};
-	var resultTable = $("#queryResult");
-	resultTable.empty();
-	if(parseInt(resultJson.status) == 0) { //成功
-		var sortBy = function (filed, rev, primer) {
-		    rev = (rev) ? -1 : 1;
-		    return function (a, b) {
-		        a = a[filed];
-		        b = b[filed];
-		        if (typeof (primer) != 'undefined') {
-		            a = primer(a);
-		            b = primer(b);
-		        }
-		        if (a < b) { return rev * -1; }
-		        if (a > b) { return rev * 1; }
-		        return 1;
-		    }
-		};
-		var resultData = resultJson.result.list;
-		//resultData.sort(sortBy('time', false, String));
-		for (var i = resultData.length - 1; i >= 0; i--) {
-			var className = "";
-			if(i%2 == 0){
-				className = "even";
-			}else{
-				className="odd";
-			}
-			if(resultData.length == 1){
-				if(parseInt(resultJson.result.deliverystatus) == 3){
-					className += " checked";
-				}else{
-					className += " wait";
-				}
-			}else if(i == resultData.length - 1){
-				className += " first-line";
-			}else if(i == 0){
-				className += " last-line";
-				if(parseInt(resultJson.result.deliverystatus) == 3){
-					className += " checked";
-				}else{
-					className += " wait";
-				}
-			}
-
-			var index = resultData[i].time.indexOf(" ");
-			var result_date = resultData[i].time.substring(0,index);
-			var result_time = resultData[i].time.substring(index+1);
-
-			var s_index = result_time.lastIndexOf(":");
-			result_time = result_time.substring(0,s_index);
-
-			resultTable.append("<tr class='" + className + "'><td class='col1'><span class='result-date'>" + result_date + "</span><span class='result-time'>" + result_time + "</span></td><td class='colstatus'></td><td class='col2'><span>" + resultData[i].status + "</span></td></tr>");
-		}
-		$("body").animate({scrollTop: "1000px"}, 1000);
-	} else {
-		resultTable.append("<tr><td>"+ resultJson.msg +"</td></tr>");
-	}
+            var resultJson = {$trackinfo};
+            var resultTable = $("#queryResult");
+            resultTable.empty();
+            if (parseInt(resultJson.status) == 0) { //成功
+              var sortBy = function (filed, rev, primer) {
+                rev = (rev) ? -1 : 1;
+                return function (a, b) {
+                  a = a[filed];
+                  b = b[filed];
+                  if (typeof (primer) != 'undefined') {
+                    a = primer(a);
+                    b = primer(b);
+                  }
+                  if (a < b) { return rev * -1; }
+                  if (a > b) { return rev * 1; }
+                  return 1;
+                }
+              };
+              var resultData = resultJson.result.list;
+              //resultData.sort(sortBy('time', false, String));
+              for (var i = resultData.length - 1; i >= 0; i--) {
+                var className = "";
+                if (i%2 == 0) {
+                  className = "even";
+                } else {
+                  className="odd";
+                }
+                if(resultData.length == 1){
+                  if (parseInt(resultJson.result.deliverystatus) == 3) {
+                    className += " checked";
+                  } else {
+                    className += " wait";
+                  }
+                } else if(i == resultData.length - 1) {
+                  className += " first-line";
+                } else if(i == 0){
+                  className += " last-line";
+                  if (parseInt(resultJson.result.deliverystatus) == 3) {
+                    className += " checked";
+                  } else {
+                    className += " wait";
+                  }
+                }
+                var index = resultData[i].time.indexOf(" ");
+                var result_date = resultData[i].time.substring(0,index);
+                var result_time = resultData[i].time.substring(index+1);
+                var s_index = result_time.lastIndexOf(":");
+                result_time = result_time.substring(0,s_index);
+                resultTable.append("<tr class='" + className + "'><td class='col1'><span class='result-date'>" + result_date + "</span><span class='result-time'>" + result_time + "</span></td><td class='colstatus'></td><td class='col2'><span>" + resultData[i].status + "</span></td></tr>");
+              }
+              $("body").animate({scrollTop: "1000px"}, 1000);
+            } else {
+              if (resultJson.msg == '快递公司为空') {
+                resultTable.append("<tr><td>"+ "目前不支持此快递公司的查询。<br>快递公司：{$order_shipping_name}<br>快递单号：{$order_invoice_no}<br>请您到快递公司官网进行查询。" +"</td></tr>");
+              } else {
+                resultTable.append("<tr><td>"+ resultJson.msg +"</td></tr>");
+              }
+            }
         })
         </script>
       </div>
