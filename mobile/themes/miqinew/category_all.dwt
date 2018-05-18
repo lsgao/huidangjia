@@ -148,7 +148,7 @@ function check(Id){
 <div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
-<!-- {/literal} -->
+<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -213,7 +213,7 @@ function check(Id){
       }
     });
 });
-<!-- {literal} -->
+<!-- {/literal} -->
 </script>
 </body>
 </html>

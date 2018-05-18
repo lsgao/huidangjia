@@ -44,41 +44,70 @@
       <!--翻页 END-->
       <div class="blank2"></div>
       <!--评论表单 start-->
-      <div class="commentsList radius5">
+      <div class="commentsList radius5" style="padding: 0;">
       <form action="javascript:;" onsubmit="submitComment(this)" method="post" name="commentForm" id="commentForm">
-   
- <table width="100%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="" >
-           <tr>
-          <td>
-        {$lang.username}：<!--{if $smarty.session.user_name}-->{$smarty.session.user_name}<!--{else}-->{$lang.anonymous}<!--{/if}-->
-          </td>
-        </tr>
-     <tr>
-         
-          <td>
-          <input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" /> 非常好
-          <input name="comment_rank" type="radio" value="4" id="comment_rank4" /> 很好
-          <input name="comment_rank" type="radio" value="3" id="comment_rank3" /> 一般
-          <input name="comment_rank" type="radio" value="2" id="comment_rank2" /> 不行
-          <input name="comment_rank" type="radio" value="1" id="comment_rank1" /> 很差
-          </td>
-        </tr>
-          <td>
-          <input placeholder="E-mail"  type="text" name="email" id="email"  maxlength="100" value="{$smarty.session.email|escape}" class="inputBg"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-          <textarea placeholder="{$lang.comment_content}" name="content" class="inputBg2" style="height:4rem"  ></textarea>
-          <input type="hidden" name="cmt_type" value="{$comment_type}" />
-          <input type="hidden" name="id" value="{$id}" />
-          </td>
-        </tr>
-
-        <tr>
-          <td><input type="submit" name="submit" value="提交评论" class="c-btn3" /></td>
-        </tr>
-      </table>
+		   <div class="commen_wrap">
+		   		<div class="commen_user">
+			   		{if $smarty.session.user_id gt 0}
+						<a href="user.php">
+						{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="80" height="80" style="border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="80" height="80" style="border: none" />{/if}
+							</a>
+						{else}
+						<a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
+					{/if}
+			   	</div>
+			   	<div class="comment_chose">
+			   		<div class="commen_radio">  
+			            <label>  
+			            	<input name="comment_rank" type="radio" value="5" checked="checked" id="comment_rank5" />
+			            	<span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			            	<span>非常好</span>  
+			            </label>  
+			        </div>
+			   		<div class="commen_radio">  
+			            <label>  
+			            	<input name="comment_rank" type="radio" value="4" id="comment_rank4" />
+			            	<span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			            	<span>很好</span>  
+			            </label>  
+			        </div>
+			   		<div class="commen_radio">  
+			            <label>  
+			            	<input name="comment_rank" type="radio" value="3" id="comment_rank3" />
+			            	<span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			            	<span>一般</span>  
+			            </label>  
+			        </div>
+			   		<div class="commen_radio">  
+			            <label>  
+			            	<input name="comment_rank" type="radio" value="2" id="comment_rank2" />
+			            	<span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			            	<span>不行</span>  
+			            </label>  
+			        </div>
+			   		<div class="commen_radio">  
+			            <label>  
+			            	<input name="comment_rank" type="radio" value="1" id="comment_rank1" />
+			            	<span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			            	<span>很差</span>  
+			            </label>  
+			        </div>
+			        <div class="clear"></div>
+			   	</div>
+			   	<div class="commen_email">
+			   		<input placeholder="请输入您的E-mail"  type="text" name="email" id="email"  maxlength="100" value="{$smarty.session.email|escape}"/>
+			   	</div>
+			   	<div class="commen_textarea">
+			   		<textarea placeholder="{$lang.comment_content}" name="content"   ></textarea>
+			        <input type="hidden" name="cmt_type" value="{$comment_type}" />
+			        <input type="hidden" name="id" value="{$id}" />
+			   	</div>
+			   	<div class="commen_sub">
+			   		<input type="submit" name="submit" value="提交评论" class="c-btn3" />
+			   	</div>
+		   </div>
+		  
+ 
       </form>
       </div>
       <!--评论表单 end-->

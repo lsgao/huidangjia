@@ -273,6 +273,12 @@ else
                 $intromode = 'promotion';
                 $ur_here = $_LANG['promotion_goods'];
                 break;
+            case 'tomorow_promotion':
+                $time    = gmtime() + 3600 * 24;
+                $intro   = " AND g.promote_price > 0 AND g.promote_start_date <= '$time' AND g.promote_end_date >= '$time'";
+                $intromode = 'promotion';
+                $ur_here = $_LANG['promotion_goods'];
+                break;
             default:
                 $intro   = '';
         }

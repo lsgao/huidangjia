@@ -1653,3 +1653,16 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .goodsInfo .collect {background:url(img/ico_star1.png) no-repeat center;}
 .goodsInfo .collect1 {background:url(img/ico_star2.png) no-repeat center;}
 .pp_collection {width: 40px;position: absolute; right: 0;top: 0;text-align: center;border-left: 1px solid #eee;line-height: 1.1;}
+/*商品评价*/
+.commen_radio {display: inline-block !important;}             
+.commen_radio label {display: inline-block;padding: 4px;position: relative;cursor: pointer;font:14px/20px "微软雅黑"}  
+.commen_radio .commen_option {width: 10px;height: 10px;display: inline-block;border: 1px solid #ccc;border-radius: 50%;position: relative;}  
+.commen_option-span {position: absolute; top: 2px;left: 2px;width: 6px;height: 6px;background: #fff;border-radius: 50%;}         
+.commen_radio input[type="radio"] {display: none;}             
+.commen_radio input[type="radio"]:checked+.commen_option{border: 1px solid #FF9600;background: #FF9600;} 
+.commen_email {margin-bottom:10px;}
+.commen_email input,.commen_textarea textarea {width:100%;border:1px solid #ccc;border-left:none;border-right:none;font:14px/30px "微软雅黑";color:#333} 
+.commen_textarea textarea {resize : none;height:100px;padding:10px;font:14px/20px "微软雅黑"}
+.comment_chose,.commen_user,.commen_email input{padding:0 10px;}
+.commen_user {padding-top:10px}
+.commen_sub {margin-top:10px}

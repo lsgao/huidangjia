@@ -19,6 +19,9 @@
     <input type="hidden" name="order" value="{$pager.order}" />
   </form>
 </div>
+<style>
+	.proSales:after {clear: both;height: 0;overflow: hidden;}
+</style>
   <div class="srp album flex-f-row" id="J_ItemList" style="opacity:1;"> 
     <div class="product flex_in single_item">
       <div class="pro-inner"></div>
