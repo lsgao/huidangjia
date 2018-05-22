@@ -594,12 +594,15 @@ function get_goods_info($goods_id)
 
         /* 促销时间倒计时 */
         $time = gmtime();
-        if ($time >= $row['promote_start_date'] && $time <= $row['promote_end_date'])
+        if ($time < $row['promote_start_date'])
         {
-             $row['gmt_end_time']  = $row['promote_end_date'];
-        }
-        else
-        {
+            $row['gmt_start_time']  = $row['promote_start_date'];
+            $row['gmt_end_time'] = 0;
+        } else if ($time >= $row['promote_start_date'] && $time <= $row['promote_end_date']) {
+            $row['gmt_start_time']  = 0;
+            $row['gmt_end_time']  = $row['promote_end_date'];
+        } else {
+            $row['gmt_start_time']  = 0;
             $row['gmt_end_time'] = 0;
         }
 

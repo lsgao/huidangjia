@@ -95,7 +95,7 @@ html,body {margin:0px; padding:0px; height:100%}
 </style>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
-	<!-- {/literal} -->
+	<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -160,6 +160,7 @@ html,body {margin:0px; padding:0px; height:100%}
       }
     });
 });
+<!-- {/literal} -->
 </script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?type=quick&ak=1v0DK2dBBCvzXILG5P7nMsz1&v=2.0"></script>
 <div id="allmap" style="width:100%; height:100%"></div>

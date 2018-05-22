@@ -148,7 +148,6 @@ function changenum(diff) {
         <!-- {/if}-->
         <!--{/foreach}-->
         <!--{/if}-->
-            
           </div>
           <div class="swiper-pagination swiper-pagination-bullets" id="goods_bpage"></div>
         </div>
@@ -163,19 +162,20 @@ function changenum(diff) {
         })
       </script>
 </section>
-<!--{if $goods.is_promote and $goods.gmt_end_time } 促销--> 
+<!--{if $goods.is_promote and $goods.gmt_start_time } 即将开始促销--> 
+<span>本商品即将开始促销，敬请期待</span>
+<!--{/if}-->
+<!--{if $goods.is_promote and $goods.gmt_end_time } 正在促销--> 
   {insert_scripts files='lefttime.js'}
   <div class="goods_prom_wrap">
     <div class="goods_prom_pri">
-      <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
-    <p><small>{$lang.promote_price}</small>{$goods.promote_price}</p>
-    <p>
-      {if  $user_prices }
-        <small>{$user_prices.rank_name}：</small>{$user_prices.price}
-      {/if}
-    </p>
-    <span>限时抢购</span><s>{$goods.market_price}</s> 
-    <!-- {/if} -->
+      <p><small>{$lang.promote_price}</small>{$goods.promote_price}</p>
+      <p>
+        {if  $user_prices }
+          <small>{$user_prices.rank_name}：</small>{$user_prices.price}
+        {/if}
+      </p>
+      <span>限时抢购</span><s>{$goods.market_price}</s> 
     </div>
     <div class="goods_prom_time">
       <p>距离结束还剩：</p>
@@ -183,7 +183,7 @@ function changenum(diff) {
     </div>
     <div class="clear"></div>
   </div>
-  <!--{/if}-->
+<!--{/if}-->
 <!--商品图 end---> 
 <!--商品参数-->
 <div class="pp_product_infor">
@@ -197,28 +197,28 @@ function changenum(diff) {
             </div>
           </div>
           <div class="pp_product_price">
-            <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
-            <p>{$lang.promote_price}<b>{$goods.promote_price}</b>
-						    <!-- {if $cfg.show_marketprice} 市场价格-->
-						    <s>{$goods.market_price}</s><span><del></del> 
-						    <!-- {/if} -->
-					    <span style="display: none;">包邮</span>
-            </p> 
-					    <!--{else}-->
-					    <p>{$lang.shop_price}<b>{$goods.shop_price_formated}</b>
-						    <!-- {if $cfg.show_marketprice} 市场价格-->
-						    <s>{$goods.market_price}</s>
-						    <!-- {/if} -->
-					    <span style="display: none;">包邮</span></p>
-					    <!--{/if}--> 
-					    {if  $user_prices }
-							  <p>
-							  	{$user_prices.rank_name}：
-							  	<b>{$user_prices.price}</b>
-							  	<em style="float: right;color: #999;">月销量：{$goods.click_count}件</em>
-							  	<div class="clear"></div>
-							  </p>
-							{/if}
+            <!--{if $goods.is_promote and $goods.gmt_end_time } 正在促销-->
+              <p>{$lang.promote_price}<b>{$goods.promote_price}</b>
+                <!-- {if $cfg.show_marketprice} 市场价格-->
+                  <s>{$goods.market_price}</s><span><del></del> 
+                <!-- {/if} -->
+                <span style="display: none;">包邮</span>
+              </p>
+            <!--{else}-->
+              <p>{$lang.shop_price}<b>{$goods.shop_price_formated}</b>
+                <!-- {if $cfg.show_marketprice} 市场价格-->
+                  <s>{$goods.market_price}</s>
+                <!-- {/if} -->
+                <span style="display: none;">包邮</span></p>
+              <!--{/if}--> 
+              {if  $user_prices }
+                <p>
+                {$user_prices.rank_name}：
+                <b>{$user_prices.price}</b>
+                <em style="float: right;color: #999;">月销量：{$goods.click_count}件</em>
+                <div class="clear"></div>
+                </p>
+              {/if}
           </div>
           <div class="pp_discount">
             <p>
@@ -239,7 +239,7 @@ function changenum(diff) {
     {$goods.goods_brief} 
   </div>
   <ul>
-    <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->
+    <!--{if $goods.is_promote and $goods.gmt_end_time } 正在促销-->
     <li>{$lang.promote_price}<b class="price">{$goods.promote_price}</b>　
 	    <!-- {if $cfg.show_marketprice} 市场价格-->
 	    <del>{$goods.market_price}</del> 
@@ -258,7 +258,7 @@ function changenum(diff) {
   {$user_prices.rank_name}：<b class="price" >{$user_prices.price}</b></li>
 {/if}
   </ul>
-  <!--{if $goods.is_promote and $goods.gmt_end_time } 促销--> 
+  <!--{if $goods.is_promote and $goods.gmt_end_time } 正在促销--> 
   {insert_scripts files='lefttime.js'}
   <ul style="display: none;">
     <li> <span class="time">时间剩余：<time class="countdown" id="leftTime">{$lang.please_waiting}</time></span> </li>

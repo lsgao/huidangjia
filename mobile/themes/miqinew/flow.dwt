@@ -50,8 +50,8 @@
           <!-- {foreach from=$goods_list item=goods} -->
           <style>
           	.itemlist {padding: 0;background: none;border: none;}
-.content a {box-shadow: none;padding: 0;height: auto;}
-.itemlist li {padding: 0;border: none;}
+						.content a {box-shadow: none;padding: 0;height: auto;}
+						.itemlist li {padding: 0;border: none;}
           </style>
             <div class="shop_item">
 							<div class="content">
@@ -367,7 +367,6 @@
       <li>3.购买成功</li>
     </ul>
   </div>
-  <div class="blank3"></div>
   <section class="wrap">
     <form action="flow.php" method="post" name="theForm" id="theForm" onSubmit="return checkout(this)">
       <script type="text/javascript">
@@ -375,9 +374,25 @@
         var flow_no_shipping = "{$lang.flow_no_shipping}";
       </script>
       <!--{if $total.real_goods_count neq 0}-->
-        <section class="order_box padd1 radius10" style="padding-top:0">
-          <div class="in">
-            <div class="table_box table_box1">
+        <section class="order_box padd1 " style="padding-top:0">
+          <div >
+          	<div class="order_conf_addr">
+          		<a href="flow.php?step=consignee&include_bonded_goods={$include_bonded_goods}">
+          			<div class="order_conf_ainfo">
+          						<p class="order_user_inf">
+          							{$consignee.consignee|escape}
+          							<span>{$consignee.mobile}</span>
+          							<small>
+          								{if $include_bonded_goods eq 1}
+								                  {$consignee.identity_card|escape} 
+								          {/if}
+          							</small>
+          						</p>
+          						<p class="order_add_deta">{$consignee.address|escape} </p>
+          			</div>
+          		</a>
+          	</div>
+            <div class="table_box table_box1" style="display: none;">
               <dl>
                 <dd class="w50">{$lang.consignee_name} <span>{$consignee.consignee|escape}</span></dd>
                 <dd class="w50 c999">
@@ -413,7 +428,71 @@
         </div>
       </section>
       <!--{/if}-->
-      <div class="blank3"></div>
+     <div class="order_con">
+     	<!-- {foreach from=$goods_list item=goods} -->
+          <div class="order_eg">
+          	<div class="order_img">
+							<a href="goods.php?id={$goods.goods_id}">
+								<img style="width: 100%;height: auto;" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" />
+							</a>
+						</div>
+						<div class="order_price">
+							<p>¥{$goods.goods_price}</p>
+							<s>¥{$goods.market_price}</s>
+							<div class="clear"></div>
+							<span> x {$goods.goods_number}</span>
+							<div class="clear"></div>
+							<!--{if $allow_edit_cart} -->
+							<a href="flow.php">
+								<i></i>
+							</a>
+							<!--{/if} -->
+							
+						</div>
+          	 <!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} --> 
+          	 <div class="order_in">
+          	 	 <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" >
+								<p class="order_in_tit">{$goods.goods_name}</p>
+								<span>（{$lang.remark_package}）</span>
+							</a>
+						</div>
+              <!-- { else } --> 
+              <div class="order_in">
+          	 	 <a href="goods.php?id={$goods.goods_id}" target="_blank" >
+								<p class="order_in_tit">{$goods.goods_name}</p>
+							</a>
+						</div>
+              <!-- {if $goods.parent_id > 0} --> 
+              <div class="order_in">
+							<a>
+								<span>（{$lang.accessories}）</span>
+							</a>
+						</div>
+              <!-- {elseif $goods.is_gift} -->  
+              <div class="order_in">
+							<a>
+								<span>（{$lang.largess}）</span>
+							</a>
+						</div>
+              <!-- {/if} --> 
+              <!-- {/if} --> 
+              <!-- {if $goods.is_shipping} -->
+                
+              <div class="order_in">
+							<a>
+								<span>({$lang.free_goods})</span>
+							</a>
+						</div><!-- {/if} --> 
+						
+						<div class="clear"></div>
+						<div class="order_sum">
+							<p>小计:<span>{$goods.formated_subtotal}</span></p>
+						</div>
+						<div class="clear"></div>
+					</div>
+          <!-- {/foreach} --> 
+					
+			</div>
       <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
         <div class="table_box table_box2"> 
           <!--{if $total.real_goods_count neq 0}-->
@@ -490,7 +569,6 @@
           </div>
         </div>
       </section>
-      <div class="blank3"> </div>
       <section class="order_box padd1 radius10" style="padding-top:0.3rem;padding-bottom:0.3rem;">
         <div class="table_box table_box2" style=" margin-bottom:0.5rem">
           <!-- {if $allow_use_bonus} 是否使用红包 -->
@@ -539,19 +617,19 @@
           <!-- {/if} 是否使用贺卡 -->
          <div class="dl_box">
             <dl>
-              <dd>{$lang.use_surplus}</dd>
-              <dd class="weiruan " bgcolor="#ffffff"><input name="surplus" type="text" class="inputBg" id="ECS_SURPLUS" size="10" value="{$order.surplus|default:0}" onblur="changeSurplus(this.value)" {if $disable_surplus}disabled="disabled"{/if} /></dd>
+              <dd class="dd1">{$lang.use_surplus}</dd>
+              <dd class="dd2 " bgcolor="#ffffff"><input name="surplus" type="text" class="inputBg" id="ECS_SURPLUS" size="10" value="{$order.surplus|default:0}" onblur="changeSurplus(this.value)" {if $disable_surplus}disabled="disabled"{/if} /></dd>
             </dl>
           </div>
          <div class="dl_box">
             <dl>
-              <dd>{$lang.your_surplus}:{$your_surplus|default:0} </dd>
+              <dd class="dd1">{$lang.your_surplus}:{$your_surplus|default:0} </dd>
             </dl>
           </div>
           <div class="dl_box">
             <dl>
-              <dd class="c333">留言备注</dd>
-              <dd ><input placeholder="请输入订单备注" name="inv_payee" type="text"   size="20"  /> </dd>
+              <dd class="dd1">留言备注</dd>
+              <dd class="dd2"><input placeholder="请输入订单备注" name="inv_payee" type="text"   size="20"  /> </dd>
             </dl>
             <dl>
               <dd class="c333"></dd>
@@ -576,16 +654,19 @@
       <div class="blank3" style="display:none;"></div>
       <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
         <div class="table_box table_box3">
-          <dl>
+          <dl style="display:none;">
             <dd >{$lang.goods_list}<!--{if $allow_edit_cart} --><a href="flow.php" class="modify radius5">{$lang.modify}</a><!--{/if} --></dd>
           </dl>
           <!-- {foreach from=$goods_list item=goods} -->
-          <dl>
-            <dd class="dd1 w60"> 
+          
+          <dl style="display:none;">
+            <dd class="dd1 w60" style="display:none;"> 
               <!-- {if $goods.goods_id gt 0 && $goods.extension_code eq 'package_buy'} --> 
-              <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" >{$goods.goods_name}<span style="color:#FF0000;">（{$lang.remark_package}）</span></a> 
+              <a href="javascript:void(0)" onClick="setSuitShow({$goods.goods_id})" >{$goods.goods_name}<span style="color:#FF0000;">（{$lang.remark_package}）</span></a>
+              <img style="width: 100%;height: auto;" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" />
               <!-- { else } --> 
               <a href="goods.php?id={$goods.goods_id}" target="_blank" >{$goods.goods_name}</a> 
+              <img style="width: 100%;height: auto;" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" />
               <!-- {if $goods.parent_id > 0} --> 
               <span style="color:#FF0000">（{$lang.accessories}）</span> 
               <!-- {elseif $goods.is_gift} --> 
@@ -634,6 +715,20 @@
   	text-shadow: 0 -1px 1px #ca3511;
   	-webkit-box-shadow: 0 -1px 0 #bf3210 inset;
   }
+  
+body {background: #fff}
+.order_succ_img {width: 80%;margin: 0 auto;text-align: center;}
+.order_succ_img b {font: 16px/30px simhei;color: #333;}
+.order_succ_img p {color: #666;font: 14px/20px "微软雅黑";text-align: center;}
+.order_succ_img img {display: block;width: 25%;margin: 0 auto;height:auto;padding: 20px 0; }
+.order_succ_num {text-align: center;font: 30px/60px "微软雅黑";color: #333}
+.order_succ_online {width: 80%;text-align: center;margin: 20px auto;}
+.order_succ_online,.order_succ_online a,.order_succ_online input {color: #ff9600;font: 16px/30px "微软雅黑";background: none !important;}
+.order_sinfo_wrap {font: 14px/20px "微软雅黑";color: #999;padding: 10px;}
+.order_sinfo_item {border-bottom: 1px solid #eee;}
+.order_sinfo_tit {float: left;width: 30%;}
+.order_sinfo_text {float: left;width: 70%;text-align: right;}
+.order_succ_infoc {text-align: center;}
   </style>
   <header id="header">
       <div class="header_l"> <a class="ico_10" href="index.php"> 返回 </a> </div>
@@ -646,8 +741,78 @@
       <li class="cur">3.购买成功</li>
     </ul>
   </div>
-  <div class="blank3"></div>
-  <section class="content">
+  <div class="order_succ">
+  	<div class="order_succ_img">
+  		<img src="{$ectouch_themes}/img/order_succ_icon.png"/>
+  		<b>购买成功</b>
+  		<p>尊情的用户，您使用{$order.pay_name}了本次交易</p>
+  		<p>{$order_submit_back}</p>
+  	</div>
+  	<div class="order_succ_num">
+  		{$total.amount_formated}
+  	</div>
+  		<!-- {if $pay_online} --> 
+          <!-- 如果是线上支付则显示支付按钮 -->
+  	<div class="order_succ_online">
+             {$pay_online}
+  	</div>
+      <!-- {/if} -->
+  	<div class="order_sinfo_wrap">
+  		<div class="order_sinfo_item">
+  			<div class="order_sinfo_tit">
+	  			订单号码
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$order.order_sn}
+	  		</div>
+	  		<div class="clear"></div>
+  		</div>
+  		<!--{if $virtual_card}-->
+           <!--{foreach from=$virtual_card item=vgoods}-->
+  		<div class="order_succ_infoc">
+  			{$vgoods.goods_name}
+  		</div>
+           <!--{foreach from=$vgoods.info item=card}-->
+                  <!--{if $card.card_sn}-->
+      <div class="order_sinfo_item">
+	      <div class="order_sinfo_tit">
+	  			{$lang.card_sn}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.card_sn}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}--> 
+                  <!--{if $card.card_password}-->
+      <div class="order_sinfo_item">
+	       <div class="order_sinfo_tit">
+	  			{$lang.card_password}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.card_password}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}--> 
+                  <!--{if $card.end_date}-->
+      <div class="order_sinfo_item">
+	       <div class="order_sinfo_tit">
+	  			{$lang.end_date}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.end_date}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}-->
+                <!--{/foreach}--> 
+                <!--{/foreach}--> 
+              <!--{/if}-->
+  	</div>
+  </div>
+  <div class="blank3" style="display: none;"></div>
+  <section class="content" style="display: none;">
     <div id="J_plugin_cart">
       <div class="bcont">
         <div id="J_allGoods">
@@ -656,7 +821,12 @@
               <h6 style="text-align:center;line-height:20px;">{$lang.remember_order_number}: <font style="color:red">{$order.order_sn}</font></h6>
               <table width="90%" align="center" border="0" cellpadding="15" cellspacing="0" style="border:1px solid #ddd; margin:10px auto;" bgcolor="#FFFFFF">
                 <tr>
-                  <td align="left" style="padding: 5px;line-height: 24px;"><!--{if $order.shipping_name}-->{$lang.select_shipping}: <strong>{$order.shipping_name}</strong><br><!--{/if}-->{$lang.select_payment}: <strong>{$order.pay_name}</strong><br>{$lang.order_amount}: <strong>{$total.amount_formated}</strong><br>{$order.pay_desc}</td>
+                  <td align="left" style="padding: 5px;line-height: 24px;">
+                  	
+                  <!--{if $order.shipping_name}-->{$lang.select_shipping}: <strong>{$order.shipping_name}</strong><br><!--{/if}-->
+                  	{$lang.select_payment}: <strong>{$order.pay_name}</strong>
+                  	<br>{$lang.order_amount}: <strong>{$total.amount_formated}</strong>
+                  	<br>{$order.pay_desc}</td>
                 </tr>
                 <!-- {if $pay_online} --> 
                 <!-- 如果是线上支付则显示支付按钮 -->
@@ -717,6 +887,19 @@
       text-shadow: 0 -1px 1px #ca3511;
       -webkit-box-shadow: 0 -1px 0 #bf3210 inset;
   } 
+  body {background: #fff}
+.order_succ_img {width: 80%;margin: 0 auto;text-align: center;}
+.order_succ_img b {font: 16px/30px simhei;color: #333;}
+.order_succ_img p {color: #666;font: 14px/20px "微软雅黑";text-align: center;}
+.order_succ_img img {display: block;width: 25%;margin: 0 auto;height:auto;padding: 20px 0; }
+.order_succ_num {text-align: center;font: 30px/60px "微软雅黑";color: #333}
+.order_succ_online {width: 80%;text-align: center;margin: 20px auto;}
+.order_succ_online,.order_succ_online a,.order_succ_online input {color: #ff9600 !important;font: 16px/30px "微软雅黑";background: none !important;}
+.order_sinfo_wrap {font: 14px/20px "微软雅黑";color: #999;padding: 10px;}
+.order_sinfo_item {border-bottom: 1px solid #eee;}
+.order_succ_infoc {text-align: center;}
+.order_sinfo_tit {float: left;width: 30%;}
+.order_sinfo_text {float: left;width: 70%;text-align: right;}
   </style>
   <header id="header">
       <div class="header_l"> <a class="ico_10" href="index.php"> 返回 </a> </div>
@@ -729,8 +912,78 @@
       <li class="cur">3.购买成功</li>
     </ul>
   </div>
-  <div class="blank3"></div>
-  <section class="content">
+  <div class="order_succ">
+  	<div class="order_succ_img">
+  		<img src="{$ectouch_themes}/img/order_succ_icon.png"/>
+  		<b>在线付款</b>
+  		<p>尊情的用户，您选择使用{$order.pay_name}本次交易</p>
+  		<p>{$order_submit_back}</p>
+  	</div>
+  	<div class="order_succ_num">
+  		{$order.order_amount_formated}
+  	</div>
+  		<!-- {if $pay_online} --> 
+          <!-- 如果是线上支付则显示支付按钮 -->
+  	<div class="order_succ_online">
+             {$pay_online}
+  	</div>
+      <!-- {/if} -->
+  	<div class="order_sinfo_wrap">
+  		<div class="order_sinfo_item">
+  			<div class="order_sinfo_tit">
+	  			订单号码
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$order.order_sn}
+	  		</div>
+	  		<div class="clear"></div>
+  		</div>
+  		<!--{if $virtual_card}-->
+           <!--{foreach from=$virtual_card item=vgoods}-->
+  		<div class="order_succ_infoc">
+  			{$vgoods.goods_name}
+  		</div>
+           <!--{foreach from=$vgoods.info item=card}-->
+                  <!--{if $card.card_sn}-->
+      <div class="order_sinfo_item">
+	      <div class="order_sinfo_tit">
+	  			{$lang.card_sn}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.card_sn}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}--> 
+                  <!--{if $card.card_password}-->
+      <div class="order_sinfo_item">
+	       <div class="order_sinfo_tit">
+	  			{$lang.card_password}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.card_password}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}--> 
+                  <!--{if $card.end_date}-->
+      <div class="order_sinfo_item">
+	       <div class="order_sinfo_tit">
+	  			{$lang.end_date}
+	  		</div>
+	  		<div class="order_sinfo_text">
+	  			{$card.end_date}
+	  		</div>
+	  		<div class="clear"></div>
+      </div>
+                  <!--{/if}-->
+                <!--{/foreach}--> 
+                <!--{/foreach}--> 
+              <!--{/if}-->
+  	</div>
+  </div>
+  <div class="blank3" style="display: none;"></div>
+  <section class="content" style="display: none;">
     <div id="J_plugin_cart">
       
       <div class="bcont">
@@ -981,7 +1234,7 @@
 <div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
-	<!-- {/literal} -->
+	<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -1046,6 +1299,7 @@
       }
     });
 });
+<!-- {/literal} -->
 </script>
 </body>
 <script type="text/javascript">

@@ -44,7 +44,7 @@
 <script src="{$ectouch_themes}/js/AnimOnScroll.js"></script> 
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
-	<!-- {/literal} -->
+	<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -109,6 +109,7 @@
       }
     });
 });
+<!-- {/literal} -->
 </script>
 <script>
 new AnimOnScroll( document.getElementById( 'grid' ), {

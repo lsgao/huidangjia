@@ -49,8 +49,7 @@ if (!empty($_REQUEST['act']) && $_REQUEST['act'] == 'price')
         }
 
         $shop_price  = get_final_price($goods_id, $number, true, $attr_id);
-		//人人科技修复。
-		$tianxin100=$shop_price * $number;
+        $tianxin100=$shop_price * $number;
         $res['result'] = "￥".$tianxin100;
     }
 

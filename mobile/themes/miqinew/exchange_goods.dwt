@@ -323,7 +323,7 @@ function changePriceResponse(res)
 {insert_scripts files='transport.js,utils.js'}
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
-	<!-- {/literal} -->
+	<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -388,6 +388,7 @@ function changePriceResponse(res)
       }
     });
 });
+<!-- {/literal} -->
 </script>
 </body>
 </html>

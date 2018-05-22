@@ -853,6 +853,11 @@ function cart_goods($type = CART_GENERAL_GOODS) {
 
     /* 格式化价格及礼包商品 */
     foreach ($arr as $key => $value) {
+        /* LONGHTML 增加是否在购物车里显示商品图 */
+        if (($GLOBALS['_CFG']['show_goods_in_cart'] == "2" || $GLOBALS['_CFG']['show_goods_in_cart'] == "3") && $row['extension_code'] != 'package_buy') {
+            $goods_thumb = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`=".$arr[$key]['goods_id']);
+            $arr[$key]['goods_thumb'] = get_image_path($arr[$key]['goods_id'], $goods_thumb, true);
+         }
         $arr[$key]['formated_market_price'] = price_format($value['market_price'], false);
         $arr[$key]['formated_goods_price']  = price_format($value['goods_price'], false);
         $arr[$key]['formated_subtotal'] = price_format($value['subtotal'], false);
@@ -863,7 +868,7 @@ function cart_goods($type = CART_GENERAL_GOODS) {
     }
 
     return $arr;
-}
+} 
 
 /**
  * 取得购物车总金额

@@ -447,7 +447,7 @@
   <!-- {/if} --> 
 <!--#我的推荐end -->
 
-<!-- /我的会员下线开发 start--> 
+<!-- #我的会员下线开发 start--> 
   <!-- {if $action eq 'fenxiao1'} --> 
   <header id="header">
     <div class="header_l header_return"> <a class="ico_10" href="distribute.php"> 返回 </a> </div>
@@ -477,9 +477,9 @@
     </table>
   </section>
   <!-- {/if} --> 
-<!-- /我的会员下线 end --> 
+<!-- #我的会员下线 end --> 
 
-<!-- /我的会员下线开发 start--> 
+<!-- #我的会员下线开发 start--> 
   <!-- {if $action eq 'fenxiao2'} --> 
   <header id="header">
     <div class="header_l header_return"> <a class="ico_10" href="distribute.php"> 返回 </a> </div>
@@ -509,9 +509,9 @@
     </table>
   </section>
   <!-- {/if} --> 
-<!-- /我的会员下线 end--> 
+<!-- #我的会员下线 end--> 
 
-<!-- /我的会员下线开发 start--> 
+<!-- #我的会员下线开发 start--> 
   <!-- {if $action eq 'fenxiao3'} --> 
   <header id="header">
     <div class="header_l header_return"> <a class="ico_10" href="distribute.php"> 返回 </a> </div>
@@ -541,9 +541,9 @@
     </table>
   </section>
   <!-- {/if} --> 
-<!-- /我的会员下线 end--> 
+<!-- #我的会员下线 end--> 
 
-<!-- /我的会员下线开发 start--> 
+<!-- #我的会员下线开发 start--> 
   <!-- {if $action eq 'fenxiao4'} --> 
   <header id="header">
     <div class="header_l header_return"> <a class="ico_10" href="distribute.php"> 返回 </a> </div>
@@ -573,9 +573,9 @@
     </table>
   </section>
   <!-- {/if} --> 
-<!-- /我的会员下线 end --> 
+<!-- #我的会员下线 end --> 
 
-<!-- /分销订单  start--> 
+<!-- #分销订单  start--> 
   <!-- {if $action eq 'myorder'} --> 
     <header id="header">
       <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
@@ -612,13 +612,13 @@
       </table>
     </section> 
   <!-- {/if} --> 
-<!-- /分销订单 end --> 
+<!-- #分销订单 end --> 
 
 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
 <div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
-	<!-- {/literal} -->
+	<!-- {literal} -->
   wx.config({
     debug: false,
     appId: '{$signPackage.appId}',
@@ -683,6 +683,7 @@
       }
     });
 });
+<!-- {/literal} -->
 </script>
 </body>
 <script type="text/javascript">

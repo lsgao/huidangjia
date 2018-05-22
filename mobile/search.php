@@ -268,15 +268,17 @@ else
                 $ur_here = $_LANG['hot_goods'];
                 break;
             case 'promotion':
-                $time    = gmtime();
-                $intro   = " AND g.promote_price > 0 AND g.promote_start_date <= '$time' AND g.promote_end_date >= '$time'";
+                $now    = gmtime();
+                $intro   = " AND g.promote_price > 0 AND g.promote_start_date <= '$now' AND g.promote_end_date >= '$now'";
                 $intromode = 'promotion';
                 $ur_here = $_LANG['promotion_goods'];
                 break;
-            case 'tomorow_promotion':
-                $time    = gmtime() + 3600 * 24;
-                $intro   = " AND g.promote_price > 0 AND g.promote_start_date <= '$time' AND g.promote_end_date >= '$time'";
-                $intromode = 'promotion';
+            case 'tomorrow_promotion':
+                $today = strtotime(date("Y-m-d"), time());
+                $tomorrow = $today + 3600 * 24 - (time()-gmtime());
+                $the_day_after_tomorrow = $today + 3600 * 24 * 2 - (time()-gmtime());
+                $intro   = " AND g.promote_price > 0 AND g.promote_start_date >= '$tomorrow' AND g.promote_start_date < '$the_day_after_tomorrow' AND g.promote_end_date >= '$tomorrow'";
+                $intromode = 'tomorrow_promotion';
                 $ur_here = $_LANG['promotion_goods'];
                 break;
             default:
