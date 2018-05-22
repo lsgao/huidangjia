@@ -31,7 +31,7 @@
       <form enctype="multipart/form-data" action="" method="post" name="theForm" >
         <!-- 鏈€澶ф枃浠堕檺鍒 -->
         <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
-        <!-- 閫氱敤淇℃伅 -->
+        <!-- 通用信息TAB -->
         <table width="90%" id="general-table" align="center">
           <tr>
             <td class="label">{$lang.lab_goods_name}</td>
@@ -89,10 +89,12 @@
          {if $suppliers_exists eq 1}
           <tr>
             <td class="label">{$lang.label_suppliers}</td>
-            <td><select name="suppliers_id" id="suppliers_id">
-        <option value="0">{$lang.suppliers_no}</option>
-        {html_options options=$suppliers_list_name selected=$goods.suppliers_id}
-      </select></td>
+            <td>
+              <select name="suppliers_id" id="suppliers_id">
+                <option value="0">{$lang.suppliers_no}</option>
+                {html_options options=$suppliers_list_name selected=$goods.suppliers_id}
+              </select>
+            </td>
           </tr>
          {/if}
           <tr>
@@ -115,7 +117,7 @@
           </tr>
           {/if}
 
-          <!--鍟嗗搧浼樻儬浠锋牸-->
+          <!--商品优惠价格-->
           <tr>
             <td class="label"><a href="javascript:showNotice('volumePrice');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.lab_volume_price}</td>
             <td>
@@ -137,7 +139,7 @@
               <span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="volumePrice">{$lang.notice_volume_price}</span>
             </td>
           </tr>
-          <!--鍟嗗搧浼樻儬浠锋牸 end -->
+          <!--商品优惠价格 end -->
           <tr>
             <td class="label">分成金额</td>
             <td><input type="text" name="fencheng" value="{$goods.fencheng}" size="20" />
@@ -203,15 +205,21 @@
           </tr>
         </table>
 
-        <!-- 璇︾粏鎻忚堪 -->
+        <!-- 详细描述TAB -->
         <table width="90%" id="detail-table" style="display:none">
           <tr>
             <td>{$FCKeditor}</td>
           </tr>
         </table>
 
-        <!-- 鍏朵粬淇℃伅 -->
+        <!-- 其他信息TAB -->
         <table width="90%" id="mix-table" style="display:none" align="center">
+          {if $smarty.session.admin_id eq 1}
+          <tr>
+            <td class="label">进货价格</td>
+            <td><input type="text" name="prime_costs" value="{$goods.prime_costs}" size="20" /></td>
+          </tr>
+          {/if}
           {if $code eq ''}
           <tr>
             <td class="label">{$lang.lab_goods_weight}</td>

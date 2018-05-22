@@ -9,7 +9,7 @@
   <meta name="format-detection" content="telephone=no" />
   <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
   <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <link href="{$ectouch_themes}/ectouch.css?id=1212" rel="stylesheet" type="text/css" />
+  <link href="{$ectouch_themes}/ectouch.css?id=1213" rel="stylesheet" type="text/css" />
   {* 包含脚本文件 *}
   {insert_scripts files='transport.js,common.js,user.js'}
   <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
@@ -30,7 +30,7 @@
     </dd>
     <div class="user_distri_list">
       <ul>
-        <li> 累计销售：￥{$total_commission.order_amount} （其中计算佣金的销售金额：￥{$total_commission.order_fencheng}）</li>
+        <li> 累计销售：￥{$total_commission.order_amount} <br />（其中计算佣金的销售金额：￥{$total_commission.order_fencheng}）</li>
         <li> 累计佣金：￥{$total_commission.commission}</li>
       </ul>
     </div>
@@ -66,9 +66,10 @@
               -->
             </ul>
           </div>
-        <li onclick="location.href='user_commission.php?act=account_apply';"><span class="uninclude">&nbsp; &nbsp; </span><span>申请提现</span></li>
+        <li onclick="location.href='user_commission.php?act=account_apply';" style="display: none;"><span class="uninclude">&nbsp; &nbsp; </span><span>申请提现</span></li>
       </ul>
     </div>
+    <div class="pf_sub"  onclick="location.href='user_commission.php?act=account_apply';">申请提现</div>
     <div class="blank3"></div>
     <div class="blank3"></div>
     <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 

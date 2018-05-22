@@ -1707,4 +1707,4 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .order_sinfo_item {border-bottom: 1px solid #eee;}
 .order_sinfo_tit {float: left;width: 30%;}
 .order_sinfo_text {float: left;width: 70%;text-align: right;}
-
+.pf_sub {width: 60%;margin: 20px auto;background: #ff9600;color: #fff;border-radius: 15px;font: 16px/30px "微软雅黑";text-align: center;}
