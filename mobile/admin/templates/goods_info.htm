@@ -219,6 +219,8 @@
             <td class="label">进货价格</td>
             <td><input type="text" name="prime_costs" value="{$goods.prime_costs}" size="20" /></td>
           </tr>
+          {else}
+            <input type="hidden" name="prime_costs" value="{$goods.prime_costs}" />
           {/if}
           {if $code eq ''}
           <tr>
