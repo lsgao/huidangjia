@@ -9,7 +9,7 @@
 <meta name="format-detection" content="telephone=no" />
 <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
 <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<link href="{$ectouch_themes}/ectouch.css?id=12" rel="stylesheet" type="text/css" />
+<link href="{$ectouch_themes}/ectouch.css?id=13" rel="stylesheet" type="text/css" />
 {* 包含脚本文件 *}
 {insert_scripts files='common.js,shopping_flow.js'}
 {insert_scripts files='transport.js,utils.js'}
@@ -745,7 +745,7 @@ body {background: #fff}
   	<div class="order_succ_img">
   		<img src="{$ectouch_themes}/img/order_succ_icon.png"/>
   		<b>购买成功</b>
-  		<p>尊情的用户，您使用{$order.pay_name}了本次交易</p>
+  		<p>尊敬的用户，您使用{$order.pay_name}了本次交易</p>
   		<p>{$order_submit_back}</p>
   	</div>
   	<div class="order_succ_num">
@@ -916,7 +916,7 @@ body {background: #fff}
   	<div class="order_succ_img">
   		<img src="{$ectouch_themes}/img/order_succ_icon.png"/>
   		<b>在线付款</b>
-  		<p>尊情的用户，您选择使用{$order.pay_name}本次交易</p>
+  		<p>尊敬的用户，您选择使用{$order.pay_name}本次交易</p>
   		<p>{$order_submit_back}</p>
   	</div>
   	<div class="order_succ_num">

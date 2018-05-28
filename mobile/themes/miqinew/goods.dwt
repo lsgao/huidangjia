@@ -86,7 +86,7 @@
   }
 </style>
 
-<script type="text/javascript" src="../data/static/js/common1.js">
+<script type="text/javascript" src="../data/static/js/common1.js"></script>
 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
 // 筛选商品属性
@@ -104,8 +104,6 @@ function changenum(diff) {
     changePrice();
   }
 }
-
-
 </script>
 </head>
 <body>
@@ -120,6 +118,15 @@ function changenum(diff) {
 <script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
 <section class="goods_slider">
   <div class="pp_product_img">
+  
+  	<div id="sale_out"></div>
+  	<script type="text/javascript">
+  	if ({$goods.goods_number} == 0) {
+  		document.getElementById("sale_out").style.display = "block";
+		} else {
+			document.getElementById("sale_out").style.display = "none";
+		}
+  </script>
     <style>
       .swiper-pagination-bullet-active {
         background-color: #ff9800 !important;
@@ -156,7 +163,7 @@ function changenum(diff) {
         var mySwiper = new Swiper('#goods_banner',{
         pagination : '#goods_bpage',
         observer:true,
-        autoplay : 3000,
+        autoplay : 6000,
         autoplayDisableOnInteraction : false,
         loop:true,
         })
@@ -289,77 +296,35 @@ function changenum(diff) {
     <li>月销量：{$goods.click_count}件</li>
   </ul>
 </section>
-
+<!-- {if $promotion} -->
+  <ul>
+    <li>
+    <!-- {foreach from=$promotion item=item key=key} 优惠活动-->
+    {$lang.activity}
+    <!-- {if $item.type eq "snatch"} -->
+    <a href="snatch.php" title="{$lang.snatch}" class="rule c333">[{$lang.snatch}]</a>
+    <!-- {elseif $item.type eq "group_buy"} -->
+    <a href="group_buy.php" title="{$lang.group_buy}" class="rule c333">[{$lang.group_buy}]</a>
+    <!-- {elseif $item.type eq "auction"} -->
+    <a href="auction.php" title="{$lang.auction}" class="rule c333">[{$lang.auction}]</a>
+    <!-- {elseif $item.type eq "favourable"} -->
+    <a href="activity.php" title="{$lang.favourable}" class="rule c333">[{$lang.favourable}]</a>
+    <!-- {/if} -->
+    <a href="{$item.url}" title="{$lang.$item.type} {$item.act_name}{$item.time}" class="rule c333">{$item.act_name}</a><br />
+    <!-- {/foreach} -->
+    </li>
+  </ul>
+  <!-- {/if} -->
 <!--商品参数 begin-->
+<div class="good_cho_spec" id="good_cho">
+	<p  onclick="showDiv1()">请选择规格</p>
+</div>
 <div class="wrap">
-  <section class="goodsBuy radius5">
-    <input id="goodsBuy-open" type="checkbox">
-    <label class="info" for="goodsBuy-open">
-    <div>请选择<span><!-- {foreach name=spec from=$specification item=spec key=spec_key} --><!-- {if $smarty.foreach.spec.iteration>1}-->/<!-- {/if} -->{$spec.name}<!-- {/foreach} --></span><i></i></div>
-    <div class="selected"> </div>
-    </label>
+  <section class="goodsBuy radius5" style="margin: 0;padding: 0;">
+    
     <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
-     <div class="fields"   style="display: block;">   
-        <ul class="ul1">
-          <li>{$lang.amount}：<font id="ECS_GOODS_AMOUNT" class="price"></font></li>
-          <li><!--推荐功能--></li>
-        </ul>
-        <ul class="ul2">
-          <!-- {* 开始循环所有可选属性 *} --> 
-          <!-- {foreach from=$specification item=spec key=spec_key} -->
-          <li>
-          <h2>{$spec.name}：</h2>
-            <div class="items">
-            <!-- {* 判断属性是复选还是单选 *} -->
-            <!-- {if $spec.attr_type eq 1} -->
-                <!-- {if $cfg.goodsattr_style eq 1} -->
-          <!-- {if $spec.name eq '颜色'}-->
-                    <!-- {foreach from=$spec.values item=value key=key} -->
-                    <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
-                    <label for="spec_value_{$value.id}">{if $value.product_number eq 0}{$value.label}-<font class="price">缺货</font>{else}{$value.label}-<font class="price">{$value.product_number}{$goods.measure_unit}</font>{/if}</label> 
-                    <!-- {/foreach} -->          
-                    <!--{else}-->
-          <!--{foreach from=$spec.values item=value key=key}-->
-          <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
-                    <label for="spec_value_{$value.id}">{$value.label}</label> 
-          <!-- {/foreach} -->
-            <!--{/if}-->
-                    <input type="hidden" name="spec_list" value="{$key}" />
-                <!-- {else} -->
-                    <select name="spec_{$spec_key}" onchange="changePrice()">
-                    <!-- {foreach from=$spec.values item=value key=key} -->
-                    <option label="{$value.label}" value="{$value.id}">{$value.label} {if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if}{if $value.price neq 0}{$value.format_price}{/if}</option>
-                    <!-- {/foreach} -->
-                    </select>
-                    <input type="hidden" name="spec_list" value="{$key}" />
-                <!-- {/if} -->
-            <!-- {else} -->
-                <!-- {foreach from=$spec.values item=value key=key} -->
-                <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
-                <label for="spec_value_{$value.id}">
-                {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}] </label><br />
-                <!-- {/foreach} -->
-                <input type="hidden" name="spec_list" value="{$key}" />
-            <!-- {/if} -->
-            </div>
-      </li>
-          <!-- {/foreach} --> 
-          <!-- {* 结束循环可选属性 *} -->
-        </ul>
-        <ul class="quantity">
-          <h2>数量：</h2>
-          <div class="items"> <span class="ui-number radius5"> 
-            <!-- {if $goods.goods_id gt 0 && $goods.is_gift eq 0 && $goods.parent_id eq 0} 普通商品可修改数量 -->
-            <button type="button" class="decrease radius5" onclick="changenum(- 1)">-</button>
-            <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" max="{$goods.goods_number}" type="number" />
-            <button type="button" class="increase radius5" onclick="changenum(1)">+</button>
-            <!-- {else} --> 
-            {$goods.goods_number} 
-            <!-- {/if} --> 
-            </span> </div>
-        </ul>
-      </div>
-      <div class="option" > 
+     
+      <div class="option"  style="padding: 0;"> 
         <script type="text/javascript">
             function showDiv(){
                 document.getElementById('popDiv').style.display = 'block';
@@ -380,20 +345,106 @@ function changenum(diff) {
         -->
         <!--弹出层 S-->
         <div class="tipMask" id="hidDiv" style="display:none" ></div>
-        <div class="popGeneral" id="popDiv" >
-          <div class="tit">
-            <h4>商品加入购物车</h4>
-            <span class="ico_08" onclick="closeDiv()"><a href="javascript:"></a></span> </div>
-          <div id="main">
-            <div id="left"> <img width="115" height="115" src="{$site_url}{$goods.original_img}"> </div>
-            <div id="right">
-              <p>{$goods.goods_name}</p>
-              <span> 加入数量： <b id="cartNum"></b></span> <span> 总计金额： <b id="cartPrice"></b></span> 
-            </div>
-          </div>
-          <div class="popbtn"> <a class="bnt1 flex_in radius5" onclick="closeDiv()" href="javascript:void(0);">继续购物</a> <a class="bnt2 flex_in radius5" href="flow.php">去结算</a> </div>
+       
+        <div class="good_gen_wrap" id="good_gen_wrap" style="display: none;">
+        	<div class="good_gen_tit">
+        		<p>规格数量</p><i onclick="closeDiv1()"></i>
+        	</div>
+        	<div class="good_gen_info">
+        		<div class="good_gen_img">
+        			<img src="{$site_url}{$goods.goods_thumb}" alt="{$goods.goods_name}" />
+        		</div>
+        		<div class="good_gen_text">
+        			<p>库存{$goods.goods_number}</p>
+        			<p>请选择商品规格数量</p>
+        		</div>
+        		<div class="clear"></div>
+        		<div class="goodsBuy">
+        			<div class="fields"   style="display: block;">   
+				        <ul class="ul1">
+				          <li>{$lang.amount}：<font id="ECS_GOODS_AMOUNT" class="price"></font></li>
+				          <li><!--推荐功能--></li>
+				        </ul>
+				        <ul class="ul2">
+				          <!-- {* 开始循环所有可选属性 *} --> 
+				          <!-- {foreach from=$specification item=spec key=spec_key} -->
+				          <li>
+				          <h2>{$spec.name}：</h2>
+				            <div class="items">
+				            <!-- {* 判断属性是复选还是单选 *} -->
+				            <!-- {if $spec.attr_type eq 1} -->
+				                <!-- {if $cfg.goodsattr_style eq 1} -->
+				          <!-- {if $spec.name eq '颜色'}-->
+				                    <!-- {foreach from=$spec.values item=value key=key} -->
+				                    <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
+				                    <label for="spec_value_{$value.id}">{if $value.product_number eq 0}{$value.label}-<font class="price">现货</font>{else}{$value.label}-<font class="price">{$value.product_number}{$goods.measure_unit}</font>{/if}</label> 
+				                    <!-- {/foreach} -->          
+				                    <!--{else}-->
+				          <!--{foreach from=$spec.values item=value key=key}-->
+				          <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice()" />
+				                    <label for="spec_value_{$value.id}">{$value.label}</label> 
+				          <!-- {/foreach} -->
+				            <!--{/if}-->
+				                    <input type="hidden" name="spec_list" value="{$key}" />
+				                <!-- {else} -->
+				                    <select name="spec_{$spec_key}" onchange="changePrice()">
+				                    <!-- {foreach from=$spec.values item=value key=key} -->
+				                    <option label="{$value.label}" value="{$value.id}">{$value.label} {if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if}{if $value.price neq 0}{$value.format_price}{/if}</option>
+				                    <!-- {/foreach} -->
+				                    </select>
+				                    <input type="hidden" name="spec_list" value="{$key}" />
+				                <!-- {/if} -->
+				            <!-- {else} -->
+				                <!-- {foreach from=$spec.values item=value key=key} -->
+				                <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+				                <label for="spec_value_{$value.id}">
+				                {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}] </label><br />
+				                <!-- {/foreach} -->
+				                <input type="hidden" name="spec_list" value="{$key}" />
+				            <!-- {/if} -->
+				            </div>
+				      </li>
+				          <!-- {/foreach} --> 
+				          <!-- {* 结束循环可选属性 *} -->
+				        </ul>
+				         <ul class="quantity">
+				          <h2>数量：</h2>
+				          <div class="items"> <span class="ui-number radius5"> 
+				            <!-- {if $goods.goods_id gt 0 && $goods.is_gift eq 0 && $goods.parent_id eq 0} 普通商品可修改数量 -->
+				            <button type="button" class="decrease radius5" onclick="changenum(- 1)">-</button>
+				            <input class="num" name="number" id="goods_number" autocomplete="off" value="1" min="1" max="{$goods.goods_number}" type="number" />
+				            <button type="button" class="increase radius5" onclick="changenum(1)">+</button>
+				            <!-- {else} --> 
+				            {$goods.goods_number} 
+				            <!-- {/if} --> 
+				            </span> </div>
+				        </ul>
+				      </div>
+        		</div>
+        	</div>
+        	<div class="good_buy_but">
+        		{if $goods.goods_id neq 1298}
+					    <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+					    <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+					    <div class="countdown"> <span class="label"></span><span class="time"></span></div>
+					    {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
+					  {else}
+					    <button class="buy" type="button" onclick="addToCart_quick({$goods.goods_id})">立刻购买</button>
+					  {/if}
+        	</div>
+        	<section id="s-action" class="s-action float" style="display: none;">
+					  {if $goods.goods_id neq 1298}
+					    <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+					    <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+					    <div class="countdown"> <span class="label"></span><span class="time"></span></div>
+					    {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
+					  {else}
+					    <button class="buy" type="button" onclick="addToCart_quick({$goods.goods_id})">立刻购买</button>
+					  {/if}
+					</section>
         </div>
         <!--弹出层 E--> 
+        
       </div>
     </form>
   </section>
@@ -552,7 +603,7 @@ function changePriceResponse(res)
       wx.onMenuShareAppMessage(
         {
           title: '{$goods.goods_style_name}',
-          desc: '{$goods.goods_style_name}',
+          desc: '惠当家-正品联盟  \n 售价：{$goods.shop_price_formated}',
           link: '{$url}',
           imgUrl: '{$site_url}{$goods.original_img}',
           trigger: function (res) {
@@ -604,14 +655,26 @@ function changePriceResponse(res)
 </script>
 <section id="s-action" class="s-action float">
   {if $goods.goods_id neq 1298}
-    <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
-    <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id});"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+    <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+    <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
     <div class="countdown"> <span class="label"></span><span class="time"></span></div>
     {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
   {else}
-    <button class="buy" type="button" onclick="addToCart_quick({$goods.goods_id})">立刻购买</button>
+    <button class="buy" type="button" onclick="showDiv1()">立刻购买</button>
   {/if}
 </section>
+ <script type="text/javascript">
+            function showDiv1(){
+                document.getElementById('good_gen_wrap').style.display = 'block';
+        document.getElementById('hidDiv').style.display = 'block';
+        document.getElementById('cartNum').innerHTML = document.getElementById('goods_number').value;
+        document.getElementById('cartPrice').innerHTML = document.getElementById('ECS_GOODS_AMOUNT').innerHTML;
+            }
+            function closeDiv1(){
+                document.getElementById('good_gen_wrap').style.display = 'none';
+        document.getElementById('hidDiv').style.display = 'none';
+            }
+     </script>
 {insert_scripts files='transport.js,utils.js'}
 </body>
 </html>

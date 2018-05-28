@@ -48,13 +48,13 @@
       <form action="javascript:;" onsubmit="submitComment(this)" method="post" name="commentForm" id="commentForm">
 		   <div class="commen_wrap">
 		   		<div class="commen_user">
-			   		{if $smarty.session.user_id gt 0}
+		   			{if $smarty.session.user_id gt 0}
 						<a href="user.php">
-						{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="80" height="80" style="border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="80" height="80" style="border: none" />{/if}
-							</a>
+							{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="50" height="50" style="border-radius: 50%;border: none;margin: 0 auto;" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="50" height="50" style="border-radius: 50%;border: none;margin: 0 auto" />{/if}
+						</a>
 						{else}
 						<a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
-					{/if}
+						{/if}
 			   	</div>
 			   	<div class="comment_chose">
 			   		<div class="commen_radio">  

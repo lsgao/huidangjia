@@ -38,7 +38,7 @@
 				Diffms -= DifferSecond * Secondms
 				var dSecs = Math.floor(Diffms / microsecond)
 
-				if(convertHour != DifferHour) a = "<font>" + DifferHour + "</font>Day";
+				if(convertHour != DifferHour) a = "<font>" + DifferHour + "</font>:";
 				if(convertMinute != DifferMinute) {
 					if (DifferMinute >= 10) {
 						b = "<font>" + DifferMinute + "</font>:";
