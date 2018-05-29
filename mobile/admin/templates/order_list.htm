@@ -9,8 +9,8 @@
     {$lang.consignee|escape}<input name="consignee" type="text" id="consignee" size="15">
     {$lang.all_status}
     <select name="status" id="status">
-      <option value="-1">{$lang.select_please}</option>
-      {html_options options=$status_list}
+      <option value="-1" selected>{$lang.select_please}</option>
+      {html_options options=$status_list selected=-1}
     </select>
     <input type="submit" value="{$lang.button_search}" class="button" />
     <a href="order.php?act=list&composite_status={$os_unconfirmed}">{$lang.cs.$os_unconfirmed}</a>
@@ -50,7 +50,7 @@
      <br /><a href="javascript:;" onclick="listTable.remove({$order.order_id}, remove_confirm, 'remove_order')">{$lang.remove}</a>
      {/if}
      {if $order.order_status=5 && $order.invoice_no}
-     <br/><a href="javascript:;" onclick="jisushuju.query('{$order.invoice_no}','{$order.shipping_name}')">查看物流</a>
+     <br/><a href="javascript:;" onclick="jisushuju.query('{$order.invoice_no}','{$order.shipping_name}')">跟踪物流</a>
      {/if}
     </td>
   </tr>

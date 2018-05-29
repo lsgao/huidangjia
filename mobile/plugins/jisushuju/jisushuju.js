@@ -40,7 +40,7 @@ var jisushuju={
 		if(num.length<1||wltype.length<1)
 		{
 			shtml='快递单号或者物流类型为空';
-			retrun;
+			return;
 		}
 		Ajax.call('/plugins/jisushuju/jisushuju_post.php'
 			, 'number='+num+'&com='+wltype, 
