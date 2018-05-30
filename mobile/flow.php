@@ -1881,6 +1881,10 @@ elseif ($_REQUEST['step'] == 'done')
         }
         if ($val['goods_id'] == 1298) {// 掌柜年卡
             $is_shopkeeper_card = 1;
+            $percentage_flag = 1;
+        } else if ($val['goods_id'] == 3401) { // 9.9注册掌柜
+            $is_shopkeeper_card = 1;
+            $percentage_flag = 0;
         }
         $goods_count ++;
     }
@@ -1898,17 +1902,21 @@ elseif ($_REQUEST['step'] == 'done')
                 if (!isset($_POST['invite_code']) || empty($_POST['invite_code'])) {
                     show_message('请填写推荐人。');
                 } else {
-                	$order['consignee'] = $_POST['invite_code'];
-                	$order['country'] = 0;
-                	$order['province'] = 0;
-                	$order['city'] = 0;
-                	$order['district'] = 0;
-                	$order['address'] = '';
-                	$order['tel'] = '';
-                	$order['mobile'] = '';
-                	$order['email'] = '';
-                	$order['identity_card'] = '';
-                	$order['order_type'] = '掌柜年卡';
+                    $order['consignee'] = $_POST['invite_code'];
+                    $order['country'] = 0;
+                    $order['province'] = 0;
+                    $order['city'] = 0;
+                    $order['district'] = 0;
+                    $order['address'] = '';
+                    $order['tel'] = '';
+                    $order['mobile'] = '';
+                    $order['email'] = '';
+                    $order['identity_card'] = '';
+                    if ($percentage_flag == 1) {
+                        $order['order_type'] = '掌柜年卡';
+                    } else if ($percentage_flag == 0) {
+                        $order['order_type'] = '注册掌柜';
+                    }
                 }
             }
         }
@@ -2228,16 +2236,20 @@ elseif ($_REQUEST['step'] == 'done')
         // 修改订单状态
         //$sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " . " WHERE order_id = '".$new_order_id."' ";
         //$db->query($sql);
-        update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '掌柜年卡'));
+        if ($percentage_flag == 1) {
+            update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '掌柜年卡'));
+        } else if ($percentage_flag == 0) {
+            update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '注册掌柜'));
+        }
         // 记录订单流水日志
         order_action($order['order_sn'], OS_SPLITED, SS_SHIPPED, $order['pay_status'], '', 'system');
         $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . 
             " WHERE order_id = '".$new_order_id."' AND goods_id=1298";
         $goods_number = $db->getOne($sql);
-        // 掌柜年卡分润
+        // 升级掌柜
         $_POST['invite_code'] = isset($_POST['invite_code']) ? compile_str($_POST['invite_code']) : '';
         $invite_code = $_POST['invite_code'];
-        ecs_header("Location:./user.php?act=membership_upgrade&invite_code=" . $_POST['invite_code'] . "&goods_number=" . $goods_number . "&order_sn=" . $order['order_sn'] . "\n");
+        ecs_header("Location:./user.php?act=membership_upgrade&invite_code=" . $_POST['invite_code'] . "&goods_number=" . $goods_number . "&order_sn=" . $order['order_sn'] ."&percentage_flag=" . $percentage_flag . "\n");
         exit;
     }
 

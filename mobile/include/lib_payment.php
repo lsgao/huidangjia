@@ -199,13 +199,20 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                         log_account_change($order['user_id'], 0, 0, intval($integral['rank_points']), intval($integral['custom_points']), sprintf($GLOBALS['_LANG']['order_gift_integral'], $order['order_sn']));
                     }
                 }
-                // 判断是否是掌柜年卡
+
                 $sql = "SELECT COUNT(goods_id) FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id=" . $order_id;
                 $goods_count = $GLOBALS['db']->getOne($sql);
+                // 判断是否是掌柜年卡
                 $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=1298";
                 $goods_number = $GLOBALS['db']->getOne($sql);
-                if ($goods_count == 1 && $goods_number > 0) {
-                    // 掌柜年卡分润
+                if ($goods_count == 1) {
+                    $sql = "SELECT goods_id FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "'";
+                    $goods_id = $GLOBALS['db']->getOne($sql);
+                }
+                if ($goods_count == 1 && $goods_id == 1298) {
+                    // 掌柜年卡
+                    $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=1298";
+                    $goods_number = $GLOBALS['db']->getOne($sql);
                     $invite_code = $order['consignee'];
                     if (!empty($invite_code)) {
                         if($invite_code && strlen($invite_code) == 6) {
@@ -270,6 +277,44 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                     card_percentage($invite_id, $amount, $change_desc);
                                 }
                             }
+                        }
+                    }
+                } else if ($goods_count == 1 && $goods_id == 3401) {
+                    // 掌柜年卡
+                    $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=3401";
+                    $goods_number = $GLOBALS['db']->getOne($sql);
+                    $invite_code = $order['consignee'];
+                    if (!empty($invite_code)) {
+                        if($invite_code && strlen($invite_code) == 6) {
+                            $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
+                            //取得邀请码的账号ID
+                            $pattern = "/^(0+)(\d+)/i";
+                            $replacement = "\$2";
+                            $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
+                            // 更新用户的推荐人
+                            if(strncasecmp($invite_mark, "au", 2) == 0) {
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_admin_id <= 0";
+                            } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                                //* 此推荐人是否存在 */
+                                if ($invite_id == 0) {
+                                    exit;
+                                }
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                            }
+                            $GLOBALS['db']->query($invite_sql);
+                            // 更新用户级别
+                            $user_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
+                            if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
+                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
+                                $GLOBALS['db']->query($update_rank_sql);
+                            }
+                            // 更新：订单状态=确认收货，订单类型=注册掌柜
+                            $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                                " SET " . "shipping_status='" . SS_RECEIVED . "', " . "order_type='注册掌柜' " . 
+                                " WHERE order_id = '$order_id'";
+                            $GLOBALS['db']->query($sql);
+                            // 记录订单流水日志
+                            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
                         }
                     }
                 }

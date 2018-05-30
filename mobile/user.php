@@ -1207,7 +1207,7 @@ elseif ($action == 'async_order_list') {
             if ($vo['shipping_status'] == 2 && $vo['return_status'] == 0) {
                 $detail_content .= '<br>';
                 $script = 'javascript:if(confirm(\'真的确定申请退货吗？\')){window.location.href=\'user.php?act=return_goods&order_id=' . $vo['order_id'] . '\'}';
-                if ($vo['order_type'] != '掌柜年卡') {
+                if ($vo['order_type'] != '掌柜年卡' && $vo['order_type'] != '注册掌柜') {
                     $detail_content .= '<a href="'.$script.'" style="text-decoration:none;color:#F00">申请退货</a>';
                 }
             } else if ($vo['shipping_status'] == 2 && $vo['return_status'] == 2) {
@@ -3998,6 +3998,10 @@ elseif ($action == 'membership_upgrade') {
     if (isset($_REQUEST['order_sn']) && !empty($_REQUEST['order_sn'])) {
         $order_sn = $_REQUEST['order_sn'];
     }
+    $percentage_flag = 0;
+    if (isset($_REQUEST['percentage_flag']) && !empty($_REQUEST['percentage_flag'])) {
+        $percentage_flag = $_REQUEST['percentage_flag'];
+    }
     if (!empty($invite_code)) {
         if($invite_code && strlen($invite_code) == 6) {
             $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
@@ -4032,36 +4036,39 @@ elseif ($action == 'membership_upgrade') {
             $db->query($sql);
             // 记录订单流水日志
             order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
-            if (strncasecmp($invite_mark, "uu", 2) == 0) {
-                // 推荐人等级
-                $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
-                // 推荐人分润
-                $level_num = 4;
-                $change_desc = "购买掌柜年卡的分润(用户" . $user_id .", 订单号" . $order_sn . ")";
-                if ($parent_rank == 2) {// 掌柜
-                    $amount = 150 * $goods_number;
-                    card_percentage_ck($invite_id, $amount, $change_desc);
-                    $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
-                    if ($super_shopkeeper_id > 0) {
-                        $amount = 30 * $goods_number;
-                        card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
-                        $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+            // 分成
+            if ($percentage_flag == 1) {
+                if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                    // 推荐人等级
+                    $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
+                    // 推荐人分润
+                    $level_num = 4;
+                    $change_desc = "购买掌柜年卡的分润(用户" . $user_id .", 订单号" . $order_sn . ")";
+                    if ($parent_rank == 2) {// 掌柜
+                        $amount = 150 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
+                        $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
+                        if ($super_shopkeeper_id > 0) {
+                            $amount = 30 * $goods_number;
+                            card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
+                            $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+                            $amount = 20 * $goods_number;
+                            card_percentage_ck($originator_id, $amount, $change_desc);
+                        } else {
+                            $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                            $amount = 50 * $goods_number;
+                            card_percentage_ck($originator_id, $amount, $change_desc);
+                        }
+                    } else if ($parent_rank == 3) {// 大掌柜
+                        $amount = 230 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
+                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
                         $amount = 20 * $goods_number;
                         card_percentage_ck($originator_id, $amount, $change_desc);
-                    } else {
-                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
-                        $amount = 50 * $goods_number;
-                        card_percentage_ck($originator_id, $amount, $change_desc);
+                    } else if ($parent_rank == 4) {// 创始人
+                        $amount = 250 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
                     }
-                } else if ($parent_rank == 3) {// 大掌柜
-                    $amount = 230 * $goods_number;
-                    card_percentage_ck($invite_id, $amount, $change_desc);
-                    $originator_id = find_parent($invite_id, 4, $level_num, 1);
-                    $amount = 20 * $goods_number;
-                    card_percentage_ck($originator_id, $amount, $change_desc);
-                } else if ($parent_rank == 4) {// 创始人
-                    $amount = 250 * $goods_number;
-                    card_percentage_ck($invite_id, $amount, $change_desc);
                 }
             }
         }

@@ -1953,6 +1953,9 @@
       	<div class="vip_dis_sub vip_dis_con">
 	      		<a href="goods.php?id=1298">365元立即开通</a>
 	      	</div>
+	      	<div class="vip_dis_sub vip_dis_con" style="margin-top: 20px;">
+	      		<a href="goods.php?id=3401" style="background: #E60012;">9.9元立即开通</a>
+	      	</div>
       </section>
       <div class="vip_dis_wrap" id="vip_dis_wrap">
       	<div class="vip_dis_box">
