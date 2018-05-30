@@ -325,6 +325,7 @@ $_LANG['order_gift_integral'] = '订单 %s 赠送的积分';
 $_LANG['order_payed_sms'] = '订单 %s 付款了。收货人：%s；电话：%s。';
 
 /* 缺货处理 */
+$_LANG['oos'][OOS_NONE] = '不缺货';
 $_LANG['oos'][OOS_WAIT] = '等待所有商品备齐后再发';
 $_LANG['oos'][OOS_CANCEL] = '取消订单';
 $_LANG['oos'][OOS_CONSULT] = '与店主协商';

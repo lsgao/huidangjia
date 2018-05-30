@@ -103,9 +103,10 @@ define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发�
 define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
 
 /* 缺货处理 */
-define('OOS_WAIT',                  0); // 等待货物备齐后再发
-define('OOS_CANCEL',                1); // 取消订单
-define('OOS_CONSULT',               2); // 与店主协商
+define('OOS_NONE',               0); // 不缺货
+define('OOS_WAIT',                  1); // 等待货物备齐后再发
+define('OOS_CANCEL',                2); // 取消订单
+define('OOS_CONSULT',               3); // 与店主协商
 
 /* 帐户明细类型 */
 define('SURPLUS_SAVE',              0); // 为帐户冲值

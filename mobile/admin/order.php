@@ -90,7 +90,6 @@ elseif ($_REQUEST['act'] == 'query')
 /*------------------------------------------------------ */
 //-- 订单详情页面
 /*------------------------------------------------------ */
-
 elseif ($_REQUEST['act'] == 'info')
 {
     //* 根据订单id或订单号查询订单信息 */
@@ -106,7 +105,7 @@ elseif ($_REQUEST['act'] == 'info')
     }
     else
     {
-        /* 如果参数不存在，退出 */
+        //* 如果参数不存在，退出 */
         die('invalid parameter');
     }
 
@@ -4697,7 +4696,7 @@ elseif ($_REQUEST['act'] == 'json')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'ajax_merge_order')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('order_os_edit');
 
     include_once(ROOT_PATH . 'include/cls_json.php');
@@ -4725,7 +4724,7 @@ elseif ($_REQUEST['act'] == 'ajax_merge_order')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'remove_order')
 {
-    /* 检查权限 */
+    //* 检查权限 */
     admin_priv('order_edit');
 
     $order_id = intval($_REQUEST['id']);

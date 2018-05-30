@@ -564,13 +564,13 @@
             <!--{if $virtual_card}-->
             <tr>
               <td>{$lang.virtual_card_info}：<br>
-                <!--{foreach from=$virtual_card item=vgoods}--> 
-                <!--{foreach from=$vgoods.info item=card}--> 
-                <hr style="border:none;border-top:1px #CCCCCC dashed; margin:5px 0" />
-                <!--{if $card.card_sn}-->{$lang.card_sn}:<span style="color:red;">{$card.card_sn}</span><br><!--{/if}-->
-                <!--{if $card.card_password}-->{$lang.card_password}:<span style="color:red;">{$card.card_password}</span><br><!--{/if}--> 
-                <!--{if $card.end_date}-->{$lang.end_date}:{$card.end_date}<br><!--{/if}-->
-                <!--{/foreach}--> 
+                <!--{foreach from=$virtual_card item=vgoods}-->
+                  <!--{foreach from=$vgoods.info item=card}-->
+                    <hr style="border:none;border-top:1px #CCCCCC dashed; margin:5px 0" />
+                    <!--{if $card.card_sn}-->{$lang.card_sn}:<span style="color:red;">{$card.card_sn}</span><br><!--{/if}-->
+                    <!--{if $card.card_password}-->{$lang.card_password}:<span style="color:red;">{$card.card_password}</span><br><!--{/if}--> 
+                    <!--{if $card.end_date}-->{$lang.end_date}:{$card.end_date}<br><!--{/if}-->
+                  <!--{/foreach}-->
                 <!--{/foreach}-->
               </td>
             </tr>
@@ -583,25 +583,23 @@
           </table>
         </section>
         <div class="order_add_itemw">
-        	<div class="order_add_item">
-        		<div class="order_add_pinfo">
-	        		<div class="order_add_name">
-	        			{$order.consignee}
-	        		</div>
-	        		<div class="order_add_mob">
-	        			{$order.mobile}
-	        		</div>
-	        		<div class="clear"></div>
-	        	</div>
-	        	<!-- {if $order.exist_real_goods} -->
-	        	<div class="order_add_deinfo">
-	        		{$order.address} 
-                <!-- {if $order.zipcode} --> 
-                [{$lang.postalcode}: {$order.zipcode}] 
-                <!-- {/if} -->
-	        	</div>
-	        	<!-- {/if} -->
-        	</div>
+          <div class="order_add_item">
+            <div class="order_add_pinfo">
+              <div class="order_add_name">
+                {$order.consignee}
+              </div>
+              <div class="order_add_mob">
+                {$order.mobile}
+              </div>
+              <div class="clear"></div>
+            </div>
+            <!-- {if $order.exist_real_goods} -->
+              <div class="order_add_deinfo">
+                {$order.address} 
+                <!-- {if $order.zipcode} -->[{$lang.postalcode}: {$order.zipcode}]<!-- {/if} -->
+       	</div>
+       	<!-- {/if} -->
+          </div>
         </div>
         <div class="clear10"></div>
         <section class="order_box padd1 radius10" style="display: none;">
@@ -637,7 +635,7 @@
         </section>
         <section class="order_box padd1 radius10">
           <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
-        	  <!-- {foreach from=$goods_list item=goods} -->
+            <!-- {foreach from=$goods_list item=goods} -->
             <tr>
               <td rowspan="2" width="60" align="center" valign="middle" style="border-bottom:1px #CCCCCC dashed">
               <a href="goods.php?id={$goods.goods_id}" target="_blank"><img src="{$site_url}{$goods.goods_thumb}" width="60" height="60" /></a></td>
@@ -650,7 +648,8 @@
           </table>
           <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
             <tr>
-              <td align="right"> {$lang.goods_all_price}<!-- {if $order.extension_code eq "group_buy"} -->{$lang.gb_deposit}<!-- {/if} -->: {$order.formated_goods_amount} 
+              <td align="right"> {$lang.goods_all_price}
+                <!-- {if $order.extension_code eq "group_buy"} -->{$lang.gb_deposit}<!-- {/if} -->: {$order.formated_goods_amount} 
                 <!-- {if $order.discount gt 0} 折扣 --> 
                 - {$lang.discount}: {$order.formated_discount} 
                 <!-- {/if} --> 
@@ -671,7 +670,8 @@
                 <!-- {/if} --> 
                 <!-- {if $order.card_fee > 0} --> 
                 + {$lang.card_fee}: {$order.formated_card_fee} 
-                <!-- {/if} --></td>
+                <!-- {/if} -->
+              </td>
             </tr>
             <tr>
               <td align="right"><!-- {if $order.money_paid > 0} --> 
@@ -685,12 +685,14 @@
                 <!-- {/if} --> 
                 <!-- {if $order.bonus > 0} --> 
                 - {$lang.use_bonus}: {$order.formated_bonus} 
-                <!-- {/if} --></td>
+                <!-- {/if} -->
+              </td>
             </tr>
             <tr>
               <td align="right">{$lang.order_amount}: {$order.formated_order_amount} 
                 <!-- {if $order.extension_code eq "group_buy"} --><br />
-                {$lang.notice_gb_order_amount}<!-- {/if} --></td>
+                {$lang.notice_gb_order_amount}<!-- {/if} -->
+              </td>
             </tr>
             <!-- {if $allow_edit_surplus} 如果可以编辑使用余额数 -->
             <tr>

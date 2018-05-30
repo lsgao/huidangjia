@@ -108,16 +108,17 @@
         <td><div align="right"><strong>{$lang.from_order}</strong></div></td>
         <td>{$order.referer}</td>
       </tr>
+      <!-- 其他信息 -->
       <tr>
         <th colspan="4">{$lang.other_info}<a href="order.php?act=edit&order_id={$order.order_id}&step=other" class="special">{$lang.edit}</a></th>
       </tr>
-      <tr>
+      <tr style="display: none;">
         <td><div align="right"><strong>{$lang.label_inv_type}</strong></div></td>
         <td>{$order.inv_type}</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
-      <tr>
+      <tr style="display: none;">
         <td><div align="right"><strong>{$lang.label_inv_payee}</strong></div></td>
         <td>{$order.inv_payee}</td>
         <td><div align="right"><strong>{$lang.label_inv_content}</strong></div></td>
