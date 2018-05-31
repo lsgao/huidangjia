@@ -1889,7 +1889,11 @@ elseif ($_REQUEST['step'] == 'done')
         $goods_count ++;
     }
 
+    if (isset($is_shopkeeper_card) && $goods_count > 1) {// 商品中包含掌柜年卡
+        show_message('掌柜年卡必须单独下单，不能与其他商品一起购买。');
+    }
     if (isset($is_real_good)) {
+        // 包含实体商品
         $sql="SELECT shipping_id FROM " . $ecs->table('touch_shipping') . " WHERE shipping_id=".$order['shipping_id'] ." AND enabled =1"; 
         if(!$db->getOne($sql)) {
            show_message($_LANG['flow_no_shipping']);
@@ -2655,7 +2659,7 @@ else
 
 $smarty->assign('currency_format', $_CFG['currency_format']);
 $smarty->assign('integral_scale',  $_CFG['integral_scale']);
-$smarty->assign('step',            $_REQUEST['step']);
+$smarty->assign('step', $_REQUEST['step']);
 assign_dynamic('shopping_flow');
 
 $smarty->display('flow.dwt');

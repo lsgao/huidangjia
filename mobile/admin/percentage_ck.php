@@ -321,7 +321,7 @@ function get_percentage_ck() {
     {
         $sqladd = ' AND a.user_id=' . $_GET['auid'];
     }
-    $sqladd .= " AND (order_type IS NULL OR order_type<>'掌柜年卡')";
+    $sqladd .= " AND (order_type IS NULL OR (order_type<>'掌柜年卡' AND order_type<>'注册掌柜'))";
 
     /*
         SQL解释：

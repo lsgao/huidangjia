@@ -68,12 +68,12 @@
       {if $menu == 1}
       <div class="gpdc_peo_item">
       	<img src="{$ectouch_themes}/img/crown_icon.png" />
-      	<span>{$all_count}</span>
+      	<span>{$count1}</span>
       	<p>一级会员</p>
     	</div>
       <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao1'">
       	<img src="{$ectouch_themes}/img/crown_icon.png" />
-      	<span>{$count1}</span>
+      	<span></span>
       	<p>一级会员</p>
       </div>
       <div class="gpdc_group_stit" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao1'">一级会员<span>{$count1}</span><div class="clear"></div></div> 

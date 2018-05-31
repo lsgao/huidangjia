@@ -16,7 +16,7 @@ $back_act='';
 $not_login_arr =
     array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','send_pwd_sms','password', 'signin', 'add_tag', 
     'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 
-    'get_passwd_question', 'check_answer', 'oath', 'oath_login','membership');
+    'get_passwd_question', 'check_answer', 'oath', 'oath_login');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile','dianpu', 'act_dianpu', 'order_list', 'order_detail', 'order_tracking', 'package_tracking', 'address_list', 'act_edit_address', 'collection_list',
@@ -4019,7 +4019,8 @@ elseif ($action == 'membership_upgrade') {
                     sys_msg('推荐码无法找到推荐人', 0, $link);
                     exit;
                 }
-                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
+                //$invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_id <= 0";
+                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND (user_rank = 99 OR user_rank = 0) ";
             }
             $db->query($invite_sql);
             // 更新用户级别

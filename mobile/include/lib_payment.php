@@ -203,8 +203,6 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                 $sql = "SELECT COUNT(goods_id) FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id=" . $order_id;
                 $goods_count = $GLOBALS['db']->getOne($sql);
                 // 判断是否是掌柜年卡
-                $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=1298";
-                $goods_number = $GLOBALS['db']->getOne($sql);
                 if ($goods_count == 1) {
                     $sql = "SELECT goods_id FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "'";
                     $goods_id = $GLOBALS['db']->getOne($sql);
@@ -229,7 +227,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                 if ($invite_id == 0) {
                                     exit;
                                 }
-                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                                //$invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND (user_rank = 99 OR user_rank = 0)";
                             }
                             $GLOBALS['db']->query($invite_sql);
                             // 更新用户级别
@@ -299,7 +298,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                                 if ($invite_id == 0) {
                                     exit;
                                 }
-                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                                //$invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND (user_rank = 99 OR user_rank = 0)";
                             }
                             $GLOBALS['db']->query($invite_sql);
                             // 更新用户级别
