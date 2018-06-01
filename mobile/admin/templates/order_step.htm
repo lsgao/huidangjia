@@ -3,9 +3,8 @@
 {insert_scripts files="../data/static/js/utils.js,../data/static/js/transport.js,./js/validator.js,../data/static/js/jquery.js"}
 {if $step eq "consignee"}
   {insert_scripts files="../data/static/js/region.js"}
-{/if}
 
-{if $step eq "user"}
+{elseif $step eq "user"}
   <form name="theForm" action="order.php?act=step_post&step={$step}&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkUser()">
     <div class="main-div" style="padding: 15px">
       <label><input type="radio" name="anonymous" value="1" checked /> {$lang.anonymous}</label><br />
@@ -474,7 +473,7 @@
   </form>
 
 {elseif $step eq "goods_shipping"}
-  <form name="goods_shipping_list_form" action="order.php?act=step_post&step=edit_goods&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkShipping()">
+  <form name="goods_shipping_list_form" action="order.php?act=step_post&step=edit_goods_shipping&order_id={$order_id}&step_act={$step_act}" method="post" onsubmit="return checkShipping()">
     <div class="list-div">
       <table cellpadding="3" cellspacing="1">
         <tr>
@@ -580,9 +579,71 @@
       </table>
     </div>
     <p align="center">
-      <input type="button" value="返回【订单详情】" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+      <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
     </p>
   </form>
+
+{elseif $step eq "delivery_goods"}
+  <div class="list-div">
+    {foreach from=$order_delivery_list item=delivery name="delivery"}
+    <div class="list-div" style="margin-bottom: 15px">
+      <table cellpadding="3" cellspacing="1">
+        <tr>
+          <th scope="col">物流公司</th>
+          <th scope="col">单号</th>
+          <th scope="col">配送费</th>
+          <th scope="col">保价费</th>
+          <th scope="col">小计</th>
+          <th scope="col">{$lang.handler}</th>
+        </tr>
+        <tr>
+          <td>{$delivery.shipping_name}</td>
+          <td>{$delivery.invoice_no}</td>
+          <td>{$delivery.formated_shipping_fee}</td>
+          <td>{$delivery.formated_insure_fee}</td>
+          <td>{$delivery.formated_subtotal}</td>
+          <td align="center">
+            <a href="order.php?act=delivery_info&delivery_id={$delivery.delivery_id}&from=order_step-delivery_goods">{$lang.detail}</a>
+            &nbsp;&nbsp;
+            <a onclick="{if(confirm('{$lang.confirm_delete}')){return true;}return false;}" href="order.php?act=operate&remove_invoice=1&delivery_id={$delivery.delivery_id}&from=order_step-delivery_goods">{$lang.remove}</a>
+            &nbsp;
+            {if $delivery.shipping_id gt 0 && $delivery.invoice_no neq null && $delivery.invoice_no neq '' }<a href="javascript:;" onclick="jisushuju.query('{$delivery.invoice_no}','{$delivery.shipping_name}')">物流跟踪</a>{/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <table cellpadding="3" cellspacing="1">
+              <tr><th colspan="5" scope="col">{$lang.goods_info}</th></tr>
+              <tr>
+                <td scope="col"><div align="center"><strong>商品名称 [ 品牌 ]</strong></div></th>
+                <td scope="col"><div align="center"><strong>货号</strong></div></th>
+                <td scope="col"><div align="center"><strong>货品号</strong></div></th>
+                <td scope="col"><div align="center"><strong>属性</strong></div></th>
+                <td scope="col"><div align="center"><strong>发货数量</strong></div></th>
+              </tr>
+              {foreach from=$delivery.goods item=goods name="goods"}
+              <tr>
+                <td>
+                <a href="../goods.php?id={$goods.goods_id}" target="_blank">{$goods.goods_name} {if $goods.brand_name}[ {$goods.brand_name} ]{/if}
+                </td>
+                <td><div align="left">{$goods.goods_sn}</div></td>
+                <td><div align="left">{$goods.product_sn}</div></td>
+                <td><div align="left">{$goods.goods_attr|nl2br}</div></td>
+                <td><div align="left">{$goods.send_number}</div></td>
+              </tr>
+              {/foreach}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    {/foreach}
+  </div>
+  <p align="center">
+    <input type="button" value="{$lang.button_cancel}" class="button" onclick="location.href='order.php?act=process&func=cancel_order&order_id={$order_id}&step_act={$step_act}'" />
+  </p>
+  {insert_scripts files="../plugins/jisushuju/jisushuju.js"}
+
 {/if}
 
 

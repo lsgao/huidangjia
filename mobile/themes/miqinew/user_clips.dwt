@@ -9,7 +9,7 @@
 <meta name="format-detection" content="telephone=no" />
 <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
 <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<link href="{$ectouch_themes}/ectouch.css?id=2" rel="stylesheet" type="text/css" />
+<link href="{$ectouch_themes}/ectouch.css?id=8" rel="stylesheet" type="text/css" />
 {* 包含脚本文件 *}
 {insert_scripts files='transport.js,common.js,user.js'}
 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
@@ -21,7 +21,194 @@
     <div class="header_l header_return"> <a class="ico_10" href="./"> 返回 </a> </div>
     <h1> 会员中心 </h1>
   </header>
-  <dl class="user_top">
+  <div class="user_header">
+			<div class="user_img">
+				{if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if}
+			</div>
+			<div class="user_info">
+				<p>{$info.username}<small>{if $invite_code}我的邀请码: {$invite_code}{/if}</small></p>
+				<span><i></i>{$userrank}</span>
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="user_order_wrap">
+			<div class="user_acro_tit">
+				<a href="user.php?act=order_list">
+					<p>
+						我的订单
+						<span>查看全部订单</span>
+						<div class="clear"></div>
+					</p>
+				</a>
+			</div>
+			<div class="user_order_item" onclick="alert('暂未开启')">
+				<div class="user_order_img">
+					<img src="{$ectouch_themes}/img/cen_or_ico1.png"/>
+				</div>
+				<div class="user_order_name">
+					待付款
+				</div>
+			</div>
+			<div class="user_order_item" onclick="alert('暂未开启')">
+				<div class="user_order_img">
+					<img src="{$ectouch_themes}/img/cen_or_ico2.png"/>
+				</div>
+				<div class="user_order_name">
+					待发货
+				</div>
+			</div>
+			<div class="user_order_item" onclick="alert('暂未开启')">
+				<div class="user_order_img">
+					<img src="{$ectouch_themes}/img/cen_or_ico3.png"/>
+				</div>
+				<div class="user_order_name">
+					待收货
+				</div>
+			</div>
+			<div class="user_order_item" onclick="alert('暂未开启')">
+				<div class="user_order_img">
+					<img src="{$ectouch_themes}/img/cen_or_ico4.png"/>
+				</div>
+				<div class="user_order_name">
+					待评价
+				</div>
+			</div>
+			<div class="user_order_item" onclick="alert('暂未开启')">
+				<div class="user_order_img">
+					<img src="{$ectouch_themes}/img/cen_or_ico5.png"/>
+				</div>
+				<div class="user_order_name">
+					退换货
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="user_wallet">
+			<div class="user_acro_tit">
+					<p>
+						我的钱包
+						<div class="clear"></div>
+					</p>
+			</div>
+			<div class="user_wallet_item" style="border-right: 1px solid #eee;box-sizing: border-box;">
+				<a href="user.php?act=point">
+					<img src="{$ectouch_themes}/img/pend_pay_icon.png"/>
+					<span>0</span>
+					<p>{$info.integral}</p>
+					积分
+				</a>
+			</div>
+			<div class="user_wallet_item">
+				<a href="user_commission.php?act=account_detail">
+					<img src="{$ectouch_themes}/img/pend_pay_icon.png" />
+					<span>0.00</span>
+					<p>{$info.surplus}</p>
+					余额
+				</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="user_list_wrap">
+			<div class="user_list_item">
+				<a  href="user.php?act=profile">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico1.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>我的资料</p>
+						<span>{$info.username}</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a href="user.php?act=collection_list">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico2.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>我的收藏</p>
+						<span>心动不如行动</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a href="user.php?act=address_list">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico3.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>{$lang.label_address}</p>
+						<span>常用地址</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a  href="user.php?act=message_list">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico4.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>{$lang.label_message}</p>
+						<span>我们会采纳</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a href="user_commission.php">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico5.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>分销中心</p>
+						<span>盟友圈子</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a href="user.php?act=membership">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico6.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>升级掌柜</p>
+						<span>更多优惠等着您</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a  href="user.php?act=comment_list">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico7.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>{$lang.label_comment}</p>
+						<span>我的评论</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="user_list_item">
+				<a  href="article_cat.php?id=3">
+					<div class="user_list_img">
+						<img src="{$ectouch_themes}/img/cen_fun_ico8.png"/>
+					</div>
+					<div class="user_list_info">
+						<p>帮助中心</p>
+						<span>购物帮助</span>
+					</div>
+				</a>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+  <dl class="user_top" style="display: none;">
     <dt> {if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if} </dt>
     <dd>
       <p>{$info.username}</p>
@@ -41,8 +228,8 @@
     <div class="quan2"></div>
     <div class="quan3"></div>
   </dl>
-  <div class="blank3"></div>
-  <section class="wrap">
+  <div class="blank3" style="display: none;"></div>
+  <section class="wrap" style="display: none;">
     <!--
     <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
       <a href="index.php?u={$user_id}" class="clearfix"> <span>我的店铺</span><i></i> </a>

@@ -423,6 +423,13 @@
             <dl>
               <dd class="dd1">推荐码<span class="span1 radius5">必填</span></dd>
               <dd class="dd2"><input type="text" name="invite_code" id="invite_code" maxlength="6" size="8"/></dd>
+              <script>
+              	$('#invite_code').blur(function(){
+      			var incode = document.getElementById("invite_code").value;
+      			if(incode[0] != "U" && incode[1] != "U" && incode.length !== 6){alert("不符合规则")}
+      			
+      		})
+              </script>
               <i></i>
             </dl>
         </div>
@@ -629,7 +636,7 @@
           <div class="dl_box">
             <dl>
               <dd class="dd1">留言备注</dd>
-              <dd class="dd2"><input placeholder="请输入订单备注" name="inv_payee" type="text"   size="20"  /> </dd>
+              <dd class="dd2"><input placeholder="请输入订单备注" name="postscript" type="text"   size="20"  /> </dd>
             </dl>
             <dl>
               <dd class="c333"></dd>

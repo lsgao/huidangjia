@@ -9,7 +9,7 @@
   <meta name="format-detection" content="telephone=no" />
   <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
   <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <link href="{$ectouch_themes}/ectouch.css?id=1212" rel="stylesheet" type="text/css" />
+  <link href="{$ectouch_themes}/ectouch.css?id=1213" rel="stylesheet" type="text/css" />
   {* 包含脚本文件 *}
   {insert_scripts files='transport.js,common.js,user.js'}
   <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
@@ -59,6 +59,11 @@
   		<span>{$all_count}</span>
   		<div class="clear"></div>
   	</div>
+  	<div class="gpdc_group_item">
+      	<img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
+      	<span>{$all_count}</span>
+      	<p>我的盟友</p>
+    </div>
   	<div class="gpdc_peo_item">
       	<img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
       	<span>{$all_count}</span>
@@ -67,13 +72,13 @@
   	{foreach from=$menuarr item=menu}
       {if $menu == 1}
       <div class="gpdc_peo_item">
-      	<img src="{$ectouch_themes}/img/crown_icon.png" />
+      	<img src="{$ectouch_themes}/img/crown_icon.png" onclick="location.href='user_commission.php?act=fenxiao1'" />
       	<span>{$count1}</span>
       	<p>一级会员</p>
     	</div>
       <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao1'">
       	<img src="{$ectouch_themes}/img/crown_icon.png" />
-      	<span></span>
+      	<span>{$count1}</span>
       	<p>一级会员</p>
       </div>
       <div class="gpdc_group_stit" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao1'">一级会员<span>{$count1}</span><div class="clear"></div></div> 
@@ -93,14 +98,14 @@
       </div>
       <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
       {if $menu == 4}
-      <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao4'">
+      <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao4'">
       	<img src="{$ectouch_themes}/img/silver_icon.png" />
       	<span>{$count4}</span>
       	<p>四级会员</p>
       </div>
       <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
       {if $menu == 5} 
-      <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao2'">
+      <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao2'">
       	<img src="{$ectouch_themes}/img/bronze_icon.png" />
       	<span>{$count5}</span>
       	<p>五级会员</p>

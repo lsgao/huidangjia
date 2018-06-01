@@ -102,9 +102,9 @@
         <td><div align="right"><strong>{$lang.label_shipping_time}</strong></div></td>
         <td>{$order.shipping_time}</td>
       </tr>
-      <tr>
+      <tr style="display:none;">
         <td><div align="right"><strong>{$lang.label_invoice_no}</strong></div></td>
-        <td>{if $order.shipping_id>0 and $order.shipping_status>0}<span>{if $order.invoice_no}{$order.invoice_no}{else}N/A{/if}</span><a href="order.php?act=edit&order_id={$order.order_id}&step=shipping" class="special">{$lang.edit}</a>{/if}</td>
+        <td>{if $order.shipping_id>0 and $order.shipping_status>0}<span>{if $order.invoice_no}{$order.invoice_no}{else}N/A{/if}</span>{/if}</td>
         <td><div align="right"><strong>{$lang.from_order}</strong></div></td>
         <td>{$order.referer}</td>
       </tr>
@@ -134,13 +134,13 @@
         <td>&nbsp;</td>
         <td>&nbsp;</td>
       </tr>
-      <tr>
+      <tr style="display: none;">
         <td><div align="right"><strong>{$lang.label_pack}</strong></div></td>
         <td>{$order.pack_name}</td>
         <td><div align="right"><strong>{$lang.label_card}</strong></div></td>
         <td>{$order.card_name}</td>
       </tr>
-      <tr>
+      <tr style="display: none;">
         <td><div align="right"><strong>{$lang.label_card_message}</strong></div></td>
         <td colspan="3">{$order.card_message}</td>
       </tr>
@@ -196,8 +196,8 @@
         <td scope="col"><div align="center"><strong>{$lang.goods_attr}</strong></div></td>
         <td scope="col"><div align="center"><strong>{$lang.storage}</strong></div></td>
         <td scope="col"><div align="center"><strong>{$lang.subtotal}</strong></div></td>
-        <td scope="col"><div align="center"><strong>快递公司</strong></div></td>
-        <td scope="col"><div align="center"><strong>快递单号</strong></div></td>
+        <td scope="col" style="display:none;"><div align="center"><strong>快递公司</strong></div></td>
+        <td scope="col" style="display:none;"><div align="center"><strong>快递单号</strong></div></td>
       </tr>
       {foreach from=$goods_list item=goods}
       <tr>
@@ -222,8 +222,8 @@
         <td>{$goods.goods_attr|nl2br}</td>
         <td><div align="right">{$goods.storage}</div></td>
         <td><div align="right">{$goods.formated_subtotal}</div></td>
-        <td><div align="center">{$goods.shipping_name}</div></td>
-        <td><div align="center">{$goods.invoice_no}</div></td>
+        <td style="display:none;"><div align="center">{$goods.shipping_name}</div></td>
+        <td style="display:none;"><div align="center">{$goods.invoice_no}</div></td>
       </tr>
       {/foreach}
       <tr>
@@ -242,7 +242,7 @@
   </div>
 
   <!-- 物流信息 -->
-  <div class="list-div" style="margin-bottom: 5px">
+  <div class="list-div" style="margin-bottom: 5px; display: none;">
     <table width="100%" cellpadding="3" cellspacing="1">
       <tr>
         <th colspan="6" scope="col">物流信息<a href="order.php?act=edit&order_id={$order.order_id}&step=goods_shipping" class="special">{$lang.edit}</a></th>
@@ -267,7 +267,37 @@
       {/foreach}
     </table>
   </div>
-
+  <div class="list-div" style="margin-bottom: 5px;">
+    <table width="100%" cellpadding="3" cellspacing="1">
+      <tr>
+        <th colspan="6" scope="col">物流信息<a href="order.php?act=edit&order_id={$order.order_id}&step=delivery_goods" class="special">{$lang.detail}</a></th>
+      </tr>
+      <tr>
+        <td scope="col"><div align="center"><strong>物流公司</strong></div></td>
+        <td scope="col"><div align="center"><strong>快递单号</strong></div></td>
+        <td scope="col"><div align="center"><strong>配送费</strong></div></td>
+        <td scope="col"><div align="center"><strong>保价费</strong></div></td>
+        <td scope="col"><div align="center"><strong>小计</strong></div></td>
+        <td scope="col"><div align="center"><strong>操作</strong></div></td>
+      </tr>
+      {foreach from=$order_delivery_list item=delivery}
+      <tr>
+        <td><div align="center">{$delivery.shipping_name}</div></td>
+        <td><div align="center">{$delivery.invoice_no}</div></td>
+        <td><div align="right">{$delivery.formated_shipping_fee}</div></td>
+        <td><div align="right">{$delivery.formated_insure_fee}</div></td>
+        <td><div align="right">{$delivery.formated_subtotal}</div></td>
+        <td><div align="center">
+          <a href="order.php?act=delivery_info&delivery_id={$delivery.delivery_id}&from=order_info">{$lang.detail}</a>
+          &nbsp;&nbsp;
+          <a onclick="{if(confirm('{$lang.confirm_delete}')){return true;}return false;}" href="order.php?act=operate&remove_invoice=1&delivery_id={$delivery.delivery_id}&from=order_info">{$lang.remove}</a>
+          &nbsp;&nbsp;
+          {if $delivery.shipping_id gt 0 && $delivery.invoice_no neq null && $delivery.invoice_no neq '' }<a href="javascript:;" onclick="jisushuju.query('{$delivery.invoice_no}','{$delivery.shipping_name}')">跟踪物流</a>{/if}
+        </td>
+      </tr>
+      {/foreach}
+    </table>
+  </div>
   <!-- 操作信息 -->
   <div class="list-div" style="margin-bottom: 5px">
     <table width="100%" cellpadding="3" cellspacing="1">
@@ -372,7 +402,6 @@
       {/foreach}
     </table>
   </div>
-
 </form>
 {insert_scripts files="../plugins/jisushuju/jquery.min.js"}
 {insert_scripts files="../plugins/jisushuju/jisushuju.js"}

@@ -382,6 +382,10 @@ elseif ($_REQUEST['act'] == 'info')
     $order_shipping_list = order_shipping_list($order_id);
     $smarty->assign('order_shipping_list', $order_shipping_list);
 
+    /* 获取订单发货单列表*/
+    $order_delivery_list = order_delivery_list($order_id);
+    $smarty->assign('order_delivery_list', $order_delivery_list);
+
     /* 是否打印订单，分别赋值 */
     if (isset($_GET['print']))
     {
@@ -681,7 +685,14 @@ elseif ($_REQUEST['act'] == 'delivery_info')
 
     /* 显示模板 */
     $smarty->assign('ur_here', $_LANG['delivery_operate'] . $_LANG['detail']);
-    $smarty->assign('action_link', array('href' => 'order.php?act=delivery_list&' . list_link_postfix(), 'text' => $_LANG['09_delivery_order']));
+    $from = $_REQUEST['from'];
+    if (isset($from) && $from == 'order_info') {
+        $smarty->assign('action_link', array('href' => 'order.php?act=info&order_id=' . $delivery_order['order_id'] .'&' . list_link_postfix(), 'text' => '订单详情'));
+    } elseif (isset($from) && $from == 'order_step-delivery_goods') {
+        $smarty->assign('action_link', array('href' => 'order.php?act=edit&order_id=' . $delivery_order['order_id'] .'&step=delivery_goods', 'text' => '订单发货单列表'));
+    } else {
+        $smarty->assign('action_link', array('href' => 'order.php?act=delivery_list&' . list_link_postfix(), 'text' => $_LANG['09_delivery_order']));
+    }
     $smarty->assign('action_act', ($delivery_order['status'] == 2) ? 'delivery_ship' : 'delivery_cancel_ship');
     assign_query_info();
     $smarty->display('delivery_info.htm');
@@ -2058,13 +2069,13 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit') {
     $smarty->assign('order_id', $order_id);
 
     /* 取得参数 step */
-    $step_list = array('user', 'goods', 'consignee', 'shipping', 'payment', 'other', 'money', 'goods_shipping');
+    $step_list = array('user', 'goods', 'consignee', 'shipping', 'payment', 'other', 'money', 'goods_shipping', 'delivery_goods');
     $step = isset($_GET['step']) && in_array($_GET['step'], $step_list) ? $_GET['step'] : 'user';
     $smarty->assign('step', $step);
 
     /* 取得参数 act */
     $act = $_GET['act'];
-    $smarty->assign('ur_here',$_LANG['add_order']);
+    $smarty->assign('ur_here','编辑订单');
     $smarty->assign('step_act', $act);
 
     /* 取得订单信息 */
@@ -2349,7 +2360,12 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit') {
         $order_shipping_list = order_shipping_list($order_id);
         $smarty->assign('order_shipping_list', $order_shipping_list);
     }
-
+    // 商品发货单列表详情
+    elseif ('delivery_goods' == $step) {
+        //* 获取订单发货单列表*/
+        $order_delivery_list = order_delivery_list($order_id);
+        $smarty->assign('order_delivery_list', $order_delivery_list);
+    }
     /* 显示模板 */
     assign_query_info();
     $smarty->display('order_step.htm');
@@ -3389,11 +3405,13 @@ elseif ($_REQUEST['act'] == 'operate') {
         $delivery_id=$_REQUEST['delivery_id'];
         $delivery_id = is_array($delivery_id) ? $delivery_id : array($delivery_id);
 
+        $order_id = '';
         foreach($delivery_id as $value_is) {
             $value_is = intval(trim($value_is));
 
             // 查询：发货单信息
             $delivery_order = delivery_order_info($value_is);
+            $order_id = $delivery_order['order_id'];
 
             // 如果status不是退货
             if ($delivery_order['status'] != 1) {
@@ -3403,7 +3421,7 @@ elseif ($_REQUEST['act'] == 'operate') {
 
             // 如果status是已发货并且发货单号不为空
             if ($delivery_order['status'] == 0 && $delivery_order['invoice_no'] != '') {
-                /* 更新：删除订单中的发货单号 */
+                //* 更新：删除订单中的发货单号 */
                 del_order_invoice_no($delivery_order['order_id'], $delivery_order['invoice_no']);
             }
 
@@ -3413,7 +3431,14 @@ elseif ($_REQUEST['act'] == 'operate') {
         }
 
         /* 返回 */
-        sys_msg($_LANG['tips_delivery_del'], 0, array(array('href'=>'order.php?act=delivery_list' , 'text' => $_LANG['return_list'])));
+        $from = $_REQUEST['from'];
+        if (isset($from) && $from == 'order_info') {
+            sys_msg($_LANG['tips_delivery_del'], 0, array(array('href'=>'order.php?act=info&order_id=' . $order_id , 'text' => '订单详情')));
+        } elseif (isset($from) && $from == 'order_step-delivery_goods') {
+            sys_msg($_LANG['tips_delivery_del'], 0, array(array('href'=>'order.php?act=edit&order_id=' . $delivery_order['order_id'] .'&step=delivery_goods', 'text' => '订单发货单列表')));
+        } else {
+            sys_msg($_LANG['tips_delivery_del'], 0, array(array('href'=>'order.php?act=delivery_list' , 'text' => $_LANG['return_list'])));
+        }
     }
      /* 退货单删除 */
     elseif (isset($_REQUEST['remove_back'])) {
@@ -5214,7 +5239,6 @@ elseif ($_REQUEST['act'] == 'stop_back') {
     ecs_header("Location: order.php?act=order_back_list\n");
     exit;
 }
-
 /**
  * 取得状态列表
  * @param   string  $type   类型：all | order | shipping | payment
@@ -5253,7 +5277,6 @@ function get_status_list($type = 'all')
     }
     return $list;
 }
-
 /**
  * 退回余额、积分、红包（取消、无效、退货时），把订单使用余额、积分、红包设为0
  * @param   array   $order  订单信息
@@ -5288,7 +5311,6 @@ function return_user_surplus_integral_bonus($order)
     );
     update_order($order['order_id'], $arr);
 }
-
 /**
  * 更新订单总金额
  * @param   int     $order_id   订单id
@@ -5304,7 +5326,6 @@ function update_order_amount($order_id)
 
     return $GLOBALS['db']->query($sql);
 }
-
 /**
  * 返回某个订单可执行的操作列表，包括权限判断
  * @param   array   $order      订单信息 order_status, shipping_status, pay_status
@@ -5314,7 +5335,7 @@ function update_order_amount($order_id)
  */
 function operable_list($order)
 {
-    /* 取得订单状态、发货状态、付款状态 */
+    //* 取得订单状态、发货状态、付款状态 */
     $os = $order['order_status'];
     $ss = $order['shipping_status'];
     $ps = $order['pay_status'];
@@ -5553,7 +5574,6 @@ function operable_list($order)
 
     return $list;
 }
-
 /**
  * 处理编辑订单时订单金额变动
  * @param   array   $order  订单信息
@@ -5583,7 +5603,6 @@ function handle_order_money_change($order, &$msgs, &$links)
         }
     }
 }
-
 /**
  *  获取订单列表信息
  *
@@ -5807,7 +5826,6 @@ function order_list() {
 
     return $arr;
 }
-
 /**
  * 更新订单对应的 pay_log
  * 如果未支付，修改支付金额；否则，生成新的支付log
@@ -5846,7 +5864,6 @@ function update_pay_log($order_id)
         }
     }
 }
-
 /**
  * 取得供货商列表
  * @return array    二维数组
@@ -5866,7 +5883,6 @@ function get_suppliers_list()
 
     return $res;
 }
-
 /**
  * 取得订单商品
  * @param   array     $order  订单数组
@@ -5931,7 +5947,6 @@ function get_order_goods($order)
 
     return array('goods_list' => $goods_list, 'attr' => $attr);
 }
-
 /**
  * 取得礼包列表
  * @param   integer     $package_id  订单商品表礼包类商品id
@@ -6020,17 +6035,16 @@ function get_package_goods_list($package_id)
     return $row;
 
 
-//    $sql = "SELECT pg.goods_id, CONCAT(g.goods_name, ' -- [', pg.goods_number, ']') AS goods_name,
-//            g.goods_number, pg.goods_number AS order_goods_number, g.goods_sn, g.is_real " .
-//            "FROM " . $GLOBALS['ecs']->table('package_goods') . " AS pg, " .
-//                $GLOBALS['ecs']->table('goods') . " AS g " .
-//            "WHERE pg.package_id = '$package_id' " .
-//            "AND pg.goods_id = g.goods_id ";
-//    $row = $GLOBALS['db']->getAll($sql);
-//
-//    return $row;
+    //    $sql = "SELECT pg.goods_id, CONCAT(g.goods_name, ' -- [', pg.goods_number, ']') AS goods_name,
+    //            g.goods_number, pg.goods_number AS order_goods_number, g.goods_sn, g.is_real " .
+    //            "FROM " . $GLOBALS['ecs']->table('package_goods') . " AS pg, " .
+    //                $GLOBALS['ecs']->table('goods') . " AS g " .
+    //            "WHERE pg.package_id = '$package_id' " .
+    //            "AND pg.goods_id = g.goods_id ";
+    //    $row = $GLOBALS['db']->getAll($sql);
+    //
+    //    return $row;
 }
-
 /**
  * 订单单个商品或货品的已发货数量
  *
@@ -6061,7 +6075,6 @@ function order_delivery_num($order_id, $goods_id, $product_id = 0)
 
     return $sum;
 }
-
 /**
  * 判断订单是否已发货（含部分发货）
  * @param   int     $order_id  订单 id
@@ -6089,7 +6102,6 @@ function order_deliveryed($order_id)
 
     return $return_res;
 }
-
 /**
  * 更新订单商品信息
  * @param   int     $order_id       订单 id
@@ -6167,7 +6179,6 @@ function update_order_goods($order_id, $_sended, $goods_list = array())
 
     return true;
 }
-
 /**
  * 更新订单虚拟商品信息
  * @param   int     $order_id       订单 id
@@ -6204,7 +6215,6 @@ function update_order_virtual_goods($order_id, $_sended, $virtual_goods)
 
     return true;
 }
-
 /**
  * 订单中的商品是否已经全部发货
  * @param   int     $order_id  订单 id
@@ -6232,7 +6242,6 @@ function get_order_finish($order_id)
 
     return $return_res;
 }
-
 /**
  * 判断订单的发货单是否全部发货
  * @param   int     $order_id  订单 id
@@ -6308,7 +6317,6 @@ function intval_array_walk(&$array_value)
         $array_value = intval($array_value);
     }
 }
-
 /**
  * 删除发货单(不包括已退货的单子)
  * @param   int     $order_id  订单 id
@@ -6337,7 +6345,6 @@ function del_order_delivery($order_id)
 
     return $return_res;
 }
-
 /**
  * 删除订单所有相关单子
  * @param   int     $order_id      订单 id
@@ -6379,7 +6386,6 @@ function del_delivery($order_id, $action_array)
 
     return $return_res;
 }
-
 /**
  *  获取发货单列表信息
  *
@@ -6512,7 +6518,6 @@ function delivery_list()
 
     return $arr;
 }
-
 /**
  *  获取退货单列表信息
  *
@@ -6628,7 +6633,6 @@ function back_list()
 
     return $arr;
 }
-
 /**
  * 取得发货单信息
  * @param   int     $delivery_order   发货单id（如果delivery_order > 0 就按id查，否则按sn查）
@@ -6674,7 +6678,7 @@ function delivery_order_info($delivery_id, $delivery_sn = '')
     $delivery = $GLOBALS['db']->getRow($sql);
     if ($delivery)
     {
-        /* 格式化金额字段 */
+        //* 格式化金额字段 */
         $delivery['formated_insure_fee']     = price_format($delivery['insure_fee'], false);
         $delivery['formated_shipping_fee']   = price_format($delivery['shipping_fee'], false);
 
@@ -6687,7 +6691,6 @@ function delivery_order_info($delivery_id, $delivery_sn = '')
 
     return $return_order;
 }
-
 /**
  * 取得退货单信息
  * @param   int     $back_id   退货单 id（如果 back_id > 0 就按 id 查，否则按 sn 查）
@@ -6738,7 +6741,6 @@ function back_order_info($back_id)
 
     return $return_order;
 }
-
 /**
  * 超级礼包发货数处理
  * @param   array   超级礼包商品列表
@@ -6782,7 +6784,6 @@ function package_goods(&$package_goods, $goods_number, $order_id, $extension_cod
 
     return $return_array;
 }
-
 /**
  * 获取超级礼包商品已发货数
  *
@@ -6815,7 +6816,6 @@ function package_sended($package_id, $goods_id, $order_id, $extension_code, $pro
 
     return empty($send) ? 0 : $send;
 }
-
 /**
  * 改变订单中商品库存
  * @param   int     $order_id  订单 id
@@ -6825,7 +6825,7 @@ function package_sended($package_id, $goods_id, $order_id, $extension_code, $pro
  */
 function change_order_goods_storage_split($order_id, $_sended, $goods_list = array())
 {
-    /* 参数检查 */
+    //* 参数检查 */
     if (!is_array($_sended) || empty($order_id))
     {
         return false;
@@ -6883,7 +6883,6 @@ function change_order_goods_storage_split($order_id, $_sended, $goods_list = arr
 
     return true;
 }
-
 /**
  *  超值礼包虚拟卡发货、跳过修改订单商品发货数的虚拟卡发货
  *
@@ -6981,7 +6980,6 @@ function package_virtual_card_shipping($goods, $order_sn)
 
     return true;
 }
-
 /**
  * 删除发货单时进行退货
  *
@@ -6993,7 +6991,7 @@ function package_virtual_card_shipping($goods, $order_sn)
  */
 function delivery_return_goods($delivery_id, $delivery_order)
 {
-    /* 查询：取得发货单商品 */
+    //* 查询：取得发货单商品 */
     $goods_sql = "SELECT *
                  FROM " . $GLOBALS['ecs']->table('delivery_goods') . "
                  WHERE delivery_id = " . $delivery_order['delivery_id'];
@@ -7011,7 +7009,6 @@ function delivery_return_goods($delivery_id, $delivery_order)
            " WHERE order_id = '".$delivery_order['order_id']."' LIMIT 1";
     $GLOBALS['db']->query($sql);
 }
-
 /**
  * 删除发货单时删除其在订单中的发货单号
  *
@@ -7023,7 +7020,7 @@ function delivery_return_goods($delivery_id, $delivery_order)
  */
 function del_order_invoice_no($order_id, $delivery_invoice_no)
 {
-    /* 查询：取得订单中的发货单号 */
+    //* 查询：取得订单中的发货单号 */
     $sql = "SELECT invoice_no
             FROM " . $GLOBALS['ecs']->table('order_info') . "
             WHERE order_id = '$order_id'";
@@ -7050,7 +7047,6 @@ function del_order_invoice_no($order_id, $delivery_invoice_no)
     $arr['invoice_no'] = implode('<br>', $order_array);
     update_order($order_id, $arr);
 }
-
 /**
  * 获取站点根目录网址
  *
@@ -7060,7 +7056,6 @@ function del_order_invoice_no($order_id, $delivery_invoice_no)
 function get_site_root_url() {
     return 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/' . ADMIN_PATH . '/order.php', '', PHP_SELF);
 }
-
 /**
  *  获取退换货列表信息
  *
@@ -7128,7 +7123,6 @@ function order_back_list($back_sn,$order_sn,$invoice_no,$status) {
     $arr = array('back' => $rows, 'filter' => $filter, 'page_count' => $filter['page_count'], 'record_count' => $filter['record_count']);
     return $arr;
 }
-
 /**
  * 获取订单物流列表信息
  * @param order_id 订单ID
@@ -7154,5 +7148,29 @@ function order_shipping_list($order_id) {
         }
     }
     return $order_shipping_list;
+}
+/**
+ * 获取订单发货单列表信息
+ * @param order_id 订单ID
+ */
+function order_delivery_list($order_id) {
+    $sql = "SELECT d.* " .
+        " FROM " . $GLOBALS['ecs']->table('delivery_order') . " AS d " .
+        " WHERE d.order_id = '$order_id'";
+    $order_delivery_list = $GLOBALS['db']->getAll($sql);
+    if (!empty($order_delivery_list)) {
+        foreach ($order_delivery_list as $key => $delivery) {
+            $sub_goods_list = array();
+            $sql = "SELECT dg.* " .
+                " FROM " . $GLOBALS['ecs']->table('delivery_goods') . " AS dg " .
+                " WHERE dg.delivery_id = '" . $delivery['delivery_id'] . "' ";
+            $sub_goods_list = $GLOBALS['db']->getAll($sql);
+            $order_delivery_list[$key]['goods'] = $sub_goods_list;
+            $order_delivery_list[$key]['formated_insure_fee'] = price_format($delivery['insure_fee']);
+            $order_delivery_list[$key]['formated_shipping_fee'] = price_format($delivery['shipping_fee']);
+            $order_delivery_list[$key]['formated_subtotal'] = price_format($delivery['insure_fee'] + $delivery['shipping_fee']);
+        }
+    }
+    return $order_delivery_list;
 }
 ?>
