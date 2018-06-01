@@ -819,7 +819,7 @@ elseif ($_REQUEST['act'] == 'delivery_ship') {
     $_delivery['status'] = 0; // 0，为已发货
     $query = $db->autoExecute($ecs->table('delivery_order'), $_delivery, 'UPDATE', "delivery_id = $delivery_id", 'SILENT');
     if (!$query) {
-        /* 操作失败 */
+        //* 操作失败 */
         $links[] = array('text' => $_LANG['delivery_sn'] . $_LANG['detail'], 'href' => 'order.php?act=delivery_info&delivery_id=' . $delivery_id);
         sys_msg($_LANG['act_false'], 1, $links);
     }
@@ -2087,11 +2087,12 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit') {
 
         /* 如果已发货，就不能修改订单了（配送方式和发货单号除外） */
         if ($order['shipping_status'] == SS_SHIPPED || $order['shipping_status'] == SS_RECEIVED) {
-            if ($step != 'shipping') {
-                sys_msg($_LANG['cannot_edit_order_shipped']);
-            } else {
+            if ($step == 'shipping') {
                 $step = 'invoice';
                 $smarty->assign('step', $step);
+            } else if ($step == 'delivery_goods') {
+            } else {
+                sys_msg($_LANG['cannot_edit_order_shipped']);
             }
         }
 
@@ -6500,17 +6501,16 @@ function delivery_list()
     {
         $row[$key]['add_time'] = local_date($GLOBALS['_CFG']['time_format'], $value['add_time']);
         $row[$key]['update_time'] = local_date($GLOBALS['_CFG']['time_format'], $value['update_time']);
-        if ($value['status'] == 1)
-        {
+        if ($value['status'] == 0) {
+            $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][0];
+        } elseif ($value['status'] == 1) {
             $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][1];
-        }
-        elseif ($value['status'] == 2)
-        {
+        } elseif ($value['status'] == 2) {
             $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][2];
-        }
-        else
-        {
-        $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][0];
+        } elseif ($value['status'] == 3) {
+            $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][3];
+        } else {
+            $row[$key]['status_name'] = $GLOBALS['_LANG']['delivery_status'][0];
         }
         $row[$key]['suppliers_name'] = isset($_suppliers_list[$value['suppliers_id']]) ? $_suppliers_list[$value['suppliers_id']] : '';
     }

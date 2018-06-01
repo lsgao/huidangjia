@@ -382,6 +382,7 @@ $_LANG['delivery_sn'] = '发货单';
 $_LANG['delivery_status'][0] = '已发货';
 $_LANG['delivery_status'][1] = '退货';
 $_LANG['delivery_status'][2] = '正常';
+$_LANG['delivery_status'][3] = '已确认';
 
 /* 发货单标签 */
 $_LANG['label_delivery_status'] = '发货单状态';
