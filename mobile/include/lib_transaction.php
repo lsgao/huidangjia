@@ -488,8 +488,13 @@ function affirm_received($order_id, $user_id = 0)
         {
             /* 记录日志 */
             order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', $GLOBALS['_LANG']['buyer']);
-
-            return true;
+            $confirm_time = gmtime();
+            $sql = "UPDATE " . $GLOBALS['ecs']->table('delivery_order') . " SET status ='3',confirm_time=$confirm_time WHERE order_id = '$order_id'";
+            if ($GLOBALS['db']->query($sql)) {
+                return true;
+            } else {
+                die($GLOBALS['db']->errorMsg());
+            }
         }
         else
         {

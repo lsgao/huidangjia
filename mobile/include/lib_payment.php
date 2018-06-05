@@ -234,7 +234,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                             // 更新用户级别
                             $user_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
                             if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
-                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
+                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2, is_invite = 1 WHERE user_id = '" . $order['user_id'] . "'";
                                 $GLOBALS['db']->query($update_rank_sql);
                             }
                             // 更新：订单状态=确认收货，订单类型=掌柜年卡
@@ -305,7 +305,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                             // 更新用户级别
                             $user_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
                             if ($user_rank != 2 && $user_rank != 3 && $user_rank != 4) {
-                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2 WHERE user_id = '" . $order['user_id'] . "'";
+                                $update_rank_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET user_rank = 2, is_invite = 1 WHERE user_id = '" . $order['user_id'] . "'";
                                 $GLOBALS['db']->query($update_rank_sql);
                             }
                             // 更新：订单状态=确认收货，订单类型=注册掌柜

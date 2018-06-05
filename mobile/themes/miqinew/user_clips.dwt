@@ -9,7 +9,7 @@
 <meta name="format-detection" content="telephone=no" />
 <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
 <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<link href="{$ectouch_themes}/ectouch.css?id=8" rel="stylesheet" type="text/css" />
+<link href="{$ectouch_themes}/ectouch.css?id=9" rel="stylesheet" type="text/css" />
 {* 包含脚本文件 *}
 {insert_scripts files='transport.js,common.js,user.js'}
 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
@@ -26,9 +26,9 @@
 				{if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if}
 			</div>
 			<div class="user_info">
-				<p>{$info.username}<small>{if $invite_code}我的邀请码: {$invite_code}{/if}</small></p>
+				<p>{$info.username}</p>
+				<small>{if $invite_code}我的邀请码:{$invite_code}{/if}</small>
 				<span><i></i>{$userrank}</span>
-				
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -42,7 +42,7 @@
 					</p>
 				</a>
 			</div>
-			<div class="user_order_item" onclick="alert('暂未开启')">
+			<div class="user_order_item" style="display: none;" onclick="alert('暂未开启')">
 				<div class="user_order_img">
 					<img src="{$ectouch_themes}/img/cen_or_ico1.png"/>
 				</div>
@@ -50,7 +50,7 @@
 					待付款
 				</div>
 			</div>
-			<div class="user_order_item" onclick="alert('暂未开启')">
+			<div class="user_order_item" style="display: none;" onclick="alert('暂未开启')">
 				<div class="user_order_img">
 					<img src="{$ectouch_themes}/img/cen_or_ico2.png"/>
 				</div>
@@ -58,7 +58,7 @@
 					待发货
 				</div>
 			</div>
-			<div class="user_order_item" onclick="alert('暂未开启')">
+			<div class="user_order_item" style="display: none;" onclick="alert('暂未开启')">
 				<div class="user_order_img">
 					<img src="{$ectouch_themes}/img/cen_or_ico3.png"/>
 				</div>
@@ -66,7 +66,7 @@
 					待收货
 				</div>
 			</div>
-			<div class="user_order_item" onclick="alert('暂未开启')">
+			<div class="user_order_item" style="display: none;" onclick="alert('暂未开启')">
 				<div class="user_order_img">
 					<img src="{$ectouch_themes}/img/cen_or_ico4.png"/>
 				</div>
@@ -74,7 +74,7 @@
 					待评价
 				</div>
 			</div>
-			<div class="user_order_item" onclick="alert('暂未开启')">
+			<div class="user_order_item" style="display: none;" onclick="alert('暂未开启')">
 				<div class="user_order_img">
 					<img src="{$ectouch_themes}/img/cen_or_ico5.png"/>
 				</div>

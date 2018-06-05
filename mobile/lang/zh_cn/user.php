@@ -293,8 +293,8 @@ $_LANG['return_integral_on_cancel'] = '取消订单 %s，退回支付订单时�
 /* 订单状态 */
 $_LANG['os'][OS_UNCONFIRMED] = '未确认';
 $_LANG['os'][OS_CONFIRMED] = '已确认';
-$_LANG['os'][OS_SPLITED] = '已确认';
-$_LANG['os'][OS_SPLITING_PART] = '已确认';
+$_LANG['os'][OS_SPLITED] = '已发货';
+$_LANG['os'][OS_SPLITING_PART] = '已发货(部分商品)';
 $_LANG['os'][OS_CANCELED] = '已取消';
 $_LANG['os'][OS_INVALID] = '无效';
 $_LANG['os'][OS_RETURNED] = '退货';

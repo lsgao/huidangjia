@@ -483,7 +483,7 @@ function order_goods($order_id)
     $sql = "SELECT og.rec_id, og.goods_id, og.goods_name, og.goods_sn, og.market_price, og.goods_number, " .
             "og.goods_price, og.goods_attr, og.is_real, og.parent_id, og.is_gift, " .
             "og.goods_price * og.goods_number AS subtotal, og.extension_code, g.goods_thumb " .
-            "FROM " . $GLOBALS['ecs']->table('order_goods') . " as og left join " .$GLOBALS['ecs']->table('goods'). " g on og.goods_id = g.goods_id" .
+            "FROM " . $GLOBALS['ecs']->table('order_goods') . " as og LEFT JOIN " .$GLOBALS['ecs']->table('goods'). " g ON og.goods_id = g.goods_id" .
             " WHERE og.order_id = '$order_id'";
 
     $res = $GLOBALS['db']->query($sql);
