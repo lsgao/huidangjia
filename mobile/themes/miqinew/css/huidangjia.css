@@ -18,12 +18,12 @@
 .index_head_cla a {padding:0 5px;height: 30px;text-align: center;}
 .banner img,.index_ad img,.index_rec img {width: 100%;height: auto;}
 .index_ad ul li {margin-bottom:10px}
-.index_rec_wrap,.index_bur {background: url(../img/index_bg.jpg) repeat-y;background-size: cover;}
+.index_rec_wrap,.index_bur {background: url(../img/index_bur_bg.jpg) repeat-y;background-size: cover;}
 .index_rec_box {width: 98%;margin: 0 auto;padding: 10px;box-sizing: border-box;}
 .index_rec_sitem {float: left;width: 23%;margin: 1% 1% 1% 1%}
 .index_rec_bitem {float: left;width: 50%;}
 .index_bur {padding:20px 0}
-.index_bur_t {text-align: center;font: 24px/40px simhei;font-weight: 700;}
+.index_bur_t {text-align: center;font: 20px/40px simhei;font-weight: 700;}
 .index_bur_t a {color: #fff;}
 .index_bur_item {margin:20px auto;width: 96%;}
 .index_bur_box {position: relative;padding: 10px 20px 10px 140px;background: #fff;min-height:140px}

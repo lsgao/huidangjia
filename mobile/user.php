@@ -1375,7 +1375,7 @@ elseif ($action == 'order_detail') {
         $goods_list[$key]['subtotal']     = price_format($value['subtotal'], false);
     }
 
-     /* 设置能否修改使用余额数 */
+     // 设置能否修改使用余额数
     if ($order['order_amount'] > 0) {
         if ($order['order_status'] == OS_UNCONFIRMED || $order['order_status'] == OS_CONFIRMED) {
             $user = user_info($order['user_id']);
@@ -1386,11 +1386,11 @@ elseif ($action == 'order_detail') {
         }
     }
 
-    /* 未发货，未付款时允许更换支付方式 */
+    // 未发货，未付款时允许更换支付方式
     if ($order['order_amount'] > 0 && $order['pay_status'] == PS_UNPAYED && $order['shipping_status'] == SS_UNSHIPPED) {
         $payment_list = available_payment_list(false, 0, true);
 
-        /* 过滤掉当前支付方式和余额支付方式 */
+        // 过滤掉当前支付方式和余额支付方式
         if(is_array($payment_list)) {
             foreach ($payment_list as $key => $payment) {
                 if ($payment['pay_id'] == $order['pay_id'] || $payment['pay_code'] == 'balance') {
@@ -1402,10 +1402,10 @@ elseif ($action == 'order_detail') {
     }
 
     // 发货单
-    $order_delivery_list = array();
-    if ($order['shipping_status'] == SS_SHIPPED || $order['shipping_status'] == SS_RECEIVED || $order['shipping_status'] == SS_SHIPPED_PART) {
-        $order_delivery_list = order_delivery_list($order_id);
-    }
+    $order_delivery_list = order_delivery_list($order_id);
+    // 订单是否已经全部发货
+    //$order_finish = get_order_finish($order_id);
+    $order_finish = ($order['order_status'] == OS_SPLITED) ? 1 : 0;
 
     /* 订单 支付 配送 状态语言项 */
     $order['order_status'] = $_LANG['os'][$order['order_status']];
@@ -1416,6 +1416,7 @@ elseif ($action == 'order_detail') {
     $smarty->assign('order_delivery_list', $order_delivery_list);
     $smarty->assign('order_delivery_list_count', count($order_delivery_list));
     $smarty->assign('goods_list', $goods_list);
+    $smarty->assign('order_finish', $order_finish);
     $smarty->display('user_transaction.dwt');
 }
 
@@ -1944,7 +1945,7 @@ elseif ($action == 'affirm_received')
         $err->show($_LANG['order_list_lnk'], 'user.php?act=order_list');
     }
 }
-/* 确认收货 */
+/* 单个物流确认收货 */
 elseif ($action == 'confirm_delivery_received')
 {
     include_once(ROOT_PATH . 'include/lib_transaction.php');
@@ -1961,39 +1962,26 @@ elseif ($action == 'confirm_delivery_received')
         $GLOBALS['err'] -> add($GLOBALS['_LANG']['no_priv']);
     } elseif ($order['shipping_status'] == SS_RECEIVED) { // 检查订单：订单状态为“已收货”
         $GLOBALS['err'] ->add($GLOBALS['_LANG']['order_already_received']);
-    } elseif ($order['shipping_status'] != SS_SHIPPED && $order['shipping_status'] != SS_SHIPPED_PART) {// 检查订单：订单状态为“仍未发货”
+    } elseif ($order['shipping_status'] != SS_SHIPPED && $order['shipping_status'] != SS_SHIPPED_PART) { // 检查订单：订单状态为“仍未发货”
         $GLOBALS['err']->add($GLOBALS['_LANG']['order_invalid']);
-    } else {// 修改发货单状态为“确认收货”
+    } else { // 修改发货单状态为“确认收货”
         $confirm_time = gmtime();
         $sql = "UPDATE " . $GLOBALS['ecs']->table('delivery_order') . " SET status ='3', confirm_time=$confirm_time WHERE order_id = '$order_id' AND delivery_id='$delivery_id'";
         if ($GLOBALS['db']->query($sql)) {
-            // 订单内所有商品
-            $_goods = get_order_goods(array('order_id' => $order_id, 'order_sn' =>$order['order_sn']));
-            $attr = $_goods['attr'];
-            $goods_list = $_goods['goods_list'];
-            unset($_goods);
-            // 查询：商品已发货数量 未发货数量
-            $finish_flag = true;
-            if ($goods_list) {
-                foreach ($goods_list as $key=>$goods_value) {
-                    if (!$goods_value['goods_id']) {
-                        continue;
+            // 检查订单商品是否全部发货
+            $order_finish = get_order_finish($order_id);
+            if ($order_finish) {
+                    $sql = 'SELECT COUNT(0) FROM ' . $GLOBALS['ecs']->table('delivery_order') . ' WHERE order_id = \'' . $order_id . '\' AND status <> 3';
+                    $delivery_not_recieved_count = $GLOBALS['db']->getOne($sql);
+                    if (empty($delivery_not_recieved_count) || $delivery_not_recieved_count == 0) {
+                        $sql = "UPDATE " . $GLOBALS['ecs']->table('order_info') . " SET shipping_status = '" . SS_RECEIVED . "' WHERE order_id = '$order_id'";
+                        if ($GLOBALS['db']->query($sql)) {
+                            // 记录日志
+                            order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', $GLOBALS['_LANG']['buyer']);
+                        } else {
+                            die($GLOBALS['db']->errorMsg());
+                        }
                     }
-                    $goods_list[$key]['rest_number'] = $goods_value['goods_number'] - $goods_value['send_number'];
-                    if ($goods_list[$key]['rest_number'] > 0) {
-                        $finish_flag = false;
-                        break;
-                    }
-                }
-            }
-            if ($finish_flag) {
-                $sql = "UPDATE " . $GLOBALS['ecs']->table('order_info') . " SET shipping_status = '" . SS_RECEIVED . "' WHERE order_id = '$order_id'";
-                if ($GLOBALS['db']->query($sql)) {
-                    // 记录日志
-                    order_action($order['order_sn'], $order['order_status'], SS_RECEIVED, $order['pay_status'], '', $GLOBALS['_LANG']['buyer']);
-                } else {
-                    die($GLOBALS['db']->errorMsg());
-                }
             }
             $confirm_result = true;
         } else {
@@ -4557,8 +4545,7 @@ function order_delivery_list($order_id) {
  * @param   array     $order  订单数组
  * @return array
  */
-function get_order_goods($order)
-{
+function get_order_goods($order) {
     $goods_list = array();
     $goods_attr = array();
     $sql ="SELECT " .
@@ -4585,24 +4572,19 @@ function get_order_goods($order)
                 }
             }
         }
-
         $row['formated_subtotal']       = price_format($row['goods_price'] * $row['goods_number']);
         $row['formated_goods_price']    = price_format($row['goods_price']);
-
         $goods_attr[] = explode(' ', trim($row['goods_attr'])); //将商品属性拆分为一个数组
-
         if ($row['extension_code'] == 'package_buy') {
             $row['storage'] = '';
             $row['brand_name'] = '';
             $row['package_goods_list'] = get_package_goods_list($row['goods_id']);
         }
-
         //处理货品id
         $row['product_id'] = empty($row['product_id']) ? 0 : $row['product_id'];
 
         $goods_list[] = $row;
     }
-
     $attr = array();
     $arr  = array();
     foreach ($goods_attr AS $index => $array_val) {
@@ -4611,7 +4593,26 @@ function get_order_goods($order)
             $attr[$index][] =  @array('name' => $arr[0], 'value' => $arr[1]);
         }
     }
-
     return array('goods_list' => $goods_list, 'attr' => $attr);
+}
+/**
+ * 订单中的商品是否已经全部发货
+ * @param   int     $order_id  订单 id
+ * @return  int     1，全部发货；0，未全部发货
+ */
+function get_order_finish($order_id) {
+    $return_res = 0;
+    if (empty($order_id)) {
+        return $return_res;
+    }
+    $sql = 'SELECT COUNT(rec_id)
+            FROM ' . $GLOBALS['ecs']->table('order_goods') . '
+            WHERE order_id = \'' . $order_id . '\'
+            AND goods_number > send_number';
+    $sum = $GLOBALS['db']->getOne($sql);
+    if (empty($sum)) {
+        $return_res = 1;
+    }
+    return $return_res;
 }
 ?>

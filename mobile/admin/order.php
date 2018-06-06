@@ -3416,8 +3416,8 @@ elseif ($_REQUEST['act'] == 'operate') {
 
             // 如果status不是退货
             if ($delivery_order['status'] != 1) {
-                /* 处理退货 */
-                delivery_return_goods($value_is, $delivery_order);
+                // 处理退货
+                delivery_return_goods($delivery_order);
             }
 
             // 如果status是已发货并且发货单号不为空
@@ -6989,25 +6989,32 @@ function package_virtual_card_shipping($goods, $order_sn)
  *
  * @return  void
  */
-function delivery_return_goods($delivery_id, $delivery_order)
-{
-    //* 查询：取得发货单商品 */
+function delivery_return_goods($delivery_order) {
+    // 查询：取得发货单商品 */
     $goods_sql = "SELECT *
                  FROM " . $GLOBALS['ecs']->table('delivery_goods') . "
                  WHERE delivery_id = " . $delivery_order['delivery_id'];
     $goods_list = $GLOBALS['db']->getAll($goods_sql);
-    /* 更新： */
-    foreach ($goods_list as $key=>$val)
-    {
+    // 更新
+    foreach ($goods_list as $key=>$val) {
         $sql = "UPDATE " . $GLOBALS['ecs']->table('order_goods') .
                " SET send_number = send_number-'".$goods_list[$key]['send_number']. "'".
                " WHERE order_id = '".$delivery_order['order_id']."' AND goods_id = '".$goods_list[$key]['goods_id']."' LIMIT 1";
         $GLOBALS['db']->query($sql);
     }
-    $sql = "UPDATE " . $GLOBALS['ecs']->table('order_info') .
-           " SET shipping_status = '0' , order_status = 1".
-           " WHERE order_id = '".$delivery_order['order_id']."' LIMIT 1";
-    $GLOBALS['db']->query($sql);
+    $sql = "SELECT COUNT(delivery_id) FROM " . $GLOBALS['ecs']->table('delivery_order') . " WHERE order_id = ".$delivery_order['order_id'] . " and  delivery_id<>" . $delivery_order['delivery_id'];
+    $sum = $GLOBALS['db']->getOne($sql);
+    if (empty($sum) || $sum == 0) {
+        $sql = "UPDATE " . $GLOBALS['ecs']->table('order_info') .
+            " SET shipping_status = '0' , order_status = 1".
+            " WHERE order_id = '".$delivery_order['order_id']."' LIMIT 1";
+        $GLOBALS['db']->query($sql);
+    } else {
+        $sql = "UPDATE " . $GLOBALS['ecs']->table('order_info') .
+            " SET shipping_status = '4' , order_status = 6".
+            " WHERE order_id = '".$delivery_order['order_id']."' LIMIT 1";
+        $GLOBALS['db']->query($sql);
+    }
 }
 /**
  * 删除发货单时删除其在订单中的发货单号

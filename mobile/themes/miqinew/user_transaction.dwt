@@ -542,6 +542,11 @@
           <h1> {$lang.order_detail} </h1>
         </header>
         <div class="order_ldeta_wrap">
+          <div class="order_log_wrap">
+            <div class="order_log_state">
+              <b style="line-height: 70px;">{$order.shipping_status}</b>
+            </div>
+          </div>
           <div class="order_baddr_wrap">
             <div class="order_baddr_info">
               <p>
@@ -592,20 +597,25 @@
             <div class="order_bgood_item">
               <div class="order_deli_wrap">
                 <div class="order_deli_left">
-                                                发货单{$smarty.foreach.delivery.iteration}<i></i>
+                                             发货单{$smarty.foreach.delivery.iteration}<i></i>
                 </div>
                 <div class="order_deli_right">
-                  {$order.shipping_status}
+                  {if $delivery.status eq 0}
+                  <a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_btn">{$lang.received}</a>
+                  {elseif $delivery.status eq 1}已退货
+                  {elseif $delivery.status eq 2}待收揽
+                  {elseif $delivery.status eq 3}已确认收货
+                  {/if}
                 </div>
                 <div class="clear"></div>
+                {if $delivery.shipping_id gt 0 && $delivery.invoice_no neq null && $delivery.invoice_no neq '' }
                 <div class="order_deil_info">
-                  {if $delivery.shipping_id gt 0 && $delivery.invoice_no neq null && $delivery.invoice_no neq '' }
                   <a href="user.php?act=jisushuju_tracking&shipping_name={$delivery.shipping_name}&invoice_no={$delivery.invoice_no}">
                     <span>{$delivery.shipping_name}{$delivery.sql}</span>
                     <span>物流单号：{$delivery.invoice_no}</span>
                   </a>
-                  {/if}
                 </div>
+                {/if}
               </div>
               {foreach from=$delivery.goods item=goods name="goods"}
               <div class="order_bgood_box">
@@ -626,12 +636,6 @@
               <div class="order_bgood_btn">
                 {if $delivery.shipping_id gt 0 && $delivery.invoice_no neq null && $delivery.invoice_no neq '' }
                 <a href="user.php?act=jisushuju_tracking&shipping_name={$delivery.shipping_name}&invoice_no={$delivery.invoice_no}">查看物流</a>
-                {/if}
-                {if $delivery.status eq 0}
-                <a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_btn">{$lang.received}</a>
-                {elseif $delivery.status eq 1}已退货
-                {elseif $delivery.status eq 2}待收揽
-                {elseif $delivery.status eq 3}已确认收货
                 {/if}
               </div>
             </div>
@@ -764,7 +768,7 @@
         </div>
         <div class="mask"></div>
         <div class="order_deli_prompt">
-          <p>您的订单不能由统一仓库发货，因此被拆分成多个订单，所产生的费用由惠当家正品联盟承担</p>
+          <p>您的订单可能会被拆分成多个包裹，所产生的费用由惠当家正品联盟承担</p>
           <a>我知道了</a>
         </div>
         <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js" ></script>
