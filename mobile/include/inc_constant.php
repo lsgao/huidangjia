@@ -212,6 +212,7 @@ define('COMMENT_BOUGHT',            3); //只有购买够该商品的人可以�
 /* 减库存时机 */
 define('SDT_SHIP',                  0); // 发货时
 define('SDT_PLACE',                 1); // 下订单时
+define('SDT_PAY',                   2); // 支付后
 
 /* 加密方式 */
 define('ENCRYPT_ZC',                1); //zc加密方式

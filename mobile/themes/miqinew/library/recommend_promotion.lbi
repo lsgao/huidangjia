@@ -2,7 +2,7 @@
 
 <div id="tabs">
 	<ul id="lists">
-		<li class="abc active">10点开抢</li>
+		<li class="abc active">正在抢购</li>
 		<li class="abc">明日预告</li>
 	</ul>
 	<section class="hide active">

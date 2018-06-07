@@ -1751,7 +1751,7 @@ elseif ($_REQUEST['step'] == 'done')
     /* 检查收货人信息是否完整 */
     if (!check_consignee_info($consignee, $flow_type, $include_bonded_goods))
     {
-        /* 如果不完整则转向到收货人信息填写界面 */
+        // 如果不完整则转向到收货人信息填写界面
         ecs_header("Location: flow.php?step=consignee&include_bonded_goods=" . $include_bonded_goods . "\n");
         exit;
     }
@@ -1862,13 +1862,13 @@ elseif ($_REQUEST['step'] == 'done')
         show_message($_LANG['no_goods_in_cart'], $_LANG['back_home'], './', 'warning');
     }
 
-    /* 检查商品总额是否达到最低限购金额 */
+    // 检查商品总额是否达到最低限购金额 */
     if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS) < $_CFG['min_goods_amount'])
     {
         show_message(sprintf($_LANG['goods_amount_not_enough'], price_format($_CFG['min_goods_amount'], false)));
     }
 
-    /* 收货人信息 */
+    // 收货人信息
     foreach ($consignee as $key => $value)
     {
         $order[$key] = addslashes($value);
@@ -1926,7 +1926,7 @@ elseif ($_REQUEST['step'] == 'done')
         }
     }
 
-    /* 订单中的总额 */
+    // 订单中的总额
     $total = order_fee($order, $cart_goods, $consignee);
     $order['bonus']        = $total['bonus'];
     $order['goods_amount'] = $total['goods_price'];
@@ -1944,7 +1944,7 @@ elseif ($_REQUEST['step'] == 'done')
         $order['bonus_id'] = 0;
     }
 
-    /* 配送方式 */
+    // 配送方式
     if ($order['shipping_id'] > 0)
     {
         $shipping = shipping_info($order['shipping_id']);
@@ -1953,7 +1953,7 @@ elseif ($_REQUEST['step'] == 'done')
     $order['shipping_fee'] = $total['shipping_fee'];
     $order['insure_fee']   = $total['shipping_insure'];
 
-    /* 支付方式 */
+    // 支付方式
     if ($order['pay_id'] > 0)
     {
         $payment = payment_info($order['pay_id']);
@@ -1962,7 +1962,7 @@ elseif ($_REQUEST['step'] == 'done')
     $order['pay_fee'] = $total['pay_fee'];
     $order['cod_fee'] = $total['cod_fee'];
 
-    /* 商品包装 */
+    // 商品包装
     if ($order['pack_id'] > 0)
     {
         $pack               = pack_info($order['pack_id']);
@@ -1970,7 +1970,7 @@ elseif ($_REQUEST['step'] == 'done')
     }
     $order['pack_fee'] = $total['pack_fee'];
 
-    /* 祝福贺卡 */
+    // 祝福贺卡
     if ($order['card_id'] > 0)
     {
         $card               = card_info($order['card_id']);
@@ -1980,7 +1980,7 @@ elseif ($_REQUEST['step'] == 'done')
 
     $order['order_amount']  = number_format($total['amount'], 2, '.', '');
 
-    /* 如果全部使用余额支付，检查余额是否足够 */
+    // 如果全部使用余额支付，检查余额是否足够
     if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0) {
         if($order['surplus'] >0) { //余额支付里如果输入了一个金额
             $order['order_amount'] = $order['order_amount'] + $order['surplus'];
@@ -1994,7 +1994,7 @@ elseif ($_REQUEST['step'] == 'done')
         }
     }
 
-    /* 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款 */
+    // 如果订单金额为0（使用余额或积分或红包支付），修改订单状态为已确认、已付款
     if ($order['order_amount'] <= 0)
     {
         $order['order_status'] = OS_CONFIRMED;
@@ -2002,6 +2002,9 @@ elseif ($_REQUEST['step'] == 'done')
         $order['pay_status']   = PS_PAYED;
         $order['pay_time']     = gmtime();
         $order['order_amount'] = 0;
+        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+            change_order_goods_storage($order['order_id'], true, SDT_PAY);
+        }
     }
 
     $order['integral_money']   = $total['integral_money'];
@@ -2016,7 +2019,7 @@ elseif ($_REQUEST['step'] == 'done')
     $order['from_ad']          = !empty($_SESSION['from_ad']) ? $_SESSION['from_ad'] : '0';
     $order['referer']          = !empty($_SESSION['referer']) ? addslashes($_SESSION['referer']) : '';
 
-    /* 记录扩展信息 */
+    // 记录扩展信息
     if ($flow_type != CART_GENERAL_GOODS)
     {
         $order['extension_code'] = $_SESSION['extension_code'];
@@ -2045,7 +2048,7 @@ elseif ($_REQUEST['step'] == 'done')
     }
     $order['parent_id'] = $parent_id;
 
-    /* 插入订单表 */
+    // 插入订单表
     $error_no = 0;
     do
     {
@@ -2064,7 +2067,7 @@ elseif ($_REQUEST['step'] == 'done')
     $new_order_id = $db->insert_id();
     $order['order_id'] = $new_order_id;
 
-    /* 插入订单商品 */
+    // 插入订单商品
     $sql = "INSERT INTO " . $ecs->table('order_goods') . "( " .
         "order_id, goods_id, goods_name, goods_sn, product_id, goods_number, market_price, ".
         "goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, goods_attr_id) ".
@@ -2074,14 +2077,14 @@ elseif ($_REQUEST['step'] == 'done')
                 " WHERE session_id = '".SESS_ID."' AND rec_type = '$flow_type'";
     $db->query($sql);
 
-    /* 修改拍卖活动状态 */
+    // 修改拍卖活动状态
     if ($order['extension_code']=='auction')
     {
         $sql = "UPDATE ". $ecs->table('goods_activity') ." SET is_finished='2' WHERE act_id=".$order['extension_id'];
         $db->query($sql);
     }
 
-    /* 处理余额、积分、红包 */
+    // 处理余额、积分、红包
     if ($order['user_id'] > 0 && $order['surplus'] > 0)
     {
         log_account_change($order['user_id'], $order['surplus'] * (-1), 0, 0, 0, sprintf($_LANG['pay_order'], $order['order_sn']));
@@ -2095,15 +2098,15 @@ elseif ($_REQUEST['step'] == 'done')
         use_bonus($order['bonus_id'], $new_order_id);
     }
 
-    /* 如果使用库存，且下订单时减库存，则减少库存 */
+    // 如果使用库存，且下订单时减库存，则减少库存
     if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)
     {
         change_order_goods_storage($order['order_id'], true, SDT_PLACE);
     }
 
 
-    /* 给商家发邮件 */
-    /* 增加是否给客服发送邮件选项 */
+    // 给商家发邮件
+    // 增加是否给客服发送邮件选项
     if ($_CFG['send_service_email'] && $_CFG['service_email'] != '')
     {
         $tpl = get_mail_template('remind_of_new_order');
@@ -2126,9 +2129,13 @@ elseif ($_REQUEST['step'] == 'done')
         }
     }
 
-    /* 如果订单金额为0 处理虚拟卡 */
+    // 如果订单金额为0 处理虚拟卡
     if ($order['order_amount'] <= 0)
     {
+        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY)
+        {
+            change_order_goods_storage($order['order_id'], true, SDT_PAY);
+        }
         $sql = "SELECT goods_id, goods_name, goods_number AS num FROM ".
                $GLOBALS['ecs']->table('cart') .
                 " WHERE is_real = 0 AND extension_code = 'virtual_card'".
@@ -2202,7 +2209,7 @@ elseif ($_REQUEST['step'] == 'done')
     }
     else
     {
-        //* 取得支付信息，生成支付代码 */
+        // 取得支付信息，生成支付代码
         if ($order['order_amount'] > 0) {
             $payment = payment_info($order['pay_id']);
 

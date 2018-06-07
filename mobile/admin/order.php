@@ -3737,9 +3737,10 @@ elseif ($_REQUEST['act'] == 'batch_operate_post')
                 order_action($order['order_sn'], OS_INVALID, SS_UNSHIPPED, PS_UNPAYED, $action_note);
 
                 /* 如果使用库存，且下订单时减库存，则增加库存 */
-                if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)
-                {
+                if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE) {
                     change_order_goods_storage($order_id, false, SDT_PLACE);
+                } else if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+                    change_order_goods_storage($order_id, false, SDT_PAY);
                 }
 
                 /* 发送邮件 */
@@ -3795,9 +3796,10 @@ elseif ($_REQUEST['act'] == 'batch_operate_post')
                 order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, $action_note);
 
                 /* 如果使用库存，且下订单时减库存，则增加库存 */
-                if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)
-                {
+                if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE) {
                     change_order_goods_storage($order_id, false, SDT_PLACE);
+                } else if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+                    change_order_goods_storage($order_id, false, SDT_PAY);
                 }
 
                 /* 发送邮件 */
@@ -3978,6 +3980,11 @@ elseif ($_REQUEST['act'] == 'operate_post') {
             $order['shipping_status'] = SS_RECEIVED;
         }
         update_order($order_id, $arr);
+        /* 如果使用库存，且付款后减库存，则减少库存  */
+        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY)
+        {
+            change_order_goods_storage($order['order_id'], true, SDT_PAY);
+        }
 
         /* 记录log */
         order_action($order['order_sn'], OS_CONFIRMED, $order['shipping_status'], PS_PAYED, $action_note);
@@ -4469,9 +4476,10 @@ elseif ($_REQUEST['act'] == 'operate_post') {
         order_action($order['order_sn'], OS_CANCELED, $order['shipping_status'], PS_UNPAYED, $action_note);
 
         /* 如果使用库存，且下订单时减库存，则增加库存 */
-        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)
-        {
+        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE) {
             change_order_goods_storage($order_id, false, SDT_PLACE);
+        } else if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+            change_order_goods_storage($order_id, false, SDT_PAY);
         }
 
         /* 退还用户余额、积分、红包 */
@@ -4502,9 +4510,10 @@ elseif ($_REQUEST['act'] == 'operate_post') {
         order_action($order['order_sn'], OS_INVALID, $order['shipping_status'], PS_UNPAYED, $action_note);
 
         /* 如果使用库存，且下订单时减库存，则增加库存 */
-        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE)
-        {
+        if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PLACE) {
             change_order_goods_storage($order_id, false, SDT_PLACE);
+        } else if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+            change_order_goods_storage($order_id, false, SDT_PAY);
         }
 
         /* 发送邮件 */

@@ -2173,12 +2173,15 @@ function change_order_goods_storage($order_id, $is_dec = true, $storage = 0)
     {
         case 0 :
             $sql = "SELECT goods_id, SUM(send_number) AS num, MAX(extension_code) AS extension_code, product_id FROM " . $GLOBALS['ecs']->table('order_goods') .
-                    " WHERE order_id = '$order_id' AND is_real = 1 GROUP BY goods_id, product_id";
+                " WHERE order_id = '$order_id' AND is_real = 1 GROUP BY goods_id, product_id";
         break;
-
         case 1 :
             $sql = "SELECT goods_id, SUM(goods_number) AS num, MAX(extension_code) AS extension_code, product_id FROM " . $GLOBALS['ecs']->table('order_goods') .
-                    " WHERE order_id = '$order_id' AND is_real = 1 GROUP BY goods_id, product_id";
+                " WHERE order_id = '$order_id' AND is_real = 1 GROUP BY goods_id, product_id";
+        break;
+        case 2 :
+            $sql = "SELECT goods_id, SUM(goods_number) AS num, MAX(extension_code) AS extension_code, product_id FROM " . $GLOBALS['ecs']->table('order_goods') .
+                " WHERE order_id = '$order_id' AND is_real = 1 GROUP BY goods_id, product_id";
         break;
     }
 

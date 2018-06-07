@@ -335,6 +335,7 @@ $_LANG['cfg_range']['enable_order_check']['0'] = '否';
 $_LANG['cfg_range']['enable_order_check']['1'] = '是';
 $_LANG['cfg_range']['stock_dec_time']['0'] = '发货时';
 $_LANG['cfg_range']['stock_dec_time']['1'] = '下订单时';
+$_LANG['cfg_range']['stock_dec_time']['2'] = '付款后';
 $_LANG['cfg_range']['send_service_email']['0'] = '否';
 $_LANG['cfg_range']['send_service_email']['1'] = '是';
 $_LANG['cfg_range']['show_goods_in_cart']['1'] = '只显示文字';

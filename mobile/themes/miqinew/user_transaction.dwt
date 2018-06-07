@@ -9,7 +9,7 @@
   <meta name="format-detection" content="telephone=no" />
   <link href="{$ectouch_themes}/images/touch-icon.png" rel="apple-touch-icon-precomposed" />
   <link href="{$ectouch_themes}/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <link href="{$ectouch_themes}/ectouch.css?id=2" rel="stylesheet" type="text/css" />
+  <link href="{$ectouch_themes}/ectouch.css?id=8" rel="stylesheet" type="text/css" />
   <link href="js/calendar/calendar.css" rel="stylesheet" type="text/css" />
   {* 包含脚本文件 *}
   {insert_scripts files='transport.js,common.js,user.js,calendar.php'}
@@ -21,7 +21,7 @@
       <!-- 用户信息界面 start-->
         <!--{if $action eq 'profile'}--> 
         {insert_scripts files='utils.js'} 
-        <script type="text/javascript">
+        <script type="text/javascript">\n
           {foreach from=$lang.profile_js item=item key=key}
             var {$key} = "{$item}";
           {/foreach}
@@ -597,11 +597,22 @@
             <div class="order_bgood_item">
               <div class="order_deli_wrap">
                 <div class="order_deli_left">
-                                             发货单{$smarty.foreach.delivery.iteration}<i></i>
+                                          发货单{$smarty.foreach.delivery.iteration}<i></i>
                 </div>
                 <div class="order_deli_right">
                   {if $delivery.status eq 0}
-                  <a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_btn">{$lang.received}</a>
+                  <span class="order_cen_btn">{$lang.received}</span>
+                  <div class="order_cen_wrap">
+                  	<div class="order_cen_text">
+                  		<p>提示</p>
+                  		您要确认收货吗？
+                  	</div>
+                  	<div class="order_cen_cho">
+                  			<a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_cen">是</a>
+                  			<a class="order_cen_clo">否</a>
+                  			<div class="clear"></div>
+                  	</div>
+                  </div>
                   {elseif $delivery.status eq 1}已退货
                   {elseif $delivery.status eq 2}待收揽
                   {elseif $delivery.status eq 3}已确认收货
@@ -777,7 +788,17 @@
             $('.mask,.order_deli_prompt').hide();
           })
           $('.order_deli_left').click(function(){
-            $('.order_deli_prompt,.mask').show()
+            $('.order_deli_prompt,.mask').show();
+          })
+          $('.order_cen_btn').click(function(){
+            $('.mask').show();
+          })
+          $('.order_cen_btn').click(function(){
+          	$(this).next('.order_cen_wrap').show();
+          })
+          $('.order_cen_cho a').click(function(){
+          	$(this).parent().parent().hide()
+          	$('.mask').hide()
           })
         </script>
 

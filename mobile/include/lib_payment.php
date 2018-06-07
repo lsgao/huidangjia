@@ -166,6 +166,17 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
 
                 /* 记录订单操作记录 */
                 order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
+                /* 如果使用库存，且付款后减库存，则减少库存 */
+                $_CFG = array();
+                $sql = 'SELECT code, value FROM ' . $GLOBALS['ecs']->table('touch_shop_config') . ' WHERE parent_id > 0 AND (code=\'stock_dec_time\' OR code=\'use_storage\')';
+                $res = $GLOBALS['db']->getAll($sql);
+                foreach ($res AS $row) {
+                    $_CFG[$row['code']] = $row['value'];
+                }
+                include_once(ROOT_PATH . 'include/lib_order.php');
+                if ($_CFG['use_storage'] == '1' && $_CFG['stock_dec_time'] == SDT_PAY) {
+                    change_order_goods_storage($order['order_id'], true, SDT_PAY);
+                }
                 /* 如果需要，发短信 */
                 if ($GLOBALS['_CFG']['sms_order_payed'] == '1' && $GLOBALS['_CFG']['sms_shop_mobile'] != '') {
                     include_once(ROOT_PATH.'include/cls_sms.php');
