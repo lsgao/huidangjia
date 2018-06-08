@@ -89,7 +89,7 @@ define('OS_SHIPPED_PART',           6); // 已发货(部分商品)
 define('RS_UNRETURNED',              0); // 未退货
 define('RS_APPLYED',                2); // 买家已申请退货，等待卖家审核
 define('RS_RECEIVED',                3); // 卖家收到退货
-define('RS_RETURNED',                4); // 卖家已退货
+define('RS_RETURNED',                4); // 卖家已退款
 define('RS_REFUSED',                5); // 卖家拒绝退货，买家的申请未通过审核
 
 /* 支付状态 */

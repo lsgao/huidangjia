@@ -311,23 +311,17 @@
           </form>
           </div>
         </section>
-        <section class="wrap order_list">
-          <section class="order_box padd1 radius10 single_item">
-            <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
-              <tr>
-                <td class="order_status" style="border-bottom:1px #CCCCCC dashed"></td>
-              </tr>
-              <tr>
-                <td class="order_content"></td>
-              </tr>
-              <tr>
-                <td class="order_handler"></td>
-              </tr>
-              <tr>
-                <!--<td class="order_tracking"></td>-->
-                <td class="package_tracking"></td>
-              </tr>
-            </table>
+        <section class="order_list_wrap order_list">
+          <section class="order_list_item single_item">
+            <div class="package_tracking"></div>
+            <div class="order_list_tit">
+              <div class="order_list_time order_time"></div>
+              <div class="order_list_state final_status"></div>
+              <div class="clear"></div>
+            </div>
+            <div class="order_content"></div>
+            <div class="order_list_btn order_btn"></div>
+            <div class="status_flag"></div>
           </section>
           <a href="javascript:;" style="text-align:center" class="get_more"></a>
         </section>

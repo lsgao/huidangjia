@@ -1878,5 +1878,58 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .order_deli_prompt p {border-bottom: 1px solid #eee;padding-bottom: 10px;}
 .order_deli_prompt a {text-align: center;color: #FF9600;font: 14px/30px "微软雅黑";display: block;}
 
-.order_list_time,.order_list_state {float: left;width: 50%;font: 12px/20px "微软雅黑";color: #999;}
+/*新增样式*/
+.brand_good_item {float: left;width: 48%;margin: 1%;box-shadow: 1px 1px 3px #eee;background: #fff;box-shadow: 1px 1px 3px #ccc;}
+.brand_good_img img {width: 100%;height: auto;}
+.brand_good_name,.brand_good_pri,.brand_good_deta,.brand_good_list{width: 98%;margin: 0 auto;}
+.brand_good_name {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;font: 14px/20px "微软雅黑";color: #333;height: 40px;}
+.brand_good_pri {font: 14px/20px simhei !important;color: #FF9600;padding: 5px 0;}
+.brand_good_pri s {padding-left: 10px;font: 12px/20px "微软雅黑";color: #999;}
+.brand_good_deta {color: #999;font: 12px/30px "微软雅黑";border-top: 1px solid #eee;}
+.brand_good_stock,.brand_good_ms {float: left;width: 50%;}
+.brand_good_ms {text-align: right;}
+
+
+.coll_item {padding: 10px 10px 10px 110px;margin-bottom: 10px;position: relative;background: #fff;box-shadow: 1px 1px 3px #ccc;}
+.coll_img {position: absolute;width: 90px;top: 10px;left: 10px;}
+.coll_img img {width: 100%;}
+.coll_info {width: 100%;height: 90px;}
+.coll_name {overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;font: 14px/20px "微软雅黑";color: #333;height: 40px;}
+.coll_spec,.coll_pri {margin-top: 5px;}
+.coll_spec {font: 12px/20px "微软雅黑";color: #999;}
+.coll_pri {font: 14px/20px "微软雅黑";color: #FF9600;}
+.coll_pri s {padding-left: 10px;color: #999;font: 12px/20px "微软雅黑";}
+.coll_add_car,.coll_del {position: absolute;bottom: 10px;width: 20px;height: 20px;}
+.coll_add_car {right: 40px;background: url(img/guc.png) center no-repeat;background-size: 16px;}
+.coll_del {right: 10px;background: url(img/item_del_ico.png) center no-repeat;background-size: 16px;}
+.coll_add_car img,.coll_del img {height: 30px;}
+
+/*订单列表样式*/
+
+.order_list_time,.order_list_state {float: left;font: 12px/30px "微软雅黑";color: #999;}
+.order_list_time {width:40%}
+.order_list_state {width:60%}
 .order_list_state {text-align: right;color: #FF9600;}
+
+.order_list_item {background: #fff;margin-bottom: 10px;position: relative;overflow: hidden;box-shadow: 1px 1px 3px #ccc;}
+.order_list_tit {padding: 0 10px;border-bottom: 1px solid #eee;}
+
+
+.order_list_state {text-align: right;color: #ff9600;}
+.order_list_box {padding: 10px 10px 10px 100px;position: relative;}
+.order_list_img {position: absolute;top: 10px;left: 10px;width: 80px;}
+.order_list_img img {width: 100%;height: auto;}
+.order_list_info {padding-top: 10px;box-sizing: border-box;height: 80px;}
+.order_list_info p {padding-top: 10px;font: 12px/20px "微软雅黑";color: #333;}
+.order_list_info span {padding-left: 10px;font: 14px/20px "微软雅黑";color: #333;}
+.order_list_info small {font: 12px/20px "微软雅黑";}
+.order_list_btn {border-top: 1px solid #eee;padding:10px;text-align: right;}
+.order_list_btn a {display: inline-block;padding: 0 10px;font: 12px/20px "微软雅黑";color: #999;border:1px solid #999;margin-left: 10px;}
+.order_list_box:after {content:'';display: block;position: absolute;top: 50%;right: 5px;margin-top: -10px;width: 20px;height: 20px;background: url(img/more_icon.png) center no-repeat;background-size: 10px;}
+.order_list_btn .order_list_esp {border: 1px solid #228BFE;color: #228BFE;}
+.order_list_cwrap,.order_list_cwrap div {margin:10px auto;border-radius: 50%;overflow: hidden;border: 2px solid #FF9600;box-sizing: border-box;}
+.order_list_ctext {width: 80px;height: 80px;font: 16px/80px "微软雅黑";text-align: center;display: block !important;border-style: double !important;position: relative;}
+.order_list_ctext:before {position: absolute;content: '';top: 5px;left: 5px;width: 70px;height: 30px;background: url(img/order_right_icon.png) center no-repeat;background-size: 16px;}
+.order_list_cbox {width: 100px;height: 100px;border-style: dotted !important;}
+.order_list_cwrap {width:120px;height: 120px;position: absolute;top: -50px;right: 50px;transform: rotate(-30deg) scale(.7);opacity: .5;}
+.order_list_cwrap p {color: #FF9600;}

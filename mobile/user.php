@@ -1196,6 +1196,51 @@ elseif ($action == 'async_order_list') {
             //$tracking = ($vo['shipping_id'] > 0) ? '<a href="user.php?act=order_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>':'';
             //$tracking = (($vo['shipping_id'] > 0 && $vo['shipping_id'] != 23) && ($vo['shipping_status'] == SS_SHIPPED || $vo['shipping_status'] == SS_RECEIVED || $vo['shipping_status'] == SS_SHIPPED_PART) && ((strpos($vo['invoice_no'],'<br>') ===false) && (strpos($vo['invoice_no'],',') ===false))) ? '<a href="user.php?act=package_tracking&order_id='.$vo['order_id'].'" class="c-btn3">订单跟踪</a>' : '';
             $tracking = '';
+            $order_time = $vo['order_time'];
+            $final_status = '';
+             if ($vo['order_status'] == OS_CANCELED || $vo['order_status'] == OS_INVALID) {
+                $final_status = $GLOBALS['_LANG']['os'][$vo['order_status']];
+            } else if ($vo['order_status'] == OS_RETURNED) {
+                $final_status = $GLOBALS['_LANG']['rs'][$vo['return_status']];
+            } else if ($vo['pay_status'] == PS_UNPAYED) {
+                $final_status = $GLOBALS['_LANG']['ps'][$vo['pay_status']];
+            } else if ($vo['pay_status'] == PS_PAYING) {
+                $final_status = $GLOBALS['_LANG']['ps'][$vo['pay_status']];
+            } else if ($vo['order_status'] == OS_UNCONFIRMED) {
+                $final_status = $GLOBALS['_LANG']['os'][$vo['order_status']];
+            } else if ($vo['pay_status'] == PS_PAYED && ($vo['shipping_status'] == SS_UNSHIPPED || $vo['shipping_status'] == SS_PREPARING || $vo['shipping_status'] == SS_SHIPPED_PART || $vo['shipping_status'] == SS_SHIPPED_ING)) {
+                $final_status = $GLOBALS['_LANG']['ss'][$vo['shipping_status']];
+            } else if ($vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED) {
+                $final_status = $GLOBALS['_LANG']['ss'][$vo['shipping_status']];
+            } else if ($vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == 0) {
+                $final_status = '已完成';
+            } else {
+                $final_status = $vo['detail_status'];
+            }
+            $status_flag = '';
+            if ($final_status == '已完成') {
+                $status_flag = '<div class="order_list_cwrap">
+                  <div class="order_list_cbox">
+                    <div class="order_list_ctext">
+                      <p >' . $final_status . '</p>
+                    </div>
+                  </div>
+                </div>';
+            }
+            $view_button = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '" class=\"order_list_esp\">' .$GLOBALS['_LANG']['view_order']. '</a>';
+            $detail_content = '' .
+                '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">
+                    <div class="order_list_box">
+                      <div class="order_list_img">
+                        <img src="'.$config['site_url'].$img.'" />
+                      </div>
+                      <div class="order_list_info">
+                        <p>订单编号：'.$vo['order_sn'].'</p>
+                        <p>共N件商品<span><small>实付款:</small>'.$vo['total_fee'].'</span></p>
+                      </div>
+                    </div>
+                  </a>';
+            /*
             $detail_content = '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">'
                 .'<table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">'
                     .'<tr>'
@@ -1228,12 +1273,16 @@ elseif ($action == 'async_order_list') {
                         .'<td style="position:relative"><span class="new-arr"></span></td>'
                     .'</tr>'
                     .'</table></a>';
+            */
 	     $asyList[] = array(
-                'order_status' => '订单状态：'.$vo['order_status'],
-                'order_handler' => $vo['handler'],
+                'detail_status' => ''.$vo['detail_status'],
+                'order_btn' => $view_button . $vo['handler'],
                 'order_content' => $detail_content,
                 //'order_tracking' => $tracking
-                'package_tracking' => $tracking
+                'package_tracking' => $tracking,
+                'order_time' => $order_time,
+                'final_status' => $final_status,
+                'status_flag' => $status_flag,
             );
         }
     }
@@ -1489,6 +1538,7 @@ elseif ($action == 'address_list')
 
     $smarty->display('user_transaction.dwt');
 }
+
 /* 添加/编辑收货地址的处理 */
 elseif ($action == 'act_edit_address')
 {
@@ -1646,6 +1696,7 @@ elseif ($action == 'add_to_attention')
     ecs_header("Location: user.php?act=collection_list\n");
     exit;
 }
+
 /* 取消关注商品 */
 elseif ($action == 'del_attention')
 {
@@ -1657,6 +1708,7 @@ elseif ($action == 'del_attention')
     ecs_header("Location: user.php?act=collection_list\n");
     exit;
 }
+
 /* 显示留言列表 */
 elseif ($action == 'message_list')
 {
@@ -4475,31 +4527,55 @@ function search_orders($num = 10, $start = 0, $where) {
 
     while ($row = $GLOBALS['db']->fetchRow($res)) {
         if ($row['order_status'] == OS_UNCONFIRMED) {
-            $row['handler'] = "<a href=\"user.php?act=cancel_order&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_cancel']."')) return false;\">".$GLOBALS['_LANG']['cancel']."</a>";
+            $row['handler'] = "<a href=\"user.php?act=cancel_order&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_cancel']."')) return false;\" class=\"order_list_esp\">".$GLOBALS['_LANG']['cancel']."</a>";
         } else if ($row['order_status'] == OS_SPLITED) {
             // 对配送状态的处理
             if ($row['shipping_status'] == SS_SHIPPED) {
-                @$row['handler'] = "<a href=\"user.php?act=affirm_received&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_received']."')) return false;\">".$GLOBALS['_LANG']['received']."</a>";
+                @$row['handler'] = "<a href=\"user.php?act=affirm_received&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_received']."')) return false;\" class=\"order_list_esp\">".$GLOBALS['_LANG']['received']."</a>";
             } elseif ($row['shipping_status'] == SS_RECEIVED) {
-                @$row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['ss_received'] .'</span>';
+                //@$row['handler'] = '<span  >' . $GLOBALS['_LANG']['ss_received'] . '</span>';
+                if ($row['return_status'] == RS_UNRETURNED) {
+                    if ($row['order_type'] != '掌柜年卡' && $row['order_type'] != '注册掌柜') {
+                        $script = 'javascript:if(confirm(\'真的确定申请退货吗？\')){window.location.href=\'user.php?act=return_goods&order_id=' . $row['order_id'] . '\'}';
+                        @$row['handler'] = '<a href="'.$script.'" class="order_list_esp">申请退货</a>';
+                    }
+                } else if ($row['return_status'] == RS_APPLYED) {
+                    $sql = "SELECT * FROM " .$ecs->table('order_back'). " WHERE order_sn = '" . $row['order_sn'] ."' AND status = 2";
+                    $back_info = $db->getRow($sql);
+                    $script = 'javascript:window.location.href=\'user.php?act=cancel_back&back_sn=' . $back_info['back_sn'] . '\'';
+                    @$row['handler'] = '<a href="'.$script.'" class="order_list_esp>取消退货</a>';
+                } else if ($row['return_status'] == RS_RECEIVED) {
+                    //@$row['handler'] = '<span>' . $GLOBALS['_LANG']['rs'][$row['return_status']] . '</span>';
+                    @$row['handler'] = '';
+                } else if ($row['return_status'] == RS_RETURNED) {
+                    //@$row['handler'] = '<span>'. $GLOBALS['_LANG']['rs'][$row['return_status']] . '</span>';
+                    @$row['handler'] = '';
+                } else if ($row['return_status'] == RS_REFUSED) {
+                     //@$row['handler'] = '<span>'. $GLOBALS['_LANG']['rs'][$row['return_status']] . '</span>';
+                     @$row['handler'] = '';
+                }
             } else {
                 if ($row['pay_status'] == PS_UNPAYED) {
-                    @$row['handler'] = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '">' .$GLOBALS['_LANG']['pay_money']. '</a>';
+                    //@$row['handler'] = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '" class=\"order_list_esp\">' .$GLOBALS['_LANG']['pay_money']. '</a>';
+                    @$row['handler'] = '';
                 } else {
-                    @$row['handler'] = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '">' .$GLOBALS['_LANG']['view_order']. '</a>';
+                    //@$row['handler'] = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '" class=\"order_list_esp\">' .$GLOBALS['_LANG']['view_order']. '</a>';
+                    @$row['handler'] = '';
                 }
             }
         } else {
-            $row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
+            //@$row['handler'] = '<span >'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
+            @$row['handler'] = '';
         }
+        //@$row['handler'] = '<span >'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>' . $row['handler'] = '';
 
         $row['shipping_status'] = ($row['shipping_status'] == SS_SHIPPED_ING) ? SS_PREPARING : $row['shipping_status'];
-        $row['order_status'] = $GLOBALS['_LANG']['os'][$row['order_status']] . ',' . $GLOBALS['_LANG']['ps'][$row['pay_status']] . ',' . $GLOBALS['_LANG']['ss'][$row['shipping_status']];
-
+        $row['detail_status'] = $GLOBALS['_LANG']['os'][$row['order_status']] . ',' . $GLOBALS['_LANG']['ps'][$row['pay_status']] . ',' . $GLOBALS['_LANG']['ss'][$row['shipping_status']] . ',' . $GLOBALS['_LANG']['rs'][$row['return_status']];
         $arr[] = array('order_id' => $row['order_id'],
             'order_sn' => $row['order_sn'],
             'order_time' => local_date($GLOBALS['_CFG']['time_format'], $row['add_time']),
             'order_status' => $row['order_status'],
+            'detail_status' => $row['detail_status'],
             'pay_status' => $row['pay_status'],
             'shipping_status' => $row['shipping_status'],
             'return_status' => $row['return_status'],
