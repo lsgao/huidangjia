@@ -1200,7 +1200,7 @@ elseif ($action == 'async_order_list') {
             $final_status = '';
              if ($vo['order_status'] == OS_CANCELED || $vo['order_status'] == OS_INVALID) {
                 $final_status = $GLOBALS['_LANG']['os'][$vo['order_status']];
-            } else if ($vo['order_status'] == OS_RETURNED) {
+            } else if ($vo['return_status'] == RS_APPLYED || $vo['return_status'] == RS_RECEIVED || $vo['return_status'] == RS_RETURNED || $vo['return_status'] == RS_REFUSED) {
                 $final_status = $GLOBALS['_LANG']['rs'][$vo['return_status']];
             } else if ($vo['pay_status'] == PS_UNPAYED) {
                 $final_status = $GLOBALS['_LANG']['ps'][$vo['pay_status']];
@@ -1223,6 +1223,14 @@ elseif ($action == 'async_order_list') {
                   <div class="order_list_cbox">
                     <div class="order_list_ctext">
                       <p >' . $final_status . '</p>
+                    </div>
+                  </div>
+                </div>';
+            } else if ($final_status == $GLOBALS['_LANG']['rs'][RS_RETURNED]) {
+                $status_flag = '<div class="order_list_rgwrap">
+                  <div class="order_list_rgbox">
+                    <div class="order_list_rgtext">
+                      <p>已退款</p >
                     </div>
                   </div>
                 </div>';
@@ -4540,8 +4548,8 @@ function search_orders($num = 10, $start = 0, $where) {
                         @$row['handler'] = '<a href="'.$script.'" class="order_list_esp">申请退货</a>';
                     }
                 } else if ($row['return_status'] == RS_APPLYED) {
-                    $sql = "SELECT * FROM " .$ecs->table('order_back'). " WHERE order_sn = '" . $row['order_sn'] ."' AND status = 2";
-                    $back_info = $db->getRow($sql);
+                    $sql = "SELECT * FROM " .$GLOBALS['ecs']->table('order_back'). " WHERE order_sn = '" . $row['order_sn'] ."' AND status = 2";
+                    $back_info = $GLOBALS['db']->getRow($sql);
                     $script = 'javascript:window.location.href=\'user.php?act=cancel_back&back_sn=' . $back_info['back_sn'] . '\'';
                     @$row['handler'] = '<a href="'.$script.'" class="order_list_esp>取消退货</a>';
                 } else if ($row['return_status'] == RS_RECEIVED) {
