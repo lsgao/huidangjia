@@ -15,7 +15,7 @@
 {insert_scripts files='transport.js,utils.js'}
 <script type="text/javascript" src="{$ectouch_themes}/js/TouchSlide.js"></script>
 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="{$ectouch_themes}/js/ectouch.js"></script>
+<script type="text/javascript" src="{$ectouch_themes}/js/ectouch.js?id=2"></script>
 </head>
 
 <body>
@@ -62,7 +62,7 @@
 								<div class="item_con">
 									<div class="item_img">
 										<!-- {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'} 商品 --> 
-                  <a  href="goods.php?id={$goods.goods_id}" target="_blank"> <img style="width: 100%;height: auto;" src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" /> </a> 
+                  <a  href="goods.php?id={$goods.goods_id}" target="_blank"> <img src="{$site_url}{$goods.goods_thumb}" border="0" title="{$goods.goods_name|escape:html}" /> </a> 
                 <!-- {/if} -->
 									</div>
 									<div class="item_img_in">
@@ -70,7 +70,7 @@
                   <p class="item_img_tit">{$goods.goods_name}</p>
                 </a>
 										<!-- {if $show_goods_attribute eq 1} 显示商品属性 -->
-                  <p class="item_size">规格： {$goods.goods_attr|nl2br} </p>
+                  <p class="item_size">{$goods.goods_attr} </p>
                 <!-- {/if} -->
 										<p class="item_num">
 											<span class="txt">

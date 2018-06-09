@@ -1235,7 +1235,7 @@ elseif ($action == 'async_order_list') {
                   </div>
                 </div>';
             }
-            $view_button = "<a href=\"user.php?act=order_detail&order_id=" .$row['order_id']. '" class=\"order_list_esp\">' .$GLOBALS['_LANG']['view_order']. '</a>';
+            $view_button = "<a href=\"user.php?act=order_detail&order_id=" .$vo['order_id']. '" class=\"order_list_esp\">' .$GLOBALS['_LANG']['view_order']. '</a>';
             $detail_content = '' .
                 '<a href="user.php?act=order_detail&order_id='.$vo['order_id'].'">
                     <div class="order_list_box">
@@ -1244,7 +1244,7 @@ elseif ($action == 'async_order_list') {
                       </div>
                       <div class="order_list_info">
                         <p>订单编号：'.$vo['order_sn'].'</p>
-                        <p>共N件商品<span><small>实付款:</small>'.$vo['total_fee'].'</span></p>
+                        <p>共' . $vo['total_goods_count'] . '件商品<span><small>实付款:</small>'.$vo['total_fee'].'</span></p>
                       </div>
                     </div>
                   </a>';
@@ -4534,6 +4534,10 @@ function search_orders($num = 10, $start = 0, $where) {
     $res = $GLOBALS['db']->SelectLimit($sql, $num, $start);
 
     while ($row = $GLOBALS['db']->fetchRow($res)) {
+    	$sql = "SELECT sum(goods_number) FROM " .$GLOBALS['ecs']->table('order_goods'). " WHERE order_id  = '" . $row['order_id'] ."' ";
+       $total_goods_count = $GLOBALS['db']->getOne($sql);
+       $row['total_goods_count'] = $total_goods_count;
+
         if ($row['order_status'] == OS_UNCONFIRMED) {
             $row['handler'] = "<a href=\"user.php?act=cancel_order&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_cancel']."')) return false;\" class=\"order_list_esp\">".$GLOBALS['_LANG']['cancel']."</a>";
         } else if ($row['order_status'] == OS_SPLITED) {
@@ -4592,6 +4596,7 @@ function search_orders($num = 10, $start = 0, $where) {
             'handler' => $row['handler'],
             'order_type' => $row['order_type'],
             'invoice_no' => $row['invoice_no'],
+            'total_goods_count' => $row['total_goods_count'],
         );
     }
     return $arr;

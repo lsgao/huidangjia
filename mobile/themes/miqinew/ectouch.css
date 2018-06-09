@@ -1587,23 +1587,25 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
       	.vip_dis_sub a {width: 100%;display: block;text-align: center;color: #fff;background: #ff9600;font: 16px/36px "微软雅黑";height: 36px;border-radius: 18px;}
 
 
-.shop_item {padding:10px;background: #fff; margin-bottom: 10px;}
+.shop_item {padding:20px 10px;background: #fff; margin-bottom: 10px;box-shadow: 1px 1px 3px #ccc;}
 .item_isp {width: 100%;border-bottom: 1px solid #eee;position: relative;}
 .item_isp p {padding-left: 30px;font: 14px/30px "微软雅黑";}
 .item_isp i {position: absolute;top: 8px;left: 8px;}
 .item_isp i,#sum_check_btn {display: inline-block;width: 14px;height: 14px;background: url(img/no.png) center no-repeat;background-size: 14px;}
-.item_con {width: 100%;padding: 10px 0;}
-.item_img,.item_img_in,.item_price {float: left;}
-.item_img {width: 30%;margin: 0 2.5%;}
+.item_con {padding: 0 100px 0 100px;position: relative;}
+.item_img,.item_price {position: absolute;top: 0;}
+.item_img {width: 90px;left: 0;}
+.item_img img {width: 100%;height: auto;}
+.item_price {width: 100px;right: 0;text-align: right;}
 /*.item_img img {box-shadow: 0 0 3px #ccc;}*/
-.item_img_in {width: 40%;}
-.item_img_tit {display: -webkit-box;overflow: hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;color: #333;font: 13px/20px "微软雅黑";width: 100%;}
+.item_img_in {width: 100%}
+.item_img_tit {display: -webkit-box;overflow: hidden;-webkit-box-orient: vertical;-webkit-line-clamp: 2;color: #333;font: 14px/20px "微软雅黑";width: 100%;height: 40px;}
+.item_img_in a {margin: 0;}
 .flag {display: inline-block;width: 20px;height: 14px;}
 .uk_flag {background: url(img/UK-flag.png) center no-repeat;background-size: 20px;}
-.item_size {color: #999;font:12px/28px "微软雅黑"}
+.item_size {color: #999;font:12px/18px "微软雅黑";overflow: hidden;white-space: nowrap;text-overflow: ellipsis;height: 18px;}
 .item_num a {display: inline-block;float: left; width: 24px;height: 24px;border: 1px solid #eee;text-align: center;color: #999;font: 16px/24px "微软雅黑";cursor: pointer;}
 .item_num input {line-height: 24px;width: 40px;border: 1px solid #eee;text-align: center;vertical-align: middle;float: left;}
-.item_price {width: 25%;text-align: right;}
 .item_money {color: #ff9600;font: 14px/24px "微软雅黑";}
 .item_marm {color: #999;}
 .item_tariff {color:#666;display:none}
@@ -1922,14 +1924,14 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .order_list_info small {font: 12px/20px "微软雅黑";}
 .order_list_btn {border-top: 1px solid #eee;padding:10px;text-align: right;}
 .order_list_btn a {display: inline-block;padding: 0 10px;font: 12px/20px "微软雅黑";color: #999;border:1px solid #999;margin-left: 10px;}
-.order_list_box:after {content:'';display: block;position: absolute;top: 50%;right: 5px;margin-top: -10px;width: 20px;height: 20px;background: url(../img/more_icon.png) center no-repeat;background-size: 20px;}
+.order_list_box:after {content:'';display: block;position: absolute;top: 50%;right: 5px;margin-top: -10px;width: 20px;height: 20px;background: url(img/more_icon.png) center no-repeat;background-size: 10px;}
 .order_list_btn .order_list_esp {border: 1px solid #228BFE;color: #228BFE;}
 .order_list_cwrap,.order_list_cwrap div,.order_list_rgwrap,.order_list_rgwrap div {margin:10px auto;border-radius: 50%;overflow: hidden;box-sizing: border-box;}
 .order_list_cwrap,.order_list_cwrap div {border: 2px solid #FF9600;}
 .order_list_rgwrap,.order_list_rgwrap div {border: 2px solid #999;}
 .order_list_ctext,.order_list_rgtext {width: 80px;height: 80px;font: 16px/80px "微软雅黑";text-align: center;display: block !important;border-style: double !important;position: relative;}
-.order_list_ctext:before {background: url(../img/order_right_icon.png) center no-repeat;}
-.order_list_rgtext:before {background: url(../img/order_right_icon1.png) center no-repeat;}
+.order_list_ctext:before {background: url(img/order_right_icon.png) center no-repeat;}
+.order_list_rgtext:before {background: url(img/order_right_icon1.png) center no-repeat;}
 .order_list_ctext:before,.order_list_rgtext:before {position: absolute;content: '';top: 5px;left: 5px;width: 70px;height: 30px;background-size: 16px;}
 .order_list_cbox,.order_list_rgbox {width: 100px;height: 100px;border-style: dotted !important;}
 .order_list_cwrap,.order_list_rgwrap {width:120px;height: 120px;position: absolute;top: -50px;right: 50px;transform: rotate(-30deg) scale(.7);opacity: .5;}
