@@ -83,6 +83,7 @@ define('SS_RECEIVED',               2); // 已收货
 define('SS_PREPARING',              3); // 备货中
 define('SS_SHIPPED_PART',           4); // 已发货(部分商品)
 define('SS_SHIPPED_ING',            5); // 发货中(处理分单)
+
 define('OS_SHIPPED_PART',           6); // 已发货(部分商品)
 
 /*退货状态 */
@@ -98,9 +99,25 @@ define('PS_PAYING',                 1); // 付款中
 define('PS_PAYED',                  2); // 已付款
 
 /* 综合状态 */
-define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
-define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发货，非货到付款且已付款且未发货
-define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
+//define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
+//define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发货，非货到付款且已付款且未发货
+//define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
+define('CS_AWAIT_CONFIRMED', 103); // 待确认：订单状态=OS_UNCONFIRMED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+define('CS_INVALID', 104); // 无效：订单状态=OS_INVALID，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+define('CS_AWAIT_PAY', 100); // 待付款:（原有值）货到付款且已发货且未付款，非货到付款且未付款（订单状态=OS_CONFIRMED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED）
+define('CS_PAYING', 105); // 付款中：订单状态=OS_CONFIRMED，付款状态=PS_PAYING，配送状态=SS_UNSHIPPED
+define('CS_AWAIT_SHIP', 101); // 待发货：（原有值）货到付款且未发货，非货到付款且已付款且未发货（订单状态=OS_CONFIRMED，付款状态=PS_PAYED，配送状态=SS_UNSHIPPED）
+define('CS_CANCELED', 106); // 取消：订单状态=OS_CANCELED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+define('CS_PREPARE_SHIPPING', 107); // 配货中：订单状态=OS_CONFIRMED，付款状态=PS_PAYED，配送状态=SS_PREPARING
+define('CS_PART_SHIPPING', 108); // 部分商品发货中：订单状态=OS_SPLITING_PART，付款状态=PS_PAYED，配送状态=SS_SHIPPED_ING
+define('CS_SHIPPED_PART', 109); // 已发货(部分商品)：订单状态=OS_SPLITING_PART，付款状态=PS_PAYED，配送状态=SS_SHIPPED_PART
+define('CS_JUST_SHIPPING', 110); // 发货中：订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=SS_SHIPPED_ING
+define('CS_AWAIT_RECIEVE', 111); // 待签收：订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=SS_SHIPPED
+define('CS_FINISHED', 102); // 已完成：（原有值）订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_UNRETURNED
+define('CS_RETURN_AWAIT_APPROVE', 120); // 退货待审核：订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_APPLYED
+define('CS_RETURN_RECEIVED', 121); // 退货签收：订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_RECEIVED
+define('CS_RETURN_REFUSED', 122); // 拒绝退货：订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_REFUSED
+define('CS_RETURNED', 112); // 退款：订单状态=RS_RETURNED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
 
 /* 缺货处理 */
 define('OOS_NONE',               0); // 不缺货

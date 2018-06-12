@@ -1663,9 +1663,9 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .commen_radio input[type="radio"] {display: none;}             
 .commen_radio input[type="radio"]:checked+.commen_option{border: 1px solid #FF9600;background: #FF9600;} 
 .commen_email {margin-bottom:10px;}
-.commen_email input,.commen_textarea textarea {width:100%;border:1px solid #ccc;border-left:none;border-right:none;font:14px/30px "微软雅黑";color:#333} 
-.commen_textarea textarea {resize : none;height:100px;padding:10px;font:14px/20px "微软雅黑"}
-.comment_chose,.commen_user,.commen_email input{padding:0 10px;}
+.commen_email input,.commen_textarea textarea {width:100%;border:1px solid #eee;border-left:none;border-right:none;font:14px/30px "微软雅黑";color:#333} 
+.commen_textarea textarea {resize : none;height:100px;padding:10px;font:14px/20px "微软雅黑";width: 100%;box-sizing: border-box;}
+.comment_chose,.commen_user,.commen_email input{padding:0 10px; box-sizing: border-box;}
 .commen_user {padding-top:10px}
 .commen_sub {margin-top:10px}
 /*确认订单*/

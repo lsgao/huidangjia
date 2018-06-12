@@ -285,7 +285,62 @@
     <section class="order_box padd1 radius10">
     	
     <form action="user.php" method="post" enctype="multipart/form-data" name="formMsg" onSubmit="return submitMsg()">
-      <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
+    	<div class="commen_wrap">
+    		{if $order_info}
+    		  {$lang.order_number} <a href ="{$order_info.url}"><img src="images/note.gif" />{$order_info.order_sn}</a>
+            <input name="msg_type" type="hidden" value="5" />
+            <input name="order_id" type="hidden" value="{$order_info.order_id}" class="inputBg_touch" />
+        {else}
+    		<div class="comment_chose">
+    			<div class="commen_radio">
+    				<label>
+    				  <input name="msg_type" type="radio" value="0"  checked="checked" />
+			        <span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			        <span>{$lang.type.0}</span>
+    		  	</label>
+    			</div>
+    		<div class="commen_radio">
+    				<label>
+    			  	<input name="msg_type" type="radio" value="1" />
+			        <span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			        <span>{$lang.type.1}</span>
+    		  	</label>
+    		</div>
+    			<div class="commen_radio">
+    		  	<label>
+    	  			<input name="msg_type" type="radio" value="2"/>
+			        <span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			        <span>{$lang.type.2}</span>
+    	  		</label>
+    			</div>
+    			<div class="commen_radio">
+    		  	<label>
+    	  			<input name="msg_type" type="radio" value="3"/>
+			        <span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			        <span>{$lang.type.3}</span>
+      			</label>
+    			</div>
+    			<div class="commen_radio">
+    			  <label>
+    		  		<input name="msg_type" type="radio" value="4"/>
+			        <span class="commen_option"><span class="commen_option-span"></span></span><!--优化后的单选框样式-->  
+			        <span>{$lang.type.4}</span>
+    	  		</label>
+    			</div>
+    		</div>
+    		{/if}
+    		<div class="commen_email">
+			   	<input name="msg_title" type="text" placeholder="{$lang.message_title}" />
+			 	</div>
+			 	<div class="commen_textarea">
+			 		<textarea name="msg_content" placeholder="{$lang.message_content}"></textarea>
+			  </div>
+			  <div class="commen_sub">
+			  	<input type="hidden" name="act" value="act_add_message" />
+            <input type="submit" value="{$lang.submit}" class="c-btn3" />
+			  </div>
+    	</div>
+      <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table" style="display: none;">
         {if $order_info}
         <tr>
           <td> {$lang.order_number} <a href ="{$order_info.url}"><img src="images/note.gif" />{$order_info.order_sn}</a>
@@ -293,9 +348,10 @@
             <input name="order_id" type="hidden" value="{$order_info.order_id}" class="inputBg_touch" /></td>
         </tr>
         {else}
+        
         <tr>
-          <td><input name="msg_type" type="radio" value="0" checked="checked" />
-            {$lang.type.0}
+          <td><input name="msg_type" type="radio" value="0"/>
+            
             <input type="radio" name="msg_type" value="1" />
             {$lang.type.1}
             <input type="radio" name="msg_type" value="2" />

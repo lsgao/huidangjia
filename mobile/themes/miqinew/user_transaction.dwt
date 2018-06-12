@@ -536,31 +536,55 @@
           <h1> {$lang.order_detail} </h1>
         </header>
         <div class="order_ldeta_wrap">
+          <div style="display: none;">{$order.shipping_status}{$order.order_status}{$order.pay_status}</div>
+          <!--{if $order.shipping_status == "已发货" || $order.shipping_status == "已发货(部分商品)" || $order.shipping_status == "收货确认" || $order.shipping_status == "已配货" }-->
           <div class="order_log_wrap">
             <div class="order_log_state">
               <b style="line-height: 70px;">{$order.shipping_status}</b>
             </div>
           </div>
+          <!--{/if}-->
+          <!--{if  $order.shipping_status == "未发货" && $order.order_status == "已取消" && $order.pay_status =='未付款'}-->
+          <div class="order_log_wrap" style="padding: 0 40px;">
+          	<style>.order_log_wrap:before {background: none;}</style>
+            <div class="order_log_state">
+              <b style="line-height: 70px;">{$order.order_status}</b>
+            </div>
+          </div>
+          <!--{/if}-->
+          <!--{if $order.order_status == "退货" && $order.shipping_status == "未发货" && $order.pay_status == '未付款'}-->
+          <div class="order_log_wrap" style="padding: 0 40px;">
+          	<style>.order_log_wrap:before {background: none;}</style>
+            <div class="order_log_state">
+              <b style="line-height: 70px;">{$order.order_status}</b>
+            </div>
+          </div>
+          <!--{/if}-->
+          <!--{if $order.order_status == "已确认" && $order.shipping_status == "未发货" && $order.pay_status == '已付款'}-->
+          <div class="order_log_wrap">
+            <div class="order_log_state">
+              <b style="line-height: 70px;">{$order.shipping_status}</b>
+            </div>
+          </div>
+          <!--{/if}-->
           <div class="order_baddr_wrap">
             <div class="order_baddr_info">
               <p>
                 <span>{$order.consignee}</span>
                 <span>{$order.mobile}</span>
                 {if $include_bonded_goods eq 1}
-                <span>
-            		{$consignee.identity_card|escape} 
-            	  </span>
-            	  {/if}
+                <span>{$consignee.identity_card|escape}</span>
+                {/if}
               </p>
               <p>
                 <small>
-            	  <!-- {if $order.exist_real_goods} -->
+                <!-- {if $order.exist_real_goods} -->
                 {$order.address}
                   <!-- {if $order.zipcode} -->
                   [{$lang.postalcode}: {$order.zipcode}]
                   <!-- {/if} -->
                 <!-- {/if} -->
-            	  </small>
+                </small>
               </p>
             </div>
           </div>
@@ -590,22 +614,20 @@
             <!-- {foreach from=$order_delivery_list name=delivery item=delivery} -->
             <div class="order_bgood_item">
               <div class="order_deli_wrap">
-                <div class="order_deli_left">
-                                          发货单{$smarty.foreach.delivery.iteration}<i></i>
-                </div>
+                <div class="order_deli_left">发货单{$smarty.foreach.delivery.iteration}<i></i></div>
                 <div class="order_deli_right">
                   {if $delivery.status eq 0}
                   <span class="order_cen_btn">{$lang.received}</span>
                   <div class="order_cen_wrap">
-                  	<div class="order_cen_text">
-                  		<p>提示</p>
-                  		您要确认收货吗？
-                  	</div>
-                  	<div class="order_cen_cho">
-                  			<a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_cen">是</a>
-                  			<a class="order_cen_clo">否</a>
-                  			<div class="clear"></div>
-                  	</div>
+                    <div class="order_cen_text">
+                      <p>提示</p>
+                      您要确认收货吗？
+                    </div>
+                    <div class="order_cen_cho">
+                      <a href="user.php?act=confirm_delivery_received&order_id={$order.order_id}&delivery_id={$delivery.delivery_id}" class="order_cen_cen">是</a>
+                      <a class="order_cen_clo">否</a>
+                      <div class="clear"></div>
+                    </div>
                   </div>
                   {elseif $delivery.status eq 1}已退货
                   {elseif $delivery.status eq 2}待收揽
@@ -795,7 +817,6 @@
           	$('.mask').hide()
           })
         </script>
-
         <section class="wrap" style="display: none;">
           <section class="order_box padd1 radius10">
             <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">

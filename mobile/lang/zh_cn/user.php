@@ -316,6 +316,23 @@ $_LANG['rs'][RS_RECEIVED] = '退货签收';
 $_LANG['rs'][RS_RETURNED] = '已退款';
 $_LANG['rs'][RS_REFUSED] = '退货被拒';
 
+$_LANG['cs'][CS_AWAIT_CONFIRMED] = '待确认';//订单状态=OS_UNCONFIRMED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+$_LANG['cs'][CS_INVALID] = '无效';//订单状态=OS_INVALID，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+$_LANG['cs'][CS_AWAIT_PAY] = '待付款';//货到付款且已发货且未付款，非货到付款且未付款（订单状态=OS_CONFIRMED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED）
+$_LANG['cs'][CS_PAYING] = '付款中';//订单状态=OS_CONFIRMED，付款状态=PS_PAYING，配送状态=SS_UNSHIPPED
+$_LANG['cs'][CS_AWAIT_SHIP] = '待发货';//（原有值）货到付款且未发货，非货到付款且已付款且未发货（订单状态=OS_CONFIRMED，付款状态=PS_PAYED，配送状态=SS_UNSHIPPED）
+$_LANG['cs'][CS_CANCELED] = '取消';//订单状态=OS_CANCELED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+$_LANG['cs'][CS_PREPARE_SHIPPING] = '配货中';//订单状态=OS_CONFIRMED，付款状态=PS_PAYED，配送状态=SS_PREPARING
+$_LANG['cs'][CS_PART_SHIPPING] = '部分商品发货中';//订单状态=OS_SPLITING_PART，付款状态=PS_PAYED，配送状态=SS_SHIPPED_ING
+$_LANG['cs'][CS_SHIPPED_PART] = '已发货(部分商品)';//订单状态=OS_SPLITING_PART，付款状态=PS_PAYED，配送状态=SS_SHIPPED_PART
+$_LANG['cs'][CS_JUST_SHIPPING] = '发货中';//订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=SS_SHIPPED_ING
+$_LANG['cs'][CS_AWAIT_RECIEVE] = '待签收';//订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=SS_SHIPPED
+$_LANG['cs'][CS_FINISHED] = '已完成';//（原有值）订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_UNRETURNED
+$_LANG['cs'][CS_RETURN_AWAIT_APPROVE] = '退货待审核';//订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_APPLYED
+$_LANG['cs'][CS_RETURN_RECEIVED] = '退货签收';//订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_RECEIVED
+$_LANG['cs'][CS_RETURN_REFUSED] = '拒绝退货';//订单状态=OS_SPLITED，付款状态=PS_PAYED，配送状态=RS_RECEIVED, 退款状态=RS_REFUSED
+$_LANG['cs'][CS_RETURNED] = '退款';//订单状态=RS_RETURNED，付款状态=PS_UNPAYED，配送状态=SS_UNSHIPPED
+
 $_LANG['shipping_not_need'] = '无需使用配送方式';
 $_LANG['current_os_not_unconfirmed'] = '当前订单状态不是“未确认”。';
 $_LANG['current_os_already_confirmed'] = '当前订单已经被确认，无法取消，请与店主联系。';

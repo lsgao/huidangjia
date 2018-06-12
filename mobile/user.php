@@ -1198,39 +1198,55 @@ elseif ($action == 'async_order_list') {
             $tracking = '';
             $order_time = $vo['order_time'];
             $final_status = '';
-             if ($vo['order_status'] == OS_CANCELED || $vo['order_status'] == OS_INVALID) {
-                $final_status = $GLOBALS['_LANG']['os'][$vo['order_status']];
-            } else if ($vo['return_status'] == RS_APPLYED || $vo['return_status'] == RS_RECEIVED || $vo['return_status'] == RS_RETURNED || $vo['return_status'] == RS_REFUSED) {
-                $final_status = $GLOBALS['_LANG']['rs'][$vo['return_status']];
-            } else if ($vo['pay_status'] == PS_UNPAYED) {
-                $final_status = $GLOBALS['_LANG']['ps'][$vo['pay_status']];
-            } else if ($vo['pay_status'] == PS_PAYING) {
-                $final_status = $GLOBALS['_LANG']['ps'][$vo['pay_status']];
-            } else if ($vo['order_status'] == OS_UNCONFIRMED) {
-                $final_status = $GLOBALS['_LANG']['os'][$vo['order_status']];
-            } else if ($vo['pay_status'] == PS_PAYED && ($vo['shipping_status'] == SS_UNSHIPPED || $vo['shipping_status'] == SS_PREPARING || $vo['shipping_status'] == SS_SHIPPED_PART || $vo['shipping_status'] == SS_SHIPPED_ING)) {
-                $final_status = $GLOBALS['_LANG']['ss'][$vo['shipping_status']];
-            } else if ($vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED) {
-                $final_status = $GLOBALS['_LANG']['ss'][$vo['shipping_status']];
-            } else if ($vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == 0) {
-                $final_status = '已完成';
+            if ($vo['order_status'] == OS_UNCONFIRMED && $vo['pay_status'] == PS_UNPAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_AWAIT_CONFIRMED];
+            } else if ($vo['order_status'] == OS_INVALID && $vo['pay_status'] == PS_UNPAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_INVALID];
+            } else if ($vo['order_status'] == OS_CONFIRMED && $vo['pay_status'] == PS_UNPAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_AWAIT_PAY];
+            } else if ($vo['order_status'] == OS_CONFIRMED && $vo['pay_status'] == PS_PAYING && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_PAYING];
+            } else if ($vo['order_status'] == OS_CONFIRMED && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_AWAIT_SHIP];
+            } else if ($vo['order_status'] == OS_CANCELED && $vo['pay_status'] == PS_UNPAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_CANCELED];
+            } else if ($vo['order_status'] == OS_CONFIRMED && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_PREPARING) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_PREPARE_SHIPPING];
+            } else if ($vo['order_status'] == OS_SPLITING_PART && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED_ING) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_PART_SHIPPING];
+            } else if ($vo['order_status'] == OS_SPLITING_PART && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED_PART) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_SHIPPED_PART];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED_ING) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_JUST_SHIPPING];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED && $vo['shipping_status'] == SS_SHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_AWAIT_RECIEVE];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == RS_UNRETURNED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_FINISHED];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == RS_APPLYED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_RETURN_AWAIT_APPROVE];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == RS_RECEIVED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_RETURN_RECEIVED];
+            } else if ($vo['order_status'] == OS_SPLITED && $vo['pay_status'] == PS_PAYED &&  $vo['order_status'] == OS_SPLITED && $vo['shipping_status'] == SS_RECEIVED && $vo['return_status'] == RS_REFUSED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_RETURN_REFUSED];
+            }  else if ($vo['order_status'] == RS_RETURNED && $vo['pay_status'] == PS_UNPAYED && $vo['shipping_status'] == SS_UNSHIPPED) {
+                $final_status = $GLOBALS['_LANG']['cs'][CS_RETURNED];
             } else {
                 $final_status = $vo['detail_status'];
             }
             $status_flag = '';
-            if ($final_status == '已完成') {
-                $status_flag = '<div class="order_list_cwrap">
-                  <div class="order_list_cbox">
-                    <div class="order_list_ctext">
+            if ($final_status == $GLOBALS['_LANG']['cs'][CS_INVALID] || $final_status == $GLOBALS['_LANG']['cs'][CS_CANCELED] ||  $final_status == $GLOBALS['_LANG']['cs'][CS_RETURNED]) {
+                $status_flag = '<div class="order_list_rgwrap">
+                  <div class="order_list_rgbox">
+                    <div class="order_list_rgtext">
                       <p >' . $final_status . '</p>
                     </div>
                   </div>
                 </div>';
-            } else if ($final_status == $GLOBALS['_LANG']['rs'][RS_RETURNED]) {
-                $status_flag = '<div class="order_list_rgwrap">
-                  <div class="order_list_rgbox">
-                    <div class="order_list_rgtext">
-                      <p>已退款</p >
+            } else if ($final_status == $GLOBALS['_LANG']['cs'][CS_FINISHED]) {
+                $status_flag = '<div class="order_list_cwrap">
+                  <div class="order_list_cbox">
+                    <div class="order_list_ctext">
+                      <p >' . $final_status . '</p>
                     </div>
                   </div>
                 </div>';
@@ -4581,7 +4597,7 @@ function search_orders($num = 10, $start = 0, $where) {
         }
         //@$row['handler'] = '<span >'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>' . $row['handler'] = '';
 
-        $row['shipping_status'] = ($row['shipping_status'] == SS_SHIPPED_ING) ? SS_PREPARING : $row['shipping_status'];
+        //$row['shipping_status'] = ($row['shipping_status'] == SS_SHIPPED_ING) ? SS_PREPARING : $row['shipping_status'];
         $row['detail_status'] = $GLOBALS['_LANG']['os'][$row['order_status']] . ',' . $GLOBALS['_LANG']['ps'][$row['pay_status']] . ',' . $GLOBALS['_LANG']['ss'][$row['shipping_status']] . ',' . $GLOBALS['_LANG']['rs'][$row['return_status']];
         $arr[] = array('order_id' => $row['order_id'],
             'order_sn' => $row['order_sn'],
