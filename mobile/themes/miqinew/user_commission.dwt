@@ -312,6 +312,7 @@
     var {$key} = "{$item}";
     {/foreach}
   </script>
+  <style>body {background: #eee !important;}</style>
   <section class="order_box padd1 radius10 single_item">
     <div class="blank"></div>
     <div class="user_ctab">
@@ -328,7 +329,75 @@
         <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
       </tr>
     </table>
-    <table border="0" cellspacing="1" style=" width:100%;">
+    <div class="acc_detail_wrap">
+    	
+    	<!--{foreach from=$account_log item=item}-->
+    	<!--{if $item.type == '增加' ||  $item.type == '收益'}-->
+    	<div class="acc_detail_item">
+    		<div class="acc_detail_profit"></div>
+    		<div class="acc_detail_info">
+    			<div class="acc_detail_tit">
+    				{$item.short_change_desc}
+    			</div>
+    			<div class="acc_detail_time">
+    				{$item.change_time}
+    			</div>
+    		</div>
+    		<div class="acc_detail_pri">
+    			+{$item.amount}
+    		</div>
+    	</div>
+    		<div class="acc_ale_wrap">
+    			<div class="acc_ale_pri">
+    				{$item.short_change_desc}<p>+{$item.amount}</p>
+    			</div>
+    			<div class="acc_ale_btn">
+    				知道了
+    			</div>
+    		</div>
+    	<!--{else if  $item.type == '减少'}-->
+    	<div class="acc_detail_item">
+    		<div class="acc_detail_pay"></div>
+    		<div class="acc_detail_info">
+    			<div class="acc_detail_tit">
+    				{$item.short_change_desc}
+    			</div>
+    			<div class="acc_detail_time">
+    				{$item.change_time}
+    			</div>
+    		</div>
+    		<div class="acc_detail_pri" style="color: #333;">
+    			-{$item.amount}
+    		</div>
+    	</div>
+    		<div class="acc_ale_wrap">
+    			<div class="acc_ale_pri">
+    				{$item.short_change_desc}<p style="color: #333;">-{$item.amount}</p>
+    			</div>
+    			<div class="acc_ale_btn">
+    				知道了
+    			</div>
+    		</div>
+    	<!--{/if}-->
+    	<!--{/foreach}-->
+    	<div class="mask"></div>
+    	 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js" ></script>
+    	<script>
+    		$('.acc_detail_item').click(function(){
+    			$(this).next(".acc_ale_wrap").show()
+    			$('.mask').show()
+    		})
+    		$('.acc_ale_btn').click(function(){
+    			$(this).parent('.acc_ale_wrap').hide()
+    			$('.mask').hide()
+    		})
+    	</script>
+    	<div class="acc_detail_money">
+    		<p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
+    		
+    	</div>
+    </div>
+    <table border="0" cellspacing="1" style=" width:100%;display: none;">
       <tr align="center">
         <th width="15%">{$lang.process_time}</th>
         <th width="10%">{$lang.surplus_pro_type}</th>
@@ -358,12 +427,13 @@
     <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
     <h1> {$lang.user_balance} </h1>
   </header>
+  <style>body {background: #eee !important;}</style>
   <script type="text/javascript">
     {foreach from=$lang.account_js item=item key=key}
     var {$key} = "{$item}";
     {/foreach}
   </script>
-  <section class="order_box padd1 radius10 single_item">
+  <section class="order_box padd1 radius10 single_item" style="padding: 0 !important;">
     <div class="blank"></div>
     <div class="user_ctab">
     	<div class="user_ctab_item">
@@ -374,12 +444,48 @@
     	</div>
     	<div class="clear"></div>
     </div>
+    <div class="acc_log_wrap">
+    	<!--{foreach from=$account_log item=item}-->
+    	<div class="acc_log_item">
+    		<div class="acc_log_tit">
+    			<div class="acc_log_time">
+    				{$item.add_time}
+    			</div>
+    			<div class="acc_log_state">
+    				{$item.pay_status}
+    			</div>
+    			<div class="clear"></div>
+    		</div>
+    		<div class="acc_log_con">
+    			<div class="acc_log_ico">
+    				{$item.type}
+    			</div>
+    			<div class="acc_log_name">
+    				{$item.admin_note}
+    			</div>
+    			<div class="acc_log_pri">
+    				{$item.amount}
+    			</div>
+    			<!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+    			<div class="acclog_del">
+            <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;"></a> 
+    			</div>
+          <!-- {/if} -->
+    			
+          
+    		</div>
+    	</div>
+    	<!--{/foreach}-->
+    	<div class="acc_detail_money">
+    		<p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
+    	</div>
+    </div>
     <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
       <tr>
         <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
       </tr>
     </table>
-    <table border="0" cellspacing="1" style=" width:100%;">
+    <table border="0" cellspacing="1" style=" width:100%;display: none;">
       <tr align="center">
         <th>{$lang.process_time}</th>
         <th>{$lang.surplus_pro_type}</th>

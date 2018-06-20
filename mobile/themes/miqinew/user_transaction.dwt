@@ -33,7 +33,73 @@
         <div class="blank3"></div>
         <section class="wrap">
           <form name="formEdit" action="user.php" method="post" onSubmit="return userEdit()">
-            <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+          	<div class="pro_info_wrap">
+        	    <div class="pro_info_item" style="padding: 10px ;">
+        	    	<div class="pro_info_left">头像</div>
+            		<div class="pro_info_right">
+            			{if $smarty.session.user_id gt 0}
+				        		<a href="user.php">
+				        		{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}"/>{else}<img src="{$ectouch_themes}/images/get_avatar.png"/>{/if}
+				        		<div class="clear"></div>
+				      			</a>
+				        		{else}
+				         		<a href="user.php" style="color: #999;font: 14px/50px '微软雅黑';">登录</a>
+				        	{/if}
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+        	    <div class="pro_info_item">
+        	    	<div class="pro_info_left">电子邮箱</div>
+            		<div class="pro_info_right">
+        			<input name="email" type="text" placeholder="输入电子邮箱"  value="{$profile.email}" class="dd2" />
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	{foreach from=$extend_info_list item=field}
+                <!-- {if $field.id eq 6} -->
+            	<!--{else}-->
+        	    <div class="pro_info_item">
+        	    	<div class="pro_info_left">{$field.reg_field_name}</div>
+            		<div class="pro_info_right">
+            			<input placeholder="{$field.reg_field_name}"  name="extend_field{$field.id}" type="text"  class="dd2" value="{$field.content}"/>
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	<!--{/if}-->
+            	{/foreach}
+            	 <div class="pro_info_item">
+        	    	<div class="pro_info_left">性别</div>
+            		<div class="pro_info_right">
+            			<input  style="width: 20px;line-height: 50px;" type="radio" name="sex" value="1" {if $profile.sex==1}checked{/if} > 男<input       type="radio" style="width: 20px;line-height: 50px;" name="sex" value="0" {if $profile.sex==0}checked{/if}> 女 
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	 <div class="pro_info_item">
+        	    	<div class="pro_info_left">生日</div>
+            		<div class="pro_info_right">
+            			<input type="text" onfocus="this.type='date'" onblur="this.type='text'"  name="birthday" value="{$profile.birthday}" />
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	{if $profile.parent_id}
+            	 <div class="pro_info_item">
+        	    	<div class="pro_info_left">推荐人</div>
+            		<div class="pro_info_right">
+            			<input name="invite_code" type="text" value="{$profile.parent_username}" class="dd2" readonly="readonly"/>
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	{else}
+            	<div class="pro_info_item">
+        	    	<div class="pro_info_left">邀请码</div>
+            		<div class="pro_info_right">
+                	<input name="invite_code" type="text" placeholder="邀请码"  value="{$profile.invite_code}" class="dd2" />
+            		</div>
+            		<div class="clear"></div>
+            	</div>
+            	{/if}
+            </div>
+            <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;display: none;">
               <div class="table_box table_box2">
                 <dl style="display: none;">
                   <dd class="dd1">电子邮箱 </dd>
@@ -537,14 +603,14 @@
         </header>
         <div class="order_ldeta_wrap">
           <div style="display: none;">{$order.shipping_status}{$order.order_status}{$order.pay_status}</div>
-          <!--{if $order.shipping_status == "已发货" || $order.shipping_status == "已发货(部分商品)" || $order.shipping_status == "收货确认" || $order.shipping_status == "已配货" }-->
+          <!--{if $order.shipping_status == "已发货 "|| $order.shipping_status == "已发货(部分商品)" || $order.shipping_status == "收货确认" || $order.shipping_status == "备货中" || $order.shipping_status == "发货中" }-->
           <div class="order_log_wrap">
             <div class="order_log_state">
               <b style="line-height: 70px;">{$order.shipping_status}</b>
             </div>
           </div>
           <!--{/if}-->
-          <!--{if  $order.shipping_status == "未发货" && $order.order_status == "已取消" && $order.pay_status =='未付款'}-->
+          <!--{if  $order.shipping_status == "未发货" && $order.order_status == "已取消" && $order.pay_status == "未付款"}-->
           <div class="order_log_wrap" style="padding: 0 40px;">
           	<style>.order_log_wrap:before {background: none;}</style>
             <div class="order_log_state">
@@ -552,7 +618,7 @@
             </div>
           </div>
           <!--{/if}-->
-          <!--{if $order.order_status == "退货" && $order.shipping_status == "未发货" && $order.pay_status == '未付款'}-->
+          <!--{if $order.order_status == "退货" && $order.shipping_status == "未发货" && $order.pay_status == "未付款"}-->
           <div class="order_log_wrap" style="padding: 0 40px;">
           	<style>.order_log_wrap:before {background: none;}</style>
             <div class="order_log_state">
@@ -560,10 +626,18 @@
             </div>
           </div>
           <!--{/if}-->
-          <!--{if $order.order_status == "已确认" && $order.shipping_status == "未发货" && $order.pay_status == '已付款'}-->
+          <!--{if $order.order_status == "已确认" && $order.shipping_status == "未发货" && $order.pay_status == "已付款"}-->
           <div class="order_log_wrap">
             <div class="order_log_state">
               <b style="line-height: 70px;">{$order.shipping_status}</b>
+            </div>
+          </div>
+          <!--{/if}-->
+          <!--{if $order.order_status == "无效" && $order.shipping_status == "未发货" && $order.pay_status == "未付款"}-->
+          <div class="order_log_wrap" style="padding: 0 40px;">
+          	<style>.order_log_wrap:before {background: none;}</style>
+            <div class="order_log_state">
+              <b style="line-height: 70px;">{$order.order_status}</b>
             </div>
           </div>
           <!--{/if}-->

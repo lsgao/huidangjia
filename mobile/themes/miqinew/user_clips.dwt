@@ -429,13 +429,8 @@
     <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
     <h1> {$lang.label_collection} </h1>
   </header>
-  <section class="wrap collection_list">
-    <section class="order_box padd1 radius10 single_item">
-      <table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table">
-        <tr>
-          <td class="collection"></td>
-        </tr>
-      </table>
+  <section class="wrap collection_list coll_wrap">
+    <section class="single_item coll_item collection">
     </section>
     <a href="javascript:;" style="text-align:center" class="get_more"></a>
   </section>

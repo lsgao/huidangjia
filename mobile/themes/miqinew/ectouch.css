@@ -1768,7 +1768,7 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 
 
 /*会员中心和品牌商品列表还有收藏样式*/
-.header {text-align: center;background: #ff9600;color: #fff;font: 16px/40px "微软雅黑";}
+
 .brand_good_item {float: left;width: 48%;margin: 1%;box-shadow: 1px 1px 3px #eee;background: #fff;}
 .brand_good_img img {width: 100%;height: auto;}
 .brand_good_name,.brand_good_pri,.brand_good_deta,.brand_good_list{width: 98%;margin: 0 auto;}
@@ -1937,3 +1937,44 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .order_list_cwrap,.order_list_rgwrap {width:120px;height: 120px;position: absolute;top: -50px;right: 50px;transform: rotate(-30deg) scale(.7);opacity: .5;}
 .order_list_cwrap p {color: #FF9600;}
 .order_list_rgtext {color: #999;}
+/*余额展示*/
+.acc_detail_wrap {}
+.acc_detail_item {border-bottom: 1px solid #eee;padding: 10px 100px 10px 60px;position: relative;height: 50px;}
+.acc_detail_profit,.acc_detail_pay {position: absolute;top: 10px;left: 10px;width: 40px;height: 40px;border-radius: 50%;}
+.acc_detail_profit{background: url(img/profit.png) center #FF0000 no-repeat;background-size: 30px;}
+.acc_detail_pay {background: url(img/acc_pay_icon.png)center no-repeat;background-size: 50px;}
+.acc_detail_info {width: 100%;}
+.acc_detail_tit {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;width: 100%;font: 14px/26px "微软雅黑";color: #333;height:26px}
+.acc_detail_time {font: 12px/14px "微软雅黑";color: #999;}
+.acc_detail_pri {position: absolute;top: 10px;right: 10px;width: 80px;height: 40px;font: 12px/40px "微软雅黑";color: #FF9600;text-align: right;}
+.acc_detail_money {text-align: center;}
+.acc_detail_money p {font: 12px/40px "微软雅黑";color: #666;}
+.acc_detail_money span {font:14px/40px "微软雅黑";color: #333;}
+
+.acc_ale_wrap {display: none;position: fixed;z-index: 99999999999;top: 50%;left:30px;right:30px;margin-top: -50px;border-radius: 4px;background: #fff;}
+.acc_ale_pri {padding: 20px 30px;font: 14px/20px "微软雅黑";color: #333;border-bottom: 1px solid #eee;t}
+.acc_ale_pri p {font: 16px/20px "微软雅黑";color: #ff9600;text-align: center;padding: 10px 0}
+.acc_ale_btn {color: #ff9600;font: 14px/36px "微软雅黑";text-align: center}
+
+/**/
+.acc_log_wrap {background: #eee}
+.acc_log_item {box-shadow: 1px 1px 3px #ccc;margin-bottom: 10px;background: #fff}
+.acc_log_tit {height: 30px;border-bottom: 1px dashed #eee;}
+.acc_log_time,.acc_log_state {float: left;width: 50%;line-height: 30px;box-sizing: border-box;}
+.acc_log_time {padding-left: 10px;font-size:12px ;color: #999;}
+.acc_log_state {padding-right: 10px;font-size: 14px;color: #FF9600;text-align: right}
+.acc_log_con {padding: 20px 100px 20px 80px;position: relative;}
+.acc_log_ico {position: absolute;top: 20px;left: 10px;width: 60px;height: 60px;background: #ff9600;border-radius: 50%;text-align: center;color: #fff;font: 20px/60px simhei;}
+.acc_log_name {width:100%;font: 14px/20px "微软雅黑";color: #333;min-height: 60px;display: block ;-webkit-box-align: center ;display: -webkit-box ;-webkit-box-orient: horizontal ;-webkit-box-pack:center;}
+.acc_log_pri {position:absolute;top: 20px;right: 10px;width: 80px;height:60px;text-align: right;color: #FF9600;font: 16px/60px "微软雅黑";}
+.acclog_del {position: absolute;bottom: 10px;right: 10px;width: 80px;height: 20px;}
+.acclog_del a {width: 100%;height: 100%;display: block;background: url(img/item_del_ico.png) right no-repeat; background-size: 16px;}
+
+
+/*个人信息*/
+.pro_info_item {padding: 0 10px;height: 50px;border-bottom: 1px solid #eee;font: 14px/50px "微软雅黑";background: #fff;}
+.pro_info_item input {border: none;width: 100%;text-align: right;color: #999;}
+.pro_info_item img {display: block;width: 50px;height: 50px;border-radius:50% ;float: right;}
+.pro_info_left,.pro_info_right {float: left}
+.pro_info_left {width: 30%;color: #333;}
+.pro_info_right {text-align: right;width: 70%;color: #999;}

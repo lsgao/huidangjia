@@ -1666,27 +1666,41 @@ elseif ($action == 'collection_list')
     $smarty->display('user_clips.dwt');
 }
 
-/* 异步获取收藏 by wang */
+/* 异步获取收藏 */
 elseif ($action == 'async_collection_list'){
     include_once(ROOT_PATH . 'include/lib_clips.php');
 
     $start = $_POST['last'];
     $limit = $_POST['amount'];
-    
+
     $collections = get_collection_goods($user_id, $limit, $start);
     if(is_array($collections)){
         foreach($collections as $vo){
             $img = $db->getOne("SELECT goods_thumb FROM " .$ecs->table('goods'). " WHERE goods_id = ".$vo['goods_id']);
             $t_price = (empty($vo['promote_price']))? $_LANG['shop_price'].$vo['shop_price']:$_LANG['promote_price'].$vo['promote_price'];
-            
+            $t_price = (empty($vo['promote_price']))? $vo['shop_price']:$vo['promote_price'];
+            /*
             $asyList[] = array(
                 'collection' => '<a href="'.$vo['url'].'"><table width="100%" border="0" cellpadding="5" cellspacing="0" class="ectouch_table_no_border">
-            <tr>
-                <td><img src="'.$config['site_url'].$img.'" width="50" height="50" /></td>
-                <td>'.$vo['goods_name'].'<br>'.$t_price.'</td>
-                <td align="right"><a href="'.$vo['url'].'" style="color:#1CA2E1">'.$_LANG['add_to_cart'].'</a><br><a href="javascript:if (confirm(\''.$_LANG['remove_collection_confirm'].'\')) location.href=\'user.php?act=delete_collection&collection_id='.$vo['rec_id'].'\'" style="color:#1CA2E1">'.$_LANG['drop'].'</a></td>
-            </tr>
-          </table></a>'
+                  <tr>
+                      <td><img src="'.$config['site_url'].$img.'" width="50" height="50" /></td>
+                      <td>'.$vo['goods_name'].'<br>'.$t_price.'</td>
+                      <td align="right"><a href="'.$vo['url'].'" style="color:#1CA2E1">'.$_LANG['add_to_cart'].'</a><br><a href="javascript:if (confirm(\''.$_LANG['remove_collection_confirm'].'\')) location.href=\'user.php?act=delete_collection&collection_id='.$vo['rec_id'].'\'" style="color:#1CA2E1">'.$_LANG['drop'].'</a></td>
+                  </tr>
+                </table></a>'
+            );
+            */
+            $asyList[] = array(
+                'collection' => '<div class="coll_img">
+                  <img src="'.$config['site_url'].$img.'" />
+                </div>
+                <div class="coll_info">
+                  <div class="coll_name">'.$vo['goods_name'].'</div>
+                  <div class="coll_spec">&nbsp;</div>
+                  <div class="coll_pri"><p>'.$t_price.'<s>'.$vo['market_price'].'</s></p></div>
+                  <a href="'.$vo['url'].'" style="color:#1CA2E1"><div class="coll_add_car"></div></a>
+                  <a href="javascript:if (confirm(\''.$_LANG['remove_collection_confirm'].'\')) location.href=\'user.php?act=delete_collection&collection_id='.$vo['rec_id'].'\'" style="color:#1CA2E1"><div class="coll_del"></div></a>
+                </div>'
             );
         }
     }

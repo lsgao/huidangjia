@@ -13,7 +13,52 @@
 </head>
 
 <body>
-<header id="header">
+	<style>
+		.class_header,.class_wrap,.class_tit,.class_con {position: fixed;}
+.class_header,.class_wrap,.class_tit {left: 0;}
+.class_wrap,.class_tit,.class_con {top: 3rem;background: #fff;}
+.class_header {top: 0;width: 100%;}
+.class_wrap {bottom: 0;width: 100%;display: none;}
+.class_tit { bottom: 0;width: 120px;font: 16px/30px "微软雅黑";color: #333;overflow-y: scroll;text-align: center;}
+.class_tit::-webkit-scrollbar{display:none;}
+.class_tit li {border-right: 1px solid #eee;border-bottom: 1px solid #eee;}
+.class_con {left: 120px;right: 0;bottom: 0;overflow-y: scroll;}
+.class_item {width: 31.33%;margin: 1%;float: left;}
+.class_img {width: 100%}
+.class_img img {width: 80%;margin: 10px auto;}
+.class_name {text-align: center;color: #999;font: 12px/20px "微软雅黑";}
+
+#tabs .hide {
+	display: none;
+}
+
+#tabs .active {
+	display: block;
+}
+
+#lists .active {
+	color: #fff;
+	background: #ff9600;
+}
+
+#lists li {
+	position: relative;
+}
+
+#lists .active:after {
+	background: #fff;
+	content: "";
+	display: block;
+	width: 8px;
+	height: 8px;
+	position: absolute;
+	top: 50%;
+	margin-top: -4px;
+	right: -4px;
+	transform: rotate(45deg);
+}
+	</style>
+<header id="header" class="class_header">
   <div class="header_l header_return"> <a class="ico_10" href="index.php"> 返回 </a> </div>
   <h1> 所有分类页 </h1>
   <div class="header_r header_search"> <a class="ico_03"  onClick="showSearch()"> 搜索 </a> </div>
@@ -26,7 +71,73 @@
     </div>
     <a class="ico_08" onClick="closeSearch()"></a> </div>
 </header>
+<div class="class_wrap" id="tabs">
+  <ul id="lists" class="class_tit">
+  <!--{foreach from=$pcat_array item=cat name=no}-->
+    <li class="abc">{if $cat.cat_id}{$cat.name|escape:html}{else}{$cat.name|escape:html}{/if}</li>
+  <!--{/foreach}-->
+  </ul>
+  	<!--{foreach from=$pcat_array item=cat name=no}-->
+  <section class="hide">
+  	<div class="class_con">
+      <!--{foreach from=$cat.cat_id item=child name=no1 }-->
+      <div class="class_item">
+      	<a href="{$child.url}">
+        <div class="class_img">
+        	<img src="{$ectouch_themes}/img/{$child.id}.png"/>
+         </div>
+        <div class="class_name">{$child.name|escape:html}</div>
+      	</a>
+      </div>
+      <!--{/foreach}-->
+      <div class="clear"></div>
+    </div>
+  </section>
+    <!--{/foreach}-->
+</div>
+<script>
+    window.onload = function() {
+        //获取tabs下的所有section
+        var tabs = document.getElementById("tabs");
+        var tabs_divs = tabs.getElementsByTagName("section");
+        //获取lists下的所有li
+        var tabs_ul = document.getElementById("lists");
+        var tabs_lis = tabs_ul.getElementsByTagName("li");
 
+        //给元素添加className
+        function addClass(elem, value) {
+            if(!elem.className) {
+                elem.className = value; //如果元素没有class，直接加
+            } else {
+                var newClassName = elem.className; //如果元素已有class，追加
+                newClassName += " ";
+                newClassName += value;
+                elem.className = newClassName;
+            }
+        }
+        //给元素删除className
+        function deleteClass(elem, value) {
+            var newClassName = elem.className;
+            if(newClassName.indexOf(value)) { //查找元素是否有需要删除的class
+                elem.className = newClassName.replace(value, " "); //如果有，则替换掉
+            }
+        }
+
+        for(var i = 0, len = tabs_lis.length; i < len; i++) {
+            tabs_lis[i].index = i;
+
+            tabs_lis[i].onclick = function() {
+                for(var j = 0; j < len; j++) {
+                    deleteClass(tabs_lis[j], "active");
+                    deleteClass(tabs_divs[j], "active")
+                }
+                addClass(this, "active");
+                addClass(tabs_divs[this.index], "active")
+            }
+        }tabs_lis[0].click()
+
+    }
+</script>
 <div class="clist">
   <ul>
     <!--{foreach from=$pcat_array item=cat name=no}-->
@@ -41,7 +152,7 @@
     <ul class="clist clist_sub clearfix" style="opacity: 1; display: none;">
       <li class="crow"> 
         <!--{foreach from=$cat.cat_id item=child name=no1 }-->
-        <div class="crow_item   <!--{if $smarty.foreach.no1.index mod 3 eq 0}-->  crow_item_clear <!-- {/if} --> "> <a href="{$child.url}">{$child.name|escape:html}</a> </div>
+        <div class="crow_item   <!--{if $smarty.foreach.no1.index mod 3 eq 0}-->  crow_item_clear <!-- {/if} --> "> <a href="{$child.url}"><img src="{$ectouch_themes}/img/{$child.id}.png" width="30" height="30" style="display: none;" />{$child.name|escape:html}</a> </div>
         <!--{/foreach}--> 
       </li>
     </ul>
