@@ -29,7 +29,7 @@ if (!empty($_REQUEST['brand'])) {
     $brand_id = intval($_REQUEST['brand']);
 }
 if (empty($brand_id)) {
-    /* 缓存编号 */
+    //* 缓存编号 */
     $cache_id = sprintf('%X', crc32($_CFG['lang']));
     assign_template();
     $position = assign_ur_here('', $_LANG['all_brand']);
@@ -136,8 +136,9 @@ if (!$smarty->is_cached('brand.dwt', $cache_id)) {
           </div>
           <div class="proService"> <del>' . $vo['market_price'] . '</del></div>
           <div class="proSales" style="display:none;">月销:<em>' . $vo['sales_count'] . '</em></div>
-          <div class="proSales">月销:<em>' . $vo['click_count'] . '</em></div><br>
-          <div class="proSales">库存:<em>' . $vo['goods_number'] . '</em></div>
+          <div class="proSales">月销:<em>' . $vo['click_count'] . '</em></div>
+          <div class="clear"></div>
+          <div class="proSales" style="top: -12px;">库存:<em>' . $vo['goods_number'] . '</em></div>
           <div class="proIcons">' . $watermark_img . '</div>
         </div>'
                 );

@@ -754,7 +754,7 @@ function showLoader()
   else
   { 
     var obj = document.getElementById('loader');
-
+    /*
     if ( ! obj && typeof(process_request) != 'undefined')
     {
       obj = document.createElement("DIV");
@@ -763,6 +763,7 @@ function showLoader()
 
       document.body.appendChild(obj);
     }
+    */
   }
 }
 

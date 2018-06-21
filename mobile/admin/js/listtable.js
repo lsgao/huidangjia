@@ -64,24 +64,16 @@ listTable.edit = function(obj, act, id)
   /* 编辑区失去焦点的处理函数 */
   txt.onblur = function(e)
   {
-    if (Utils.trim(txt.value).length > 0)
-    {
+    if (Utils.trim(txt.value).length > 0) {
       res = Ajax.call(listTable.url, "act="+act+"&val=" + encodeURIComponent(Utils.trim(txt.value)) + "&id=" +id, null, "POST", "JSON", false);
-
-      if (res.message)
-      {
+      if (res.message) {
         alert(res.message);
       }
-
-      if(res.id && (res.act == 'goods_auto' || res.act == 'article_auto'))
-      {
+      if (res.id && (res.act == 'goods_auto' || res.act == 'article_auto')) {
           document.getElementById('del'+res.id).innerHTML = "<a href=\""+ thisfile +"?goods_id="+ res.id +"&act=del\" onclick=\"return confirm('"+deleteck+"');\">"+deleteid+"</a>";
       }
-
       obj.innerHTML = (res.error == 0) ? res.content : org;
-    }
-    else
-    {
+    } else {
       obj.innerHTML = org;
     }
   }

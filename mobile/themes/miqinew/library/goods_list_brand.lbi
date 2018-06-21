@@ -21,8 +21,13 @@
 </div>
 <style>
 	.proSales:after {clear: both;height: 0;overflow: hidden;}
+	.brand_logo {width: 90%;margin: 10px auto;display: none;}
+	.brand_logo img {width: 100%;height: auto;}
 </style>
   <div class="srp album flex-f-row" id="J_ItemList" style="opacity:1;"> 
+    <div class="brand_logo">
+    	<img brandid="{$brand_data.brand_id}" dataimg="mobile/data/brandlogo/{$brand_data.brand_logo}"  src="{$site_url}mobile/data/brandlogo/{$brand_data.brand_logo}" alt="{$brand_data.brand_name|escape:html} ({$brand_data.goods_num})">
+    </div>
     <div class="product flex_in single_item">
       <div class="pro-inner"></div>
     </div>
