@@ -59,12 +59,10 @@ class exchange
      *
      * @return void
      */
-    function is_only($col, $name, $id = 0, $where='')
-    {
+    function is_only($col, $name, $id = 0, $where='') {
         $sql = 'SELECT COUNT(*) FROM ' .$this->table. " WHERE $col = '$name'";
         $sql .= empty($id) ? '' : ' AND ' . $this->id . " <> '$id'";
         $sql .= empty($where) ? '' : ' AND ' .$where;
-
         return ($this->db->getOne($sql) == 0);
     }
 
@@ -97,13 +95,9 @@ class exchange
     function edit($set, $id)
     {
         $sql = 'UPDATE ' . $this->table . ' SET ' . $set . " WHERE $this->id = '$id'";
-
-        if ($this->db->query($sql))
-        {
+        if ($this->db->query($sql)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

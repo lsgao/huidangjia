@@ -14,9 +14,8 @@ $exc = new exchange($ecs->table('touch_shipping'), $db, 'shipping_code', 'shippi
 /*------------------------------------------------------ */
 
 if ($_REQUEST['act'] == 'list') {
-    //$modules = read_modules('../include/modules/shipping');
-
     /*
+    $modules = read_modules('../include/modules/shipping');
     for ($i = 0; $i < count($modules); $i++)
     {
         $lang_file = ROOT_PATH.'lang/' .$_CFG['lang']. '/shipping/' .$modules[$i]['code']. '.php';
@@ -72,6 +71,7 @@ if ($_REQUEST['act'] == 'list') {
         }
         // 获得名称以及描述
         $modules[$i]['id'] = $row['shipping_id'];
+        $modules[$i]['code'] = $row['shipping_code'];
         $modules[$i]['name'] = $row['shipping_name'];
         $modules[$i]['desc'] = $row['shipping_desc'];
         $modules[$i]['insure_fee'] = $row['insure'];
@@ -370,13 +370,12 @@ elseif ($_REQUEST['act'] == 'edit_name') {
     }
 
     /* 检查名称是否重复 */
-    if (!$exc->is_only('shipping_name', $val, $id))
-    {
+    if (!$exc->is_only('shipping_name', $val, $id)) {
         make_json_error($_LANG['repeat_shipping_name']);
     }
 
     /* 更新支付方式名称 */
-    $exc->edit("shipping_name = '$val'", $id);
+   $result = $exc->edit("shipping_name = '$val'", $id);
     make_json_result(stripcslashes($val));
 }
 /*------------------------------------------------------ */
