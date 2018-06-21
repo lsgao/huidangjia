@@ -4,6 +4,5 @@
 **/*.log
 /mobile/data
 wx_new_log.txt
-mobile/data/wx_new_log.txt
-mobile/wxjs/access_token.json
-mobile/wxjs/access_token.json
+/mobile/data/wx_new_log.txt
+/mobile/wxjs
