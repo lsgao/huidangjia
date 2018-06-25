@@ -14,6 +14,38 @@
   {* 包含脚本文件 *}
   {insert_scripts files='transport.js,common.js,user.js,calendar.php'}
   <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
+  <!-- {if ($action eq 'order_list' || $action eq 'order_detail') && $cancel_order_hours} 开始位置_新增加 by www.edait.cn -->
+    <script type="text/javascript" >
+      $(function() {
+        updateEndTime();
+      });
+      function updateEndTime() {
+        var date = new Date();
+        var time = date.getTime();
+        $(".settime").each(function(i) {
+          var endDate = this.getAttribute("endTime");
+          var endDateIE = eval('new Date(' + endDate.replace(/\d+(?=-[^-]+$)/, function (a) { return parseInt(a, 10) - 1; }).match(/\d+/g) +')');
+          var endTime = endDateIE.getTime();
+          var lag = (endTime - time) / 1000;
+          if (lag > 0) {
+            var second = Math.floor(lag % 60); 
+            var minite = Math.floor((lag / 60) % 60);
+            var hour = Math.floor((lag / 3600) % 24);
+            var day = Math.floor((lag / 3600) / 24);
+            if (day > 0) { day = day+"天"; } else { day = ''; }
+            if (hour > 0) { hour = hour+"小时"; } else { hour = ''; }
+            if (minite > 0) { minite = minite+"分"; } else { minite = ''; }
+            if (second > 0) { second = second+"秒"; } else { second = ''; }
+            $(this).html("<font color='#999'>请尽快付款，否则<font color='red'>"+day+hour+minite+second+"</font>后订单将取消</font>");
+          } else {
+            //$(this).removeClass("settime");
+            $(this).html("<font color='red'>订单已被取消！</font>");
+          }
+        });
+        setTimeout("updateEndTime()", 1000);
+      }
+    </script>
+  <!--{/if} 结束位置_新增加 by www.edait.cn -->
 </head>
 <body>
   <div id="tbh5v0">
@@ -331,27 +363,27 @@
           <div class="user_inp_wrap">
           <form name="formSearchOrder" action="user.php?act=order_list" method="post" >
             <div class="user_inp_nsea">
-                 <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_key}" class="dd2" />
-                 <input name="submit" type="submit" value="" class="user_inp_sicon"/>
+              <input name="search_key" type="text" placeholder="请输入收货人姓名或手机号"  size="20" maxlength="20" value="{$search_key}" class="dd2" />
+              <input name="submit" type="submit" value="" class="user_inp_sicon"/>
             </div>
             <div class="user_inp_item" style="display: none;">
-                 <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
+              <input name="search_mobile" type="text" placeholder="请输入手机号"  size="13" maxlength="11" value="{$search_mobile}" class="dd2" />
             </div>
             <div class="user_inp_item" style="display: none;">
-                 <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" />
+              <input name="search_consignee" type="text" placeholder="请输入收货人姓名"  size="22" maxlength="20" value="{$search_consignee}" class="dd2" />
             </div>
             <div class="user_time_item" style="display: none;">
-            	<div class="user_time_wrap">
-            		<div class="user_time_box">
-  	          		 <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" readonly="readonly" value="{$search_start_time}"  placeholder="请选择起始时间" />
-  	     					 <input name="search_start_time_btn" type="button" id="search_start_time_btn" onclick="return showCalendar('search_start_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_start_time_btn');" class="button user_cho_btn"/>
-  	          	</div>
-  	          	<div class="user_time_box">
-  	          		<input type="text" name="search_end_time" maxlength="60" size="18" id="search_end_time_id" readonly="readonly" value="{$search_end_time}" placeholder="请选择结束时间" />
-  	     					<input name="search_end_time_btn" type="button" id="search_end_time_btn" onclick="return showCalendar('search_end_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_end_time_btn');" class="button user_cho_btn"/>
-  	          	</div>
-  	          	<div class="clear"></div>
-  	          	</div>
+              <div class="user_time_wrap">
+                <div class="user_time_box">
+                  <input type="text" name="search_start_time" maxlength="60" size="18" id="search_start_time_id" readonly="readonly" value="{$search_start_time}"  placeholder="请选择起始时间" />
+                  <input name="search_start_time_btn" type="button" id="search_start_time_btn" onclick="return showCalendar('search_start_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_start_time_btn');" class="button user_cho_btn"/>
+                </div>
+                <div class="user_time_box">
+                  <input type="text" name="search_end_time" maxlength="60" size="18" id="search_end_time_id" readonly="readonly" value="{$search_end_time}" placeholder="请选择结束时间" />
+                  <input name="search_end_time_btn" type="button" id="search_end_time_btn" onclick="return showCalendar('search_end_time_id', '%Y-%m-%d %H:%M', '24', false, 'search_end_time_btn');" class="button user_cho_btn"/>
+                </div>
+                <div class="clear"></div>
+              </div>
             </div>
             <div class="user_sel_item" style="display: none;">
                 <div class="user_sel_box">
@@ -382,6 +414,7 @@
             <div class="package_tracking"></div>
             <div class="order_list_tit">
               <div class="order_list_time order_time"></div>
+              <div  style="display:none;" class="cancel_order_time"></div>
               <div class="order_list_state final_status"></div>
               <div class="clear"></div>
             </div>
@@ -545,51 +578,48 @@
           </div>
           <script type="text/javascript">
             jQuery(function($){
-  	var resultJson = eval('({$trackinfo})');
-  	var resultTable = $("#queryResult");
-  	resultTable.empty();
-  	if(resultJson.status == 200) { //成功
-  		var resultData = resultJson.data;
-  		for (var i = resultData.length - 1; i >= 0; i--) {
-  			var className = "";
-  			if(i%2 == 0){
-  				className = "even";
-  			}else{
-  				className="odd";
-  			}
-  			if(resultData.length == 1){
-  				if(resultJson.ischeck == 1){
-  					className += " checked";
-  				}else{
-  					className += " wait";
-  				}
-  			}else if(i == resultData.length - 1){
-  				className += " first-line";
-  			}else if(i == 0){
-  				className += " last-line";
-  				if(resultJson.ischeck == 1){
-  					className += " checked";
-  				}else{
-  					className += " wait";
-  				}
-  			}
-
-  			var index = resultData[i].ftime.indexOf(" ");
-  			var result_date = resultData[i].ftime.substring(0,index);
-  			var result_time = resultData[i].ftime.substring(index+1);
-
-  			var s_index = result_time.lastIndexOf(":");
-  			result_time = result_time.substring(0,s_index);
-
-  			resultTable.append("<tr class='" + className + "'><td class='col1'><span class='result-date'>" + result_date + "</span><span class='result-time'>" + result_time + "</span></td><td class='colstatus'></td><td class='col2'><span>" + resultData[i].context + "</span></td></tr>");
-  		}
-  		$("body").animate({scrollTop: "1000px"}, 1000);
-  	}else if(resultJson.status == 400){
-  		resultTable.append("<tr><td>订单暂未发货，请稍后再来查询</td></tr>");				
-  	}else{
-  		resultTable.append("<tr><td>"+ resultJson.message +"</td></tr>");				
-  	}
-          })
+              var resultJson = eval('({$trackinfo})');
+              var resultTable = $("#queryResult");
+              resultTable.empty();
+              if (resultJson.status == 200) { //成功
+                var resultData = resultJson.data;
+                for (var i = resultData.length - 1; i >= 0; i--) {
+                  var className = "";
+                  if (i%2 == 0) {
+                    className = "even";
+                  } else {
+                    className="odd";
+                  }
+                  if (resultData.length == 1) {
+                    if (resultJson.ischeck == 1) {
+                      className += " checked";
+                    } else {
+                      className += " wait";
+                    }
+                  } else if (i == resultData.length - 1) {
+                    className += " first-line";
+                  } else if (i == 0) {
+                    className += " last-line";
+                    if (resultJson.ischeck == 1) {
+                      className += " checked";
+                    } else {
+                      className += " wait";
+                    }
+                  }
+                  var index = resultData[i].ftime.indexOf(" ");
+                  var result_date = resultData[i].ftime.substring(0,index);
+                  var result_time = resultData[i].ftime.substring(index+1);
+                  var s_index = result_time.lastIndexOf(":");
+                  result_time = result_time.substring(0,s_index);
+                  resultTable.append("<tr class='" + className + "'><td class='col1'><span class='result-date'>" + result_date + "</span><span class='result-time'>" + result_time + "</span></td><td class='colstatus'></td><td class='col2'><span>" + resultData[i].context + "</span></td></tr>");
+                }
+                $("body").animate({scrollTop: "1000px"}, 1000);
+              } else if (resultJson.status == 400) {
+                resultTable.append("<tr><td>订单暂未发货，请稍后再来查询</td></tr>");				
+              } else {
+                resultTable.append("<tr><td>"+ resultJson.message +"</td></tr>");				
+              }
+            })
           </script>
         </div>
         <!--{/if}--> 
@@ -603,6 +633,7 @@
         </header>
         <div class="order_ldeta_wrap">
           <div style="display: none;">{$order.shipping_status}{$order.order_status}{$order.pay_status}</div>
+          {if $order.order_amount gt 0}{$order.cancel_order_time}<!-- {/if} 新增加 by www.edait.cn -->
           <!--{if $order.shipping_status == "已发货 "|| $order.shipping_status == "已发货(部分商品)" || $order.shipping_status == "收货确认" || $order.shipping_status == "备货中" || $order.shipping_status == "发货中" }-->
           <div class="order_log_wrap">
             <div class="order_log_state">

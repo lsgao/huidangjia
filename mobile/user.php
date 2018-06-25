@@ -1141,6 +1141,7 @@ elseif ($action == 'order_list') {
     $smarty->assign('search_address',  $_REQUEST['search_address']);
     $smarty->assign('search_start_time',  $_REQUEST['search_start_time']);
     $smarty->assign('search_end_time',  $_REQUEST['search_end_time']);
+    $smarty->assign('cancel_order_hours',  $GLOBALS['_CFG']['cancel_order_hours']); //新增加 by www.edait.cn
     //$smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
     $smarty->assign('orders', $orders);
@@ -1299,7 +1300,7 @@ elseif ($action == 'async_order_list') {
                     .'</table></a>';
             */
 	     $asyList[] = array(
-                'detail_status' => ''.$vo['detail_status'],
+                'detail_status' => $vo['detail_status'],
                 'order_btn' => $view_button . $vo['handler'],
                 'order_content' => $detail_content,
                 //'order_tracking' => $tracking
@@ -1307,6 +1308,8 @@ elseif ($action == 'async_order_list') {
                 'order_time' => $order_time,
                 'final_status' => $final_status,
                 'status_flag' => $status_flag,
+                'cancel_order_time' => $vo['cancel_order_time'],
+                'cancel_order_script' => $vo['cancel_order_script'],
             );
         }
     }
@@ -1414,12 +1417,23 @@ elseif ($action == 'order_detail') {
 
     /* 订单详情 */
     $order = get_order_detail($order_id, $user_id);
-
+    //$order['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<p style="color:#ff5000;padding-top:8px">在线支付订单请在下单后'.$GLOBALS['_CFG']['cancel_order_hours'].'小时内完成支付，否则订单将被自动取消</p>' : ''; //新增加 by www.edait.cn
     if ($order === false) {
         $err->show($_LANG['back_home_lnk'], './');
         exit;
     }
 
+    /* 如果是未付款状态，显示倒计时 */
+    if ($order['pay_status'] == PS_UNPAYED && ($order['order_status'] == OS_UNCONFIRMED || $order['order_status'] == OS_CONFIRMED)) {
+        $payment_info = array();
+        $sql = 'SELECT * FROM ' . $GLOBALS['ecs']->table('touch_payment') . " WHERE pay_id = '" . $order['pay_id'] . "' AND enabled = 1 AND is_online = 1";
+        $payment_info = $GLOBALS['db']->getRow($sql);
+        if ($payment_info) {
+            //$order['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<span style="color:#ff5000;padding-top:8px" id="leftTime'.$order['order_id'].'">在线支付订单请在下单后'.$GLOBALS['_CFG']['cancel_order_hours'].'小时内完成支付，否则订单将被自动取消</span>' : '';
+            //$order['cancel_order_script'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<script>Tday["'.$order['order_id'].'"] = new Date("'.local_date('Y/m/d H:i:s', $order['add_time'] + $GLOBALS['_CFG']['cancel_order_hours'] * 3600).'");window.setInterval(function(){clock("'.$order['order_id'].'");}, 1000);</script>' : '';
+            $order['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<div id="'.$order['order_id'].'" class="settime" endTime="' . local_date($GLOBALS['_CFG']['time_format'], $order['add_time'] + $GLOBALS['_CFG']['cancel_order_hours'] * 3600).'"></div>' : '';
+        }
+    }
     /* 是否显示添加到购物车 */
     if ($order['extension_code'] != 'group_buy' && $order['extension_code'] != 'exchange_goods') {
         $smarty->assign('allow_to_cart', 1);
@@ -1486,6 +1500,7 @@ elseif ($action == 'order_detail') {
     $order['shipping_status'] = $_LANG['ss'][$order['shipping_status']];
 
     $smarty->assign('order', $order);
+    $smarty->assign('cancel_order_hours',  $GLOBALS['_CFG']['cancel_order_hours']);
     $smarty->assign('order_delivery_list', $order_delivery_list);
     $smarty->assign('order_delivery_list_count', count($order_delivery_list));
     $smarty->assign('goods_list', $goods_list);
@@ -4556,7 +4571,7 @@ function get_accountlist($user_id, $account_type = '')
  */
 function search_orders($num = 10, $start = 0, $where) {
     $arr    = array();
-    $sql = "SELECT order_id, order_sn, order_status, shipping_id, invoice_no, shipping_status, pay_status, return_status, add_time, order_type, " .
+    $sql = "SELECT order_id, order_sn, order_status, shipping_id, invoice_no, shipping_status, pay_status, return_status, add_time, order_type, pay_id, " .
         " (goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
         " FROM " .$GLOBALS['ecs']->table('order_info') .
         $where .
@@ -4564,9 +4579,22 @@ function search_orders($num = 10, $start = 0, $where) {
     $res = $GLOBALS['db']->SelectLimit($sql, $num, $start);
 
     while ($row = $GLOBALS['db']->fetchRow($res)) {
-    	$sql = "SELECT sum(goods_number) FROM " .$GLOBALS['ecs']->table('order_goods'). " WHERE order_id  = '" . $row['order_id'] ."' ";
-       $total_goods_count = $GLOBALS['db']->getOne($sql);
-       $row['total_goods_count'] = $total_goods_count;
+        //开始位置_新增加 by www.edait.cn
+        /* 如果是未付款状态，显示倒计时 */
+        if ($row['pay_status'] == PS_UNPAYED && ($row['order_status'] == OS_UNCONFIRMED || $row['order_status'] == OS_CONFIRMED)) {
+            $payment_info = array();
+            $sql = 'SELECT * FROM ' . $GLOBALS['ecs']->table('touch_payment') . " WHERE pay_id = '" . $row['pay_id'] . "' AND enabled = 1 AND is_online = 1";
+            $payment_info = $GLOBALS['db']->getRow($sql);
+            if ($payment_info) {
+                $row['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<span style="color:red" id="leftTime'.$row['order_id'].'">未付款</span>' : '';
+                //$row['cancel_order_script'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<script>Tday["'.$row['order_id'].'"] = new Date("'.local_date('Y/m/d H:i:s', $row['add_time'] + $GLOBALS['_CFG']['cancel_order_hours'] * 3600).'");window.setInterval(function(){clock("'.$row['order_id'].'");}, 1000);</script>' : '';
+                $row['cancel_order_script'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '&lt;script&gt;Tday["'.$row['order_id'].'"] = new Date("'.local_date('Y/m/d H:i:s', $row['add_time'] + $GLOBALS['_CFG']['cancel_order_hours'] * 3600).'");window.setInterval(function(){clock("'.$row['order_id'].'");}, 1000);&lt;/script&gt;' : '';
+            }
+        }
+        //结束位置_新增加 by www.edait.cn
+        $sql = "SELECT sum(goods_number) FROM " .$GLOBALS['ecs']->table('order_goods'). " WHERE order_id  = '" . $row['order_id'] ."' ";
+        $total_goods_count = $GLOBALS['db']->getOne($sql);
+        $row['total_goods_count'] = $total_goods_count;
 
         if ($row['order_status'] == OS_UNCONFIRMED) {
             $row['handler'] = "<a href=\"user.php?act=cancel_order&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_cancel']."')) return false;\" class=\"order_list_esp\">".$GLOBALS['_LANG']['cancel']."</a>";
@@ -4627,6 +4655,8 @@ function search_orders($num = 10, $start = 0, $where) {
             'order_type' => $row['order_type'],
             'invoice_no' => $row['invoice_no'],
             'total_goods_count' => $row['total_goods_count'],
+            'cancel_order_script' => $row['cancel_order_script'], //新增加 by www.edait.cn
+            'cancel_order_time' => $row['cancel_order_time'], //新增加 by www.edait.cn
         );
     }
     return $arr;
