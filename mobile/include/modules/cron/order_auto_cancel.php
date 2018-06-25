@@ -45,7 +45,7 @@ if (isset($set_modules) && $set_modules == TRUE) {
 $cancel_time = gmtime() - $GLOBALS['_CFG']['cancel_order_hours'] * 3600;
 $limit = !empty($cron['order_auto_manage_count']) ? $cron['order_auto_manage_count'] : 5;
 $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('order_info') . " WHERE pay_status = 0 AND (order_status = 0 OR order_status=1) AND shipping_status = 0 AND add_time < '$cancel_time' LIMIT $limit";
-echo $sql;
+
 $res = $db->getAll($sql);
 $i = 0;
 foreach ($res as $key => $val)
