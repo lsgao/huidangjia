@@ -286,7 +286,7 @@ function get_user_orders($user_id, $num = 10, $start = 0)
     /* 取得订单列表 */
     $arr    = array();
 
-    $sql = "SELECT order_id,is_single, order_sn, order_status, shipping_status, pay_status, add_time, " .
+    $sql = "SELECT order_id,is_single, order_sn, order_status, shipping_status, pay_status, add_time, pay_id, " .
            "(goods_amount + shipping_fee + insure_fee + pay_fee + pack_fee + card_fee + tax - discount) AS total_fee ".
            " FROM " .$GLOBALS['ecs']->table('order_info') .
            " WHERE user_id = '$user_id' ORDER BY add_time DESC";
@@ -294,6 +294,20 @@ function get_user_orders($user_id, $num = 10, $start = 0)
 
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
+        //开始位置_新增加 by www.edait.cn
+        /* 如果是未付款状态，显示倒计时 */
+        if ($row['pay_status'] == PS_UNPAYED && ($row['order_status'] == OS_UNCONFIRMED || $row['order_status'] == OS_CONFIRMED))
+        {
+            $payment_info = array();
+            $sql = 'SELECT * FROM ' . $GLOBALS['ecs']->table('payment') . " WHERE pay_id = '" . $row['pay_id'] . "' AND enabled = 1 AND is_online = 1";
+            $payment_info = $GLOBALS['db']->getRow($sql);
+            if ($payment_info)
+            {
+                $row['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<p style="color:red" id="leftTime'.$row['order_id'].'"></p>' : '';
+                $row['cancel_order_script'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<script>Tday["'.$row['order_id'].'"] = new Date("'.local_date('Y/m/d H:i:s', $row['add_time'] + $GLOBALS['_CFG']['cancel_order_hours'] * 3600).'");window.setInterval(function(){clock("'.$row['order_id'].'");}, 1000);</script>' : '';
+            }
+        }
+        //结束位置_新增加 by www.edait.cn
         if ($row['order_status'] == OS_UNCONFIRMED)
         {
             $row['handler'] = "<a href=\"user.php?act=cancel_order&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$GLOBALS['_LANG']['confirm_cancel']."')) return false;\">".$GLOBALS['_LANG']['cancel']."</a>";
@@ -335,6 +349,8 @@ function get_user_orders($user_id, $num = 10, $start = 0)
                        'order_time'     => local_date($GLOBALS['_CFG']['time_format'], $row['add_time']),
                        'order_status'   => $row['order_status'],
                        'total_fee'      => price_format($row['total_fee'], false),
+                       'cancel_order_script' => $row['cancel_order_script'], //新增加 by www.edait.cn
+                       'cancel_order_time'   => $row['cancel_order_time'], //新增加 by www.edait.cn
                        'handler'        => $row['handler']);
     }
 

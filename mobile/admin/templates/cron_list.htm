@@ -34,7 +34,7 @@
       {else}－{/if}</td>
     <td align="center" valign="top">
       {if $module.install == "1"}
-        <a href="javascript:confirm_redirect(lang_removeconfirm, 'cron.php?act=uninstall&code={$module.code}')">{$lang.uninstall}</a>|<a href="cron.php?act=edit&code={$module.code}">{$lang.edit}</a>|<a href="cron.php?act=do&code={$module.code}">{$lang.cron_do}</a>
+        <a href="javascript:confirm_redirect(lang_removeconfirm, 'cron.php?act=uninstall&code={$module.code}')">{$lang.uninstall}</a>&nbsp;|&nbsp;<a href="cron.php?act=edit&code={$module.code}">{$lang.edit}</a>&nbsp;|&nbsp;<a href="cron.php?act=do&code={$module.code}">{$lang.cron_do}</a>
       {else}
         <a href="cron.php?act=install&code={$module.code}">{$lang.install}</a>
       {/if}

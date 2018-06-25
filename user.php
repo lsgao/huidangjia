@@ -1013,6 +1013,7 @@ elseif ($action == 'order_list')
     $orders = get_user_orders($user_id, $pager['size'], $pager['start']);
     $merge  = get_user_merge($user_id);
 
+    $smarty->assign('cancel_order_hours',  $GLOBALS['_CFG']['cancel_order_hours']); //新增加 by www.edait.cn
     $smarty->assign('merge',  $merge);
     $smarty->assign('pager',  $pager);
     $smarty->assign('orders', $orders);
@@ -1316,6 +1317,8 @@ elseif ($action == 'order_detail')
 
     /* 订单详情 */
     $order = get_order_detail($order_id, $user_id);
+
+    $order['cancel_order_time'] = !empty($GLOBALS['_CFG']['cancel_order_hours']) ? '<p style="color:#ff5000;padding-top:8px">在线支付订单请在下单后'.$GLOBALS['_CFG']['cancel_order_hours'].'小时内完成支付，否则订单将被自动取消</p>' : ''; //新增加 by www.edait.cn
 
     if ($order === false)
     {

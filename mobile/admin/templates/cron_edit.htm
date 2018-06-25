@@ -40,17 +40,22 @@
       <select name="cron_week" id="cron_week" disabled="true">{html_options options=$week selected=$cron.cronweek}</select>
       <input type="radio" name="ttype" id="ttype_unlimit" value="unlimit" onClick="dotype('unlimit')">{$lang.cron_unlimit}
       <br />
-      {$lang.cron_thatday}<select name="cron_hour">{html_options options=$hours selected=$cron.cronhour}</select>&nbsp;{$lang.cron_hour}&nbsp;</td>
+      {$lang.cron_thatday}<select name="cron_hour">{html_options options=$hours selected=$cron.cronhour}</select>&nbsp;{$lang.cron_hour}&nbsp;
+    </td>
   </tr>
   <tr>
     <td class="label"><a href="javascript:showNotice('notice_minute');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.cron_minute}</td>
-    <td><input name="cron_minute" type="text" value="{$cron.cronminute}" size="40" />
-    </td>
+    <td><input name="cron_minute" type="text" value="{$cron.cronminute}" size="40" /></td>
   </tr>
   <tr>
     <td></td>
     <td>
-<span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="notice_minute">{$lang.notice_minute}</span></td>
+      <span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="notice_minute">{$lang.notice_minute}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">开启</td>
+    <td><input name="cron_enable" type="checkbox" value="1" {$cron.enable} /></td>
   </tr>
   <tr>
     <td class="label">{$lang.cron_run_once}</td>

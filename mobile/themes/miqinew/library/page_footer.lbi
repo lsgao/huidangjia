@@ -1,24 +1,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <script type="text/javascript" src="{$ectouch_themes}/js/jquery.min.js"></script>
+<script type="text/javascript" src="{$ectouch_themes}/js/jquery.min.js"></script>
 <link type="text/css" rel="stylesheet" href="{$ectouch_themes}/css/uiAlertView-1.0.0.css" />
-        <script type="text/javascript" src="{$ectouch_themes}/js/jquery.uiAlertView-1.0.0.js"></script>
-         <script type="text/javascript">
-
-            $(function() {
-                // 定义多个按钮
-                $("#shop_car_btn").click(function() {
-                    var json = {
-						title:"提示",
-						msg:"您的等级不够暂时无法购买，您选择是否选择升级权限以便购买",
-						buttons:[
-							{ title:"是",click:function(){window.location.href="user.php?act=membership"} },
-							{ title:"否",click:function(){window.location.href="index.php"/*alert("您没有升级") */} },
-						]
-					}
-                    $.alertView(json);
-                });
-            })
-        </script>
+<script type="text/javascript" src="{$ectouch_themes}/js/jquery.uiAlertView-1.0.0.js"></script>
+<script type="text/javascript">
+  $(function() {
+    // 定义多个按钮
+    $("#shop_car_btn").click(function() {
+      var json = {
+        title:"提示",
+        msg:"您的等级不够暂时无法购买，您选择是否选择升级权限以便购买",
+        buttons:[
+          { title:"是",click:function(){window.location.href="user.php?act=membership"} },
+          { title:"否",click:function(){window.location.href="index.php"/*alert("您没有升级") */} },
+        ]
+      }
+      $.alertView(json);
+    });
+  })
+</script>
 <div id="content" class="footer mr-t20" style="display: none;">
   <div class="in">
     <div class="search_box">
@@ -38,7 +37,7 @@
     {$lang.icp_number}: <a href="http://www.miibeian.gov.cn/" target="_blank"> {$icp_number} </a> 
     <!-- 结束ICP 证书{/if} -->  {$copyright} 
   </p>
-  <p>&nbsp;</p>
+  <p>{insert name='query_info'}</p>
   <div class="favLink region" style="display : none;"> <a href="http://www.51huidangjia.com/mobile"> powered by 惠当家 </a> </div>
 </div>
 
@@ -46,78 +45,78 @@
 <link href="{$ectouch_themes}/css/global_nav.css?v=20140408" type="text/css" rel="stylesheet"/>
 <!--全局导航-Start-->
 <style>
-	.page_bnav {position: fixed;bottom: 0;left: 0;background: #fff;width: 100%;border-top: 1px solid #e5e5e5;z-index:999999}
-	.page_bnav_item{float: left;width: 25%;text-align: center;}
-	.page_bnav_item a {position: relative;color: #999;display: block;}
-	.global-nav__nav-shop-cart-num {position: absolute;right: 50%;margin-right: -24px;}
-	body {padding-bottom: 70px;}
+  .page_bnav {position: fixed;bottom: 0;left: 0;background: #fff;width: 100%;border-top: 1px solid #e5e5e5;z-index:999999}
+  .page_bnav_item{float: left;width: 25%;text-align: center;}
+  .page_bnav_item a {position: relative;color: #999;display: block;}
+  .global-nav__nav-shop-cart-num {position: absolute;right: 50%;margin-right: -24px;}
+  body {padding-bottom: 70px;}
 </style>
 <div class="page_bnav">
-	<div class="page_bnav_item">
-		<a href="./">
-            <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
-            <span class="global-nav__nav-tit">首页</span>
-        </a>
-	</div>
-	<div class="page_bnav_item">
-		<a href="cat_all.php">
-                <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
-                <span class="global-nav__nav-tit">分类</span>
-            </a>
-	</div>
-	<div class="page_bnav_item">
-		{if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart">{else}<a id="shop_car_btn">{/if}
-                <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
-                <span class="global-nav__nav-tit">购物车</span>
-                <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
-            </a>
-	</div>
-	<div class="page_bnav_item">
-		 <a href="user.php">
-                <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
-                <span class="global-nav__nav-tit">会员中心</span>
-            </a>
-	</div>
-	<div class="clear"></div>
+  <div class="page_bnav_item">
+    <a href="./">
+      <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
+      <span class="global-nav__nav-tit">首页</span>
+    </a>
+  </div>
+  <div class="page_bnav_item">
+    <a href="cat_all.php">
+      <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
+      <span class="global-nav__nav-tit">分类</span>
+    </a>
+  </div>
+  <div class="page_bnav_item">
+    {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart">{else}<a id="shop_car_btn">{/if}
+      <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
+      <span class="global-nav__nav-tit">购物车</span>
+      <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
+    </a>
+  </div>
+  <div class="page_bnav_item">
+    <a href="user.php">
+      <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
+      <span class="global-nav__nav-tit">会员中心</span>
+    </a>
+  </div>
+  <div class="clear"></div>
 </div>
 <div class="global-nav   global-nav--current" style="display: none;">
-    <div class="global-nav__nav-wrap">
-        <div class="global-nav__nav-item">
-            <a href="./" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
-                <span class="global-nav__nav-tit">首页</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="cat_all.php" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
-                <span class="global-nav__nav-tit">分类</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="javascript:get_search_box();" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-search">&#xf0003;</i>
-                <span class="global-nav__nav-tit">搜索</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a class="global-nav__nav-link" id="shop_car_btn">{/if}
-                <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
-                <span class="global-nav__nav-tit">购物车</span>
-                <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
-            </a>
-        </div>
-        <div class="global-nav__nav-item">
-            <a href="user.php" class="global-nav__nav-link">
-                <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
-                <span class="global-nav__nav-tit">会员中心</span>
-            </a>
-        </div>
+  <div class="global-nav__nav-wrap">
+    <div class="global-nav__nav-item">
+      <a href="./" class="global-nav__nav-link">
+        <i class="global-nav__iconfont global-nav__icon-index">&#xf0001;</i>
+        <span class="global-nav__nav-tit">首页</span>
+      </a>
     </div>
-    <div class="global-nav__operate-wrap">
-        <span class="global-nav__yhd-logo"></span>
-        <span class="global-nav__operate-cart-num" id="globalId">{insert name='cart_info_number'}</span>
+    <div class="global-nav__nav-item">
+      <a href="cat_all.php" class="global-nav__nav-link">
+        <i class="global-nav__iconfont global-nav__icon-category">&#xf0002;</i>
+        <span class="global-nav__nav-tit">分类</span>
+      </a>
     </div>
+    <div class="global-nav__nav-item">
+      <a href="javascript:get_search_box();" class="global-nav__nav-link">
+        <i class="global-nav__iconfont global-nav__icon-search">&#xf0003;</i>
+        <span class="global-nav__nav-tit">搜索</span>
+      </a>
+    </div>
+    <div class="global-nav__nav-item">
+      {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a class="global-nav__nav-link" id="shop_car_btn">{/if}
+        <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
+        <span class="global-nav__nav-tit">购物车</span>
+        <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
+      </a>
+    </div>
+    <div class="global-nav__nav-item">
+      <a href="user.php" class="global-nav__nav-link">
+        <i class="global-nav__iconfont global-nav__icon-my-yhd">&#xf0005;</i>
+        <span class="global-nav__nav-tit">会员中心</span>
+      </a>
+    </div>
+  </div>
+  <div class="global-nav__operate-wrap">
+    <span class="global-nav__yhd-logo"></span>
+    <span class="global-nav__operate-cart-num" id="globalId">{insert name='cart_info_number'}</span>
+  </div>
 </div>
 <!--全局导航-End-->
 <script type="text/javascript" src="{$ectouch_themes}/js/zepto.min.js?v=20140408"></script>
