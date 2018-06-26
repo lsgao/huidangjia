@@ -137,6 +137,9 @@ function assign_query_info()
     /* 是否启用了 gzip */
     $gzip_enabled = gzip_enabled() ? $GLOBALS['_LANG']['gzip_enabled'] : $GLOBALS['_LANG']['gzip_disabled'];
     $GLOBALS['smarty']->assign('gzip_enabled', $gzip_enabled);
+    /* 触发cron代码 */
+    $cron_method = empty($GLOBALS['_CFG']['cron_method']) ? '<img src="../api/cron.php?t=' . gmtime() . '" alt="" style="width: 60px; height: 60px;" />' : '';
+    $GLOBALS['smarty']->assign('cron_method', $cron_method);
 }
 
 /**
