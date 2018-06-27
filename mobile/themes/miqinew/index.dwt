@@ -1,307 +1,306 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{if $name}{$name}的{/if}{$shop_name}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css?id=2" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/huidangjia.css?id=3" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css" />
+    <script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
+  </head>
+  <body>
+    <section class="index_wrap">
+      <div class="index_header">
+        <div class="index_header_wrap">
+          <div class="header_user" style="text-align: center;">
+            {if $smarty.session.user_id gt 0}
+            <a href="user.php">
+              {if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
+            </a>
+            {else}
+            <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
+            {/if}
+          </div>
+          {if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}{if $name}{$name}{/if}
+          <div class="header_logo">
+            <a href="./">
+              <img src="{$ectouch_themes}/img/header_logo.png" />
+            </a>
 
-	<head>
-		<meta charset="utf-8" />
-		<title>{if $name}{$name}的{/if}{$shop_name}</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1" />
-		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css?id=2" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/huidangjia.css?id=3" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css" />
-		<link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css" />
-		<script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
-	</head>
+          </div>
 
-	<body>
-		<section class="index_wrap">
-			<div class="index_header">
-				<div class="index_header_wrap">
-					<div class="header_user" style="text-align: center;">
-						{if $smarty.session.user_id gt 0}
-						<a href="user.php">
-							{if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
-						</a>
-						{else}
-						<a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
-						{/if}
-					</div>
-					<div class="header_logo">
-						<a href="./">
-							<img src="{$ectouch_themes}/img/header_logo.png" />
-						</a>
+          <div class="header_search" onClick="showSearch()"></div>
+          <div class="header_sea_wrap" id="index_search_box">
+            <form action="search.php" method="post" id="searchForm" name="searchForm">
+              <div class="header_sea_box">
+                <input class="text" type="search" name="keywords" id="keywordBox" placeholder="请输入您喜欢的商品名称" autofocus/>
+              </div>
+              <button type="submit" value="搜 索" onclick="return check('keywordBox')">搜索</button>
+            </form>
+            <div class="ico_close" onClick="closeSearch()"></div>
+          </div>
+        </div>
+        <div class="index_head_cla">
+          <!--{foreach from=$categories item=cat}-->
+          <a href="{$cat.url}"> {$cat.name|escape:html} </a>
 
-					</div>
+          <!--{/foreach}-->
 
-					<div class="header_search" onClick="showSearch()"></div>
-					<div class="header_sea_wrap" id="index_search_box">
-						<form action="search.php" method="post" id="searchForm" name="searchForm">
-							<div class="header_sea_box">
-								<input class="text" type="search" name="keywords" id="keywordBox" placeholder="请输入您喜欢的商品名称" autofocus/>
-							</div>
-							<button type="submit" value="搜 索" onclick="return check('keywordBox')">搜索</button>
-						</form>
-						<div class="ico_close" onClick="closeSearch()"></div>
-					</div>
-				</div>
-				<div class="index_head_cla">
-					<!--{foreach from=$categories item=cat}-->
-					<a href="{$cat.url}"> {$cat.name|escape:html} </a>
+        </div>
+      </div>
+      
+      <div class="banner" style="margin: 0;">
+        <div class="swiper-container" id="index_banner">
+          <div class="swiper-wrapper">
+            <!-- TemplateBeginEditable name="首页Banner" -->
+            <!-- #BeginLibraryItem "/library/ad_position.lbi" -->
+            <!-- #EndLibraryItem -->
+            <!-- TemplateEndEditable -->
+          </div>
+          <div class="swiper-pagination" id="monitor">
+          </div>
+        </div>
+        <script>
+          var mySwiper = new Swiper('#index_banner', {
+            autoplay: 6000, //可选选项，自动滑动
+            loop: true,
+            autoplayDisableOnInteraction: false,
+            pagination: '#monitor',
+          })
+        </script>
+      </div>
+      <div class="m_nav">
+        <ul>
+          <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
+          <li style="width: 20%;">
+            <a href="{$nav.url}" {if $nav.opennew eq 1} target="_blank" {/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
+            <span> {$nav.name} </span>
+          </li>
+          <!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
 
-					<!--{/foreach}-->
+          <!-- {/if} -->
+          <!-- {/foreach} -->
 
-				</div>
-			</div>
-			
-			<div class="banner" style="margin: 0;">
-				<div class="swiper-container" id="index_banner">
-					<div class="swiper-wrapper">
-						<!-- TemplateBeginEditable name="首页Banner" -->
-						<!-- #BeginLibraryItem "/library/ad_position.lbi" -->
-						<!-- #EndLibraryItem -->
-						<!-- TemplateEndEditable -->
-					</div>
-					<div class="swiper-pagination" id="monitor">
-					</div>
-				</div>
-				<script>
-					var mySwiper = new Swiper('#index_banner', {
-						autoplay: 6000, //可选选项，自动滑动
-						loop: true,
-						autoplayDisableOnInteraction: false,
-						pagination: '#monitor',
-					})
-				</script>
-			</div>
-			<div class="m_nav">
-				<ul>
-					<!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
-					<li style="width: 20%;">
-						<a href="{$nav.url}" {if $nav.opennew eq 1} target="_blank" {/if} title="{$nav.name}"> <img src="{$nav.pic}" class="img_res" /> </a>
-						<span> {$nav.name} </span>
-					</li>
-					<!-- {if $smarty.foreach.nav_middle_list.iteration % 5 eq 0 and $smarty.foreach.nav_middle_list.iteration neq $smarty.foreach.nav_middle_list.total} 菜单取模 -->
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="index_text_wrap">
+        <div class="index_text_tit">惠当家</div>
+        <div class="swiper-container" id="index_text">
+          <div class="swiper-wrapper">
+            <!--{foreach from=$hot_articles item=article name=hot_articles}-->
+            <div class="swiper-slide">
+              <a href="{$article.url}">{$article.title}</a>
+            </div>
+            <!--{/foreach}-->
+          </div>
+        </div>
+        <script>
+          var mySwiper = new Swiper('#index_text', {
+            observer: true,
+            autoplay: 3000,
+            autoplayDisableOnInteraction: false,
+            loop: true,
+            direction: 'vertical',
+          })
+        </script>
+          
 
-					<!-- {/if} -->
-					<!-- {/foreach} -->
+      </div>
+      <!--促销新开始-->
+      
+      <!-- #BeginLibraryItem "/library/recommend_promotion.lbi" -->
+      <!-- #EndLibraryItem -->
+      <!--促销新结束-->
+      <div class="index_rec">
+        <div class="index_rec_wrap" style="background: none;">
+          <div class="index_rec_box">
+             <!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} --> 
+             <!--{if $smarty.foreach.brand_list_foreach.iteration < 9}-->
+                <div class="index_rec_sitem">
+                <a href="{$brand_data.url}"> <img brandid="{$brand_data.brand_id}" dataimg="mobile/data/brandbanner/{$brand_data.brand_banner}" src="{$site_url}mobile/data/brandbanner/{$brand_data.brand_banner}" loaded="true"></a>
+              </div>
+              <!--{/if}-->
+            <!-- {/foreach} -->
+              
+            <div style="display: none;">{insert name='ads' id=5 num=8} {insert name='ads' id=6 num=2} {insert name='ads' id=7 num=1}</div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="index_ad">
+        <ul>
+          {insert name='ads' id=4 num=99}
+        </ul>
+      </div>
 
-					<div class="clear"></div>
-				</ul>
-			</div>
-			<div class="index_text_wrap">
-				<div class="index_text_tit">惠当家</div>
-				<div class="swiper-container" id="index_text">
-					<div class="swiper-wrapper">
-						<!--{foreach from=$hot_articles item=article name=hot_articles}-->
-						<div class="swiper-slide">
-							<a href="{$article.url}">{$article.title}</a>
-						</div>
-						<!--{/foreach}-->
-					</div>
-				</div>
-				<script>
-					var mySwiper = new Swiper('#index_text', {
-						observer: true,
-						autoplay: 3000,
-						autoplayDisableOnInteraction: false,
-						loop: true,
-						direction: 'vertical',
-					})
-				</script>
-					
+      <!--热卖-->
+      <div class="index_bur">
+        <div class="index_bur_t">
+          <a href="search.php?intro=hot">爆款尖货</a>
+        </div>
+        <!--{foreach from=$hot_goods item=goods name=hot_goods}-->
+        <div class="index_bur_item">
+          <a href="{$goods.url}">
+            <div class="index_bur_box">
+              <div class="index_bur_img">
+                <img src="{$site_url}{$goods.thumb}" />
+              </div>
+              <div class="index_bur_info">
+                <div class="index_bur_name">
+                  {$goods.name|escape:html|truncate:30}
+                </div>
+                <!-- {if $goods.promote_price neq ""} -->
+                <div class="index_bur_pri">
+                  现价<span>{$goods.promote_price}</span>
+                </div>
 
-			</div>
-			<!--促销新开始-->
-			
-			<!-- #BeginLibraryItem "/library/recommend_promotion.lbi" -->
-			<!-- #EndLibraryItem -->
-			<!--促销新结束-->
-			<div class="index_rec">
-				<div class="index_rec_wrap" style="background: none;">
-					<div class="index_rec_box">
-						 <!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} --> 
-						 <!--{if $smarty.foreach.brand_list_foreach.iteration < 9}-->
-						  	<div class="index_rec_sitem">
-								<a href="{$brand_data.url}"> <img brandid="{$brand_data.brand_id}" dataimg="mobile/data/brandbanner/{$brand_data.brand_banner}" src="{$site_url}mobile/data/brandbanner/{$brand_data.brand_banner}" loaded="true"></a>
-							</div>
-							<!--{/if}-->
-						<!-- {/foreach} -->
-							
-						<div style="display: none;">{insert name='ads' id=5 num=8} {insert name='ads' id=6 num=2} {insert name='ads' id=7 num=1}</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-			</div>
-			<div class="index_ad">
-				<ul>
-					{insert name='ads' id=4 num=99}
-				</ul>
-			</div>
+                <!-- {else}-->
 
-			<!--热卖-->
-			<div class="index_bur">
-				<div class="index_bur_t">
-					<a href="search.php?intro=hot">爆款尖货</a>
-				</div>
-				<!--{foreach from=$hot_goods item=goods name=hot_goods}-->
-				<div class="index_bur_item">
-					<a href="{$goods.url}">
-						<div class="index_bur_box">
-							<div class="index_bur_img">
-								<img src="{$site_url}{$goods.thumb}" />
-							</div>
-							<div class="index_bur_info">
-								<div class="index_bur_name">
-									{$goods.name|escape:html|truncate:30}
-								</div>
-								<!-- {if $goods.promote_price neq ""} -->
-								<div class="index_bur_pri">
-									现价<span>{$goods.promote_price}</span>
-								</div>
+                <div class="index_bur_pri">
+                  现价<span>{$goods.shop_price}</span>|<s>{$goods.market_price}</s>
+                </div>
+                <!--{/if}-->
+                <div class="index_bur_but">
+                  <span>BUY NOW</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
+        </ul>
+        <ul>
+          <!--{/if}-->
+          <!--{/foreach}-->
+      </div>
 
-								<!-- {else}-->
+      <!--新品-->
+      <div class="m_new_recom m_content">
+        <div class="m_new_tit">
+          <a href="search.php?intro=new">
+            <img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
+          </a>
+        </div>
+        <!--{foreach from=$new_goods item=goods name=new_goods}-->
+        <div class="m_new_item">
+          <a href="{$goods.url}">
+            <div class="m_new_item_pic">
+              <img src="{$site_url}{$goods.thumb}" class="img_res" />
+            </div>
+            <div class="m_new_info">
+              <div class="m_new_name">
+                <p>{$goods.name|escape:html|truncate:50}</p>
+              </div>
+              <!-- {if $goods.promote_price neq ""} -->
+              <div class="m_new_pri">
+                <p>
+                  {$goods.promote_price}
+                  <s>{$goods.market_price}</s>
+                  <span>立即抢</span>
+                  <div class="clear"></div>
+                </p>
+              </div>
+              <!-- {else}-->
+              <div class="m_new_pri">
+                <p>
+                  {$goods.shop_price}
+                  <s>{$goods.market_price}</s>
+                  <span>立即抢</span>
+                  <div class="clear"></div>
+                </p>
+              </div>
+              <!--{/if}-->
+            </div>
+            <div class="clear"></div>
 
-								<div class="index_bur_pri">
-									现价<span>{$goods.shop_price}</span>|<s>{$goods.market_price}</s>
-								</div>
-								<!--{/if}-->
-								<div class="index_bur_but">
-									<span>BUY NOW</span>
-								</div>
-							</div>
-						</div>
-					</a>
-				</div>
-				<!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}-->
-				</ul>
-				<ul>
-					<!--{/if}-->
-					<!--{/foreach}-->
-			</div>
+          </a>
+        </div>
+        <!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}-->
+        </ul>
+        <ul>
+          <!--{/if}-->
+          <!--{/foreach}-->
 
-			<!--新品-->
-			<div class="m_new_recom m_content">
-				<div class="m_new_tit">
-					<a href="search.php?intro=new">
-						<img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
-					</a>
-				</div>
-				<!--{foreach from=$new_goods item=goods name=new_goods}-->
-				<div class="m_new_item">
-					<a href="{$goods.url}">
-						<div class="m_new_item_pic">
-							<img src="{$site_url}{$goods.thumb}" class="img_res" />
-						</div>
-						<div class="m_new_info">
-							<div class="m_new_name">
-								<p>{$goods.name|escape:html|truncate:50}</p>
-							</div>
-							<!-- {if $goods.promote_price neq ""} -->
-							<div class="m_new_pri">
-								<p>
-									{$goods.promote_price}
-									<s>{$goods.market_price}</s>
-									<span>立即抢</span>
-									<div class="clear"></div>
-								</p>
-							</div>
-							<!-- {else}-->
-							<div class="m_new_pri">
-								<p>
-									{$goods.shop_price}
-									<s>{$goods.market_price}</s>
-									<span>立即抢</span>
-									<div class="clear"></div>
-								</p>
-							</div>
-							<!--{/if}-->
-						</div>
-						<div class="clear"></div>
+      </div>
 
-					</a>
-				</div>
-				<!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}-->
-				</ul>
-				<ul>
-					<!--{/if}-->
-					<!--{/foreach}-->
+      <div class="m_flash_sale m_content" style="display: block;">
+        <div class="m_you_like_tit">
+          <a href="search.php?intro=best">
+            <span>猜你喜欢</span>
+            <i></i>
+            <p>这里总有您所喜爱的商品</p>
+          </a>
 
-			</div>
+        </div>
+        <div class="swiper-container  swiper-container-horizontal index123" id="index123">
+          <div class="swiper-wrapper">
+            <!--{foreach from=$best_goods item=goods name=best_goods}-->
+            <div class="swiper-slide">
+              <a href="{$goods.url}">
+                <div class="m_flash_sale_pic">
+                  <img src="{$site_url}{$goods.thumb}" class="img_res" />
+                </div>
+                <div class="m_flash_sale_tit">
+                  {$goods.goods_style_name|escape:html|truncate:30}
+                </div>
+                <!-- {if $goods.promote_price neq ""} -->
+                <div class="m_flash_sale_price">
+                  <div class="m_flash_sale_price">
+                    <p><span>{$goods.shop_price}</span></p>
+                    <p><s>{$goods.market_price}</s></p>
+                  </div>
+                </div>
+                <!-- {else}-->
+                <div class="m_flash_sale_price">
+                  <p><span>{$goods.shop_price}</span></p>
+                  <p><s>{$goods.market_price}</s></p>
+                </div>
 
-			<div class="m_flash_sale m_content" style="display: block;">
-				<div class="m_you_like_tit">
-					<a href="search.php?intro=best">
-						<span>猜你喜欢</span>
-						<i></i>
-						<p>这里总有您所喜爱的商品</p>
-					</a>
+                <!--{/if}-->
 
-				</div>
-				<div class="swiper-container  swiper-container-horizontal index123" id="index123">
-					<div class="swiper-wrapper">
-						<!--{foreach from=$best_goods item=goods name=best_goods}-->
-						<div class="swiper-slide">
-							<a href="{$goods.url}">
-								<div class="m_flash_sale_pic">
-									<img src="{$site_url}{$goods.thumb}" class="img_res" />
-								</div>
-								<div class="m_flash_sale_tit">
-									{$goods.goods_style_name|escape:html|truncate:30}
-								</div>
-								<!-- {if $goods.promote_price neq ""} -->
-								<div class="m_flash_sale_price">
-									<div class="m_flash_sale_price">
-										<p><span>{$goods.shop_price}</span></p>
-										<p><s>{$goods.market_price}</s></p>
-									</div>
-								</div>
-								<!-- {else}-->
-								<div class="m_flash_sale_price">
-									<p><span>{$goods.shop_price}</span></p>
-									<p><s>{$goods.market_price}</s></p>
-								</div>
+              </a>
+            </div>
+            <!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+          </div>
+        </div>
+        <script>
+          var m123 = new Swiper('.index123', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            loop: true,
+          })
+        </script>
+      </div>
+      <!-- #BeginLibraryItem "/library/page_footer.lbi" -->
+      <!-- #EndLibraryItem -->
+      </div>
+    </section>
+    <script type="text/javascript">
+      /*头部搜索点击关闭或者弹出搜索框*/
+      function showSearch() {
+        document.getElementById("index_search_box").style.display = "block";
+      }
 
-								<!--{/if}-->
-
-							</a>
-						</div>
-						<!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}-->
-						<!--{/if}-->
-						<!--{/foreach}-->
-					</div>
-				</div>
-				<script>
-					var m123 = new Swiper('.index123', {
-						slidesPerView: 'auto',
-						spaceBetween: 20,
-						loop: true,
-					})
-				</script>
-			</div>
-			<!-- #BeginLibraryItem "/library/page_footer.lbi" -->
-			<!-- #EndLibraryItem -->
-			</div>
-		</section>
-		<script type="text/javascript">
-			/*头部搜索点击关闭或者弹出搜索框*/
-			function showSearch() {
-				document.getElementById("index_search_box").style.display = "block";
-			}
-
-			function closeSearch() {
-				document.getElementById("index_search_box").style.display = "none";
-			}
-			/* 搜索验证 */
-			function check(Id) {
-				var strings = document.getElementById(Id).value;
-				if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0) {
-					return false;
-				}
-				return true;
-			}
-		</script>
+      function closeSearch() {
+        document.getElementById("index_search_box").style.display = "none";
+      }
+      /* 搜索验证 */
+      function check(Id) {
+        var strings = document.getElementById(Id).value;
+        if(strings.replace(/(^\s*)|(\s*$)/g, "").length == 0) {
+          return false;
+        }
+        return true;
+      }
+    </script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 <!-- {literal} -->
@@ -370,6 +369,6 @@
 });
 <!-- {/literal} -->
 </script>
-	</body>
+  </body>
 
 </html>

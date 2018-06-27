@@ -107,7 +107,7 @@ if ($action == 'default')
 		$info['avatar'] = empty($weixinInfo['headimgurl']) ? '':$weixinInfo['headimgurl'];
 		$info['username'] = empty($weixinInfo['nickname']) ? $info['username']:$weixinInfo['nickname'];
     }
-    /*人人科技新增显示分销会员标准*/
+    /*显示分销会员标准*/
     $affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
     $level_register_up = (float)$affiliate['config']['level_register_up'];
  
@@ -126,12 +126,12 @@ if ($action == 'default')
     }
     */
     $rank_name = $db->getOne(" select rank_name from " . $ecs->table('user_rank') . " where rank_id=" . $info['user_rank']);
-    $userrank = "等级: " .  $rank_name;
+    $rank_name_text = "等级: " .  $rank_name;
 
     $smarty->assign('user_id', $_SESSION['user_id']);
     $smarty->assign('tianxin', $tianxin);
-    $smarty->assign('userrank', $userrank);
-    /*人人科技新增显示分销会员标准*/
+    $smarty->assign('rank_name_text', $rank_name_text);
+    /*显示分销会员标准*/
     $smarty->assign('service_phone', $_CFG['service_phone']);
     $smarty->assign('info', $info);
     $smarty->assign('user_notice', $_CFG['user_notice']);

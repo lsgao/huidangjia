@@ -556,7 +556,7 @@ function get_user_default($user_id)
 {
     $user_bonus = get_user_bonus();
 
-    $sql = "SELECT pay_points, user_money, credit_line, last_login, is_validated,user_rank FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$user_id'";
+    $sql = "SELECT user_name, nicheng, is_shop_owner, shop_owner_time, pay_points, user_money, credit_line, last_login, is_validated,user_rank FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$user_id'";
     $row = $GLOBALS['db']->getRow($sql);
     $info = array();
     $info['username']  = stripslashes($_SESSION['user_name']);
@@ -567,6 +567,16 @@ function get_user_default($user_id)
     $info['credit_line'] = $row['credit_line'];
     $info['formated_credit_line'] = price_format($info['credit_line'], false);
     $info['user_rank'] = $row['user_rank'];
+    $_SESSION['user_rank'] = $info['user_rank'];
+    //gmtime()
+    if ($row['is_shop_owner'] == 1 && (gmtime() < $row['shop_owner_time'] || 0 == $row['shop_owner_time'])) {
+        $info['is_shop_owner'] = 1;
+    } else {
+        $info['is_shop_owner'] = 0;
+    }
+    $_SESSION['is_shop_owner'] = $info['is_shop_owner'];
+    $info['self_shop_name'] = $row['nicheng'];
+    $_SESSION['self_shop_name'] = $info['self_shop_name'];
 
     //如果$_SESSION中时间无效说明用户是第一次登录。取当前登录时间。
     $last_time = !isset($_SESSION['last_time']) ? $row['last_login'] : $_SESSION['last_time'];

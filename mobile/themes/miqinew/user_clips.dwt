@@ -22,18 +22,19 @@
     <h1> 会员中心 </h1>
   </header>
   <div class="user_header">
-			<div class="user_img">
-				{if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if}
-			</div>
-			<div class="user_info">
-				<p>{$info.username}</p>
-				<small>{if $invite_code}我的邀请码:{$invite_code}{/if}</small>
-				<span><i></i>{$userrank}</span>
-			</div>
-			<div class="clear"></div>
-		</div>
-		<div class="user_order_wrap">
-			<div class="user_acro_tit">
+    <div class="user_img">
+      {if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if}
+    </div>
+    <div class="user_info">
+      <p>{$info.username}</p>
+      <small>{if $invite_code}我的邀请码:{$invite_code}{/if}</small>
+      {if $info.is_shop_owner}<a href="user.php?act=dianpu" class="clearfix"><span>修改店铺名</span></a>{/if}
+      <span><i></i>{$rank_name_text}</span>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="user_order_wrap">
+    <div class="user_acro_tit">
 				<a href="user.php?act=order_list">
 					<p>
 						我的订单
@@ -213,7 +214,7 @@
     <dd>
       <p>{$info.username}</p>
       <!--<p><span>{$tianxin}</span></p>-->
-      <p><span>{$userrank}</span></p>
+      <p><span>{$rank_name_text}</span></p>
       {if $invite_code}<p>我的邀请码: {$invite_code}</p>{/if}
     </dd>
     <div class="user_top_list">

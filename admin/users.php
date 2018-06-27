@@ -402,7 +402,7 @@ elseif ($_REQUEST['act'] == 'update')
     $is_invite = empty($_POST['is_invite']) ? 0 : intval($_POST['is_invite']);
     $invite_code = empty($_POST['invite_code']) ? '' : trim($_POST['invite_code']);
 
-    //通过审核发红包:rank_id=2是批发商
+    //通过审核发红包:rank_id=2是掌柜，3是大掌柜，4是创始人
     $check_rank_sql = "select user_id, user_rank from ".$ecs->table('users'). " where user_name = '$username'" ;
     $check_row = $db->GetRow($check_rank_sql);
     $check_user_rank = $check_row['user_rank'];
@@ -411,7 +411,7 @@ elseif ($_REQUEST['act'] == 'update')
     $check_bonus_sql = "select count(*) from ".$ecs->table('user_bonus'). " where user_id = '$check_user_id'" ;
     $check_bonus_row = $db->GetOne($check_bonus_sql);
     
-    if($rank <> $check_user_rank && $rank == 2 && $check_bonus_row == 0) {
+    if($rank <> $check_user_rank && ($rank == 2 || $rank == 3 || $rank == 4) && $check_bonus_row == 0) {
       // 发送红包
       $day    = getdate();
       $today  = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
@@ -863,13 +863,13 @@ function user_list()
         }
         if ($filter['wholesale_status'] === 'consumer')
         {
-            $ex_where .=" AND (select count(*) from ecs_user_shop where user_id = u.user_id) = 0 and user_rank<>2";
+            $ex_where .=" AND (select count(*) from ecs_user_shop where user_id = u.user_id) = 0 and (user_rank=2 or user_rank=3 or user_rank=4)";
         } else if ($filter['wholesale_status'] === 'request')
         {
-            $ex_where .=" AND (select count(*) from ecs_user_shop where user_id = u.user_id) > 0 and user_rank<>2";
+            $ex_where .=" AND (select count(*) from ecs_user_shop where user_id = u.user_id) > 0 and (user_rank=2 or user_rank=3 or user_rank=4)";
         } else if ($filter['wholesale_status'] === 'wholesale')
         {
-            $ex_where .=" AND user_rank=2";
+            $ex_where .=" AND (select count(*) from ecs_user_shop where user_id = u.user_id) > 0 and (user_rank=2 or user_rank=3 or user_rank=4)";
         }
         
         if ($filter['shop_pic_status'] === 'empty')

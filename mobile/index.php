@@ -103,14 +103,14 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
 }
 
 $userid=$_SESSION['user_id'];
-if(!empty($userid)){	
-	$url="http://".$_SERVER['HTTP_HOST']."/mobile/index.php?u=".$userid;
-	//分享返积分
-	$dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
-}else{
-	$url="";
-	//分享返积分
-	$dourl="";
+if (!empty($userid)) {	
+    $url="http://".$_SERVER['HTTP_HOST']."/mobile/index.php?u=".$userid;
+    //分享返积分
+    $dourl="http://".$_SERVER['HTTP_HOST']."/mobile/re_url.php?user_id=".$userid;
+} else {
+    $url="";
+    //分享返积分
+    $dourl="";
 }
 require_once "wxjs/jssdk.php";
 $ret = $db->getRow("SELECT  *  FROM `wxch_config`");
@@ -123,20 +123,56 @@ $smarty->assign('dourl',  $dourl);
 $smarty->assign('url',  $url);
 
 /*显示店铺名称*/
+$name = '';
+$shop_owner_image = '';
 $u=$_GET['u'];
 if(!empty($u)){
-	$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$u.'';
-	$name = $db->getOne($sql);
+    $sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' WHERE user_id=' . $u . ' AND (user_rank=2 OR user_rank=3 OR user_rank=4) AND is_shop_owner = 1 AND shop_owner_time=0 ';
+    $name = $db->getOne($sql);
 }
 
 if(!empty($user_id)){
-	$sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' where user_id='.$user_id.'';
-	$name = $db->getOne($sql);
+    $sql = 'SELECT * FROM ' . $ecs->table("users") . ' WHERE user_id=' . $user_id ;
+    $user_info = $db->getRow($sql);
+    $text = ('user_rank='.$user_info['user_rank'].', parent_id='.$user_info['parent_id'].', is_shop_owner='.$user_info['is_shop_owner']);
+    if ($user_info['user_rank'] != 2 && $user_info['user_rank'] != 3 && $user_info['user_rank'] != 4) {
+        if ($user_info['parent_id'] > 0) {
+            $sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' WHERE user_id=' . $user_info['parent_id'] . ' AND (user_rank=2 OR user_rank=3 OR user_rank=4) AND is_shop_owner = 1 AND shop_owner_time=0 ';
+            $name = $db->getOne($sql);
+            $sql = "SELECT wxid FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '" . $user_info['parent_id'] . "'";
+            $wxid = $GLOBALS['db']->getOne($sql);
+            if(!empty($wxid)){
+                $weixinInfo = $GLOBALS['db']->getRow("SELECT nickname, headimgurl FROM wxch_user WHERE wxid = '$wxid'");
+                $shop_owner_image = empty($weixinInfo['headimgurl']) ? '':$weixinInfo['headimgurl'];
+            }
+        }
+    } else {
+        if ($user_info['is_shop_owner'] == 1) {
+            $name = $user_info['nicheng'];
+            $sql = "SELECT wxid FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '" . $user_id . "'";
+            $wxid = $GLOBALS['db']->getOne($sql);
+            if(!empty($wxid)){
+                $weixinInfo = $GLOBALS['db']->getRow("SELECT nickname, headimgurl FROM wxch_user WHERE wxid = '$wxid'");
+                $shop_owner_image = empty($weixinInfo['headimgurl']) ? '':$weixinInfo['headimgurl'];
+           }
+        } else {
+            if ($user_info['parent_id'] > 0) {
+                $sql = 'SELECT nicheng FROM ' . $ecs->table("users") . ' WHERE user_id=' . $user_info['parent_id'] . ' AND (user_rank=2 OR user_rank=3 OR user_rank=4) AND is_shop_owner = 1 AND shop_owner_time=0 ';
+                $name = $db->getOne($sql);
+                $sql = "SELECT wxid FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '" . $user_info['parent_id'] . "'";
+                $wxid = $GLOBALS['db']->getOne($sql);
+                if(!empty($wxid)){
+                    $weixinInfo = $GLOBALS['db']->getRow("SELECT nickname, headimgurl FROM wxch_user WHERE wxid = '$wxid'");
+                    $shop_owner_image = empty($weixinInfo['headimgurl']) ? '':$weixinInfo['headimgurl'];
+               }
+            }
+    	}
+    }
 }
 
 $tianxin_url = $db->getOne("SELECT cfg_value  FROM `wxch_cfg` WHERE `cfg_name` = 'tianxin_url'");
-$smarty->assign('tianxin_url',  $tianxin_url); 		
-
+$smarty->assign('tianxin_url',  $tianxin_url);
+$smarty->assign('shop_owner_image', $shop_owner_image);
 $smarty->assign('name', $name);
 $smarty->display('index.dwt', $cache_id);
 
