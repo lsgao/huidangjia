@@ -26,14 +26,12 @@
             <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
             {/if}
           </div>
-          {if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}{if $name}{$name}{/if}
+          {if $show_shop}{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}{if $name}{$name}{else}{$shop_name}{/if}{/if}
           <div class="header_logo">
             <a href="./">
               <img src="{$ectouch_themes}/img/header_logo.png" />
             </a>
-
           </div>
-
           <div class="header_search" onClick="showSearch()"></div>
           <div class="header_sea_wrap" id="index_search_box">
             <form action="search.php" method="post" id="searchForm" name="searchForm">

@@ -421,7 +421,7 @@ function changenum(diff) {
             </div>
           </div>
           <div class="good_buy_but">
-            {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401}
+            {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
               <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
               <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
               <div class="countdown"> <span class="label"></span><span class="time"></span></div>
@@ -431,7 +431,7 @@ function changenum(diff) {
             {/if}
           </div>
           <section id="s-action" class="s-action float" style="display: none;">
-            {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401}
+            {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
               <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
               <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
               <div class="countdown"> <span class="label"></span><span class="time"></span></div>
@@ -652,7 +652,7 @@ function changePriceResponse(res)
   <!-- {/literal} -->
 </script>
 <section id="s-action" class="s-action float">
-  {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401}
+  {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
     <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
     <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
     <div class="countdown"> <span class="label"></span><span class="time"></span></div>

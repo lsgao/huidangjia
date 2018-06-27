@@ -1828,27 +1828,18 @@ elseif ($_REQUEST['step'] == 'done')
     }
 
     /* 检查红包是否存在 */
-    if ($order['bonus_id'] > 0)
-    {
+    if ($order['bonus_id'] > 0) {
         $bonus = bonus_info($order['bonus_id']);
-
-        if (empty($bonus) || $bonus['user_id'] != $user_id || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type))
-        {
+        if (empty($bonus) || $bonus['user_id'] != $user_id || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type)) {
             $order['bonus_id'] = 0;
         }
-    }
-    elseif (isset($_POST['bonus_sn']))
-    {
+    } elseif (isset($_POST['bonus_sn'])) {
         $bonus_sn = trim($_POST['bonus_sn']);
         $bonus = bonus_info(0, $bonus_sn);
         $now = gmtime();
-        if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type) || $now > $bonus['use_end_date'])
-        {
-        }
-        else
-        {
-            if ($user_id > 0)
-            {
+        if (empty($bonus) || $bonus['user_id'] > 0 || $bonus['order_id'] > 0 || $bonus['min_goods_amount'] > cart_amount(true, $flow_type) || $now > $bonus['use_end_date']) {
+        } else {
+            if ($user_id > 0) {
                 $sql = "UPDATE " . $ecs->table('user_bonus') . " SET user_id = '$user_id' WHERE bonus_id = '$bonus[bonus_id]' LIMIT 1";
                 $db->query($sql);
             }
@@ -1857,20 +1848,17 @@ elseif ($_REQUEST['step'] == 'done')
         }
     }
 
-    if (empty($cart_goods))
-    {
+    if (empty($cart_goods)) {
         show_message($_LANG['no_goods_in_cart'], $_LANG['back_home'], './', 'warning');
     }
 
     // 检查商品总额是否达到最低限购金额 */
-    if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS) < $_CFG['min_goods_amount'])
-    {
+    if ($flow_type == CART_GENERAL_GOODS && cart_amount(true, CART_GENERAL_GOODS) < $_CFG['min_goods_amount']) {
         show_message(sprintf($_LANG['goods_amount_not_enough'], price_format($_CFG['min_goods_amount'], false)));
     }
 
     // 收货人信息
-    foreach ($consignee as $key => $value)
-    {
+    foreach ($consignee as $key => $value) {
         $order[$key] = addslashes($value);
     }
 
@@ -1885,12 +1873,18 @@ elseif ($_REQUEST['step'] == 'done')
         } else if ($val['goods_id'] == 3401) { // 9.9注册掌柜
             $is_shopkeeper_card = 1;
             $percentage_flag = 0;
+        } else if ($val['goods_id'] == 3545) { // 店铺月卡
+            $is_shop_card = 0;
+            $period = 'month';
+            $percentage_flag = 0;
         }
         $goods_count ++;
     }
 
     if (isset($is_shopkeeper_card) && $goods_count > 1) {// 商品中包含掌柜年卡
         show_message('掌柜年卡必须单独下单，不能与其他商品一起购买。');
+    } else if (isset($is_shop_card) && $goods_count > 1) {// 商品中包含店铺月卡
+        show_message('店铺月卡必须单独下单，不能与其他商品一起购买。');
     }
     if (isset($is_real_good)) {
         // 包含实体商品
@@ -1920,6 +1914,30 @@ elseif ($_REQUEST['step'] == 'done')
                         $order['order_type'] = '掌柜年卡';
                     } else if ($percentage_flag == 0) {
                         $order['order_type'] = '注册掌柜';
+                    }
+                }
+            }
+        } else if (isset($is_shop_card)) {// 商品中包含店铺月卡
+            if ($goods_count > 1) {
+                show_message('店铺月卡必须单独下单，不能与其他商品一起购买。');
+            } else {
+                if (!isset($_POST['invite_code']) || empty($_POST['invite_code'])) {
+                    show_message('请填写推荐人。');
+                } else {
+                    $order['consignee'] = $_POST['invite_code'];
+                    $order['country'] = 0;
+                    $order['province'] = 0;
+                    $order['city'] = 0;
+                    $order['district'] = 0;
+                    $order['address'] = '';
+                    $order['tel'] = '';
+                    $order['mobile'] = '';
+                    $order['email'] = '';
+                    $order['identity_card'] = '';
+                    if ($percentage_flag == 1) {
+                        $order['order_type'] = '店铺月卡（分润）';
+                    } else if ($percentage_flag == 0) {
+                        $order['order_type'] = '店铺月卡（不分润）';
                     }
                 }
             }
@@ -1976,9 +1994,9 @@ elseif ($_REQUEST['step'] == 'done')
         $card               = card_info($order['card_id']);
         $order['card_name'] = addslashes($card['card_name']);
     }
-    $order['card_fee']      = $total['card_fee'];
+    $order['card_fee'] = $total['card_fee'];
 
-    $order['order_amount']  = number_format($total['amount'], 2, '.', '');
+    $order['order_amount'] = number_format($total['amount'], 2, '.', '');
 
     // 如果全部使用余额支付，检查余额是否足够
     if ($payment['pay_code'] == 'balance' && $order['order_amount'] > 0) {
@@ -2007,17 +2025,16 @@ elseif ($_REQUEST['step'] == 'done')
         }
     }
 
-    $order['integral_money']   = $total['integral_money'];
-    $order['integral']         = $total['integral'];
+    $order['integral_money'] = $total['integral_money'];
+    $order['integral'] = $total['integral'];
 
-    if ($order['extension_code'] == 'exchange_goods')
-    {
-        $order['integral_money']   = 0;
-        $order['integral']         = $total['exchange_integral'];
+    if ($order['extension_code'] == 'exchange_goods') {
+        $order['integral_money'] = 0;
+        $order['integral'] = $total['exchange_integral'];
     }
 
-    $order['from_ad']          = !empty($_SESSION['from_ad']) ? $_SESSION['from_ad'] : '0';
-    $order['referer']          = !empty($_SESSION['referer']) ? addslashes($_SESSION['referer']) : '';
+    $order['from_ad'] = !empty($_SESSION['from_ad']) ? $_SESSION['from_ad'] : '0';
+    $order['referer'] = !empty($_SESSION['referer']) ? addslashes($_SESSION['referer']) : '';
 
     // 记录扩展信息
     if ($flow_type != CART_GENERAL_GOODS)
@@ -2103,7 +2120,6 @@ elseif ($_REQUEST['step'] == 'done')
     {
         change_order_goods_storage($order['order_id'], true, SDT_PLACE);
     }
-
 
     // 给商家发邮件
     // 增加是否给客服发送邮件选项
@@ -2248,22 +2264,45 @@ elseif ($_REQUEST['step'] == 'done')
         //$sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " . " WHERE order_id = '".$new_order_id."' ";
         //$db->query($sql);
         if ($percentage_flag == 1) {
+            //$goods_id = 1298;
             update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '掌柜年卡'));
         } else if ($percentage_flag == 0) {
+            //$goods_id = 3401;
             update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '注册掌柜'));
         }
         // 记录订单流水日志
         order_action($order['order_sn'], OS_SPLITED, SS_SHIPPED, $order['pay_status'], '', 'system');
-        $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . 
-            " WHERE order_id = '".$new_order_id."' AND goods_id=1298";
+        //$sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . " WHERE order_id = '".$new_order_id."' AND goods_id=" . $goods_id;
+        $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . " WHERE order_id = '".$new_order_id."' ";
         $goods_number = $db->getOne($sql);
         // 升级掌柜
         $_POST['invite_code'] = isset($_POST['invite_code']) ? compile_str($_POST['invite_code']) : '';
         $invite_code = $_POST['invite_code'];
         ecs_header("Location:./user.php?act=membership_upgrade&invite_code=" . $_POST['invite_code'] . "&goods_number=" . $goods_number . "&order_sn=" . $order['order_sn'] ."&percentage_flag=" . $percentage_flag . "\n");
         exit;
-    }
+    } else if (!isset($is_real_good) && isset($is_shop_card) && $goods_count == 1) {// 商品中店铺月卡
+        // 修改订单状态
+        //$sql = "UPDATE " . $ecs->table('order_info') . " set order_status=5, shipping_status=2 " . " WHERE order_id = '".$new_order_id."' ";
+        //$db->query($sql);
+        if ($percentage_flag == 1) {
+            //$goods_id = 3545;
+            update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '掌柜年卡'));
+        } else if ($percentage_flag == 0) {
+            //$goods_id = ;
+            update_order($order['order_id'], array('shipping_status' => SS_RECEIVED, 'shipping_time' => gmtime(), 'order_status' => OS_SPLITED, 'order_type' => '注册掌柜'));
+        }
+        // 记录订单流水日志
+        order_action($order['order_sn'], OS_SPLITED, SS_SHIPPED, $order['pay_status'], '', 'system');
+        //$sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . " WHERE order_id = '".$new_order_id."' AND goods_id=" . $goods_id;
+        $sql = "SELECT goods_number FROM " . $ecs->table('order_goods') . " WHERE order_id = '".$new_order_id."' ";
+        $goods_number = $db->getOne($sql);
+        // 开启店铺功能
+        $_POST['invite_code'] = isset($_POST['invite_code']) ? compile_str($_POST['invite_code']) : '';
 
+        $invite_code = $_POST['invite_code'];
+        ecs_header("Location:./user.php?act=start_business&invite_code=" . $_POST['invite_code'] . "&goods_number=" . $goods_number . "&order_sn=" . $order['order_sn'] . "&percentage_flag=" . $percentage_flag ."&period=" . $period . "\n");
+        exit;
+    }
 }
 elseif($_REQUEST['step'] == 'ok')
 {

@@ -4279,6 +4279,136 @@ elseif ($action == 'membership_upgrade') {
     ecs_header("Location: user.php");
     exit;
 }
+elseif ($action == 'start_business') {
+    //$back_sn = $_GET['back_sn'];
+    // 推荐码
+    $invite_code = $_REQUEST['invite_code'];
+    $goods_number = 1;
+    if (isset($_REQUEST['goods_number']) && $_REQUEST['goods_number'] > 1) {
+        $goods_number = $_REQUEST['goods_number'];
+    }
+    $order_sn = '';
+    if (isset($_REQUEST['order_sn']) && !empty($_REQUEST['order_sn'])) {
+        $order_sn = $_REQUEST['order_sn'];
+    }
+    $percentage_flag = 0;
+    if (isset($_REQUEST['percentage_flag']) && !empty($_REQUEST['percentage_flag'])) {
+        $percentage_flag = $_REQUEST['percentage_flag'];
+    }
+    $period = 'month';
+    if (isset($_REQUEST['period']) && !empty($_REQUEST['period'])) {
+        $period = $_REQUEST['period'];
+    }
+    if (!empty($invite_code)) {
+        if($invite_code && strlen($invite_code) == 6) {
+            $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
+            //取得邀请码的账号ID
+            $pattern = "/^(0+)(\d+)/i";
+            $replacement = "\$2";
+            $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
+            $user_info_sql = 'SELECT * FROM ' . $ecs->table('users') . " WHERE user_id = '" . $user_id . "'";
+            $user_info = $db->getRow($user_info_sql);
+            // 更新用户的推荐人
+            if(strncasecmp($invite_mark, "au", 2) == 0) {
+                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND parent_admin_id <= 0";
+                if ($user_info['parent_admin_id'] != $invite_id) {
+                    $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
+                    sys_msg('填写的推荐码与推荐人不符合', 0, $link);
+                    exit;
+                }
+            } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                if ($user_info['parent_id'] != $invite_id) {
+                    $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
+                    sys_msg('填写的推荐码与推荐人不符合', 0, $link);
+                    exit;
+                }
+                //* 此推荐人是否存在 */
+                if ($invite_id == 0) {
+                    $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
+                    sys_msg('推荐码无法找到推荐人', 0, $link);
+                    exit;
+                }
+                $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $user_id . "' AND (user_rank = 99 OR user_rank = 0) ";
+            }
+            //$db->query($invite_sql);
+            // 更新用户开店权限
+            $user_rank = $_SESSION['user_rank'];
+            if ($user_rank == 2 || $user_rank == 3 || $user_rank == 4) {
+                // 开店
+                if ($user_info['is_shop_owner'] == 0) {
+                    if ($period == 'month') {
+                        $limit_time = gmtime() + $goods_number * (date("t")) * 3600 * 24;
+                    } else if ($period == 'year') {
+                        $limit_time = gmtime() + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                    }
+                } else {
+                    if ($user_info['shop_owner_time'] >= gmtime()) {
+                        if ($period == 'month') {
+                            $limit_time = $user_info['shop_owner_time'] + $goods_number * (date("t")) * 3600 * 24;
+                        } else if ($period == 'year') {
+                            $limit_time = $user_info['shop_owner_time'] + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                        }
+                    } else {
+                        if ($period == 'month') {
+                            $limit_time = gmtime() + $goods_number * (date("t")) * 3600 * 24;
+                        } else if ($period == 'year') {
+                            $limit_time = gmtime() + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                        }
+                    }
+                }
+                $update_shop_owner_sql = 'UPDATE ' . $ecs->table('users') . " SET is_shop_owner = 1, shop_owner_time = " . $limit_time . " WHERE user_id = '" . $user_id . "'";
+                $db->query($update_shop_owner_sql);
+            }
+            // 更新订单状态为确认收货
+            $sql = 'UPDATE ' . $ecs->table('order_info') .
+                " SET " . "shipping_status = '" . SS_RECEIVED . "' " .
+                " WHERE order_id = '$order_id'";
+            $db->query($sql);
+            // 记录订单流水日志
+            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
+            // 分成
+            if ($percentage_flag == 1) {
+                if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                    // 推荐人等级
+                    $parent_rank = $db->getOne("SELECT user_rank FROM " .$ecs->table('users'). " WHERE user_id = '$invite_id'");
+                    // 推荐人分润
+                    $level_num = 4;
+                    $change_desc = "购买店铺月卡的分润(用户" . $user_id .", 订单号" . $order_sn . ")";
+                    if ($parent_rank == 2) {// 掌柜
+                        $amount = 150 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
+                        $super_shopkeeper_id = find_parent($invite_id, 3, $level_num, 1);
+                        if ($super_shopkeeper_id > 0) {
+                            $amount = 30 * $goods_number;
+                            card_percentage_ck($super_shopkeeper_id, $amount, $change_desc);
+                            $originator_id = find_parent($super_shopkeeper_id, 4, $level_num, 1);
+                            $amount = 20 * $goods_number;
+                            card_percentage_ck($originator_id, $amount, $change_desc);
+                        } else {
+                            $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                            $amount = 50 * $goods_number;
+                            card_percentage_ck($originator_id, $amount, $change_desc);
+                        }
+                    } else if ($parent_rank == 3) {// 大掌柜
+                        $amount = 230 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
+                        $originator_id = find_parent($invite_id, 4, $level_num, 1);
+                        $amount = 20 * $goods_number;
+                        card_percentage_ck($originator_id, $amount, $change_desc);
+                    } else if ($parent_rank == 4) {// 创始人
+                        $amount = 250 * $goods_number;
+                        card_percentage_ck($invite_id, $amount, $change_desc);
+                    }
+                }
+            }
+        }
+    } else {
+    	//提示没有输入推荐码
+    	echo ('没有输入推荐码');
+    }
+    ecs_header("Location: user.php?act=dianpu");
+    exit;
+}
 
 function find_parent($child_id, $target_rank, $max_level, $current_level = 1) {
     if ($current_level > $max_level) {
