@@ -13,8 +13,7 @@ require(ROOT_PATH . 'include/lib_weixintong.php');
 //-- 用户帐号列表
 /*------------------------------------------------------ */
 
-if ($_REQUEST['act'] == 'list')
-{
+if ($_REQUEST['act'] == 'list') {
     // 检查权限 */
     admin_priv('users_manage');
     $sql = "SELECT rank_id, rank_name, min_points FROM ".$ecs->table('user_rank')." ORDER BY min_points ASC ";
@@ -53,8 +52,7 @@ if ($_REQUEST['act'] == 'list')
 /*------------------------------------------------------ */
 //-- ajax返回用户列表
 /*------------------------------------------------------ */
-elseif ($_REQUEST['act'] == 'query')
-{
+elseif ($_REQUEST['act'] == 'query') {
     $user_list = user_list();
 
     $smarty->assign('user_list',    $user_list['user_list']);
@@ -71,8 +69,7 @@ elseif ($_REQUEST['act'] == 'query')
 /*------------------------------------------------------ */
 //-- 显示添加会员帐号
 /*------------------------------------------------------ */
-elseif ($_REQUEST['act'] == 'add')
-{
+elseif ($_REQUEST['act'] == 'add') {
     //* 检查权限 */
     admin_priv('users_manage');
 
@@ -99,8 +96,7 @@ elseif ($_REQUEST['act'] == 'add')
 /*------------------------------------------------------ */
 //-- 添加会员帐号
 /*------------------------------------------------------ */
-elseif ($_REQUEST['act'] == 'insert')
-{
+elseif ($_REQUEST['act'] == 'insert') {
     //* 检查权限 */
     admin_priv('users_manage');
     $username = empty($_POST['username']) ? '' : trim($_POST['username']);
@@ -218,15 +214,12 @@ elseif ($_REQUEST['act'] == 'insert')
     /* 提示信息 */
     $link[] = array('text' => $_LANG['go_back'], 'href'=>'users.php?act=list');
     sys_msg(sprintf($_LANG['add_success'], htmlspecialchars(stripslashes($_POST['username']))), 0, $link);
-
 }
 
 /*------------------------------------------------------ */
 //-- 显示编辑用户帐号
 /*------------------------------------------------------ */
-
-elseif ($_REQUEST['act'] == 'edit')
-{
+elseif ($_REQUEST['act'] == 'edit') {
     //* 检查权限 */
     admin_priv('users_manage');
 
@@ -244,36 +237,34 @@ elseif ($_REQUEST['act'] == 'edit')
         $user['nickname'] = empty($weixinInfo['nickname']) ? '':$weixinInfo['nickname'];
     }
 
-    $sql = "SELECT u.user_id, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn,
-    u.office_phone, u.home_phone, u.mobile_phone, u.is_invite".
+    $sql = "SELECT u.*, u2.user_name as parent_username ".
         " FROM " .$ecs->table('users'). " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 
     $row = $db->GetRow($sql);
 
-    if ($row)
-    {
-        $user['user_id']        = $row['user_id'];
-        $user['sex']            = $row['sex'];
-        $user['birthday']       = date($row['birthday']);
-        $user['pay_points']     = $row['pay_points'];
-        $user['rank_points']    = $row['rank_points'];
-        $user['user_rank']      = $row['user_rank'];
-        $user['user_money']     = $row['user_money'];
-        $user['frozen_money']   = $row['frozen_money'];
-        $user['credit_line']    = $row['credit_line'];
+    if ($row) {
+        $user['user_id'] = $row['user_id'];
+        $user['sex'] = $row['sex'];
+        $user['birthday'] = date($row['birthday']);
+        $user['pay_points'] = $row['pay_points'];
+        $user['rank_points'] = $row['rank_points'];
+        $user['user_rank'] = $row['user_rank'];
+        $user['user_money'] = $row['user_money'];
+        $user['frozen_money'] = $row['frozen_money'];
+        $user['credit_line'] = $row['credit_line'];
         $user['formated_user_money'] = price_format($row['user_money']);
         $user['formated_frozen_money'] = price_format($row['frozen_money']);
-        $user['parent_id']      = $row['parent_id'];
-        $user['parent_username']= $row['parent_username'];
-        $user['qq']             = $row['qq'];
-        $user['msn']            = $row['msn'];
-        $user['office_phone']   = $row['office_phone'];
-        $user['home_phone']     = $row['home_phone'];
-        $user['mobile_phone']   = $row['mobile_phone'];
-        $user['is_invite']   = $row['is_invite'];
-    }
-    else
-    {
+        $user['parent_id'] = $row['parent_id'];
+        $user['parent_username'] = $row['parent_username'];
+        $user['qq'] = $row['qq'];
+        $user['msn'] = $row['msn'];
+        $user['office_phone'] = $row['office_phone'];
+        $user['home_phone'] = $row['home_phone'];
+        $user['mobile_phone'] = $row['mobile_phone'];
+        $user['is_invite'] = $row['is_invite'];
+        $user['is_shop_owner'] = $row['is_shop_owner'];
+        $user['shop_owner_time'] = local_date('Y-m-d H:i:s', $row['shop_owner_time']);
+    } else {
           $link[] = array('text' => $_LANG['go_back'], 'href'=>'users.php?act=list');
           sys_msg($_LANG['username_invalid'], 0, $links);
           //        $user['sex']            = 0;
@@ -296,15 +287,12 @@ elseif ($_REQUEST['act'] == 'edit')
     $extend_info_arr = $db->getAll($sql);
 
     $temp_arr = array();
-    foreach ($extend_info_arr AS $val)
-    {
+    foreach ($extend_info_arr AS $val) {
         $temp_arr[$val['reg_field_id']] = $val['content'];
     }
 
-    foreach ($extend_info_list AS $key => $val)
-    {
-        switch ($val['id'])
-        {
+    foreach ($extend_info_list AS $key => $val) {
+        switch ($val['id']) {
             case 1:     $extend_info_list[$key]['content'] = $user['msn']; break;
             case 2:     $extend_info_list[$key]['content'] = $user['qq']; break;
             case 3:     $extend_info_list[$key]['content'] = $user['office_phone']; break;
@@ -322,41 +310,35 @@ elseif ($_REQUEST['act'] == 'edit')
 
     empty($affiliate) && $affiliate = array();
 
-    if(empty($affiliate['config']['separate_by']))
-    {
+    if(empty($affiliate['config']['separate_by'])) {
         //推荐注册分成
         $affdb = array();
         $num = count($affiliate['item']);
         $up_uid = "'$_GET[id]'";
-        for ($i = 1 ; $i <=$num ;$i++)
-        {
+        for ($i = 1 ; $i <=$num ;$i++) {
             $count = 0;
-            if ($up_uid)
-            {
+            if ($up_uid) {
                 $sql = "SELECT user_id FROM " . $ecs->table('users') . " WHERE parent_id IN($up_uid)";
                 $query = $db->query($sql);
                 $up_uid = '';
-                while ($rt = $db->fetch_array($query))
-                {
+                while ($rt = $db->fetch_array($query)) {
                     $up_uid .= $up_uid ? ",'$rt[user_id]'" : "'$rt[user_id]'";
                     $count++;
                 }
             }
             $affdb[$i]['num'] = $count;
         }
-        if ($affdb[1]['num'] > 0)
-        {
+        if ($affdb[1]['num'] > 0) {
             $smarty->assign('affdb', $affdb);
         }
     }
 
-
     assign_query_info();
-    $smarty->assign('ur_here',          $_LANG['users_edit']);
-    $smarty->assign('action_link',      array('text' => $_LANG['03_users_list'], 'href'=>'users.php?act=list&' . list_link_postfix()));
-    $smarty->assign('user',             $user);
-    $smarty->assign('form_action',      'update');
-    $smarty->assign('special_ranks',    get_rank_list(true));
+    $smarty->assign('ur_here', $_LANG['users_edit']);
+    $smarty->assign('action_link', array('text' => $_LANG['03_users_list'], 'href'=>'users.php?act=list&' . list_link_postfix()));
+    $smarty->assign('user', $user);
+    $smarty->assign('form_action', 'update');
+    $smarty->assign('special_ranks', get_rank_list(true));
     $smarty->display('user_info.htm');
 }
 
@@ -378,38 +360,35 @@ elseif ($_REQUEST['act'] == 'update')
     $credit_line = empty($_POST['credit_line']) ? 0 : floatval($_POST['credit_line']);
     $is_invite = empty($_POST['is_invite']) ? 0 : intval($_POST['is_invite']);
     $invite_code = empty($_POST['invite_code']) ? '' : trim($_POST['invite_code']);
+    $is_shop_owner = empty($_POST['is_shop_owner']) ? 0 : intval($_POST['is_shop_owner']);
+    $shop_owner_time = ($is_shop_owner && !empty($_POST['shop_owner_time'])) ? local_strtotime($_POST['shop_owner_time']) : 0;
 
     $users  =& init_users();
 
-    if (!$users->edit_user(array('username'=>$username, 'password'=>$password, 'email'=>$email, 'gender'=>$sex, 'bday'=>$birthday ), 1))
-    {
-        if ($users->error == ERR_EMAIL_EXISTS)
-        {
+    if (!$users->edit_user(array('username'=>$username, 'password'=>$password, 'email'=>$email, 'gender'=>$sex, 'bday'=>$birthday ), 1)) {
+        if ($users->error == ERR_EMAIL_EXISTS) {
             $msg = $_LANG['email_exists'];
-        }
-        else
-        {
+        } else {
             $msg = $_LANG['edit_user_failed'];
         }
         sys_msg($msg, 1);
     }
-    if(!empty($password))
-    {
-			$sql="UPDATE ".$ecs->table('users'). "SET `ec_salt`='0' WHERE user_name= '".$username."'";
-			$db->query($sql);
+    if (!empty($password)) {
+        $sql="UPDATE ".$ecs->table('users'). "SET `ec_salt`='0' WHERE user_name= '".$username."'";
+        $db->query($sql);
     }
 
-    if (!empty($invite_code)){
-      if($invite_code && strlen($invite_code) == 6){
+    if (!empty($invite_code)) {
+        if ($invite_code && strlen($invite_code) == 6) {
         $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
         //取得邀请码的账号ID
         $pattern = "/^(0+)(\d+)/i";
         $replacement = "\$2";
         $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
-        if(strncasecmp($invite_mark, "au", 2) == 0){
-          $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_name = '" . $username . "' AND parent_admin_id <= 0";
-        }else if(strncasecmp($invite_mark, "uu", 2) == 0){
-          $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_name = '" . $username . "' AND parent_id <= 0";
+        if (strncasecmp($invite_mark, "au", 2) == 0) {
+            $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_name = '" . $username . "' AND parent_admin_id <= 0";
+        } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+            $invite_sql = 'UPDATE ' . $ecs->table('users') . " SET parent_id = " . $invite_id . " WHERE user_name = '" . $username . "' AND parent_id <= 0";
         }
         $db->query($invite_sql);
       }
@@ -421,26 +400,20 @@ elseif ($_REQUEST['act'] == 'update')
     $user_id_arr = $users->get_profile_by_name($username);
     $user_id = $user_id_arr['user_id'];
 
-    foreach ($fields_arr AS $val)       //循环更新扩展用户信息
-    {
+    foreach ($fields_arr AS $val) { //循环更新扩展用户信息
         $extend_field_index = 'extend_field' . $val['id'];
-        if(isset($_POST[$extend_field_index]))
-        {
+        if (isset($_POST[$extend_field_index])) {
             $temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
 
             $sql = 'SELECT * FROM ' . $ecs->table('reg_extend_info') . "  WHERE reg_field_id = '$val[id]' AND user_id = '$user_id'";
-            if ($db->getOne($sql))      //如果之前没有记录，则插入
-            {
+            if ($db->getOne($sql)) {//如果之前没有记录，则插入
                 $sql = 'UPDATE ' . $ecs->table('reg_extend_info') . " SET content = '$temp_field_content' WHERE reg_field_id = '$val[id]' AND user_id = '$user_id'";
-            }
-            else
-            {
+            } else {
                 $sql = 'INSERT INTO '. $ecs->table('reg_extend_info') . " (`user_id`, `reg_field_id`, `content`) VALUES ('$user_id', '$val[id]', '$temp_field_content')";
             }
             $db->query($sql);
         }
     }
-
 
     /* 更新会员的其它信息 */
     $other =  array();
@@ -453,6 +426,10 @@ elseif ($_REQUEST['act'] == 'update')
     $other['home_phone'] = isset($_POST['extend_field4']) ? htmlspecialchars(trim($_POST['extend_field4'])) : '';
     $other['mobile_phone'] = isset($_POST['extend_field5']) ? htmlspecialchars(trim($_POST['extend_field5'])) : '';
     $other['is_invite'] = in_array($is_invite, array(0, 1)) ? $is_invite : 0;
+    $other['is_shop_owner'] = in_array($is_shop_owner, array(0, 1)) ? $is_shop_owner : 0;
+    if ($is_shop_owner) {
+        $other['shop_owner_time'] = $shop_owner_time;
+    }
 
     $db->autoExecute($ecs->table('users'), $other, 'UPDATE', "user_name = '$username'");
 

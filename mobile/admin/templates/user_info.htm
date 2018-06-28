@@ -1,5 +1,7 @@
 <!-- $Id: user_info.htm 16854 2009-12-07 06:20:09Z sxc_shop $ -->
 {include file="pageheader.htm"}
+<script type="text/javascript" src="../data/static/js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../data/static/js/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <div class="main-div">
 <form method="post" action="users.php" name="theForm" onsubmit="return validate()">
 <table width="100%" >
@@ -127,6 +129,14 @@
     <td class="label">是否配发邀请码:</td>
     <td>{html_radios name="is_invite" options=$lang.is_invite checked=$user.is_invite }</td>
   </tr>
+  <tr>
+    <td class="label">是否开店:</td>
+    <td>{html_radios name="is_shop_owner" options=$lang.is_shop_owner checked=$user.is_shop_owner}</td>
+  </tr>
+  <tr>
+    <td class="label">店铺有效期:</td>
+    <td><input name="shop_owner_time" type="text" id="shop_owner_time" size="19" value='{$user.shop_owner_time}' /><input name="shop_owner_time_button" type="button" id="shop_owner_time_button" onclick="return showCalendar('shop_owner_time', '%Y-%m-%d %H:%M:%S', 24, false, 'shop_owner_time_button');" value="{$lang.btn_select}" class="button"/></td>
+  </tr>
   {/if}
   <tr>
     <td colspan="2" align="center">
@@ -203,6 +213,7 @@ function validate()
 
     return validator.passed();
 }
+
 //-->
 </script>
 {/literal}

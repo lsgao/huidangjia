@@ -4264,7 +4264,6 @@ elseif ($action == 'membership_upgrade') {
     exit;
 }
 elseif ($action == 'start_business') {
-    //$back_sn = $_GET['back_sn'];
     // 推荐码
     $invite_code = $_REQUEST['invite_code'];
     $goods_number = 1;
@@ -4319,24 +4318,19 @@ elseif ($action == 'start_business') {
             $user_rank = $_SESSION['user_rank'];
             if ($user_rank == 2 || $user_rank == 3 || $user_rank == 4) {
                 // 开店
+                $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
                 if ($user_info['is_shop_owner'] == 0) {
-                    if ($period == 'month') {
-                        $limit_time = gmtime() + $goods_number * (date("t")) * 3600 * 24;
-                    } else if ($period == 'year') {
-                        $limit_time = gmtime() + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                    if ($period == 'month' || $period == 'year') {
+                        $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
                     }
                 } else {
-                    if ($user_info['shop_owner_time'] >= gmtime()) {
-                        if ($period == 'month') {
-                            $limit_time = $user_info['shop_owner_time'] + $goods_number * (date("t")) * 3600 * 24;
-                        } else if ($period == 'year') {
-                            $limit_time = $user_info['shop_owner_time'] + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                    if (!empty($user_info['shop_owner_time']) && $user_info['shop_owner_time'] >= gmtime()) {
+                        if ($period == 'month' || $period == 'year') {
+                            $limit_time = strtotime( "+" . $goods_number . " " . $period, $user_info['shop_owner_time']);
                         }
                     } else {
-                        if ($period == 'month') {
-                            $limit_time = gmtime() + $goods_number * (date("t")) * 3600 * 24;
-                        } else if ($period == 'year') {
-                            $limit_time = gmtime() + $goods_number * (date("z" , mktime(23,59,59,12,31,date("Y")))+1) * 3600 * 24;
+                        if ($period == 'month' || $period == 'year') {
+                            $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
                         }
                     }
                 }
