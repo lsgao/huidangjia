@@ -328,6 +328,90 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '') {
                             order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
                         }
                     }
+                } else if ($goods_count == 1 && $goods_id == 3545) {
+                    // 店铺月卡
+                    $sql = "SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $order_id . "' AND goods_id=1298";
+                    $goods_number = $GLOBALS['db']->getOne($sql);
+                    $invite_code = $order['consignee'];
+                    if (!empty($invite_code)) {
+                        if($invite_code && strlen($invite_code) == 6) {
+                            $invite_mark = substr($invite_code, 0, 2);//au是销售员，uu是普通用户
+                            //取得邀请码的账号ID
+                            $pattern = "/^(0+)(\d+)/i";
+                            $replacement = "\$2";
+                            $invite_id = preg_replace($pattern, $replacement, substr($invite_code,2));
+                            // 更新用户的推荐人
+                            if(strncasecmp($invite_mark, "au", 2) == 0) {
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_admin_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_admin_id <= 0";
+                            } else if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                                //* 此推荐人是否存在 */
+                                if ($invite_id == 0) {
+                                    exit;
+                                }
+                                //$invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND parent_id <= 0";
+                                $invite_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET parent_id = " . $invite_id . " WHERE user_id = '" . $order['user_id'] . "' AND (user_rank = 99 OR user_rank = 0)";
+                            }
+                            //$GLOBALS['db']->query($invite_sql);
+                            // 更新用户开店权限
+                            $user_info = $GLOBALS['db']->getRow("SELECT * FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $order['user_id']. "'");
+                            $user_rank = $user_info['user_rank'];
+                            if ($user_rank == 2 || $user_rank == 3 || $user_rank == 4) {
+                                // 开店
+                                $period = "month";
+                                $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
+                                if ($user_info['is_shop_owner'] == 0) {
+                                    $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
+                                } else {
+                                    if (!empty($user_info['shop_owner_time']) && $user_info['shop_owner_time'] >= gmtime()) {
+                                        $limit_time = strtotime( "+" . $goods_number . " " . $period, $user_info['shop_owner_time']);
+                                    } else {
+                                        $limit_time = strtotime( "+" . $goods_number . " " . $period, gmtime());
+                                    }
+                                }
+                                $update_shop_owner_sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . " SET is_shop_owner = 1, shop_owner_time = " . $limit_time . " WHERE user_id = '" . $user_id . "'";
+                                $GLOBALS['db']->query($update_shop_owner_sql);
+                            }
+                            // 更新：订单状态=确认收货，订单类型=掌柜年卡
+                            $sql = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') .
+                                " SET " . "shipping_status='" . SS_RECEIVED . "', " . "order_type='店铺月卡（分润）' " . 
+                                " WHERE order_id = '$order_id'";
+                            $GLOBALS['db']->query($sql);
+                            // 记录订单流水日志
+                            order_action($order_sn, OS_SPLITED, SS_RECEIVED, PS_PAYED, '', 'system');
+                            if (strncasecmp($invite_mark, "uu", 2) == 0) {
+                                // 推荐人等级
+                                $parent_rank = $GLOBALS['db']->getOne("SELECT user_rank FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$invite_id'");
+                                // 推荐人分润
+                                $level_num = 4;
+                                $change_desc = "购买掌柜年卡的分润(用户" . $order['user_id'] .", 订单号" . $order_sn . ")";
+                                if ($parent_rank == 2) {// 掌柜
+                                    $amount = 150 * $goods_number;
+                                    card_percentage($invite_id, $amount, $change_desc);
+                                    $super_shopkeeper_id = get_parent($invite_id, 3, $level_num, 1);
+                                    if ($super_shopkeeper_id > 0) {
+                                        $amount = 30 * $goods_number;
+                                        card_percentage($super_shopkeeper_id, $amount, $change_desc);
+                                        $originator_id = get_parent($super_shopkeeper_id, 4, $level_num, 1);
+                                        $amount = 20 * $goods_number;
+                                        card_percentage($originator_id, $amount, $change_desc);
+                                    } else {
+                                        $originator_id = get_parent($invite_id, 4, $level_num, 1);
+                                        $amount = 50 * $goods_number;
+                                        card_percentage($originator_id, $amount, $change_desc);
+                                    }
+                                } else if ($parent_rank == 3) {// 大掌柜
+                                    $amount = 230 * $goods_number;
+                                    card_percentage($invite_id, $amount, $change_desc);
+                                    $originator_id = get_parent($invite_id, 4, $level_num, 1);
+                                    $amount = 20 * $goods_number;
+                                    card_percentage($originator_id, $amount, $change_desc);
+                                } else if ($parent_rank == 4) {// 创始人
+                                    $amount = 250 * $goods_number;
+                                    card_percentage($invite_id, $amount, $change_desc);
+                                }
+                            }
+                        }
+                    }
                 }
             } elseif ($pay_log['order_type'] == PAY_SURPLUS) {
                 $sql = 'SELECT `id` FROM ' . $GLOBALS['ecs']->table('user_account') .  " WHERE `id` = '$pay_log[order_id]' AND `is_paid` = 1  LIMIT 1";
