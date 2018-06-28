@@ -15,654 +15,645 @@
   <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js"></script>
 </head>
 <body style="background: #fff;">
-<!-- *用户分销中心默认显示页面 start-->
-  <!-- {if $action eq 'default'} -->
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
-    <h1> 分销中心 </h1>
-  </header>
-  <div class="gpdc_user_wrap">
-  	<div class="gpdc_user_img">
-  		{if $info.avatar neq ''}
-  		<img src="{$info.avatar}">
-  		{else}
-  		<img src="{$ectouch_themes}/images/get_avatar.png">
-  		{/if}
-  	</div>
-  	<div class="gpdc_user_name">
-  		{$info.username}
-  	</div>
-  	<div class="gpdc_user_grade">
-  		<span>{$userrank}</span>
-  	</div>
-  </div>
-  <div class="gpdc_user_sale">
-  	<ul>
-  		<li>
-  			<p>￥{$total_commission.order_amount}</p>
-  			<span>累计销售</span>
-  		</li>
-  		<li>
-  			<p>￥{$total_commission.order_fencheng}</p>
-  			<span>计算佣金金额</span>
-  		</li>
-  		<li style="border: none;">
-  			<p>￥{$total_commission.commission}</p>
-  			<span>累计佣金</span>
-  		</li>
-  		<div class="clear"></div>
-  	</ul>
-  </div>
-  <div class="gpdc_group_wrap">
-  	<div class="gpdc_group_tit">
-  		我的盟友
-  		<span>{$all_count}</span>
-  		<div class="clear"></div>
-  	</div>
-  	<div class="gpdc_group_item">
-      	<img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
-      	<span>{$all_count}</span>
-      	<p>我的盟友</p>
+  <!-- *用户分销中心默认显示页面 start-->
+    <!-- {if $action eq 'default'} -->
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+      <h1> 分销中心 </h1>
+    </header>
+    <div class="gpdc_user_wrap">
+      <div class="gpdc_user_img">{if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if}</div>
+      <div class="gpdc_user_name">{$info.username}</div>
+      <div class="gpdc_user_grade"><span>{$userrank}</span></div>
+      {if $info.is_shop_owner}<a href="user.php?act=dianpu" class="clearfix"><span>修改店铺名</span></a>{/if}
     </div>
-  	<div class="gpdc_peo_item">
-      	<img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
-      	<span>{$all_count}</span>
-      	<p>我的盟友</p>
-    </div>
-  	{foreach from=$menuarr item=menu}
-      {if $menu == 1}
-      <div class="gpdc_peo_item">
-      	<img src="{$ectouch_themes}/img/crown_icon.png" onclick="location.href='user_commission.php?act=fenxiao1'" />
-      	<span>{$count1}</span>
-      	<p>一级会员</p>
-    	</div>
-      <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao1'">
-      	<img src="{$ectouch_themes}/img/crown_icon.png" />
-      	<span>{$count1}</span>
-      	<p>一级会员</p>
-      </div>
-      <div class="gpdc_group_stit" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao1'">一级会员<span>{$count1}</span><div class="clear"></div></div> 
-      {/if}
-      {if $menu == 2}  
-      <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao2'">
-      	<img src="{$ectouch_themes}/img/diamond_icon.png" />
-      	<span>{$count2}</span>
-      	<p>二级会员</p>
-      </div>
-      <li onclick="location.href='user_commission.php?act=fenxiao2'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
-      {if $menu == 3} 
-      <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao3'">
-      	<img src="{$ectouch_themes}/img/gold_icon.png" />
-      	<span>{$count3}</span>
-      	<p>三级会员</p>
-      </div>
-      <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
-      {if $menu == 4}
-      <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao4'">
-      	<img src="{$ectouch_themes}/img/silver_icon.png" />
-      	<span>{$count4}</span>
-      	<p>四级会员</p>
-      </div>
-      <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
-      {if $menu == 5} 
-      <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao2'">
-      	<img src="{$ectouch_themes}/img/bronze_icon.png" />
-      	<span>{$count5}</span>
-      	<p>五级会员</p>
-      </div>
-      <li onclick="location.href='user_commission.php?act=fenxiao5'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
-     
-  	{/foreach}
-  	<div class="clear"></div>
-  </div>
-  <div class="gpdc_comm_wrap">
-  	<div class="gpdc_comm_item" style="border-top: 1px solid #eee;">
-  		<img src="{$ectouch_themes}/img/paid_icon.png"/>
-  		<div class="gpdc_comm_info">
-  			<p>已付款订单佣金</p>
-  			<span>￥{$status_commission.yifukuan.commission}</span>
-  		</div>
-  	</div>
-  	<div class="gpdc_comm_item" style="border-top: 1px solid #eee;">
-  		<img src="{$ectouch_themes}/img/unpaid_icon.png"/>
-  		<div class="gpdc_comm_info">
-  			<p>未付款订单佣金</p>
-  			<span>￥{$status_commission.weifukuan.commission}</span>
-  		</div>
-  	</div>
-  	<div class="gpdc_comm_item">
-  		<img src="{$ectouch_themes}/img/goods_received_icon.png"/>
-  		<div class="gpdc_comm_info">
-  			<p>已收货订单佣金</p>
-  			<span>￥{$status_commission.yishouhuo.commission}</span>
-  		</div>
-  		
-  	</div>
-  	<div class="gpdc_comm_item">
-  		<img src="{$ectouch_themes}/img/money_bag_icon.png"/>
-  		<div class="gpdc_comm_info">
-  			<p>我的佣金</p>
-  			<span>￥{$total_commission.commission}</span>
-  		</div>
-  	</div>
-  	<div class="clear"></div>
-  </div>
-  <div class="pf_sub"  onclick="location.href='user_commission.php?act=account_apply';">申请提现</div>
-  <dl class="user_top" style="display: none;">
-    <dt> {if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if} </dt>
-    <dd>
-      <p>{$info.username}</p>
-      <!--<p><span>{$tianxin}</span></p>-->
-      <p><span>{$userrank}</span></p>
-    </dd>
-    <div class="user_distri_list">
+    <div class="gpdc_user_sale">
       <ul>
-        <li> 累计销售：￥{$total_commission.order_amount} <br />（其中计算佣金的销售金额：￥{$total_commission.order_fencheng}）</li>
-        <li> 累计佣金：￥{$total_commission.commission}</li>
-      </ul>
-    </div>
-    <div class="quan1"></div>
-    <div class="quan2"></div>
-    <div class="quan3"></div>
-  </dl>
-  <section class="wrap" style="display: none;">
-    <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
-      <ul>
-        <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的盟友</span> <span class="person">{$all_count}人</span>
-          <div class="son_list">
-            <ul>
-              {foreach from=$menuarr item=menu}
-              {if $menu == 1}<li onclick="location.href='user_commission.php?act=fenxiao1'"><span class="icon">&nbsp; &nbsp; </span><span>一级会员</span> <i></i><span class="sp">{$count1}人</span></li> {/if}
-              {if $menu == 2} <li onclick="location.href='user_commission.php?act=fenxiao2'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
-              {if $menu == 3} <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
-              {if $menu == 4} <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
-              {if $menu == 5} <li onclick="location.href='user_commission.php?act=fenxiao5'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
-              {/foreach} 
-            </ul>
-          </div>
+        <li>
+          <p>￥{$total_commission.order_amount}</p>
+          <span>累计销售</span>
         </li>
-        <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的佣金</span> <span class="person">{$total_commission.commission}</span></li>
-          <div class="son_list">
-            <ul>
-              <li><span class="icon2">&nbsp; &nbsp; </span><span>未付款订单佣金</span> <span class="sp">￥{$status_commission.weifukuan.commission}</span></li>
-              <li><span class="icon2">&nbsp; &nbsp; </span><span>已付款订单佣金</span> <span class="sp">￥{$status_commission.yifukuan.commission}</span></li>
-              <li><span class="icon2">&nbsp; &nbsp; </span><span>已收货订单佣金</span> <span class="sp">￥{$status_commission.yishouhuo.commission}</span></li>
-              <!--
-              <li><span class="icon2">&nbsp; &nbsp; </span><span>已审核订单佣金</span> <span class="sp">￥177.6</span></li>
-              -->
-            </ul>
-          </div>
-        <li onclick="location.href='user_commission.php?act=account_apply';" style="display: none;"><span class="uninclude">&nbsp; &nbsp; </span><span>申请提现</span></li>
+        <li>
+          <p>￥{$total_commission.order_fencheng}</p>
+          <span>计算佣金金额</span>
+        </li>
+        <li style="border: none;">
+          <p>￥{$total_commission.commission}</p>
+          <span>累计佣金</span>
+        </li>
+        <div class="clear"></div>
       </ul>
+    </div>
+    <div class="gpdc_group_wrap">
+      <div class="gpdc_group_tit">
+        我的盟友
+        <span>{$all_count}</span>
+        <div class="clear"></div>
+      </div>
+      <div class="gpdc_group_item">
+          <img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
+          <span>{$all_count}</span>
+          <p>我的盟友</p>
+      </div>
+      <div class="gpdc_peo_item">
+          <img src="{$ectouch_themes}/img/gpdc_group_icon.png" />
+          <span>{$all_count}</span>
+          <p>我的盟友</p>
+      </div>
+      {foreach from=$menuarr item=menu}
+        {if $menu == 1}
+        <div class="gpdc_peo_item">
+          <img src="{$ectouch_themes}/img/crown_icon.png" onclick="location.href='user_commission.php?act=fenxiao1'" />
+          <span>{$count1}</span>
+          <p>一级会员</p>
+        </div>
+        <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao1'">
+          <img src="{$ectouch_themes}/img/crown_icon.png" />
+          <span>{$count1}</span>
+          <p>一级会员</p>
+        </div>
+        <div class="gpdc_group_stit" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao1'">一级会员<span>{$count1}</span><div class="clear"></div></div> 
+        {/if}
+        {if $menu == 2}  
+        <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao2'">
+          <img src="{$ectouch_themes}/img/diamond_icon.png" />
+          <span>{$count2}</span>
+          <p>二级会员</p>
+        </div>
+        <li onclick="location.href='user_commission.php?act=fenxiao2'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
+        {if $menu == 3} 
+        <div class="gpdc_group_item" onclick="location.href='user_commission.php?act=fenxiao3'">
+          <img src="{$ectouch_themes}/img/gold_icon.png" />
+          <span>{$count3}</span>
+          <p>三级会员</p>
+        </div>
+        <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
+        {if $menu == 4}
+        <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao4'">
+          <img src="{$ectouch_themes}/img/silver_icon.png" />
+          <span>{$count4}</span>
+          <p>四级会员</p>
+        </div>
+        <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
+        {if $menu == 5} 
+        <div class="gpdc_group_item" style="display: none;" onclick="location.href='user_commission.php?act=fenxiao2'">
+          <img src="{$ectouch_themes}/img/bronze_icon.png" />
+          <span>{$count5}</span>
+          <p>五级会员</p>
+        </div>
+        <li onclick="location.href='user_commission.php?act=fenxiao5'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
+       
+      {/foreach}
+      <div class="clear"></div>
+    </div>
+    <div class="gpdc_comm_wrap">
+      <div class="gpdc_comm_item" style="border-top: 1px solid #eee;">
+        <img src="{$ectouch_themes}/img/paid_icon.png"/>
+        <div class="gpdc_comm_info">
+          <p>已付款订单佣金</p>
+          <span>￥{$status_commission.yifukuan.commission}</span>
+        </div>
+      </div>
+      <div class="gpdc_comm_item" style="border-top: 1px solid #eee;">
+        <img src="{$ectouch_themes}/img/unpaid_icon.png"/>
+        <div class="gpdc_comm_info">
+          <p>未付款订单佣金</p>
+          <span>￥{$status_commission.weifukuan.commission}</span>
+        </div>
+      </div>
+      <div class="gpdc_comm_item">
+        <img src="{$ectouch_themes}/img/goods_received_icon.png"/>
+        <div class="gpdc_comm_info">
+          <p>已收货订单佣金</p>
+          <span>￥{$status_commission.yishouhuo.commission}</span>
+        </div>
+        
+      </div>
+      <div class="gpdc_comm_item">
+        <img src="{$ectouch_themes}/img/money_bag_icon.png"/>
+        <div class="gpdc_comm_info">
+          <p>我的佣金</p>
+          <span>￥{$total_commission.commission}</span>
+        </div>
+      </div>
+      <div class="clear"></div>
     </div>
     <div class="pf_sub"  onclick="location.href='user_commission.php?act=account_apply';">申请提现</div>
-    <div class="blank3"></div>
-    <div class="blank3"></div>
-    <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
-      <!-- <a href="user.php?act=track_packages" class="clearfix"><span></span><i></i></a>  --> 
-   </div>
-  </section>
-  <!-- {/if} --> 
-<!-- *用户分销中心默认显示页面 end-->
-
-<!-- /一级分销 start-->
-  <!-- {if $action eq 'fenxiao1'} -->
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
-    <h1> 我的分销一级会员{$count}人</h1>
-  </header>
-  <!--详细下线记录-->
-  <section class="class="wrap"">
-    <div class="content">
-      {foreach from=$user_list item=user}
-      <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num=0">
-        <dl>
-          <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
-          <div>
-            <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
-            <h3>订单数量：{$user.order_num}</h3>
-            <h3>提成金额：{$user.commission}</h3>
-            <p></p>
-          </div>
-        </dl>
-      </a>
-      {foreachelse}
-      <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
-      {/foreach}
-    </div>
-  </section>
-  <!-- {/if} --> 
-<!-- /一级分销 end--> 
-
-<!-- /二级及以上分销 start--> 
-  <!-- {if $action eq 'fenxiao2' || $action eq 'fenxiao3' || $action eq 'fenxiao4' || $action eq 'fenxiao5'} --> 
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
-    <h1> 我的分销{if $action eq 'fenxiao2'}二{elseif $action eq 'fenxiao3'}三{elseif $action eq 'fenxiao4'}四{elseif $action eq 'fenxiao5'}五{/if}级会员{$count}人</h1>
-  </header>
-  <!--详细下线记录-->
-  <section class="class="wrap"">
-    <div class="content">
-      {foreach from=$user_list item=user}
-      <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num={$user.has_supershopkeeper}">
-        <dl>
-          <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
-          <div>
-            <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
-            <h3>订单数量：{$user.order_num}</h3>
-            <h3>提成金额：{$user.commission}</h3>
-            <p></p>
-        </div>
-        </dl>
-      </a>
-      {foreachelse}
-      <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
-      {/foreach}
-    </div>
-  </section>
-  <!-- {/if} --> 
-<!-- /二级及以上分销 end-->
-
-<!-- /提成记录  start--> 
-  <!-- {if $action eq 'percentage_history'} --> 
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php?act=fenxiao{$level}"> 返回 </a> </div>
-    <h1> 提成记录</h1>
-  </header>
-  <!--详细下线记录-->
-  <section class="order_box padd1 radius10 single_item">
-    <table border="0" cellspacing="1" style=" width:100%;">
-      <tr>
-        <th width="20%">订单号</th>
-        <th width="20%">总金额</th>
-        <th width="20%" style="display:none;">比列</th>
-        <th width="20%">分成金额</th>
-        <th width="20%">状态</th>
-      </tr>
-      <!-- {foreach from=$logdb item=val} -->
-      <tr>
-        <td align="center"><a href="user.php?act=myorder_detail&order_id={$val.order_id}&level={$level}">{$val.order_sn}</a></td>
-        <td align="center">{$val.order_amount}</td>
-        <td align="center" style="display:none;">{$val.level_money}</td>
-        <td align="center">{$val.money}</td>
-        <td align="center">{if $val.is_separate eq 0}未分成{else}已分成{/if}</td>
-      </tr>
-      <!-- {foreachelse} -->
-      <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
-      <!-- {/foreach} -->
-    </table>
-  </section> 
-  <!-- {/if} --> 
-<!-- /提成记录 end -->
-<style>
-	.user_ctab {width: 100%;margin-bottom: 10px;}
-	.user_ctab_item {float: left;font: 16px/30px "微软雅黑";border-right: 1px solid #eee;width: 50%;text-align: center;box-sizing: border-box;}
-	.user_ctab_item a {color: #333;background:#fff;width: 100%;display: block;}
-	.user_ctab_ah {color: #FF9600 !important;border-bottom: 1px solid #ff9600;}
-	.clear {overflow: hidden;clear: both;height: 0;}
-</style>
-<!--#账户明细（会员余额）start--> 
-  <!--{if $action eq "account_detail"} -->
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
-    <h1> {$lang.user_balance} </h1>
-  </header>
-  <script type="text/javascript">
-    {foreach from=$lang.account_js item=item key=key}
-    var {$key} = "{$item}";
-    {/foreach}
-  </script>
-  <style>body {background: #eee !important;}</style>
-  <section class="order_box padd1 radius10 single_item">
-    <div class="blank"></div>
-    <div class="user_ctab">
-    	<div class="user_ctab_item">
-    		<a href="user_commission.php?act=account_detail" class="user_ctab_ah">账户明细</a>
-    	</div>
-    	<div class="user_ctab_item" style="border: none;">
-    		<a href="user_commission.php?act=account_log" >提现记录</a>
-    	</div>
-    	<div class="clear"></div>
-    </div>
-    <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
-      <tr>
-        <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
-      </tr>
-    </table>
-    <div class="acc_detail_wrap">
-    	
-    	<!--{foreach from=$account_log item=item}-->
-    	<!--{if $item.type == '增加' ||  $item.type == '收益'}-->
-    	<div class="acc_detail_item">
-    		<div class="acc_detail_profit"></div>
-    		<div class="acc_detail_info">
-    			<div class="acc_detail_tit">
-    				{$item.short_change_desc}
-    			</div>
-    			<div class="acc_detail_time">
-    				{$item.change_time}
-    			</div>
-    		</div>
-    		<div class="acc_detail_pri">
-    			+{$item.amount}
-    		</div>
-    	</div>
-    		<div class="acc_ale_wrap">
-    			<div class="acc_ale_pri">
-    				{$item.short_change_desc}<p>+{$item.amount}</p>
-    			</div>
-    			<div class="acc_ale_btn">
-    				知道了
-    			</div>
-    		</div>
-    	<!--{else if  $item.type == '减少'}-->
-    	<div class="acc_detail_item">
-    		<div class="acc_detail_pay"></div>
-    		<div class="acc_detail_info">
-    			<div class="acc_detail_tit">
-    				{$item.short_change_desc}
-    			</div>
-    			<div class="acc_detail_time">
-    				{$item.change_time}
-    			</div>
-    		</div>
-    		<div class="acc_detail_pri" style="color: #333;">
-    			-{$item.amount}
-    		</div>
-    	</div>
-    		<div class="acc_ale_wrap">
-    			<div class="acc_ale_pri">
-    				{$item.short_change_desc}<p style="color: #333;">-{$item.amount}</p>
-    			</div>
-    			<div class="acc_ale_btn">
-    				知道了
-    			</div>
-    		</div>
-    	<!--{/if}-->
-    	<!--{/foreach}-->
-    	<div class="mask"></div>
-    	 <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js" ></script>
-    	<script>
-    		$('.acc_detail_item').click(function(){
-    			$(this).next(".acc_ale_wrap").show()
-    			$('.mask').show()
-    		})
-    		$('.acc_ale_btn').click(function(){
-    			$(this).parent('.acc_ale_wrap').hide()
-    			$('.mask').hide()
-    		})
-    	</script>
-    	<div class="acc_detail_money">
-    		<p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
-    		
-    	</div>
-    </div>
-    <table border="0" cellspacing="1" style=" width:100%;display: none;">
-      <tr align="center">
-        <th width="15%">{$lang.process_time}</th>
-        <th width="10%">{$lang.surplus_pro_type}</th>
-        <th width="25%">{$lang.money}</th>
-        <th width="50%">{$lang.change_desc}</th>
-      </tr>
-      <!--{foreach from=$account_log item=item}-->
-      <tr>
-        <td align="center">{$item.change_time}</td>
-        <td align="center">{$item.type}</td>
-        <td align="center">{$item.amount}</td>
-        <td align="center" title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
-      </tr>
-      <!--{/foreach}-->
-      <tr>
-        <td colspan="4" align="center"><div align="right">{$lang.current_surplus}{$surplus_amount}</div></td>
-      </tr>
-    </table>
-  </section>
-  <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
-  <!-- {/if} -->
-<!--#账户明细（会员余额）end-->
-
-<!--#提现记录（会员余额）start--> 
-  <!--{if $action eq "account_log"} -->
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
-    <h1> {$lang.user_balance} </h1>
-  </header>
-  <style>body {background: #eee !important;}</style>
-  <script type="text/javascript">
-    {foreach from=$lang.account_js item=item key=key}
-    var {$key} = "{$item}";
-    {/foreach}
-  </script>
-  <section class="order_box padd1 radius10 single_item" style="padding: 0 !important;">
-    <div class="blank"></div>
-    <div class="user_ctab">
-    	<div class="user_ctab_item">
-    		<a href="user_commission.php?act=account_detail">账户明细</a>
-    	</div>
-    	<div class="user_ctab_item" style="border: none;">
-    		<a href="user_commission.php?act=account_log" class="user_ctab_ah" >提现记录</a>
-    	</div>
-    	<div class="clear"></div>
-    </div>
-    <div class="acc_log_wrap">
-    	<!--{foreach from=$account_log item=item}-->
-    	<div class="acc_log_item">
-    		<div class="acc_log_tit">
-    			<div class="acc_log_time">
-    				{$item.add_time}
-    			</div>
-    			<div class="acc_log_state">
-    				{$item.pay_status}
-    			</div>
-    			<div class="clear"></div>
-    		</div>
-    		<div class="acc_log_con">
-    			<div class="acc_log_ico">
-    				{$item.type}
-    			</div>
-    			<div class="acc_log_name">
-    				{$item.admin_note}
-    			</div>
-    			<div class="acc_log_pri">
-    				{$item.amount}
-    			</div>
-    			<!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
-    			<div class="acclog_del">
-            <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;"></a> 
-    			</div>
-          <!-- {/if} -->
-    			
-          
-    		</div>
-    	</div>
-    	<!--{/foreach}-->
-    	<div class="acc_detail_money">
-    		<p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
-    	</div>
-    </div>
-    <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
-      <tr>
-        <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
-      </tr>
-    </table>
-    <table border="0" cellspacing="1" style=" width:100%;display: none;">
-      <tr align="center">
-        <th>{$lang.process_time}</th>
-        <th>{$lang.surplus_pro_type}</th>
-        <th>{$lang.money}</td>
-        <th>{$lang.process_notic}</th>
-        <th>{$lang.admin_notic}</th>
-        <th>{$lang.is_paid}</th>
-        <th>{$lang.handle}</th>
-      </tr>
-      <!--{foreach from=$account_log item=item}-->
-      <tr>
-        <td align="center">{$item.add_time}</td>
-        <td align="center">{$item.type}</td>
-        <td align="center">{$item.amount}</td>
-        <td align="center">{$item.short_user_note}</td>
-        <td align="center">{$item.short_admin_note}</td>
-        <td align="center">{$item.pay_status}</td>
-        <td align="center">{$item.handle} 
-          <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
-          <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
-          <!-- {/if} --></td>
-      </tr>
-      <!--{/foreach}-->
-      <tr>
-        <td colspan="7" align="right">{$lang.current_surplus}{$surplus_amount}</td>
-      </tr>
-    </table>
-    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> </div>
-  </section>
-  <!-- {/if} --> 
-<!--#提现记录（会员余额）end-->
-
-<!--#提现申请 start-->
-  <!-- {if $action eq "account_apply"} -->
-  <header id="header">
-    <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
-    <h1> 提现申请 </h1>
-  </header>
-  <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
-    <form name="formSurplus" method="post" action="distribute.php" onSubmit="return submitSurplus()">
-      <div class="table_box table_box2">
-        <dl>
-          <dd class="dd1">提现金额</dd>
-          <dd>
-            <input name="amount" type="text" placeholder="提现金额" class="dd2">
-          </dd>
-        </dl>
-        <dl>
-          <dd class="dd1">真实姓名 </dd>
-          <dd>
-            <input name="real_name" type="text" placeholder="输入真实姓名" value="" class="dd2">
-          </dd>
-        </dl>
-        <dl>
-          <dd class="dd1">开户行</dd>
-          <dd>
-            <input name="bank_name" type="text" placeholder="输入提现的银行名称" value="" class="dd2">
-          </dd>
-        </dl>
-        <dl>
-          <dd class="dd1">银行账号</dd>
-          <dd>
-            <input name="bank_account" type="text" placeholder="输入提现的银行账号" value="" class="dd2">
-          </dd>
-        </dl>
-        <dl>
-          <dd class="dd1">手机号</dd>
-          <dd>
-            <input name="mobile_phone" type="text" placeholder="输入手机号码" value="" class="dd2">
-          </dd>
-        </dl>
-        <style>
-        	body {background: #fff;}
-        	.remark {width: 100%;margin-bottom: 20px;}
-        	.remark p {text-align: center;font: 14px/20px "微软雅黑";color: #333;margin: 10px 0;}
-        	.remark textarea {resize: none;font: 14px/20px "微软雅黑";padding: 10px 0;text-indent: 20px;box-sizing: content-box;width: 100%;height: 80px;border: 1px solid #eee;border-left: none;border-right: none;}
-        	.user_pf_btn {width: 50%;float: left;}
-        	.user_pf_btn input {width: 80%;margin: 0 auto; border: none;outline: none;display: block;font: 16px/36px "微软雅黑";height: 36px;text-align: center;}
-        	.user_pf_sub input {background: #FF9600;color: #fff;}
-        	.user_pf_res input {border: 1px solid #FF9600;background: #fff;color: #FF9600;box-sizing: border-box;}
-        	.clear {height: 0;overflow: hidden;clear: both;}
-        </style>
-        <div class="remark">
-        	<p>备注</p>
-        	<textarea placeholder="请输入您的备注消息" name="user_note" class="B_blue"></textarea>
-        </div>
-        
+    <dl class="user_top" style="display: none;">
+      <dt> {if $info.avatar neq ''}<img src="{$info.avatar}">{else}<img src="{$ectouch_themes}/images/get_avatar.png">{/if} </dt>
+      <dd>
+        <p>{$info.username}</p>
+        <!--<p><span>{$tianxin}</span></p>-->
+        <p><span>{$userrank}</span></p>
+      </dd>
+      <div class="user_distri_list">
+        <ul>
+          <li> 累计销售：￥{$total_commission.order_amount} <br />（其中计算佣金的销售金额：￥{$total_commission.order_fencheng}）</li>
+          <li> 累计佣金：￥{$total_commission.commission}</li>
+        </ul>
       </div>
+      <div class="quan1"></div>
+      <div class="quan2"></div>
+      <div class="quan3"></div>
+    </dl>
+    <section class="wrap" style="display: none;">
+      <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
+        <ul>
+          <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的盟友</span> <span class="person">{$all_count}人</span>
+            <div class="son_list">
+              <ul>
+                {foreach from=$menuarr item=menu}
+                {if $menu == 1}<li onclick="location.href='user_commission.php?act=fenxiao1'"><span class="icon">&nbsp; &nbsp; </span><span>一级会员</span> <i></i><span class="sp">{$count1}人</span></li> {/if}
+                {if $menu == 2} <li onclick="location.href='user_commission.php?act=fenxiao2'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>二级会员</span> <i></i><span class="sp">{$count2}人</span></li> {/if}
+                {if $menu == 3} <li onclick="location.href='user_commission.php?act=fenxiao3'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>三级会员</span> <i></i><span class="sp">{$count3}人</span></li> {/if}
+                {if $menu == 4} <li onclick="location.href='user_commission.php?act=fenxiao4'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>四级会员</span> <i></i><span class="sp">{$count4}人</span></li> {/if}
+                {if $menu == 5} <li onclick="location.href='user_commission.php?act=fenxiao5'" style="display: none;"><span class="icon">&nbsp; &nbsp; </span><span>五级会员</span> <i></i><span class="sp">{$count5}人</span></li> {/if}
+                {/foreach} 
+              </ul>
+            </div>
+          </li>
+          <li><span class="uninclude">&nbsp; &nbsp; </span><span>我的佣金</span> <span class="person">{$total_commission.commission}</span></li>
+            <div class="son_list">
+              <ul>
+                <li><span class="icon2">&nbsp; &nbsp; </span><span>未付款订单佣金</span> <span class="sp">￥{$status_commission.weifukuan.commission}</span></li>
+                <li><span class="icon2">&nbsp; &nbsp; </span><span>已付款订单佣金</span> <span class="sp">￥{$status_commission.yifukuan.commission}</span></li>
+                <li><span class="icon2">&nbsp; &nbsp; </span><span>已收货订单佣金</span> <span class="sp">￥{$status_commission.yishouhuo.commission}</span></li>
+                <!--
+                <li><span class="icon2">&nbsp; &nbsp; </span><span>已审核订单佣金</span> <span class="sp">￥177.6</span></li>
+                -->
+              </ul>
+            </div>
+          <li onclick="location.href='user_commission.php?act=account_apply';" style="display: none;"><span class="uninclude">&nbsp; &nbsp; </span><span>申请提现</span></li>
+        </ul>
+      </div>
+      <div class="pf_sub"  onclick="location.href='user_commission.php?act=account_apply';">申请提现</div>
       <div class="blank3"></div>
-      <div class="dd_btn">
-        <input type="hidden" name="act" value="act_account">
-        <input type="hidden" name="surplus_type" value="1">
-      	<div class="user_pf_btn user_pf_sub">
-      		<input type="submit" name="submit" class="btn1" style="margin-right:5px;" value="提交申请">
-      	</div>
-      	<div class="user_pf_btn user_pf_res">
-        <input type="reset" name="reset" class="btn2" value="重置表单">
-      	</div>
-      	<div class="clear"></div>
-        
+      <div class="blank3"></div>
+      <div class="list_box padd1 radius10" style="padding-top:0;padding-bottom:0;"> 
+        <!-- <a href="user.php?act=track_packages" class="clearfix"><span></span><i></i></a>  --> 
+     </div>
+    </section>
+    <!-- {/if} --> 
+  <!-- *用户分销中心默认显示页面 end-->
+
+  <!-- /一级分销 start-->
+    <!-- {if $action eq 'fenxiao1'} -->
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+      <h1> 我的分销一级会员{$count}人</h1>
+    </header>
+    <!--详细下线记录-->
+    <section class="class="wrap"">
+      <div class="content">
+        {foreach from=$user_list item=user}
+        <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num=0">
+          <dl>
+            <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
+            <div>
+              <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
+              <h3>订单数量：{$user.order_num}</h3>
+              <h3>提成金额：{$user.commission}</h3>
+              <p></p>
+            </div>
+          </dl>
+        </a>
+        {foreachelse}
+        <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
+        {/foreach}
       </div>
-    </form> 
- </section>
-  <!-- {/if} --> 
-<!--#提现申请 end-->
+    </section>
+    <!-- {/if} --> 
+  <!-- /一级分销 end--> 
 
-<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
-<div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script>
-	<!-- {literal} -->
-  wx.config({
-    debug: false,
-    appId: '{$signPackage.appId}',
-    timestamp: '{$signPackage.timestamp}',
-    nonceStr: '{$signPackage.nonceStr}',
-    signature: '{$signPackage.signature}',
-    jsApiList: [
-        'onMenuShareTimeline',
-        'onMenuShareAppMessage' 
-    ]
+  <!-- /二级及以上分销 start--> 
+    <!-- {if $action eq 'fenxiao2' || $action eq 'fenxiao3' || $action eq 'fenxiao4' || $action eq 'fenxiao5'} --> 
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+      <h1> 我的分销{if $action eq 'fenxiao2'}二{elseif $action eq 'fenxiao3'}三{elseif $action eq 'fenxiao4'}四{elseif $action eq 'fenxiao5'}五{/if}级会员{$count}人</h1>
+    </header>
+    <!--详细下线记录-->
+    <section class="class="wrap"">
+      <div class="content">
+        {foreach from=$user_list item=user}
+        <a href="user_commission.php?act=percentage_history&user_id={$user.user_id}&level={$user.level}&num={$user.has_supershopkeeper}">
+          <dl>
+            <dt>{if $user.head_url neq ''}<img src="{$user.head_url}"  border="0">{else}<img src="{$ectouch_themes}/images/get_avatar.png"  border="0">{/if}</dt>
+            <div>
+              <h3>&nbsp;会&nbsp;员&nbsp;名：{if  $user.nickname}{$user.nickname}{else}{$user.user_name}{/if}</h3>
+              <h3>订单数量：{$user.order_num}</h3>
+              <h3>提成金额：{$user.commission}</h3>
+              <p></p>
+          </div>
+          </dl>
+        </a>
+        {foreachelse}
+        <div class="no-records" colspan="10" align="center">{$lang.no_records}</div>
+        {/foreach}
+      </div>
+    </section>
+    <!-- {/if} --> 
+  <!-- /二级及以上分销 end-->
+
+  <!-- /提成记录  start--> 
+    <!-- {if $action eq 'percentage_history'} --> 
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user_commission.php?act=fenxiao{$level}"> 返回 </a> </div>
+      <h1> 提成记录</h1>
+    </header>
+    <!--详细下线记录-->
+    <section class="order_box padd1 radius10 single_item">
+      <table border="0" cellspacing="1" style=" width:100%;">
+        <tr>
+          <th width="20%">订单号</th>
+          <th width="20%">总金额</th>
+          <th width="20%" style="display:none;">比列</th>
+          <th width="20%">分成金额</th>
+          <th width="20%">状态</th>
+        </tr>
+        <!-- {foreach from=$logdb item=val} -->
+        <tr>
+          <td align="center"><a href="user.php?act=myorder_detail&order_id={$val.order_id}&level={$level}">{$val.order_sn}</a></td>
+          <td align="center">{$val.order_amount}</td>
+          <td align="center" style="display:none;">{$val.level_money}</td>
+          <td align="center">{$val.money}</td>
+          <td align="center">{if $val.is_separate eq 0}未分成{else}已分成{/if}</td>
+        </tr>
+        <!-- {foreachelse} -->
+        <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+        <!-- {/foreach} -->
+      </table>
+    </section> 
+    <!-- {/if} --> 
+  <!-- /提成记录 end -->
+  <style>
+    .user_ctab {width: 100%;margin-bottom: 10px;}
+    .user_ctab_item {float: left;font: 16px/30px "微软雅黑";border-right: 1px solid #eee;width: 50%;text-align: center;box-sizing: border-box;}
+    .user_ctab_item a {color: #333;background:#fff;width: 100%;display: block;}
+    .user_ctab_ah {color: #FF9600 !important;border-bottom: 1px solid #ff9600;}
+    .clear {overflow: hidden;clear: both;height: 0;}
+  </style>
+  <!--#账户明细（会员余额）start--> 
+    <!--{if $action eq "account_detail"} -->
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+      <h1> {$lang.user_balance} </h1>
+    </header>
+    <script type="text/javascript">
+      {foreach from=$lang.account_js item=item key=key}
+      var {$key} = "{$item}";
+      {/foreach}
+    </script>
+    <style>body {background: #eee !important;}</style>
+    <section class="order_box padd1 radius10 single_item">
+      <div class="blank"></div>
+      <div class="user_ctab">
+        <div class="user_ctab_item">
+          <a href="user_commission.php?act=account_detail" class="user_ctab_ah">账户明细</a>
+        </div>
+        <div class="user_ctab_item" style="border: none;">
+          <a href="user_commission.php?act=account_log" >提现记录</a>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
+        <tr>
+          <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
+        </tr>
+      </table>
+      <div class="acc_detail_wrap">
+        
+        <!--{foreach from=$account_log item=item}-->
+        <!--{if $item.type == '增加' ||  $item.type == '收益'}-->
+        <div class="acc_detail_item">
+          <div class="acc_detail_profit"></div>
+          <div class="acc_detail_info">
+            <div class="acc_detail_tit">
+              {$item.short_change_desc}
+            </div>
+            <div class="acc_detail_time">
+              {$item.change_time}
+            </div>
+          </div>
+          <div class="acc_detail_pri">
+            +{$item.amount}
+          </div>
+        </div>
+          <div class="acc_ale_wrap">
+            <div class="acc_ale_pri">
+              {$item.short_change_desc}<p>+{$item.amount}</p>
+            </div>
+            <div class="acc_ale_btn">
+              知道了
+            </div>
+          </div>
+        <!--{else if  $item.type == '减少'}-->
+        <div class="acc_detail_item">
+          <div class="acc_detail_pay"></div>
+          <div class="acc_detail_info">
+            <div class="acc_detail_tit">
+              {$item.short_change_desc}
+            </div>
+            <div class="acc_detail_time">
+              {$item.change_time}
+            </div>
+          </div>
+          <div class="acc_detail_pri" style="color: #333;">
+            -{$item.amount}
+          </div>
+        </div>
+          <div class="acc_ale_wrap">
+            <div class="acc_ale_pri">
+              {$item.short_change_desc}<p style="color: #333;">-{$item.amount}</p>
+            </div>
+            <div class="acc_ale_btn">
+              知道了
+            </div>
+          </div>
+        <!--{/if}-->
+        <!--{/foreach}-->
+        <div class="mask"></div>
+         <script type="text/javascript" src="{$ectouch_themes}/js/jquery-1.4.4.min.js" ></script>
+        <script>
+          $('.acc_detail_item').click(function(){
+            $(this).next(".acc_ale_wrap").show()
+            $('.mask').show()
+          })
+          $('.acc_ale_btn').click(function(){
+            $(this).parent('.acc_ale_wrap').hide()
+            $('.mask').hide()
+          })
+        </script>
+        <div class="acc_detail_money">
+          <p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
+          
+        </div>
+      </div>
+      <table border="0" cellspacing="1" style=" width:100%;display: none;">
+        <tr align="center">
+          <th width="15%">{$lang.process_time}</th>
+          <th width="10%">{$lang.surplus_pro_type}</th>
+          <th width="25%">{$lang.money}</th>
+          <th width="50%">{$lang.change_desc}</th>
+        </tr>
+        <!--{foreach from=$account_log item=item}-->
+        <tr>
+          <td align="center">{$item.change_time}</td>
+          <td align="center">{$item.type}</td>
+          <td align="center">{$item.amount}</td>
+          <td align="center" title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
+        </tr>
+        <!--{/foreach}-->
+        <tr>
+          <td colspan="4" align="center"><div align="right">{$lang.current_surplus}{$surplus_amount}</div></td>
+        </tr>
+      </table>
+    </section>
+    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+    <!-- {/if} -->
+  <!--#账户明细（会员余额）end-->
+
+  <!--#提现记录（会员余额）start--> 
+    <!--{if $action eq "account_log"} -->
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user.php"> 返回 </a> </div>
+      <h1> {$lang.user_balance} </h1>
+    </header>
+    <style>body {background: #eee !important;}</style>
+    <script type="text/javascript">
+      {foreach from=$lang.account_js item=item key=key}
+      var {$key} = "{$item}";
+      {/foreach}
+    </script>
+    <section class="order_box padd1 radius10 single_item" style="padding: 0 !important;">
+      <div class="blank"></div>
+      <div class="user_ctab">
+        <div class="user_ctab_item">
+          <a href="user_commission.php?act=account_detail">账户明细</a>
+        </div>
+        <div class="user_ctab_item" style="border: none;">
+          <a href="user_commission.php?act=account_log" class="user_ctab_ah" >提现记录</a>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="acc_log_wrap">
+        <!--{foreach from=$account_log item=item}-->
+        <div class="acc_log_item">
+          <div class="acc_log_tit">
+            <div class="acc_log_time">
+              {$item.add_time}
+            </div>
+            <div class="acc_log_state">
+              {$item.pay_status}
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="acc_log_con">
+            <div class="acc_log_ico">
+              {$item.type}
+            </div>
+            <div class="acc_log_name">
+              {$item.admin_note}
+            </div>
+            <div class="acc_log_pri">
+              {$item.amount}
+            </div>
+            <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+            <div class="acclog_del">
+              <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;"></a> 
+            </div>
+            <!-- {/if} -->
+            
+            
+          </div>
+        </div>
+        <!--{/foreach}-->
+        <div class="acc_detail_money">
+          <p>{$lang.current_surplus}<span>{$surplus_amount}</span></p>
+        </div>
+      </div>
+      <table width="100%" border="0" cellpadding="5" cellspacing="1" style="display: none;">
+        <tr>
+          <td align="left" bgcolor=""><a href="user_commission.php?act=account_detail" class="f6">账户明细</a> | <a href="user_commission.php?act=account_log" class="f6">提现记录</a></td>
+        </tr>
+      </table>
+      <table border="0" cellspacing="1" style=" width:100%;display: none;">
+        <tr align="center">
+          <th>{$lang.process_time}</th>
+          <th>{$lang.surplus_pro_type}</th>
+          <th>{$lang.money}</td>
+          <th>{$lang.process_notic}</th>
+          <th>{$lang.admin_notic}</th>
+          <th>{$lang.is_paid}</th>
+          <th>{$lang.handle}</th>
+        </tr>
+        <!--{foreach from=$account_log item=item}-->
+        <tr>
+          <td align="center">{$item.add_time}</td>
+          <td align="center">{$item.type}</td>
+          <td align="center">{$item.amount}</td>
+          <td align="center">{$item.short_user_note}</td>
+          <td align="center">{$item.short_admin_note}</td>
+          <td align="center">{$item.pay_status}</td>
+          <td align="center">{$item.handle} 
+            <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} --> 
+            <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a> 
+            <!-- {/if} --></td>
+        </tr>
+        <!--{/foreach}-->
+        <tr>
+          <td colspan="7" align="right">{$lang.current_surplus}{$surplus_amount}</td>
+        </tr>
+      </table>
+      <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem --> </div>
+    </section>
+    <!-- {/if} --> 
+  <!--#提现记录（会员余额）end-->
+
+  <!--#提现申请 start-->
+    <!-- {if $action eq "account_apply"} -->
+    <header id="header">
+      <div class="header_l header_return"> <a class="ico_10" href="user_commission.php"> 返回 </a> </div>
+      <h1> 提现申请 </h1>
+    </header>
+    <section class="order_box padd1 radius10" style="padding-top:0;padding-bottom:0;">
+      <form name="formSurplus" method="post" action="distribute.php" onSubmit="return submitSurplus()">
+        <div class="table_box table_box2">
+          <dl>
+            <dd class="dd1">提现金额</dd>
+            <dd>
+              <input name="amount" type="text" placeholder="提现金额" class="dd2">
+            </dd>
+          </dl>
+          <dl>
+            <dd class="dd1">真实姓名 </dd>
+            <dd>
+              <input name="real_name" type="text" placeholder="输入真实姓名" value="" class="dd2">
+            </dd>
+          </dl>
+          <dl>
+            <dd class="dd1">开户行</dd>
+            <dd>
+              <input name="bank_name" type="text" placeholder="输入提现的银行名称" value="" class="dd2">
+            </dd>
+          </dl>
+          <dl>
+            <dd class="dd1">银行账号</dd>
+            <dd>
+              <input name="bank_account" type="text" placeholder="输入提现的银行账号" value="" class="dd2">
+            </dd>
+          </dl>
+          <dl>
+            <dd class="dd1">手机号</dd>
+            <dd>
+              <input name="mobile_phone" type="text" placeholder="输入手机号码" value="" class="dd2">
+            </dd>
+          </dl>
+          <style>
+            body {background: #fff;}
+            .remark {width: 100%;margin-bottom: 20px;}
+            .remark p {text-align: center;font: 14px/20px "微软雅黑";color: #333;margin: 10px 0;}
+            .remark textarea {resize: none;font: 14px/20px "微软雅黑";padding: 10px 0;text-indent: 20px;box-sizing: content-box;width: 100%;height: 80px;border: 1px solid #eee;border-left: none;border-right: none;}
+            .user_pf_btn {width: 50%;float: left;}
+            .user_pf_btn input {width: 80%;margin: 0 auto; border: none;outline: none;display: block;font: 16px/36px "微软雅黑";height: 36px;text-align: center;}
+            .user_pf_sub input {background: #FF9600;color: #fff;}
+            .user_pf_res input {border: 1px solid #FF9600;background: #fff;color: #FF9600;box-sizing: border-box;}
+            .clear {height: 0;overflow: hidden;clear: both;}
+          </style>
+          <div class="remark">
+            <p>备注</p>
+            <textarea placeholder="请输入您的备注消息" name="user_note" class="B_blue"></textarea>
+          </div>
+          
+        </div>
+        <div class="blank3"></div>
+        <div class="dd_btn">
+          <input type="hidden" name="act" value="act_account">
+          <input type="hidden" name="surplus_type" value="1">
+          <div class="user_pf_btn user_pf_sub">
+            <input type="submit" name="submit" class="btn1" style="margin-right:5px;" value="提交申请">
+          </div>
+          <div class="user_pf_btn user_pf_res">
+          <input type="reset" name="reset" class="btn2" value="重置表单">
+          </div>
+          <div class="clear"></div>
+          
+        </div>
+      </form> 
+   </section>
+    <!-- {/if} --> 
+  <!--#提现申请 end-->
+
+  <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+  <div style="width:1px; height:1px; overflow:hidden">{foreach from=$lang.p_y item=pv}{$pv}{/foreach}</div>
+  <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    <!-- {literal} -->
+    wx.config({
+      debug: false,
+      appId: '{$signPackage.appId}',
+      timestamp: '{$signPackage.timestamp}',
+      nonceStr: '{$signPackage.nonceStr}',
+      signature: '{$signPackage.signature}',
+      jsApiList: [
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage' 
+      ]
+    });
+   wx.ready(function () {
+      //监听“分享给朋友”
+      wx.onMenuShareAppMessage({
+        title: '{$page_title}',
+        desc: '{$page_title}',
+        link: '{$url}',
+        imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
+        trigger: function (res) {
+          {if $url}
+            //alert('恭喜！分享可以获取提成哦！');
+          {else}
+            //alert('糟糕，需要分销商登录才能获得提成哦！');
+          {/if}
+        },
+        success: function (res) {
+          {if $dourl }
+            //window.location.href="{$dourl}&type=1"; 
+          {/if}
+        },
+        cancel: function (res) {
+          alert('很遗憾，您已取消分享');
+        },
+        fail: function (res) {
+          alert(JSON.stringify(res));
+        }
+      });
+  
+      //分享到朋友圈
+      wx.onMenuShareTimeline({
+       title: '惠当家正品联盟',
+        desc: '{$page_title}',
+        link: '{$url}',
+        imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
+        trigger: function (res) {
+          {if $url}
+            //alert('恭喜！分享可以获取提成哦！');
+          {else}
+            //alert('糟糕，需要分销商登录才能获得提成哦！');
+          {/if}
+        },
+        success: function (res) {
+          {if $dourl }
+            //window.location.href="{$dourl}&type=2"; 
+          {/if}
+        },
+        cancel: function (res) {
+           alert('很遗憾，您已取消分享');
+        },
+        fail: function (res) {
+          alert(JSON.stringify(res));
+        }
+      });
   });
- wx.ready(function () {
-    //监听“分享给朋友”
-    wx.onMenuShareAppMessage({
-      title: '{$page_title}',
-      desc: '{$page_title}',
-      link: '{$url}',
-      imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
-      trigger: function (res) {
-        {if $url}
-          //alert('恭喜！分享可以获取提成哦！');
-        {else}
-          //alert('糟糕，需要分销商登录才能获得提成哦！');
-        {/if}
-      },
-      success: function (res) {
-        {if $dourl }
-          //window.location.href="{$dourl}&type=1"; 
-        {/if}
-      },
-      cancel: function (res) {
-        alert('很遗憾，您已取消分享');
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res));
-      }
-    });
-
-    //分享到朋友圈
-    wx.onMenuShareTimeline({
-     title: '惠当家正品联盟',
-      desc: '{$page_title}',
-      link: '{$url}',
-      imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
-      trigger: function (res) {
-        {if $url}
-          //alert('恭喜！分享可以获取提成哦！');
-        {else}
-          //alert('糟糕，需要分销商登录才能获得提成哦！');
-        {/if}
-      },
-      success: function (res) {
-        {if $dourl }
-          //window.location.href="{$dourl}&type=2"; 
-        {/if}
-      },
-      cancel: function (res) {
-         alert('很遗憾，您已取消分享');
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res));
-      }
-    });
-});
-<!-- {/literal} -->
-</script>
+  <!-- {/literal} -->
+  </script>
 </body>
 <script type="text/javascript">
   {foreach from=$lang.clips_js item=item key=key}

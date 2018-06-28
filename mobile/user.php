@@ -87,22 +87,18 @@ if (in_array($action, $ui_arr))
 }
 
 //用户中心欢迎页
-if ($action == 'default')
-{
+if ($action == 'default') {
     include_once(ROOT_PATH .'include/lib_clips.php');
-    if ($rank = get_rank_info())
-    {
+    if ($rank = get_rank_info()) {
         $smarty->assign('rank_name', sprintf($_LANG['your_level'], $rank['rank_name']));
-        if (!empty($rank['next_rank_name']))
-        {
+        if (!empty($rank['next_rank_name'])) {
             $smarty->assign('next_rank_name', sprintf($_LANG['next_level'], $rank['next_rank'] ,$rank['next_rank_name']));
         }
     }
     $info = get_user_default($user_id);
-
     $sql = "SELECT wxid FROM " .$GLOBALS['ecs']->table('users'). " WHERE user_id = '$user_id'";
     $wxid = $GLOBALS['db']->getOne($sql);
-    if(!empty($wxid)){
+    if (!empty($wxid)) {
 		$weixinInfo = $GLOBALS['db']->getRow("SELECT nickname, headimgurl FROM wxch_user WHERE wxid = '$wxid'");
 		$info['avatar'] = empty($weixinInfo['headimgurl']) ? '':$weixinInfo['headimgurl'];
 		$info['username'] = empty($weixinInfo['nickname']) ? $info['username']:$weixinInfo['nickname'];
@@ -110,8 +106,7 @@ if ($action == 'default')
     /*显示分销会员标准*/
     $affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
     $level_register_up = (float)$affiliate['config']['level_register_up'];
- 
-    /*
+     /*
     $sql="SELECT count(*) as order_num ,sum(goods_amount - discount)  as order_amount FROM ".$GLOBALS['ecs']->table('order_info')."WHERE user_id=".$user_id." and  pay_status=2 and   shipping_status  = 2";
     $order_info=$db->getRow($sql);
     $rank_points=$order_info['order_amount'];
@@ -137,47 +132,36 @@ if ($action == 'default')
     $smarty->assign('user_notice', $_CFG['user_notice']);
     $smarty->assign('prompt', get_user_prompt($user_id));
     $smarty->display('user_clips.dwt');
-}
-
-if ($action == 'dianpu')
-{
-    if ((!isset($back_act)||empty($back_act)) && isset($GLOBALS['_SERVER']['HTTP_REFERER']))
-    {
+} 
+// 显示店铺编辑画面
+else if ($action == 'dianpu') {
+    if ((!isset($back_act)||empty($back_act)) && isset($GLOBALS['_SERVER']['HTTP_REFERER'])) {
         $back_act = strpos($GLOBALS['_SERVER']['HTTP_REFERER'], 'user.php') ? './index.php' : $GLOBALS['_SERVER']['HTTP_REFERER'];
     }
-	
-	$dianpu = $db->getOne('SELECT nicheng FROM ' . $ecs->table('users') . ' WHERE user_id='.$user_id.'');
-	$smarty->assign('dianpu', $dianpu);
-
+    $dianpu = $db->getOne('SELECT nicheng FROM ' . $ecs->table('users') . ' WHERE user_id='.$user_id.'');
+    $smarty->assign('dianpu', $dianpu);
     $smarty->display('user_transaction.dwt');
-}
-if ($action == 'act_dianpu')
-{
-    if ((!isset($back_act)||empty($back_act)) && isset($GLOBALS['_SERVER']['HTTP_REFERER']))
-    {
+} 
+// 修改店铺信息
+else if ($action == 'act_dianpu') {
+    if ((!isset($back_act)||empty($back_act)) && isset($GLOBALS['_SERVER']['HTTP_REFERER'])) {
         $back_act = strpos($GLOBALS['_SERVER']['HTTP_REFERER'], 'user.php') ? './index.php' : $GLOBALS['_SERVER']['HTTP_REFERER'];
     }
-	
-	$nicheng=trim($_REQUEST['nicheng']);
-	if($nicheng=='')
-	{
-	show_message('店铺名不能为空');
-	}
-	else
-	{
-	$u_id = $db->getOne("SELECT user_id FROM " . $ecs->table('users') . " WHERE nicheng='".$nicheng."' and user_id!=".$user_id."");
-	if($u_id>0)
-	{
-	show_message('店铺名重复');
-	}
-	}
-	
-	$db->query("update " . $ecs->table('users') . " set nicheng='".$nicheng."' WHERE user_id=".$user_id."");
-	$smarty->assign('dianpu', $nicheng);
-
-    $smarty->display('user_transaction.dwt');
+    $nicheng=trim($_REQUEST['nicheng']);
+    if ($nicheng=='') {
+        show_message('店铺名不能为空');
+    } else {
+        $u_id = $db->getOne("SELECT user_id FROM " . $ecs->table('users') . " WHERE nicheng='".$nicheng."' and user_id!=".$user_id."");
+        if($u_id>0) {
+            show_message('店铺名重复');
+        }
+    }
+    $db->query("update " . $ecs->table('users') . " set nicheng='".$nicheng."' WHERE user_id=".$user_id."");
+    //$smarty->assign('dianpu', $nicheng);
+    //$smarty->display('user_transaction.dwt');
+    ecs_header("Location: user_commission.php". "\n");
+    exit;
 }
-
 //  第三方登录接口
 elseif($action == 'oath')
 {

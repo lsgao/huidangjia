@@ -176,6 +176,18 @@ if ($action == 'default') {
     } else if($info['user_rank'] == 4) { // 本人创始人
         $status_commission = get_originator_commission($auid, 1, $num, $percentage['percentage_originator']);
     } else { // 本人是其他等级的用户，不计算佣金
+        $status_commission['weifukuan']['commission'] = 0;
+        $status_commission['weifukuan']['order_num'] = 0;
+        $status_commission['weifukuan']['order_amount'] = 0;
+        $status_commission['weifukuan']['order_fencheng'] = 0;
+        $status_commission['yifukuan']['commission'] = 0;
+        $status_commission['yifukuan']['order_num'] = 0;
+        $status_commission['yifukuan']['order_amount'] = 0;
+        $status_commission['yifukuan']['order_fencheng'] = 0;
+        $status_commission['yishouhuo']['commission'] = 0;
+        $status_commission['yishouhuo']['order_num'] = 0;
+        $status_commission['yishouhuo']['order_amount'] = 0;
+        $status_commission['yishouhuo']['order_fencheng'] = 0;
     }
 
     $total_commission = array();

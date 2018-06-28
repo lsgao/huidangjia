@@ -28,7 +28,6 @@
     <div class="user_info">
       <p>{$info.username}</p>
       <small>{if $invite_code}我的邀请码:{$invite_code}{/if}</small>
-      {if $info.is_shop_owner}<a href="user.php?act=dianpu" class="clearfix"><span>修改店铺名</span></a>{/if}
       <span><i></i>{$rank_name_text}</span>
     </div>
     <div class="clear"></div>
