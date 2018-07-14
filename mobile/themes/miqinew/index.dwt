@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/initialize.css" />
-    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css?id=2" />
+    <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_index.css?id=8" />
     <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/huidangjia.css?id=3" />
     <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/swiper.min.css" />
     <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/m_style.css" />
@@ -72,6 +72,9 @@
           })
         </script>
       </div>
+      <div class="index_new_ad">
+        {insert name='ads' id=8 num=1}
+      </div>
       <div class="m_nav">
         <ul>
           <!-- {foreach name=nav_middle_list from=$navigator_list.middle item=nav} -->
@@ -115,7 +118,8 @@
       <!-- #BeginLibraryItem "/library/recommend_promotion.lbi" -->
       <!-- #EndLibraryItem -->
       <!--促销新结束-->
-      <div class="index_rec">
+      <!--品牌开始-->
+      <div class="index_rec" style="display: none;">
         <div class="index_rec_wrap" style="background: none;">
           <div class="index_rec_box">
              <!-- {foreach from=$brand_list name="brand_list_foreach" item=brand_data} --> 
@@ -131,14 +135,66 @@
           </div>
         </div>
       </div>
+      <!--品牌结束-->
+      <!--新布局-->
+      <div class="index_ad_wrap">
+      	<div class="index_ad_item">
+      	{insert name='ads' id=9 num=1}
+      	</div>
+      	<div class="index_ad_item">
+      	{insert name='ads' id=10 num=1}
+      	</div>
+      	<div class="index_ad_item">
+      	{insert name='ads' id=11 num=1}
+      	</div>
+      	<div class="index_ad_item">
+      	{insert name='ads' id=12 num=1}
+      	</div>
+      	<div class="index_ad_item">
+      	{insert name='ads' id=13 num=1}
+      	</div>
+      	<div class="clear"></div>
+      </div>
       <div class="index_ad">
         <ul>
           {insert name='ads' id=4 num=99}
         </ul>
       </div>
-
+      <!--热卖新开始-->
+        <div class="index_class_wrap">
+        	<div class="index_class_img">
+            <a href="search.php?intro=hot">
+          		<img src="{$ectouch_themes}/img/new_pro.jpg" style="width: 100%; height: auto;"/>
+            </a>
+			   	</div>
+        	<!--{foreach from=$hot_goods item=goods name=hot_goods}-->
+        	<div class="index_pro_item">
+        		<a href="{$goods.url}">
+	            <div class="index_pro_img">
+	            	<img src="{$site_url}{$goods.thumb}" />
+              </div>
+	            <div class="index_pro_name">
+              		{$goods.name|escape:html|truncate:30}
+             	</div>
+             	<!-- {if $goods.promote_price neq ""} -->
+            	<div class="index_pro_pri">
+	            	<p>{$goods.promote_price}</p>
+	            </div>
+	            <!-- {else}-->
+            	<div class="index_pro_pri">
+	            	<p>{$goods.shop_price}</p>
+	             	<s>{$goods.market_price}</s>
+	            </div>
+	            <!--{/if}-->
+            </a>
+          </div>
+          <!--{if $smarty.foreach.hot_goods.iteration%2 eq 0 && $smarty.foreach.hot_goods.iteration neq $smarty.foreach.hot_goods.total}--><!--{/if}-->
+          <!--{/foreach}-->
+        </div>
+      <!--热卖新结束-->
+      
       <!--热卖-->
-      <div class="index_bur">
+      <div class="index_bur" style="display: none;">
         <div class="index_bur_t">
           <a href="search.php?intro=hot">爆款尖货</a>
         </div>
@@ -177,9 +233,42 @@
           <!--{/if}-->
           <!--{/foreach}-->
       </div>
+      
+      <!--新品新开始-->
+        <div class="index_class_wrap">
+          <div class="index_class_img">
+          	<a href="search.php?intro=new">
+              <img src="{$ectouch_themes}/img/new_pro.jpg" style="width: 100%;height: auto;"/>
+            </a>
+          </div>
+        	<!--{foreach from=$new_goods item=goods name=new_goods}-->
+        	<div class="index_pro_item">
+        		<a href="{$goods.url}">
+	            <div class="index_pro_img">
+	            	<img src="{$site_url}{$goods.thumb}" />
+              </div>
+	            <div class="index_pro_name">
+              		{$goods.name|escape:html|truncate:30}
+             	</div>
+             	<!-- {if $goods.promote_price neq ""} -->
+            	<div class="index_pro_pri">
+	            	<p>{$goods.promote_price}</p>
+	            </div>
+	            <!-- {else}-->
+            	<div class="index_pro_pri">
+	            	<p>{$goods.shop_price}</p>
+	             	<s>{$goods.market_price}</s>
+	            </div>
+	            <!--{/if}-->
+            </a>
+          </div>
+          <!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}--><!--{/if}-->
+          <!--{/foreach}-->
+        </div>
+      <!--新品新结束-->
 
       <!--新品-->
-      <div class="m_new_recom m_content">
+      <div class="m_new_recom m_content" style="display: none;">
         <div class="m_new_tit">
           <a href="search.php?intro=new">
             <img src="{$ectouch_themes}/img/jh_m.jpg" style="width:100%;height:auto">
@@ -227,7 +316,46 @@
 
       </div>
 
-      <div class="m_flash_sale m_content" style="display: block;">
+      <!--猜你喜欢新开始-->
+        <div class="index_pro_wrap">
+          <div class="index_pro_tit">
+            <p>猜你喜欢</p>
+            <span>这里总有你所喜欢的商品</span>
+          </div>
+          <!--{foreach from=$best_goods item=goods name=best_goods}-->
+            <div class="index_pro_item">
+              <a href="{$goods.url}">
+                <div class="index_pro_img">
+                  <img src="{$site_url}{$goods.thumb}" />
+                </div>
+                <div class="index_pro_name">
+                  {$goods.goods_style_name|escape:html|truncate:30}
+                </div>
+                <!-- {if $goods.promote_price neq ""} -->
+                <div class="m_flash_sale_price">
+                    <p>{$goods.shop_price}</p>
+                    <s>{$goods.market_price}</s>
+                </div>
+                <!-- {else}-->
+                <div class="m_flash_sale_price">
+                  <p>{$goods.shop_price}</p>
+                  <s>{$goods.market_price}</s>
+                </div>
+
+                <!--{/if}-->
+
+              </a>
+            </div>
+            <!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}-->
+            <!--{/if}-->
+            <!--{/foreach}-->
+            <div class="index_pro_more">
+            	<a href="search.php?intro=best">点击查看更多</a>
+            </div>
+            
+        </div>
+      <!--猜你喜欢新结束-->
+      <div class="m_flash_sale m_content" style="display: none;">
         <div class="m_you_like_tit">
           <a href="search.php?intro=best">
             <span>猜你喜欢</span>
