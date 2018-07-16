@@ -33,7 +33,11 @@
           </div>
           <div class="header_logo">
             <a href="./">
+              {if $show_shop}
+                  {if $name}{$name}的{/if}{$shop_name}
+              {else}
               <img src="{$ectouch_themes}/img/header_logo.png" />
+              {/if}
             </a>
           </div>
           <div class="header_search" onClick="showSearch()"></div>
