@@ -18,26 +18,18 @@
       <div class="index_header">
         <div class="index_header_wrap">
           <div class="header_user" style="text-align: center;">
-           {if $show_shop}
-          {if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
-          {else}
-           {if $smarty.session.user_id gt 0}
+            {if $smarty.session.user_id gt 0}
             <a href="user.php">
               {if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
             </a>
             {else}
             <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
             {/if}
-          {/if}
-           
           </div>
+          {if $show_shop}{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}{if $name}{$name}{else}{$shop_name}{/if}{/if}
           <div class="header_logo">
             <a href="./">
-              {if $show_shop}
-                  {if $name}{$name}的{/if}{$shop_name}
-              {else}
               <img src="{$ectouch_themes}/img/header_logo.png" />
-              {/if}
             </a>
           </div>
           <div class="header_search" onClick="showSearch()"></div>
@@ -81,7 +73,7 @@
         </script>
       </div>
       <div class="index_new_ad">
-       {insert name='ads' id=8 num=1}
+        {insert name='ads' id=8 num=1}
       </div>
       <div class="m_nav">
         <ul>
@@ -272,8 +264,6 @@
           </div>
           <!--{if $smarty.foreach.new_goods.iteration%2 eq 0 && $smarty.foreach.new_goods.iteration neq $smarty.foreach.new_goods.total}--><!--{/if}-->
           <!--{/foreach}-->
-          <div class="clear"></div>
-
         </div>
       <!--新品新结束-->
 
@@ -359,7 +349,6 @@
             <!--{if $smarty.foreach.best_goods.iteration%2 eq 0 && $smarty.foreach.best_goods.iteration neq $smarty.foreach.best_goods.total}-->
             <!--{/if}-->
             <!--{/foreach}-->
-            <div class="clear"></div>
             <div class="index_pro_more">
             	<a href="search.php?intro=best">点击查看更多</a>
             </div>
@@ -455,8 +444,8 @@
  wx.ready(function () {
     //监听“分享给朋友”
     wx.onMenuShareAppMessage({
-      title: '{$page_title}',
-      desc: '{$page_title}',
+      title: '{if $name}{$name}的{/if}{$shop_name}',
+      desc: '{if $name}{$name}的{/if}{$shop_name}',
       link: '{$url}',
       imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
       trigger: function (res) {
@@ -481,7 +470,7 @@
 
     //分享到朋友圈
     wx.onMenuShareTimeline({
-      title: '{$page_title}',
+      title: '{if $name}{$name}的{/if}{$shop_name}',
       link: '{$url}',
       imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
       trigger: function (res) {
