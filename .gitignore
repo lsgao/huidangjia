@@ -1,9 +1,11 @@
 /images
 /data
-/temp/*
+/temp/
 **/*.log
 /mobile/data
 wx_new_log.txt
 /mobile/data/wx_new_log.txt
 /mobile/wxjs
 /.project
+log4php/
+/log/
