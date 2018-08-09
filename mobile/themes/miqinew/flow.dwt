@@ -197,7 +197,7 @@
       {if $total.real_goods_count eq 0}
         <a href="flow.php?step=checkout">结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
       {else}
-        {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=checkout">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');">{/if}结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
+        {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=checkout">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');">{/if}结算(<em class="num" id="total_number">{$total.total_number}</em>)</a>
       {/if}
     </footer>
   <!-- {else} -->
@@ -692,7 +692,7 @@
       {if $total.real_goods_count eq 0}
         <input type="submit" name="submit" value="提交订单" class="c-btn3" />
       {else}
-        {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<input type="submit" name="submit" value="提交订单" class="c-btn3" />{else}<input type="button" name="submit" onclick="alert('您的用户级别无法购买商品');" value="提交订单" class="c-btn3" /{/if}
+        {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<input type="submit" name="submit" value="提交订单" class="c-btn3" />{else}<input type="button" name="submit" onclick="alert('您的用户级别无法购买商品');" value="提交订单" class="c-btn3" /{/if}
       {/if}
       <input type="hidden" name="step" value="done" />
     </form>

@@ -422,20 +422,20 @@ function changenum(diff) {
           </div>
           <div class="good_buy_but">
             {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
-              <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
-              <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+              <button class="buy" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+              <button class="cart" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
               <div class="countdown"> <span class="label"></span><span class="time"></span></div>
-              {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
+              {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
             {else}
               <button class="buy" type="button" onclick="addToCart_quick({$goods.goods_id})">立刻购买</button>
             {/if}
           </div>
           <section id="s-action" class="s-action float" style="display: none;">
             {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
-              <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
-              <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+              <button class="buy" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart_quick({$goods.goods_id})"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+              <button class="cart" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="addToCart({$goods.goods_id}); closeDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
               <div class="countdown"> <span class="label"></span><span class="time"></span></div>
-              {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
+              {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
             {else}
               <button class="buy" type="button" onclick="addToCart_quick({$goods.goods_id})">立刻购买</button>
             {/if}
@@ -653,10 +653,10 @@ function changePriceResponse(res)
 </script>
 <section id="s-action" class="s-action float">
   {if $goods.goods_id neq 1298 && $goods.goods_id neq 3401 && $goods.goods_id neq 3545}
-    <button class="buy" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
-    <button class="cart" type="button" {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
+    <button class="buy" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>立刻购买</button>
+    <button class="cart" type="button" {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}onclick="showDiv1()"{else}onclick="alert('您的用户级别无法购买商品');"{/if}>加入购物车</button>
     <div class="countdown"> <span class="label"></span><span class="time"></span></div>
-    {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
+    {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="cart-link" title="购物车">{else}<a href="javascript:void(0)" onclick="alert('您的用户级别无法购买商品');" class="cart-link" title="购物车">{/if}</a>
   {else}
     <button class="buy" type="button" onclick="showDiv1()">立刻购买</button>
   {/if}

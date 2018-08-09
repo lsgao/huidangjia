@@ -17,7 +17,7 @@
     <section class="index_wrap">
       <div class="index_header">
         <div class="index_header_wrap">
-          <div class="header_user" style="text-align: center;">
+          <div class="header_user" style="text-align: center;display:none;">
             {if $smarty.session.user_id gt 0}
             <a href="user.php">
               {if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
@@ -26,7 +26,9 @@
             <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
             {/if}
           </div>
-          {if $show_shop}{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}{if $name}{$name}{else}{$shop_name}{/if}{/if}
+          <div class="header_user" style="text-align: center;">
+          {if $show_shop}{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}<div style="display:none;">{if $name}{$name}{else}{$shop_name}{/if}</div>{/if}
+          </div>
           <div class="header_logo">
             <a href="./">
               <img src="{$ectouch_themes}/img/header_logo.png" />
@@ -444,8 +446,8 @@
  wx.ready(function () {
     //监听“分享给朋友”
     wx.onMenuShareAppMessage({
-      title: '{if $name}{$name}的{/if}{$shop_name}',
-      desc: '{if $name}{$name}的{/if}{$shop_name}',
+      title: '{if $name}{$name}{/if}{$shop_name}',
+      desc: '{if $name}{$name}{/if}{$shop_name}',
       link: '{$url}',
       imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
       trigger: function (res) {
@@ -470,7 +472,7 @@
 
     //分享到朋友圈
     wx.onMenuShareTimeline({
-      title: '{if $name}{$name}的{/if}{$shop_name}',
+      title: '{if $name}{$name}{/if}{$shop_name}',
       link: '{$url}',
       imgUrl: '{$site_url}/mobile/themes/miqinew/img/logo.jpg',
       trigger: function (res) {

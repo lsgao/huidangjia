@@ -11,7 +11,7 @@
         msg:"您的等级不够暂时无法购买，您选择是否选择升级权限以便购买",
         buttons:[
           { title:"是",click:function(){window.location.href="user.php?act=membership"} },
-          { title:"否",click:function(){window.location.href="index.php"/*alert("您没有升级") */} },
+          { title:"否",click:function(){window.location.href="index.php"} },
         ]
       }
       $.alertView(json);
@@ -65,7 +65,7 @@
     </a>
   </div>
   <div class="page_bnav_item">
-    {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart">{else}<a id="shop_car_btn">{/if}
+    {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart">{else}<a id="shop_car_btn">{/if}
       <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
       <span class="global-nav__nav-tit">购物车</span>
       <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
@@ -100,7 +100,7 @@
       </a>
     </div>
     <div class="global-nav__nav-item">
-      {if $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a class="global-nav__nav-link" id="shop_car_btn">{/if}
+      {if 1==1 || $smarty.session.user_rank eq 2 || $smarty.session.user_rank eq 3 || $smarty.session.user_rank eq 4}<a href="flow.php?step=cart" class="global-nav__nav-link">{else}<a class="global-nav__nav-link" id="shop_car_btn">{/if}
         <i class="global-nav__iconfont global-nav__icon-shop-cart">&#xf0004;</i>
         <span class="global-nav__nav-tit">购物车</span>
         <span class="global-nav__nav-shop-cart-num" id="carId">{insert name='cart_info_number'}</span>
