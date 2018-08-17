@@ -13,22 +13,32 @@
     <link rel="stylesheet" type="text/css" href="{$ectouch_themes}/css/bottom_nav.css" />
     <script type="text/javascript" src="{$ectouch_themes}/js/swiper.min.js"></script>
   </head>
+<style>
+  .index_header_wrap{
+    line-height: 30px;
+    padding: 10px 45px;
+  }
+</style>
   <body>
     <section class="index_wrap">
       <div class="index_header">
         <div class="index_header_wrap">
-          <div class="header_user" style="text-align: center;display:none;">
+          <div class="header_user" style="text-align: center;">
             {if $smarty.session.user_id gt 0}
             <a href="user.php">
-              {if $smarty.session.headimgurl neq ''}<img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}
+              {if $shop_owner_image neq ''}
+              <img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />
+              {elseif $smarty.session.headimgurl neq ''}
+              <img src="{$smarty.session.headimgurl}" width="30" height="30" style="border-radius: 50%;border: none" />
+              {else}
+              <img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />
+              {/if}
             </a>
             {else}
             <a href="user.php" style="color: #333;font: 14px/30px '微软雅黑';">登录</a>
             {/if}
           </div>
-          <div class="header_user" style="text-align: center;">
-          {if $show_shop}{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}<div style="display:none;">{if $name}{$name}{else}{$shop_name}{/if}</div>{/if}
-          </div>
+          {if $show_shop}<div style="display:none;">{if $shop_owner_image neq ''}<img src="{$shop_owner_image}" width="30" height="30" style="border-radius: 50%;border: none" />{else}<img src="{$ectouch_themes}/images/get_avatar.png" width="30" height="30" style="border-radius: 50%;border: none" />{/if}</div>{if $name}{$name}{else}{$shop_name}{/if}{/if}
           <div class="header_logo">
             <a href="./">
               <img src="{$ectouch_themes}/img/header_logo.png" />
