@@ -1644,7 +1644,7 @@ box-shadow: 0 0 0.6rem rgba(250,0,0,0.1);
 .return_text,.discount_text {width: 16px;height: 16px;display: inline-block;text-align: center;color: #fff;border-radius: 4px;font: 12px/16px "微软雅黑";margin-right: 6px;}
 .return_text {background: #4b8ff5;}
 .discount_text {background: #ff9600;}
-.pp_product_name p {display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;}
+.pp_product_name p {display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;line-height: 30px;}
 .pp_collection a p {color: #999;}
 .pp_product_price,.pp_product_price b {color: #ff9600;line-height: 30px;}
 .pp_product_price b {font-size: 16px;}
