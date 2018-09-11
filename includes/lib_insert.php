@@ -387,6 +387,9 @@ function insert_ads($arr)
 {
     static $static_res = NULL;
 
+    $arr['id'] = intval($arr['id']);
+    $arr['num'] = intval($arr['num']);
+
     $time = gmtime();
     if (!empty($arr['num']) && $arr['num'] != 1)
     {
@@ -471,6 +474,9 @@ function insert_ads($arr)
 function insert_ads_no_href($arr)
 {
     static $static_res = NULL;
+
+    $arr['id'] = intval($arr['id']);
+    $arr['num'] = intval($arr['num']);
 
     $time = gmtime();
     if (!empty($arr['num']) && $arr['num'] != 1)
@@ -594,6 +600,9 @@ function insert_member_info()
  */
 function insert_comments($arr)
 {
+    $arr['id'] = intval($arr['id']);
+    $arr['num'] = intval($arr['num']);
+
     $need_cache = $GLOBALS['smarty']->caching;
     $need_compile = $GLOBALS['smarty']->force_compile;
 
@@ -632,6 +641,9 @@ function insert_comments($arr)
  */
 function insert_bought_notes($arr)
 {
+    $arr['id'] = intval($arr['id']);
+    $arr['num'] = intval($arr['num']);
+
     $need_cache = $GLOBALS['smarty']->caching;
     $need_compile = $GLOBALS['smarty']->force_compile;
 
@@ -701,7 +713,10 @@ function insert_vote()
 //广告位小图
 function insert_get_adv_child($arr)
 {
-	$need_cache = $GLOBALS['smarty']->caching;
+    $arr['id'] = intval($arr['id']);
+    $arr['num'] = intval($arr['num']);
+
+    $need_cache = $GLOBALS['smarty']->caching;
     $need_compile = $GLOBALS['smarty']->force_compile;
 
     $GLOBALS['smarty']->caching = false;
